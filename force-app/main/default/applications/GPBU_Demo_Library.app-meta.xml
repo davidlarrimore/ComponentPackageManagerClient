@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <content>gPBU_Package_Manager_Home</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#568EB5</headerColor>
         <logo>synaptic_logo</logo>
@@ -13,6 +21,7 @@
     <isNavPersonalizationDisabled>true</isNavPersonalizationDisabled>
     <label>GPBU Package Manager</label>
     <navType>Standard</navType>
+    <tabs>standard-home</tabs>
     <tabs>GPBU_Package__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>
