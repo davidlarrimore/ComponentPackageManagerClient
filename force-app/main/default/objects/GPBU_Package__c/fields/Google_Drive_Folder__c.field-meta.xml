@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Google_Drive_Folder__c</fullName>
+    <description>Link to a related content folder including how-to videos and more in depth demo details.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Link to a related content folder including how-to videos and more in depth demo details.</inlineHelpText>
+    <label>Google Drive Folder</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

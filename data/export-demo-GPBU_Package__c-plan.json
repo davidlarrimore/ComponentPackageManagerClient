@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "GPBU_Package__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "export-demo-GPBU_Package__cs.json"
+        ]
+    }
+]

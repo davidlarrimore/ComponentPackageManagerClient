@@ -1,7 +1,9 @@
 {
-  "orgName": "SFDC gPBU",
+  "orgName": "Salesforce",
   "edition": "Developer",
-  "features": ["Communities","DebugApex","Workflow"],
+  "username": "dlarrimore@salesforce.com",
+  "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
+  "features": ["Communities","DebugApex","Workflow","API"],
   "settings": {
     "lightningExperienceSettings": {
         "enableS1DesktopEnabled": true

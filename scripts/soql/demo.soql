@@ -3,4 +3,4 @@
 //     query text and running the command:
 //     SFDX: Execute SOQL Query with Currently Selected Text
 
-SELECT Id, Name FROM Account;
+SELECT Admin_Permission_Set__c, Description__c, Google_Drive_Folder__c, Install_Key__c, Install_Link__c, POC_Email__c, POC_Name__c, Title__c from GPBU_Package__c

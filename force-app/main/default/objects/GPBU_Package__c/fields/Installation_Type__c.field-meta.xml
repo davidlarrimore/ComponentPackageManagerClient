@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Installation_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Installation Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Source</fullName>
+                <default>false</default>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>Unlocked Package</fullName>
+                <default>false</default>
+                <label>Unlocked Package</label>
+            </value>
+            <value>
+                <fullName>Managed Package (G1P)</fullName>
+                <default>false</default>
+                <label>Managed Package (G1P)</label>
+            </value>
+            <value>
+                <fullName>Managed Package (G2P)</fullName>
+                <default>false</default>
+                <label>Managed Package (G2P)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
