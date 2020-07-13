@@ -1,5 +1,5 @@
 {
-  "name": "gPBU Component Package Manager",
+  "name": "gPBU-Component-Package-Manager",
   "private": true,
   "version": "1.0.0",
   "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",

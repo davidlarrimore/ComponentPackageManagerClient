@@ -13,17 +13,6 @@ public with sharing class VersionHelper {
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
-    @InvocableMethod
-    public static List<GPBU_Package__c> addGithubPackages(List<String> githubUrls){
-        List<GPBU_Package__c> gpbuPackages = new List<GPBU_Package__c>();
-        GPBU_Package__c gpbuPackage = new GPBU_Package__c();
-        for(String githubUrl: githubUrls){
-            gpbuPackages.add(VersionHelper.addGithubPackage(githubUrl));
-        }
-        return gpbuPackages; 
-    }
-
-
     public static GPBU_Package__c addGithubPackage(String githubUrl){
 
         System.debug('Processing ' + githubUrl);
@@ -38,6 +27,11 @@ public with sharing class VersionHelper {
 
         gpbuPackage.Github_repository__c = githubUrl;
         gpbuPackage.Last_Fetched__c = Datetime.Now();
+
+        //Preset Options. We assume we can at least do a Source install from a valid github repo
+        gpbuPackage.Source_Install_Type_Flag__c = true;
+        gpbuPackage.SFDX_Install_Type_Flag__c = false; 
+        gpbuPackage.Package_Install_Type_Flag__c = false;
 
         Map<String, Object> results = new Map<String, Object>();
         System.debug('Attempting to grab sfdx-project.json from: ' + githubUrl);
@@ -60,33 +54,35 @@ public with sharing class VersionHelper {
                         System.debug('found default package ' + gpbuPackage.Title__c);
                     }
                 }
-            }
+                if (null != gpbuPackage.Title__c  || gpbuPackage.Title__c != ''){
+                    gpbuPackage.SFDX_Install_Type_Flag__c = true;
 
-            // Step 2: Check for packageAliases to see if we can use packaging model
-            System.debug('Grabbing packageAliases');
-            Map<String,Object> packageAliases = (Map<String,Object>) results.get('packageAliases');
+                    // Step 2: Check for packageAliases to see if we can use packaging model
+                    System.debug('Grabbing packageAliases');
+                    Map<String,Object> packageAliases = (Map<String,Object>) results.get('packageAliases');
 
-            //If no packageAliases are provided, this means there are no Unlocked or Managed Packages available
-            string latestVersion = '';
-            if(packageAliases != null && packageAliases.keySet().size() > 0){
-                System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
-                for (String packageAliasKey: packageAliases.keySet()){
-                    //PackageName = 'Demo Reset Tools'
-                    if(packageAliasKey.contains(gpbuPackage.Title__c + '@')){
-                        System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
-                        latestVersion = packageAliasKey;
-                    } 
-                }  
-                gpbuPackage.Latest_Version__c = latestVersion.substring(0, latestVersion.indexOf('@'));
-                gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
+                    //If no packageAliases are provided, this means there are no Unlocked or Managed Packages available
+                    string latestVersion = '';
+                    if(packageAliases != null && packageAliases.keySet().size() > 0){
+                        System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
+                        for (String packageAliasKey: packageAliases.keySet()){
+                            //PackageName = 'Demo Reset Tools'
+                            if(packageAliasKey.contains(gpbuPackage.Title__c + '@')){
+                                System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
+                                latestVersion = packageAliasKey;
+                            } 
+                        }  
+                        gpbuPackage.Latest_Version__c = latestVersion.substring(0, latestVersion.indexOf('@'));
+                        gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
 
-                System.debug('Latest version of package ' + gpbuPackage.Title__c + ' is ' + latestVersion);
-
-            }else{
-                System.debug('no packageAliases found, Source is only install option');
+                        System.debug('Latest version of package ' + gpbuPackage.Title__c + ' is ' + latestVersion);
+                        gpbuPackage.Package_Install_Type_Flag__c = true;
+                    }else{
+                        System.debug('no packageAliases found, Source is only install option');
+                    }
+                }
             }
         }
-
         //If the sfdx-package.json model did not work, we have another way!
         if(null == results || gpbuPackage.Title__c == '' || gpbuPackage.Title__c == null){
             System.debug('Could not find sfdx-project.json, looking in src folder for package.xml');
@@ -113,7 +109,6 @@ public with sharing class VersionHelper {
                 return null;
             }
         }
-
 
         System.debug('Inserting ' + gpbuPackage);
         //Insert gpbuPackage;
@@ -245,21 +240,27 @@ public with sharing class VersionHelper {
         }
         system.debug('Converted URL to ' + rawGithubUrl + '/master/sfdx-project.json');
 
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        //https://raw.githubusercontent.com/davidlarrimore/SFDX-demo-reset-tools/master/sfdx-project.json
-        request.setEndpoint(rawGithubUrl + '/master/sfdx-project.json');
-        request.setMethod('GET');
+        try{
+            Http http = new Http();
+            HttpRequest request = new HttpRequest();
+            //https://raw.githubusercontent.com/davidlarrimore/SFDX-demo-reset-tools/master/sfdx-project.json
+            request.setEndpoint(rawGithubUrl + '/master/sfdx-project.json');
+            request.setMethod('GET');
 
-        System.debug('Attempting to grab sfdx-project.json from: ' + rawGithubUrl + '/master/sfdx-project.json');
-        HttpResponse response = http.send(request);
-        // If the request is successful, parse the JSON response.
-        if (response.getStatusCode() == 200) {
-            // Deserialize the JSON string into collections of primitive data types.
-            return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-        }else{
+            System.debug('Attempting to grab sfdx-project.json from: ' + rawGithubUrl + '/master/sfdx-project.json');
+            HttpResponse response = http.send(request);
+            // If the request is successful, parse the JSON response.
+            if (response.getStatusCode() == 200) {
+                // Deserialize the JSON string into collections of primitive data types.
+                return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            }else{
+                return null;
+            }
+
+        }catch(Exception e){
+            system.debug('Error Running API: ' + e);
             return null;
-        }
+        }        
     }
 
 
@@ -273,20 +274,24 @@ public with sharing class VersionHelper {
         }
         system.debug('Converted URL to ' + rawGithubUrl + '/master/src/package.xml');
         
-        
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        request.setEndpoint(rawGithubUrl + '/master/src/package.xml');
+        try{        
+            Http http = new Http();
+            HttpRequest request = new HttpRequest();
+            request.setEndpoint(rawGithubUrl + '/master/src/package.xml');
 
-        request.setMethod('GET');
-        HttpResponse response = http.send(request);
-        // If the request is successful, parse the JSON response.
-        if (response.getStatusCode() == 200) {
-            // Deserialize the JSON string into collections of primitive data types.
-            return response.getBodyDocument();
-        }else{
+            request.setMethod('GET');
+            HttpResponse response = http.send(request);
+            // If the request is successful, parse the JSON response.
+            if (response.getStatusCode() == 200) {
+                // Deserialize the JSON string into collections of primitive data types.
+                return response.getBodyDocument();
+            }else{
+                return null;
+            }
+        }catch(Exception e){
+            system.debug('Error Running API: ' + e);
             return null;
-        }
+        }          
     }
 
 

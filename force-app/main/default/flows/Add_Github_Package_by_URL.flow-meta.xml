@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Grabs Package Data from a Github URL</description>
+        <name>Get_Package_By_Github_URL</name>
+        <label>Get Package By Github URL</label>
+        <locationX>665</locationX>
+        <locationY>62</locationY>
+        <actionName>vfGetPackageFromGithubURL</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Able_to_get_Package_Decison</targetReference>
+        </connector>
+        <inputParameters>
+            <name>githubUrls</name>
+            <value>
+                <elementReference>GithubURL.value</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>gPBUPackage</assignToReference>
+            <name>output</name>
+        </outputParameters>
+    </actionCalls>
+    <assignments>
+        <name>Assign_Github_Urls</name>
+        <label>Assign Github Urls</label>
+        <locationX>380</locationX>
+        <locationY>87</locationY>
+        <assignmentItems>
+            <assignToReference>githubURLs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GithubURL.value</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Package_By_Github_URL</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Reset_Github_URL</name>
+        <label>Reset Github URL</label>
+        <locationX>188</locationX>
+        <locationY>300</locationY>
+        <assignmentItems>
+            <assignToReference>GithubURL.value</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Github_URL_Screen</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Able_to_get_Package_Decison</name>
+        <label>Able to get Package Decison</label>
+        <locationX>688</locationX>
+        <locationY>349</locationY>
+        <defaultConnector>
+            <targetReference>Fail_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Package_is_not_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>gPBUPackage</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Confirmation_Screen</targetReference>
+            </connector>
+            <label>Package is not null</label>
+        </rules>
+    </decisions>
     <description>This flow will take Github URL and import it as an gPBU Component Package</description>
+    <formulas>
+        <name>InstallTypeAvailable</name>
+        <dataType>String</dataType>
+        <expression>&apos;Source&apos; + IF({!gPBUPackage.SFDX_Install_Type_Flag__c}, &apos;, SFDX &apos;, &apos;&apos;) + IF({!gPBUPackage.Package_Install_Type_Flag__c}, &apos;, Package&apos;, &apos;&apos;)</expression>
+    </formulas>
     <interviewLabel>Add Github Package by URL {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Add Github Package by URL</label>
     <processMetadataValues>
@@ -16,14 +97,72 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_gPBU_Package</name>
+        <label>Create gPBU Package</label>
+        <locationX>1283</locationX>
+        <locationY>401</locationY>
+        <inputReference>gPBUPackage</inputReference>
+    </recordCreates>
     <screens>
-        <name>Get_Github_URL_Screen</name>
-        <label>Get Github URL Screen</label>
-        <locationX>232</locationX>
-        <locationY>85</locationY>
+        <name>Confirmation_Screen</name>
+        <label>Confirmation Screen</label>
+        <locationX>1052</locationX>
+        <locationY>225</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Create_gPBU_Package</targetReference>
+        </connector>
+        <fields>
+            <name>CCTitle</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Add Github based SFDX Package&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>ccConfirmationText</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;That worked!&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt; We were able to compile the below information on the Package.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!gPBUPackage.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.Description__c}&lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt; &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.&lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Github_Repository__c&lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;: {!gPBUPackage.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Fail_Screen</name>
+        <label>Fail Screen</label>
+        <locationX>341</locationX>
+        <locationY>460</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Reset_Github_URL</targetReference>
+        </connector>
+        <fields>
+            <name>fsdt</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Add Github based SFDX Package&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>FSFT</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;Uh Oh! We are not sure that GitHub repository is able to be used. Please try a different repository.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;URL Input: &lt;a href=&quot;{!GithubURL.value}&quot; target=&quot;_blank&quot;&gt;{!GithubURL.value}&lt;/a&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Get_Github_URL_Screen</name>
+        <label>Get Github URL Screen</label>
+        <locationX>176</locationX>
+        <locationY>90</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Assign_Github_Urls</targetReference>
+        </connector>
         <fields>
             <name>Screen1FlowHeaderText</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Add Github based SFDX Package&lt;/span&gt;&lt;/p&gt;</fieldText>
@@ -64,4 +203,19 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>githubURLs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>gPBUPackage</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>GPBU_Package__c</objectType>
+    </variables>
 </Flow>
