@@ -28,6 +28,30 @@
                 <behavior>Edit</behavior>
                 <field>Google_Drive_Folder__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Fetched__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Latest_Version__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Source_Install_Type_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SFDX_Install_Type_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Package_Install_Type_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Installation_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -78,7 +102,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Subscriber_Package_Version_Id__c</field>
+                <field>Latest_Subscriber_Package_Version_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -93,10 +117,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Install_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Installation_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

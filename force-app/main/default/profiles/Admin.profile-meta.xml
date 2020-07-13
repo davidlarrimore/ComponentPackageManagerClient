@@ -71,7 +71,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GPBU_Package__c.Last_Fetched__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GPBU_Package__c.Last_Update_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Subscriber_Package_Version_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -86,12 +101,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GPBU_Package__c.Subscriber_Package_Id__c</field>
+        <field>GPBU_Package__c.Package_Install_Type_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GPBU_Package__c.Subscriber_Package_Version_Id__c</field>
+        <field>GPBU_Package__c.SFDX_Install_Type_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Source_Install_Type_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Subscriber_Package_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
