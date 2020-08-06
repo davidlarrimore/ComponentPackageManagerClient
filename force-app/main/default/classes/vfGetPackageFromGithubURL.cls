@@ -4,7 +4,7 @@ public with sharing class vfGetPackageFromGithubURL {
         List<GPBU_Package__c> gpbuPackages = new List<GPBU_Package__c>();
         GPBU_Package__c gpbuPackage = new GPBU_Package__c();
         for(String githubUrl: githubUrls){
-            gpbuPackages.add(VersionHelper.addGithubPackage(githubUrl));
+            gpbuPackages.add(VersionHelper.getPackageFromGithubURL(githubUrl));
         }
         return gpbuPackages; 
     }

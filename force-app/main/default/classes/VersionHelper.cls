@@ -13,7 +13,7 @@ public with sharing class VersionHelper {
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
-    public static GPBU_Package__c addGithubPackage(String githubUrl){
+    public static GPBU_Package__c getPackageFromGithubURL(String githubUrl){
 
         System.debug('Processing ' + githubUrl);
         List<String> versions = new List<String>();
