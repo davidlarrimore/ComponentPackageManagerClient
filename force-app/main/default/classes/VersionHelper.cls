@@ -18,7 +18,9 @@ public with sharing class VersionHelper {
         System.debug('Processing ' + githubUrl);
         List<String> versions = new List<String>();
         
-        
+        Boolean demoConfigFileFlag = false;
+        String packageName = '';
+
         GPBU_Package__c gpbuPackage = new GPBU_Package__c();
         gpbuPackage.Title__c = '';
 
@@ -40,6 +42,18 @@ public with sharing class VersionHelper {
         //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
         if (null != results){
+            System.debug('Looking for Demo Config JSON file');
+            Map<String, Object> demoConfigDotJSONresults = VersionHelper.getGithubDemoConfigDotJSON(githubUrl);
+            //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            if (null != demoConfigDotJSONresults){
+                demoConfigFileFlag = true;
+                gpbuPackage.Title__c =  (String)demoConfigDotJSONresults.get('name');
+                gpbuPackage.Description__c =  (String)demoConfigDotJSONresults.get('description');
+                gpbuPackage.POC_Name__c = (String)demoConfigDotJSONresults.get('author');
+                gpbuPackage.POC_Email__c = (String)demoConfigDotJSONresults.get('authorEmail');
+            }
+
+
             /* SFDX-project.json Package Lookup Model */
             // Step 1: Get Package name from "Default" project
             System.debug('Grabbing packageDirectories');
@@ -49,12 +63,14 @@ public with sharing class VersionHelper {
                 for(Object packageDirectory: packageDirectories){
                     Map<String,Object> thisPackageDirectory = (Map<String,Object>) packageDirectory;
                     if((boolean) thisPackageDirectory.get('default')){
-                        gpbuPackage.Title__c =  (String)thisPackageDirectory.get('package');
-                        gpbuPackage.Description__c = (String)thisPackageDirectory.get('versionDescription');
+                        packageName = (String)thisPackageDirectory.get('package');
                         System.debug('found default package ' + gpbuPackage.Title__c);
+                        if(!demoConfigFileFlag){
+                            gpbuPackage.Title__c =  (String)thisPackageDirectory.get('package');
+                        }
                     }
                 }
-                if (null != gpbuPackage.Title__c  || gpbuPackage.Title__c != ''){
+                if (null != packageName  || packageName != ''){
                     gpbuPackage.SFDX_Install_Type_Flag__c = true;
 
                     // Step 2: Check for packageAliases to see if we can use packaging model
@@ -67,7 +83,7 @@ public with sharing class VersionHelper {
                         System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
                         for (String packageAliasKey: packageAliases.keySet()){
                             //PackageName = 'Demo Reset Tools'
-                            if(packageAliasKey.contains(gpbuPackage.Title__c + '@')){
+                            if(packageAliasKey.contains(packageName + '@')){
                                 System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
                                 latestVersion = packageAliasKey;
                             } 
@@ -75,7 +91,7 @@ public with sharing class VersionHelper {
                         gpbuPackage.Latest_Version__c = latestVersion.substring(0, latestVersion.indexOf('@'));
                         gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
 
-                        System.debug('Latest version of package ' + gpbuPackage.Title__c + ' is ' + latestVersion);
+                        System.debug('Latest version of package ' + packageName + ' is ' + latestVersion);
                         gpbuPackage.Package_Install_Type_Flag__c = true;
                     }else{
                         System.debug('no packageAliases found, Source is only install option');
@@ -84,7 +100,7 @@ public with sharing class VersionHelper {
             }
         }
         //If the sfdx-package.json model did not work, we have another way!
-        if(null == results || gpbuPackage.Title__c == '' || gpbuPackage.Title__c == null){
+        if(null == results || packageName == '' || packageName == null){
             System.debug('Could not find sfdx-project.json, looking in src folder for package.xml');
             Dom.Document doc = VersionHelper.getGithubSFDXProjectDotXML(githubUrl);
             if (null != doc){
@@ -95,7 +111,7 @@ public with sharing class VersionHelper {
                     if (child.getNodeType() == DOM.XMLNodeType.ELEMENT) {
                         if(child.getName()=='fullName'){
                             System.debug('fullName: ' + child.getText());
-                            gpbuPackage.Title__c = child.getText();
+                            packageName = child.getText();
                         }else if(child.getName()=='description'){
                             System.debug('description: ' + child.getText());
                             gpbuPackage.Description__c = child.getText();
@@ -263,7 +279,7 @@ public with sharing class VersionHelper {
         }        
     }
 
-
+    //For older packages (PRE SFDX), we can try to grab the /src/package.xml
     public static Dom.Document getGithubSFDXProjectDotXML(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotXML against URL:' + githubUrl);
         String rawGithubUrl = '';
@@ -295,14 +311,38 @@ public with sharing class VersionHelper {
     }
 
 
+    public static Map<String,Object> getGithubDemoConfigDotJSON(String githubUrl){
+        system.debug('Running getMetadataAPI against URL:' + githubUrl);
+        String rawGithubUrl = '';
+        if(githubUrl.indexOf('www.github.com') > 0){
+            rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
+        }else{
+            rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
+        }
+        system.debug('Converted URL to ' + rawGithubUrl + '/master/demo-config.json');
 
+        try{
+            Http http = new Http();
+            HttpRequest request = new HttpRequest();
+            //https://raw.githubusercontent.com/davidlarrimore/SFDX-demo-reset-tools/master/sfdx-project.json
+            request.setEndpoint(rawGithubUrl + '/master/demo-config.json');
+            request.setMethod('GET');
 
+            System.debug('Attempting to grab sfdx-project.json from: ' + rawGithubUrl + '/master/demo-config.json');
+            HttpResponse response = http.send(request);
+            // If the request is successful, parse the JSON response.
+            if (response.getStatusCode() == 200) {
+                // Deserialize the JSON string into collections of primitive data types.
+                return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            }else{
+                return null;
+            }
 
-
-
-
-
-
+        }catch(Exception e){
+            system.debug('Error Running API: ' + e);
+            return null;
+        }        
+    }
 
 
 

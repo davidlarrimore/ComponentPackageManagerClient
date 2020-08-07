@@ -1,7 +1,6 @@
 {
-  "orgName": "Salesforce",
+  "orgName": "GPBU Package Manager",
   "edition": "Developer",
-  "username": "dlarrimore@salesforce.com",
   "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
   "features": ["Communities","DebugApex","Workflow","API"],
   "settings": {
