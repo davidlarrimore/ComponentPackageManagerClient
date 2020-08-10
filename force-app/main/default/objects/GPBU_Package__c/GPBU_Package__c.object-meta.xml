@@ -146,7 +146,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayoutAssignment>gPBU_Package</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>This object holds GPBU demo descriptions and install links.</description>
     <enableActivities>false</enableActivities>

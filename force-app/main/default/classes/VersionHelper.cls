@@ -47,6 +47,7 @@ public with sharing class VersionHelper {
             //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             if (null != demoConfigDotJSONresults){
                 demoConfigFileFlag = true;
+                packageName = (String)demoConfigDotJSONresults.get('name');
                 gpbuPackage.Title__c =  (String)demoConfigDotJSONresults.get('name');
                 gpbuPackage.Description__c =  (String)demoConfigDotJSONresults.get('description');
                 gpbuPackage.POC_Name__c = (String)demoConfigDotJSONresults.get('author');
@@ -63,9 +64,9 @@ public with sharing class VersionHelper {
                 for(Object packageDirectory: packageDirectories){
                     Map<String,Object> thisPackageDirectory = (Map<String,Object>) packageDirectory;
                     if((boolean) thisPackageDirectory.get('default')){
-                        packageName = (String)thisPackageDirectory.get('package');
                         System.debug('found default package ' + gpbuPackage.Title__c);
                         if(!demoConfigFileFlag){
+                            packageName = (String)thisPackageDirectory.get('package');
                             gpbuPackage.Title__c =  (String)thisPackageDirectory.get('package');
                         }
                     }
@@ -231,39 +232,37 @@ public with sharing class VersionHelper {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static Map<String,Object> getGithubSFDXProjectDotJSON(String githubUrl){
-        system.debug('Running getMetadataAPI against URL:' + githubUrl);
+        system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
         String rawGithubUrl = '';
+        String newGithubUrl = '';
+
         if(githubUrl.indexOf('www.github.com') > 0){
             rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
         }else{
             rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
         }
-        system.debug('Converted URL to ' + rawGithubUrl + '/master/sfdx-project.json');
+
+        if(rawGithubUrl.contains('master')){
+            system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
+            rawGithubUrl = rawGithubUrl.replace('/tree', '');
+            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
+        }else{
+            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
+        }
+
+        system.debug('Converted URL to ' + newGithubUrl);
 
         try{
             Http http = new Http();
             HttpRequest request = new HttpRequest();
             //https://raw.githubusercontent.com/davidlarrimore/SFDX-demo-reset-tools/master/sfdx-project.json
-            request.setEndpoint(rawGithubUrl + '/master/sfdx-project.json');
+
+            request.setEndpoint(newGithubUrl);
+
             request.setMethod('GET');
 
-            System.debug('Attempting to grab sfdx-project.json from: ' + rawGithubUrl + '/master/sfdx-project.json');
+            System.debug('Attempting to grab sfdx-project.json from: ' + newGithubUrl);
             HttpResponse response = http.send(request);
             // If the request is successful, parse the JSON response.
             if (response.getStatusCode() == 200) {
@@ -283,17 +282,30 @@ public with sharing class VersionHelper {
     public static Dom.Document getGithubSFDXProjectDotXML(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotXML against URL:' + githubUrl);
         String rawGithubUrl = '';
+        String newGithubUrl = '';
         if(githubUrl.indexOf('www.github.com') > 0){
             rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
         }else{
             rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
         }
-        system.debug('Converted URL to ' + rawGithubUrl + '/master/src/package.xml');
         
+        if(rawGithubUrl.contains('master')){
+            system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
+            rawGithubUrl = rawGithubUrl.replace('/tree', '');
+            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
+        }else{
+            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
+        }
+
+        system.debug('Converted URL to ' + newGithubUrl);
+        
+
+
         try{        
             Http http = new Http();
             HttpRequest request = new HttpRequest();
-            request.setEndpoint(rawGithubUrl + '/master/src/package.xml');
+
+            request.setEndpoint(newGithubUrl);
 
             request.setMethod('GET');
             HttpResponse response = http.send(request);
@@ -312,23 +324,33 @@ public with sharing class VersionHelper {
 
 
     public static Map<String,Object> getGithubDemoConfigDotJSON(String githubUrl){
-        system.debug('Running getMetadataAPI against URL:' + githubUrl);
+        system.debug('Running getGithubDemoConfigDotJSON against URL:' + githubUrl);
         String rawGithubUrl = '';
+        String newGithubUrl = '';
         if(githubUrl.indexOf('www.github.com') > 0){
             rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
         }else{
             rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
         }
-        system.debug('Converted URL to ' + rawGithubUrl + '/master/demo-config.json');
+
+        if(rawGithubUrl.contains('master')){
+            rawGithubUrl = rawGithubUrl.replace('/tree', '');
+            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
+        }else{
+            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
+        }
+
+        system.debug('Converted URL to ' + newGithubUrl);
 
         try{
             Http http = new Http();
             HttpRequest request = new HttpRequest();
             //https://raw.githubusercontent.com/davidlarrimore/SFDX-demo-reset-tools/master/sfdx-project.json
-            request.setEndpoint(rawGithubUrl + '/master/demo-config.json');
+            request.setEndpoint(newGithubUrl);
+     
             request.setMethod('GET');
 
-            System.debug('Attempting to grab sfdx-project.json from: ' + rawGithubUrl + '/master/demo-config.json');
+            System.debug('Attempting to grab sfdx-project.json from: ' + newGithubUrl);
             HttpResponse response = http.send(request);
             // If the request is successful, parse the JSON response.
             if (response.getStatusCode() == 200) {
