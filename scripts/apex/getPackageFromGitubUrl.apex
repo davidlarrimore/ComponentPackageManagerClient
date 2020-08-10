@@ -1,0 +1,1 @@
+VersionHelper.getPackageFromGithubURL('https://github.com/davidlarrimore/gpbu-visitor-management');
