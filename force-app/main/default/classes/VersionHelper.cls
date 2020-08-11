@@ -47,7 +47,6 @@ public with sharing class VersionHelper {
             //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             if (null != demoConfigDotJSONresults){
                 demoConfigFileFlag = true;
-                packageName = (String)demoConfigDotJSONresults.get('name');
                 gpbuPackage.Title__c =  (String)demoConfigDotJSONresults.get('name');
                 gpbuPackage.Description__c =  (String)demoConfigDotJSONresults.get('description');
                 gpbuPackage.POC_Name__c = (String)demoConfigDotJSONresults.get('author');
@@ -64,11 +63,11 @@ public with sharing class VersionHelper {
                 for(Object packageDirectory: packageDirectories){
                     Map<String,Object> thisPackageDirectory = (Map<String,Object>) packageDirectory;
                     if((boolean) thisPackageDirectory.get('default')){
-                        System.debug('found default package ' + gpbuPackage.Title__c);
+                        packageName = (String)thisPackageDirectory.get('package');
+                        System.debug('found default package ' + packageName);
                         if(!demoConfigFileFlag){
-                            packageName = (String)thisPackageDirectory.get('package');
-                            gpbuPackage.Title__c =  (String)thisPackageDirectory.get('package');
-                        }
+                            gpbuPackage.Title__c =  packageName;
+                        }  
                     }
                 }
                 if (null != packageName  || packageName != ''){
@@ -80,16 +79,19 @@ public with sharing class VersionHelper {
 
                     //If no packageAliases are provided, this means there are no Unlocked or Managed Packages available
                     string latestVersion = '';
+                    gpbuPackage.Latest_Version__c = '0.1.0-1';
+
                     if(packageAliases != null && packageAliases.keySet().size() > 0){
                         System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
                         for (String packageAliasKey: packageAliases.keySet()){
                             //PackageName = 'Demo Reset Tools'
+                            System.debug('Analyzing packageAliasKey ' + packageAliasKey);
                             if(packageAliasKey.contains(packageName + '@')){
                                 System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
                                 latestVersion = packageAliasKey;
+                                gpbuPackage.Latest_Version__c = latestVersion.substring(0, latestVersion.indexOf('@'));
                             } 
                         }  
-                        gpbuPackage.Latest_Version__c = latestVersion.substring(0, latestVersion.indexOf('@'));
                         gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
 
                         System.debug('Latest version of package ' + packageName + ' is ' + latestVersion);
@@ -335,9 +337,9 @@ public with sharing class VersionHelper {
 
         if(rawGithubUrl.contains('master')){
             rawGithubUrl = rawGithubUrl.replace('/tree', '');
-            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
+            newGithubUrl = rawGithubUrl + '/demo-config.json';
         }else{
-            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
+            newGithubUrl = rawGithubUrl + '/master/demo-config.json';
         }
 
         system.debug('Converted URL to ' + newGithubUrl);
