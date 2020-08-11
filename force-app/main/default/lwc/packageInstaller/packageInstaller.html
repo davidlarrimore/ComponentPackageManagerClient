@@ -22,4 +22,14 @@
       </lightning-card>
     </template>  
   </template>
+    <template if:true={record2}>
+      <lightning-card title="Install Package Dependencies" icon-name="custom:custom14">
+          <template for:each={record2} for:item="rec">
+            <div class="slds-m-around_medium" key={rec.Id}>
+              Record: {rec.Title__c}
+            </div>
+        </template>
+    </lightning-card>
+    </template>
+  </template>
 </template>
