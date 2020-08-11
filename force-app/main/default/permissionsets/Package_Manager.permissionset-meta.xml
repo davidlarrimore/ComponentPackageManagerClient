@@ -4,7 +4,7 @@
         <application>GPBU_Demo_Library</application>
         <visible>true</visible>
     </applicationVisibilities>
-    <description>Permission Set to provide access to the gPBU Package Manager Component</description>
+    <description>Permission Set to provide access to the Package Manager Component</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>GPBU_Package__c.Admin_Permission_Set__c</field>
@@ -116,7 +116,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>gPBU Package Manager</label>
+    <label>Package Manager</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -124,6 +124,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>GPBU_Package__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Package_Dependency__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabSettings>

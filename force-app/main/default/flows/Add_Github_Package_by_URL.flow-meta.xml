@@ -39,6 +39,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Record_Id</name>
+        <label>Assign Record Id</label>
+        <locationX>1352</locationX>
+        <locationY>167</locationY>
+        <assignmentItems>
+            <assignToReference>gPBUPackage.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Duplicate_gPBU_Package.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_gPBU_Package</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Reset_Github_URL</name>
         <label>Reset Github URL</label>
         <locationX>188</locationX>
@@ -54,8 +70,8 @@
     <decisions>
         <name>Able_to_get_Package_Decison</name>
         <label>Able to get Package Decison</label>
-        <locationX>688</locationX>
-        <locationY>349</locationY>
+        <locationX>500</locationX>
+        <locationY>335</locationY>
         <defaultConnector>
             <targetReference>Fail_Screen</targetReference>
         </defaultConnector>
@@ -71,9 +87,34 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Confirmation_Screen</targetReference>
+                <targetReference>Get_Duplicate_gPBU_Package</targetReference>
             </connector>
             <label>Package is not null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Found_Duplicate</name>
+        <label>Found Duplicate?</label>
+        <locationX>951</locationX>
+        <locationY>223</locationY>
+        <defaultConnector>
+            <targetReference>Confirmation_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_duplicate_found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Duplicate_gPBU_Package</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Confirmation_Screen_0</targetReference>
+            </connector>
+            <label>If duplicate found</label>
         </rules>
     </decisions>
     <description>This flow will take Github URL and import it as an gPBU Component Package</description>
@@ -100,15 +141,43 @@
     <recordCreates>
         <name>Create_gPBU_Package</name>
         <label>Create gPBU Package</label>
-        <locationX>1283</locationX>
-        <locationY>401</locationY>
+        <locationX>1343</locationX>
+        <locationY>609</locationY>
         <inputReference>gPBUPackage</inputReference>
     </recordCreates>
+    <recordLookups>
+        <name>Get_Duplicate_gPBU_Package</name>
+        <label>Get Duplicate gPBU Package</label>
+        <locationX>719</locationX>
+        <locationY>404</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Found_Duplicate</targetReference>
+        </connector>
+        <filters>
+            <field>Title__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>gPBUPackage.Title__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>GPBU_Package__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_gPBU_Package</name>
+        <label>Update gPBU Package</label>
+        <locationX>1429</locationX>
+        <locationY>380</locationY>
+        <inputReference>gPBUPackage</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>1052</locationX>
-        <locationY>225</locationY>
+        <locationX>1096</locationX>
+        <locationY>518</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -117,12 +186,36 @@
         </connector>
         <fields>
             <name>CCTitle</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Add Github based SFDX Package&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 18px; color: rgb(62, 62, 60);&quot;&gt;Add Github based package&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>ccConfirmationText</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;That worked!&lt;/b&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt; We were able to compile the below information on the Package.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.Description__c}&lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Github_Repository__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;That worked!&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt; We were able to compile the below information on the Package.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!gPBUPackage.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.Description__c}&lt;/i&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt; &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!gPBUPackage.Github_Repository__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;: {!gPBUPackage.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Confirmation_Screen_0</name>
+        <label>Duplicate Confirmation Screen</label>
+        <locationX>1197</locationX>
+        <locationY>79</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Assign_Record_Id</targetReference>
+        </connector>
+        <fields>
+            <name>CCTitle_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 18px; color: rgb(62, 62, 60);&quot;&gt;Update Github based package&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>ccConfirmationText_0</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0);&quot;&gt;Package with the same title found, click next, to update existing record.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.Description__c}&lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Github_Repository__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -131,8 +224,8 @@
     <screens>
         <name>Fail_Screen</name>
         <label>Fail Screen</label>
-        <locationX>341</locationX>
-        <locationY>460</locationY>
+        <locationX>296</locationX>
+        <locationY>492</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -155,8 +248,8 @@
     <screens>
         <name>Get_Github_URL_Screen</name>
         <label>Get Github URL Screen</label>
-        <locationX>176</locationX>
-        <locationY>90</locationY>
+        <locationX>179</locationX>
+        <locationY>167</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>

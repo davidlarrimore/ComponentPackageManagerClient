@@ -4,7 +4,7 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>enableInlineEdit</name>
-                <value>true</value>
+                <value>false</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>entityName</name>
@@ -12,11 +12,38 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>filterName</name>
-                <value>All_Demos</value>
+                <value>All_Packages</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>hideActionBar</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>hideSearchBar</name>
                 <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>pageSize</name>
+                <value>15</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:filterListCard</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>enableInlineEdit</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>entityName</name>
+                <value>GPBU_Package__c</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>filterName</name>
+                <value>Installed_Packages</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>hideActionBar</name>
+                <value>true</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>hideSearchBar</name>

@@ -4,12 +4,12 @@
       <lightning-card title="Install this Package" icon-name="custom:custom14">
         <template if:true={getSourceInstallTypeFlag}>
           <div class="slds-m-around_medium">
-            <a class="slds-button slds-button_brand" target="_blank" href={getSourceInstallUrl}>Install via SFDX</a>
+            <a class="slds-button slds-button_brand" target="_blank" href={getSourceInstallUrl}>Install as Source</a>
           </div>
         </template>
         <template if:true={getPackageInstallTypeFlag}>
           <div class="slds-m-around_medium">
-            <a class="slds-button slds-button_brand" target="_blank" href={getPackageInstallUrl}>Install via Package Install UI</a>
+            <a class="slds-button slds-button_brand" target="_blank" href={getPackageInstallUrl}>Install as Package</a>
           </div>   
         </template>     
       </lightning-card>

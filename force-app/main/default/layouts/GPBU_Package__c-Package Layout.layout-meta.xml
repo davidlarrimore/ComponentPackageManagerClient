@@ -26,27 +26,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Google_Drive_Folder__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Last_Fetched__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Latest_Version__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Source_Install_Type_Flag__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>SFDX_Install_Type_Flag__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Package_Install_Type_Flag__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -57,10 +41,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Github_Repository__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Install_Link__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -96,12 +76,13 @@
                 <behavior>Edit</behavior>
                 <field>Subscriber_Package_Id__c</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Latest_Subscriber_Package_Version_Id__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -149,11 +130,23 @@
                 <behavior>Readonly</behavior>
                 <field>CreatedById</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>LastModifiedById</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Source_Install_Type_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SFDX_Install_Type_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Package_Install_Type_Flag__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -185,13 +178,22 @@
     <relatedLists>
         <relatedList>RelatedNoteList</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Dependent_Package__c</fields>
+        <relatedList>Package_Dependency__c.GPBU_Package__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Package_Dependency__c.Dependent_Package__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1g000001VWYD</masterLabel>
+        <masterLabel>00h3F000002XNfl</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
