@@ -8,7 +8,7 @@ echo "*** Pushing metadata to scratch org ..."
 sfdx force:source:push
 
 echo "*** Assigning permission set to your user ..."
-sfdx force:user:permset:assign --permsetname gPBU_Package_Manager
+sfdx force:user:permset:assign --permsetname Package_Manager
 
 echo "*** Generating password for your user ..."
 sfdx force:user:password:generate --targetusername ComponentManagerScratch
