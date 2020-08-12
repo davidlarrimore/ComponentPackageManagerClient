@@ -36,6 +36,14 @@
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>GPBU_Package__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Package_Dependencies__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>
             </componentInstanceProperties>
@@ -47,7 +55,7 @@
                 <name>showActionBar</name>
                 <value>true</value>
             </componentInstanceProperties>
-            <componentName>force:relatedListContainer</componentName>
+            <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
         <name>sidebar</name>
         <type>Region</type>

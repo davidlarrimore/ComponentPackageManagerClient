@@ -181,6 +181,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Dependent_Package__c</fields>
+        <fields>Installed__c</fields>
         <relatedList>Package_Dependency__c.GPBU_Package__c</relatedList>
     </relatedLists>
     <relatedLists>

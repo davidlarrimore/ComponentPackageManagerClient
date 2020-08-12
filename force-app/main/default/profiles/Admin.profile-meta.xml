@@ -6,6 +6,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>PackageInstallerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SFDXPackage</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -116,6 +120,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>GPBU_Package__c.Update_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Package_Dependency__c.Installed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

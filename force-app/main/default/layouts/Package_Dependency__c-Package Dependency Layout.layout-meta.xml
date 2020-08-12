@@ -19,6 +19,10 @@
                 <behavior>Required</behavior>
                 <field>Dependent_Package__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Installed__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

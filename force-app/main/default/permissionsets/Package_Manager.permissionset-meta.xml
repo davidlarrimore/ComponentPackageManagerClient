@@ -22,22 +22,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GPBU_Package__c.Google_Drive_Folder__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>GPBU_Package__c.Install_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>GPBU_Package__c.Install_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>GPBU_Package__c.Install_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
