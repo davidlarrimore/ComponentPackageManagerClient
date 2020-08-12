@@ -7,9 +7,7 @@
             },
             "Admin_Permission_Set__c": "DOD Demo Setup Permission Set",
             "Description__c": "<p><span style=\"font-size: 16px; color: rgb(36, 41, 46);\">This package contains basic functionality to help accelerate DOD Demo creation. There are data sets for each branch of the DOD that can be imported based on the target audience of the demo. All of the Branches, Ranks, Rank Codes, Rank Icons, Job Code Categories, and Job Codes have been loaded into the Contact object. When a new Contact is created the Rank Code and Rank Icon will be set automatically based on the Branch and Rank selected. All of the Job Code Categories and Job Codes are dependent picklists specific to each branch.</span></p>",
-            "Google_Drive_Folder__c": "https://drive.google.com/drive/folders/18tHRPcwHS1vlCtvhvbrO5eIRkgcpgPeH",
             "Install_Key__c": "gpbudemo",
-            "Install_Link__c": "/packaging/installPackage.apexp?p0=04t2E000003e388QAA",
             "POC_Email__c": "eric.bishop@salesforce.com",
             "POC_Name__c": "Eric Bishop",
             "Title__c": "DOD Master Demo"
@@ -21,9 +19,7 @@
             },
             "Admin_Permission_Set__c": "PBU Einstein Data Insights Examples",
             "Description__c": "<p>Demo which contains various use cases to showcase the Descriptive power of Einstein Discovery in Lightning Reports. Select from your choice of datasets, load the data, run the report, sit back and watch the magic.</p>",
-            "Google_Drive_Folder__c": "https://drive.google.com/drive/folders/1bKNUYcNJR8yX1Ed_F5ZotDOmO4UMdwo3",
             "Install_Key__c": "gpbudemo",
-            "Install_Link__c": "/packaging/installPackage.apexp?p0=04t2E000003dyCuQAI",
             "POC_Email__c": "sayoubi@salesforce.com",
             "POC_Name__c": "Salah Ayoubi",
             "Title__c": "PBU Einstein Data Insights Demo"
@@ -35,9 +31,7 @@
             },
             "Admin_Permission_Set__c": "US Federal Departments",
             "Description__c": "<p><span style=\"font-size: 16px; color: rgb(36, 41, 46);\">This package contains an account hierarchy for almost 300 U.S. Federal departments, all reporting up to the White House, the U.S. Congress, and the U.S. Supreme Court. The account details include the name of the department, the parent in the accounts hierarchy, address, phone number, description, and website.</span></p>",
-            "Google_Drive_Folder__c": "https://drive.google.com/drive/folders/1NGK6duHT3pILPAKBFzevWvnCCz6l2Ex0",
             "Install_Key__c": "gpbudemo",
-            "Install_Link__c": "/packaging/installPackage.apexp?p0=04t2E000003dyHMQAY",
             "POC_Email__c": "john.meyer@salesforce.com",
             "POC_Name__c": "John Meyer",
             "Title__c": "US Federal Departments"
@@ -49,9 +43,7 @@
             },
             "Admin_Permission_Set__c": "311 Demo Permission Set",
             "Description__c": "<p>This is a pack of 311 Demo Data that includes Accounts, Contacts, Cases, and Knowledge articles. There are no page layouts or other metadata that are part of this package. It only includes metadata needed to load the data. </p><p><br></p><p>**NOTE: Because of some knowledge dependencies this package is not easily &quot;uninstalled&quot;.</p>",
-            "Google_Drive_Folder__c": "https://drive.google.com/drive/folders/1_ZCD6leNEOnJLawkgygj1lTUArwFpFRp",
             "Install_Key__c": "gpbudemo",
-            "Install_Link__c": "/packaging/installPackage.apexp?p0=04t2E000003e2VTQAY",
             "POC_Email__c": "alandsman@salesforce.com",
             "POC_Name__c": "Alana Landsman",
             "Title__c": "311 Demo Data Set"
@@ -63,9 +55,7 @@
             },
             "Admin_Permission_Set__c": "ANZ Demo Permission Set",
             "Description__c": "<p><span style=\"font-size: 16px; color: rgb(36, 41, 46);\">An ANZ specific demo and data pack has been added to the Public Sector IDO. The package includes ANZ Departments, Agencies and Clusters as well as some localised Contacts and Cases. To access, simply select the list view titled ANZ. We&#39;ve also added a Local Government specific app titled Cirrus City Council which includes citizen services such as Rates, Permits, Early Education, Pet Registration and Book Loans - enabling Customer Service Officers with a single view of their citizen. Jenny Matherson is the star of the show with her daughter Annabel, who both live beachside in Melbourne with Charlie the Cavoodle.</span></p>",
-            "Google_Drive_Folder__c": "https://drive.google.com/open?id=1Q0C9VFgV6IFH4w2bknDx61a6S8VWcEnf",
             "Install_Key__c": "gpbudemo",
-            "Install_Link__c": "/packaging/installPackage.apexp?p0=04t2E000003e1EUQAY",
             "POC_Email__c": "matt.tyszkiewicz@salesforce.com",
             "POC_Name__c": "Matt Tyszkiewicz",
             "Title__c": "ANZ Demo"
