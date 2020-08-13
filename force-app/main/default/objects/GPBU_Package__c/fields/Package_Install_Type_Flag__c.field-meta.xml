@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>This Package may be installed as a Unlocked, Unmanaged, or Managed Package. Leverages a &quot;SubscriberPackageVersionId&quot;</description>
     <externalId>false</externalId>
-    <label>Package_Install_Type_Flag</label>
+    <label>Package Install Type Flag</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -56,7 +56,7 @@ public with sharing class VersionHelper {
                 gpbuPackage.POC_Name__c = demoConfigDotJSONresults.containsKey('author') ? (String)demoConfigDotJSONresults.get('author') : '';
                 gpbuPackage.POC_Email__c = demoConfigDotJSONresults.containsKey('authorEmail') ? (String)demoConfigDotJSONresults.get('authorEmail') : '';
                 gpbuPackage.Admin_Permission_Set__c = demoConfigDotJSONresults.containsKey('permissionSet') ? (String)demoConfigDotJSONresults.get('permissionSet') : '';
-                
+                gpbuPackage.Package_Name__c = packageName;
                 //Grabing Package Dependencies
                 if(demoConfigDotJSONresults.containsKey('dependencies')){
                     for(Object dependencies: (List<Object>)demoConfigDotJSONresults.get('dependencies')){
@@ -82,6 +82,8 @@ public with sharing class VersionHelper {
                     Map<String,Object> thisPackageDirectory = (Map<String,Object>) packageDirectory;
                     if((boolean) thisPackageDirectory.get('default')){
                         packageName = (String)thisPackageDirectory.get('package');
+                        gpbuPackage.Package_Name__c = packageName;
+                        gpbuPackage.Latest_Package_Version_Name__c = thisPackageDirectory.containsKey('versionName') ? (String)thisPackageDirectory.get('versionName') : '';  
                         System.debug('found default package ' + packageName);
                         if(!demoConfigFileFlag){
                             gpbuPackage.Title__c =  packageName;
@@ -108,41 +110,23 @@ public with sharing class VersionHelper {
                                 System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
                                 latestVersion = packageAliasKey;
                                 gpbuPackage.Latest_Version__c = latestVersion.substring(latestVersion.indexOf('@')+1, latestVersion.length());
+                                gpbuPackage.Latest_Package_Version__c = latestVersion.substring(latestVersion.indexOf('@')+1, latestVersion.length());
                             } 
                         }  
                         gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
 
-                        
                         System.debug('Latest version of package ' + packageName + ' is ' + latestVersion);
                         gpbuPackage.Package_Install_Type_Flag__c = true;
 
-                        //Getting Subscriber Package Id
-                        system.debug('Grabbing SubscriberPackage:');
-                        String query = 'SELECT+Id+,SubscriberPackageId+FROM+SubscriberPackageVersion+WHERE+Id+=\''+gpbuPackage.Latest_Subscriber_Package_Version_Id__c + '\'';
-
-                        Map<String,Object> SubscriberPackageResults = new Map<String,Object>();
-                        List<Object> SubscriberPackageRecords = new List<Object>();           
-                        SubscriberPackageResults = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
-                        if(SubscriberPackageResults != null){
-                            SubscriberPackageRecords = (List<Object>) SubscriberPackageResults.get('records');
-                            if(SubscriberPackageRecords != null){
-                                system.debug('SubscriberPackage Records:' + SubscriberPackageRecords);
-                                for(Object record: SubscriberPackageRecords){
-                                    Map<String,Object> thisRecord = (Map<String,Object>) record;
-                                    if(thisRecord.containsKey('SubscriberPackageId')){
-                                        system.debug('Found SubscriberPackage: ' + (String)thisRecord.get('SubscriberPackageId'));
-                                        gpbuPackage.Subscriber_Package_Id__c = (String)thisRecord.get('SubscriberPackageId');        
-                                    }
-                                }
-                            }
-                        }
                     }else{
                         System.debug('no packageAliases found, Source is only install option');
                     }
                 }
             }
         }
-        //If the sfdx-package.json model did not work, we have another way!
+
+
+        //If the sfdx-package.json model did not work, we have another way. Older Project Types have a package.xml file in the /src directory
         if(null == results || packageName == '' || packageName == null){
             System.debug('Could not find sfdx-project.json, looking in src folder for package.xml');
             Dom.Document doc = VersionHelper.getGithubSFDXProjectDotXML(githubUrl);
@@ -183,6 +167,12 @@ public with sharing class VersionHelper {
         System.debug('Processing Dependent Packages');
         VersionHelper.processDependentPackages(dependentPackageSubscriberPackageVersionIds, gpbuPackage.Id);
 
+        //Updating Package Info
+        if(gpbuPackage.Package_Install_Type_Flag__c){
+            System.debug('This is Package Install Enabled, using Tooling api to grab info');
+            VersionHelper.updatePackageFromSubscriberPackageVersionId(gpbuPackage.Id);
+        }
+
         return gpbuPackage; 
     }
 
@@ -199,23 +189,24 @@ public with sharing class VersionHelper {
                 insert packageDependency;
             }else{
                 System.debug('No existing package, adding new one #Future');
-                VersionHelper.getPackageFromSubscriberPackageVersionId(subscriberPackageVersionId, gpbuPackageId);
+                VersionHelper.createPackageFromSubscriberPackageVersionId(subscriberPackageVersionId, gpbuPackageId);
             }
         }
     }
 
+    
+/*
+ * Sample Data and queries for Tooling API calls:
+ * SubscriberPackageVersion: 04t1K000002J0KK
+ * /services/data/v48.0/tooling/query/?q=SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+FROM+SubscriberPackageVersion+WHERE+Id+='04t3h000004bdPAAAY'
+ * SubscriberPackage: 0331K000000oduuQAA
+ * /services/data/v48.0/tooling/query/?q=SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+='0331K000000oduuQAA'
+ */
 
-
-
- //SubscriberPackageVersion: 04t1K000002J0KK
-// /services/data/v48.0/tooling/query/?q=SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+FROM+SubscriberPackageVersion+WHERE+Id+='04t1K000002J0KK'
-
-//SubscriberPackage: 0331K000000oduuQAA
-// /services/data/v48.0/tooling/query/?q=SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+='0331K000000oduuQAA'
-   
+    //TODO: Check to see if Subscriber_Package_Id__c already exists
     @future(callout = true)
-    public static void getPackageFromSubscriberPackageVersionId(String SubscriberPackageVersionId, Id gpbuPackageId){
-        System.debug('Start  getPackageFromSubscriberPackageVersionId');
+    public static void createPackageFromSubscriberPackageVersionId(String SubscriberPackageVersionId, Id gpbuPackageId){
+        System.debug('Start createPackageFromSubscriberPackageVersionId');
         System.debug('Processing ' + SubscriberPackageVersionId);
 
         GPBU_Package__c gpbuDependentPackage = new GPBU_Package__c();
@@ -249,7 +240,8 @@ public with sharing class VersionHelper {
             version += '-';
             version += thisRecord.containsKey('BuildNumber') ? String.valueOf(thisRecord.get('BuildNumber')) : '0';               
             system.debug('Version: ' + version);            
-            gpbuDependentPackage.Latest_Version__c = version;   
+            gpbuDependentPackage.Latest_Package_Version__c = version;
+            gpbuDependentPackage.Latest_Package_Version_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';  
         }
 
         query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuDependentPackage.Subscriber_Package_Id__c + '\'';
@@ -262,7 +254,8 @@ public with sharing class VersionHelper {
         for(Object record: records){
             Map<String,Object> thisRecord = (Map<String,Object>) record;
             gpbuDependentPackage.Title__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';
-            gpbuDependentPackage.Description__c = thisRecord.containsKey('description') ? (String)thisRecord.get('description') : '';               
+            gpbuDependentPackage.Description__c = thisRecord.containsKey('description') ? (String)thisRecord.get('description') : '';     
+            gpbuDependentPackage.Package_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';        
         }
         
         System.debug('Insert New Package: ' + gpbuDependentPackage);  
@@ -274,6 +267,62 @@ public with sharing class VersionHelper {
         insert packageDependency;
     }
 
+    //Updates Package Name and Subscriber Id from the Tooling API based upon its Subscriber Version ID
+    @future(callout = true)
+    public static void updatePackageFromSubscriberPackageVersionId(String gpbuPackageId){
+        System.debug('Start updatePackageFromSubscriberPackageVersionId');
+
+        List<GPBU_Package__c> gpbuPackage = [SELECT Id, Description__c, Latest_Subscriber_Package_Version_Id__c, Subscriber_Package_Id__c FROM GPBU_Package__c WHERE Id = :gpbuPackageId LIMIT 1];
+        if(gpbuPackage.size() > 0){
+            System.debug('GPBU_Package__c found');  
+
+            String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+ gpbuPackage[0].Latest_Subscriber_Package_Version_Id__c + '\'';
+            
+            System.debug('Running Metadata API using the following query: ' + query); 
+            Map<String,Object> results = new Map<String,Object>();
+            
+            results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+
+            List<Object> records = new List<Object>();
+            records = (List<Object>) results.get('records');
+            
+            system.debug('SubscriberPackageVersion Records:' + records);
+
+            for(Object record: records){
+                Map<String,Object> thisRecord = (Map<String,Object>) record;
+                system.debug((String)thisRecord.get('SubscriberPackageId'));
+                gpbuPackage[0].Subscriber_Package_Id__c = thisRecord.containsKey('SubscriberPackageId') ? (String)thisRecord.get('SubscriberPackageId') : '';
+                String version = '';
+                version += thisRecord.containsKey('MajorVersion') ? String.valueOf(thisRecord.get('MajorVersion')) : '0';
+                version += '.';
+                version += thisRecord.containsKey('MinorVersion') ? String.valueOf(thisRecord.get('MinorVersion')) : '0';
+                version += '.';
+                version += thisRecord.containsKey('PatchVersion') ? String.valueOf(thisRecord.get('PatchVersion')) : '0';               
+                version += '-';
+                version += thisRecord.containsKey('BuildNumber') ? String.valueOf(thisRecord.get('BuildNumber')) : '0';               
+                system.debug('Version: ' + version);            
+                gpbuPackage[0].Latest_Package_Version__c = version;
+                gpbuPackage[0].Latest_Package_Version_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';  
+            }
+
+
+            query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuPackage[0].Subscriber_Package_Id__c + '\'';
+            results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+            records = (List<Object>) results.get('records');
+
+            system.debug('SubscriberPackage Records:' + records);
+
+            for(Object record: records){
+                Map<String,Object> thisRecord = (Map<String,Object>) record;
+                gpbuPackage[0].Package_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';       
+            }
+            
+            System.debug('Updating Package');  
+            upsert gpbuPackage[0];
+        }else{
+            System.debug('No GPBU_Package__c found, skipping');  
+        }
+    }
 
 
 /*
