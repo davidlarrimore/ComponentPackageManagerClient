@@ -86,6 +86,7 @@ public with sharing class VersionHelper {
                         gpbuPackage.Latest_Package_Version_Name__c = thisPackageDirectory.containsKey('versionName') ? (String)thisPackageDirectory.get('versionName') : '';  
                         System.debug('found default package ' + packageName);
                         if(!demoConfigFileFlag){
+                            //No demo config file found, using the Package Name as the name of the GPBU package Record
                             gpbuPackage.Title__c =  packageName;
                         }  
                     }
@@ -119,7 +120,10 @@ public with sharing class VersionHelper {
                         gpbuPackage.Package_Install_Type_Flag__c = true;
 
                     }else{
-                        System.debug('no packageAliases found, Source is only install option');
+                        System.debug('no packageAliases found, Source is only install option. Using Github Repo Name as the title');
+                        //No Packages found, we just use the Github Repo Name as the title
+                        packageName = githubUrl.substring(githubUrl.lastIndexOf('/')+1, githubUrl.length());
+                        gpbuPackage.Title__c =  packageName;
                     }
                 }
             }
@@ -183,10 +187,17 @@ public with sharing class VersionHelper {
             List<GPBU_Package__c> existingPackageLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c from GPBU_Package__c WHERE Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersionId LIMIT 1];
             if(existingPackageLookup.size() > 0){
                 System.debug('DependentPackage already exists');
-                Package_Dependency__c packageDependency = new Package_Dependency__c();
-                packageDependency.GPBU_Package__c = gpbuPackageId;
-                packageDependency.Dependent_Package__c = existingPackageLookup[0].Id;
-                insert packageDependency;
+
+                List<Package_Dependency__c> packageDependencyLookup = [SELECT Id, GPBU_Package__c, Dependent_Package__c FROM Package_Dependency__c WHERE GPBU_Package__c = :gpbuPackageId AND Dependent_Package__c = :existingPackageLookup[0].Id LIMIT 1];
+                if(packageDependencyLookup.size() > 0){
+                    System.debug('Package Dependency Record Already Exists, skipping');
+                }else{
+                    System.debug('Creating new Package Dependency Record');
+                    Package_Dependency__c packageDependency = new Package_Dependency__c();
+                    packageDependency.GPBU_Package__c = gpbuPackageId;
+                    packageDependency.Dependent_Package__c = existingPackageLookup[0].id;
+                    insert packageDependency;
+                }
             }else{
                 System.debug('No existing package, adding new one #Future');
                 VersionHelper.createPackageFromSubscriberPackageVersionId(subscriberPackageVersionId, gpbuPackageId);
@@ -261,10 +272,18 @@ public with sharing class VersionHelper {
         System.debug('Insert New Package: ' + gpbuDependentPackage);  
         insert gpbuDependentPackage;
 
-        Package_Dependency__c packageDependency = new Package_Dependency__c();
-        packageDependency.GPBU_Package__c = gpbuPackageId;
-        packageDependency.Dependent_Package__c = gpbuDependentPackage.id;
-        insert packageDependency;
+
+        List<Package_Dependency__c> packageDependencyLookup = [SELECT Id, GPBU_Package__c, Dependent_Package__c FROM Package_Dependency__c WHERE GPBU_Package__c = :gpbuPackageId AND Dependent_Package__c = :gpbuDependentPackage.Id LIMIT 1];
+        if(packageDependencyLookup.size() > 0){
+            System.debug('Package Dependency Already Exists, skipping');
+        }else{
+            System.debug('Creating new Package Dependency');
+            Package_Dependency__c packageDependency = new Package_Dependency__c();
+            packageDependency.GPBU_Package__c = gpbuPackageId;
+            packageDependency.Dependent_Package__c = gpbuDependentPackage.id;
+            insert packageDependency;
+        }
+
     }
 
     //Updates Package Name and Subscriber Id from the Tooling API based upon its Subscriber Version ID

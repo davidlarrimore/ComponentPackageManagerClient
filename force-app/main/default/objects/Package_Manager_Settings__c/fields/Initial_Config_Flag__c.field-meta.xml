@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Initial_Config_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Has the Initial Configuration Run for this Component</description>
+    <externalId>false</externalId>
+    <label>Initial Config Flag</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
