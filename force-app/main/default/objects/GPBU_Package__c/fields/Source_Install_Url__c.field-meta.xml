@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_Install_Url__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Source_Install_Type_Flag__c,&apos;https://hosted-scratch.herokuapp.com/byoo?template=&apos; + Github_Repository__c, &apos;N/A&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Source Install Url</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

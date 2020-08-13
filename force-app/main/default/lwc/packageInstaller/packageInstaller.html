@@ -1,35 +1,98 @@
-<template >
+<template>
   <template if:true={record}>
-    <template if:false={getPackageInstalledFlag}>
-      <lightning-card title="Install this Package" icon-name="custom:custom14">
-        <template if:true={getSourceInstallTypeFlag}>
-          <div class="slds-m-around_medium">
-            <a class="slds-button slds-button_brand" target="_blank" href={getSourceInstallUrl}>Install as Source</a>
-          </div>
-        </template>
-        <template if:true={getPackageInstallTypeFlag}>
-          <div class="slds-m-around_medium">
-            <a class="slds-button slds-button_brand" target="_blank" href={getPackageInstallUrl}>Install as Package</a>
-          </div>   
-        </template>     
-      </lightning-card>
-    </template>
-    <template if:true={getPackageInstalledFlag}>
-      <lightning-card title="Uninstall Package" icon-name="custom:custom14">
-        <div class="slds-m-around_medium">
-          <p>Package Name: {record.fields.Name.value}</p>
-        </div>
-      </lightning-card>
-    </template>  
-  </template>
     <template if:true={record2}>
-      <lightning-card title="Install Package Dependencies" icon-name="custom:custom14">
-          <template for:each={record2} for:item="rec">
-            <div class="slds-m-around_medium" key={rec.Id}>
-              Record: {rec.Title__c}
-            </div>
+      <template if:false={getPackageInstalledFlag}>
+        <template if:true={canInstallPackageFlag}>
+          <lightning-card title="Install this Package" icon-name="custom:custom14">
+            {canInstallPackageFlag}
+            <template if:true={getSourceInstallTypeFlag}>
+              <div class="slds-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Source_Install_Url__c.value}>Install as Source</a>
+              </div>
+            </template>
+            <template if:true={getPackageInstallTypeFlag}>
+              <div class="slds-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Package_Install_Url__c.value}>Install as Package</a>
+              </div>   
+            </template>     
+          </lightning-card>
         </template>
-    </lightning-card>
+      </template>
+      <template if:true={getPackageInstalledFlag}>
+        <lightning-card title="Uninstall Package" icon-name="custom:custom14">
+          <div class="slds-m-around_medium">
+            <p>Package Name: {record.fields.Name.value}</p>
+          </div>
+        </lightning-card>
+      </template>  
+
+        <div title="Install this Package" class="slds-card-wrapper">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-standard-contact" title="Install this Package">
+                <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                  <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom19"></use>
+                </svg>
+                <span class="slds-assistive-text">Install this Package</span>
+              </span>
+            </div>
+            <div class="slds-media__body">
+              <h2 class="slds-card__header-title">
+                  <span>Install this Package</span>
+              </h2>
+            </div>
+          </header>
+          <div class="slds-card__body slds-card__body_inner">In order to install this package, you must first install the following dependent packages:</div>
+            <template for:each={record2} for:item="rec">
+                  <article class="slds-card slds-card_boundary" key={rec.Id}>
+                    <div class="slds-card__header slds-grid">
+                      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                          <span class="slds-icon_container slds-icon-custom-custom57" title="GPBU Package">
+                            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                              <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom57"></use>
+                            </svg>
+                            <span class="slds-assistive-text">{rec.Title__c}</span>
+                          </span>
+                        </div>
+                        <div class="slds-media__body">
+                          <h2 class="slds-card__header-title">
+                            <a href="/GPBU_Package__c/\{rec.Id}\/view" class="slds-card__header-link slds-truncate" title={rec.Title__c}>
+                              <span>{rec.Title__c}</span>
+                            </a>
+                          </h2>
+                        </div>
+                        <!-- Header Dropdown Menu -->
+                        <div class="slds-no-flex">
+                          <div class="slds-dropdown-trigger slds-dropdown-trigger_click dropdown-toggle" aria-expanded="true" data-id={rec.Id}>
+                            <button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" aria-haspopup="true" title="Show More" onclick={handleOnselect} data-id={rec.Id}>
+                              <svg class="slds-button__icon" aria-hidden="true">
+                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                              </svg>
+                              <span class="slds-assistive-text">Show More</span>
+                            </button>
+                            <div class="slds-dropdown slds-dropdown_actions slds-dropdown_right">
+                              <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                <li class="slds-dropdown__item" role="presentation" if:true={rec.Source_Install_Type_Flag__c}>
+                                  <a role="menuitem" target="_blank" href={rec.Source_Install_Url__c}>
+                                    <span class="slds-truncate" title="Install as Source">Install as Source</span>
+                                  </a>
+                                </li>
+                                <li class="slds-dropdown__item" role="presentation" if:true={rec.Package_Install_Type_Flag__c}>
+                                  <a role="menuitem" target="_blank" href={rec.Package_Install_Url__c}>
+                                    <span class="slds-truncate" title="Install as Source">Install as Package</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </header>
+                    </div>
+                  </article>
+        </template>
+      </div>
+    </template>
     </template>
   </template>
 </template>

@@ -2,7 +2,7 @@
   "orgName": "GPBU Package Manager",
   "edition": "Developer",
   "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
-  "features": ["Communities","DebugApex","Workflow","API"],
+  "features": ["Communities","DebugApex","Workflow","API", ""],
   "settings": {
     "lightningExperienceSettings": {
         "enableS1DesktopEnabled": true
