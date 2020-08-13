@@ -115,6 +115,11 @@
         <field>GPBU_Package__c.Update_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Package_Dependency__c.Installed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Package Manager</label>
     <objectPermissions>
