@@ -183,7 +183,7 @@ public with sharing class VersionHelper {
     public static void processDependentPackages(List<String> subscriberPackageVersionIds, Id gpbuPackageId){
         System.debug('Running processDependentPackages');
         for(String subscriberPackageVersionId: subscriberPackageVersionIds){
-            System.debug('Looking up the following SubscriberPackageVersionIds: ' + SubscriberPackageVersionId);
+            System.debug('Looking up the following SubscriberPackageVersionId: ' + subscriberPackageVersionId);
             List<GPBU_Package__c> existingPackageLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c from GPBU_Package__c WHERE Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersionId LIMIT 1];
             if(existingPackageLookup.size() > 0){
                 System.debug('DependentPackage already exists');
@@ -286,6 +286,13 @@ public with sharing class VersionHelper {
 
     }
 
+
+
+
+
+
+
+
     //Updates Package Name and Subscriber Id from the Tooling API based upon its Subscriber Version ID
     @future(callout = true)
     public static void updatePackageFromSubscriberPackageVersionId(String gpbuPackageId){
@@ -343,7 +350,104 @@ public with sharing class VersionHelper {
         }
     }
 
+    
 
+
+
+    //TODO: Check to see if Subscriber_Package_Id__c already exists
+    public static void getInstalledPackages(){
+        System.debug('Start getInstalledPackages');
+
+        List<GPBU_Package__c> newGPBUPackages = new List<GPBU_Package__c>();       
+
+        /*
+        newGPBUPackage.Last_Fetched__c = Datetime.Now();
+
+        //Preset Options. We assume we can at least do an install from a Package
+        newGPBUPackage.Source_Install_Type_Flag__c = false;
+        newGPBUPackage.SFDX_Install_Type_Flag__c = false; 
+        newGPBUPackage.Package_Install_Type_Flag__c = true;        
+        newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = SubscriberPackageVersionId;
+        */
+
+
+        String query = 'SELECT+Id,+SubscriberPackageId,+SubscriberPackage.NamespacePrefix,+++++++SubscriberPackage.Name,+++++++SubscriberPackage.Description,+SubscriberPackageVersion.Id,+++++++SubscriberPackageVersion.Name,+SubscriberPackageVersion.MajorVersion,+++++++SubscriberPackageVersion.MinorVersion,+++++++SubscriberPackageVersion.PatchVersion,+++++++SubscriberPackageVersion.BuildNumber++++FROM+InstalledSubscriberPackage++++ORDER+BY+SubscriberPackageId';
+        
+        Map<String,Object> results = new Map<String,Object>();
+        results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+
+        List<Object> records = new List<Object>();
+        records = (List<Object>) results.get('records');
+        
+        system.debug('InstalledSubscriberPackage Records:' + records);
+        List<GPBU_Package__c> existingPackageLookup = [SELECT Id, Package_Name__c, Installed__c, Title__c, Latest_Package_Version__c from GPBU_Package__c];
+
+        for(Object record: records){
+            Map<String,Object> thisRecord = (Map<String,Object>) record;
+            Map<String,Object> thisSubscriberPackage = new Map<String,Object>();
+            Map<String,Object> thisSubscriberPackageVersion = new Map<String,Object>();
+
+            thisSubscriberPackage = (Map<String,Object>) thisRecord.get('SubscriberPackage');
+            thisSubscriberPackageVersion = (Map<String,Object>) thisRecord.get('SubscriberPackageVersion');
+
+
+
+            GPBU_Package__c newGPBUPackage = new GPBU_Package__c();
+            Boolean packageExistsFlag = false;
+            system.debug('Processing Package ' + (String)thisSubscriberPackage.get('Name'));
+            system.debug('Looking to see if Installed Package Matches existing Packages');
+            for(GPBU_Package__c existingPackage: existingPackageLookup){
+                system.debug('Does Installed Package ' + (String)thisSubscriberPackage.get('Name') + ' = ' + existingPackage.Package_Name__c);
+                if(String.valueOf(thisSubscriberPackage.get('Name')) == existingPackage.Package_Name__c){
+                    system.debug('Package already exists, assigning it');
+                    newGPBUPackage = existingPackage;
+                    packageExistsFlag = true;
+                }
+            }
+            
+            if(!packageExistsFlag){
+                system.debug('Package does not already exist. Creating a new one');
+                newGPBUPackage.Package_Name__c = (String)thisSubscriberPackage.get('Name');
+                newGPBUPackage.Title__c =  (String)thisSubscriberPackage.get('Name');  
+                newGPBUPackage.Description__c = thisSubscriberPackage.containsKey('Description') ? (String)thisSubscriberPackage.get('Description') : '';    
+            }
+            
+            newGPBUPackage.Subscriber_Package_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
+            String version = '';
+            version += thisSubscriberPackageVersion.containsKey('MajorVersion') ? String.valueOf(thisSubscriberPackageVersion.get('MajorVersion')) : '0';
+            version += '.';
+            version += thisSubscriberPackageVersion.containsKey('MinorVersion') ? String.valueOf(thisSubscriberPackageVersion.get('MinorVersion')) : '0';
+            version += '.';
+            version += thisSubscriberPackageVersion.containsKey('PatchVersion') ? String.valueOf(thisSubscriberPackageVersion.get('PatchVersion')) : '0';               
+            version += '-';
+            version += thisSubscriberPackageVersion.containsKey('BuildNumber') ? String.valueOf(thisSubscriberPackageVersion.get('BuildNumber')) : '0';               
+            system.debug('Version: ' + version);            
+            
+            if(!packageExistsFlag && newGPBUPackage.Latest_Package_Version__c != ''){
+                //TODO: Compare Package Versions to see if an update is available
+                newGPBUPackage.Latest_Package_Version__c = thisSubscriberPackageVersion.containsKey('Name') ? (String)thisSubscriberPackageVersion.get('Name') : '';  
+            }else{
+                newGPBUPackage.Latest_Package_Version__c = version;
+            }
+            newGPBUPackage.Latest_Package_Version_Name__c = thisSubscriberPackageVersion.containsKey('Name') ? (String)thisSubscriberPackageVersion.get('Name') : '';  
+            newGPBUPackage.Installed_Subscriber_Package_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
+            newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
+            newGPBUPackage.Installed_Version__c = version;
+            newGPBUPackage.Installed__c = true;
+            newGPBUPackage.Installation_Type__c = 'Managed Package';
+
+            if(newGPBUPackage.Title__c != null && newGPBUPackage.Title__c != ''){
+                newGPBUPackages.add(newGPBUPackage);
+            }
+
+        } 
+        System.debug('Upserting Installed Packages: ' + newGPBUPackages);  
+        upsert newGPBUPackages;
+
+    }
+
+
+    
 /*
 
     //Grabs information on all installed packages

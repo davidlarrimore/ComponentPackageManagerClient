@@ -5,12 +5,12 @@
         <template if:true={canInstallPackageFlag}>
           <lightning-card title="Install this Package" icon-name="custom:custom19">
             <template if:true={getSourceInstallTypeFlag}>
-              <div class="slds-m-around_medium">
+              <div class="slds-var-m-around_medium">
                 <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Source_Install_Url__c.value}>Install as Source</a>
               </div>
             </template>
             <template if:true={getPackageInstallTypeFlag}>
-              <div class="slds-m-around_medium">
+              <div class="slds-var-m-around_medium">
                 <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Package_Install_Url__c.value}>Install as Package</a>
               </div>   
             </template>     
@@ -19,7 +19,7 @@
       </template>
       <template if:true={getPackageInstalledFlag}>
         <lightning-card title="Uninstall Package" icon-name="custom:custom14">
-          <div class="slds-m-around_medium">
+          <div class="slds-var-m-around_medium">
             <p>Package Name: {record.fields.Name.value}</p>
           </div>
         </lightning-card>
@@ -62,30 +62,11 @@
                           </a>
                         </h2>
                       </div>
-                      <!-- Header Dropdown Menu -->
-                      <div class="slds-no-flex">
-                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click dropdown-toggle" aria-expanded="true" data-id={rec.Id}>
-                          <button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" aria-haspopup="true" title="Show More" onclick={handleOnselect} data-id={rec.Id}>
-                            <svg class="slds-button__icon" aria-hidden="true">
-                              <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
-                            </svg>
-                            <span class="slds-assistive-text">Show More</span>
-                          </button>
-                          <div class="slds-dropdown slds-dropdown_actions slds-dropdown_right">
-                            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
-                              <li class="slds-dropdown__item" role="presentation" if:true={rec.Source_Install_Type_Flag__c}>
-                                <a role="menuitem" target="_blank" href={rec.Source_Install_Url__c}>
-                                  <span class="slds-truncate" title="Install as Source">Install as Source</span>
-                                </a>
-                              </li>
-                              <li class="slds-dropdown__item" role="presentation" if:true={rec.Package_Install_Type_Flag__c}>
-                                <a role="menuitem" target="_blank" href={rec.Package_Install_Url__c}>
-                                  <span class="slds-truncate" title="Install as Source">Install as Package</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
+                      <div class="slds-var-p-around_small lgc-bg">
+                        <lightning-button-menu alternative-text="Show menu">
+                            <lightning-menu-item value="Install as Source" href={rec.Source_Install_Url__c} label="Install as Source" if:true={rec.Source_Install_Type_Flag__c}></lightning-menu-item>
+                            <lightning-menu-item value="Install as Package" href={rec.Package_Install_Url__c} label="Install as Package" if:true={rec.Package_Install_Type_Flag__c}></lightning-menu-item>
+                        </lightning-button-menu>
                       </div>
                     </header>
                   </div>

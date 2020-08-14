@@ -8,5 +8,10 @@
     <columns>POC_Name__c</columns>
     <columns>POC_Email__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Installed__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
     <label>Available Packages</label>
 </ListView>

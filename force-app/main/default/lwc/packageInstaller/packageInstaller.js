@@ -23,7 +23,6 @@ const FIELDS = [
   'GPBU_Package__c.Package_Install_Url__c'
 ]
 
-
 export default class PackageInstaller extends LightningElement {
   @api recordId;
   @track record;
@@ -90,25 +89,6 @@ export default class PackageInstaller extends LightningElement {
     }
       return true;
   } 
-
-  
-  handleOnselect(event) {
-    console.log('Switching Menu');
-    console.log('Dataset Id: ' + event.target.dataset.id);
-    var newTargets = this.template.querySelectorAll('.dropdown-toggle');
-    console.log('newTargets Size: ' + newTargets.length);
-
-    for (var i = 0; i < newTargets.length; ++i) {
-      console.log('newTargets dataset ID: ');
-
-      if(newTargets[i].dataset.id ==  event.target.dataset.id){
-          newTargets[i].classList.toggle('slds-is-open');
-      }
-    }
-
-  }
-
-
 
   greeting = 'World';
   changeHandler(event) {
