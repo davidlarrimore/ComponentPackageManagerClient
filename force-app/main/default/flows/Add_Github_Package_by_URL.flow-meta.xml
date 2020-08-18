@@ -25,8 +25,8 @@
     <assignments>
         <name>Assign_Github_Urls</name>
         <label>Assign Github Urls</label>
-        <locationX>380</locationX>
-        <locationY>87</locationY>
+        <locationX>408</locationX>
+        <locationY>84</locationY>
         <assignmentItems>
             <assignToReference>githubURLs</assignToReference>
             <operator>Add</operator>
@@ -41,8 +41,8 @@
     <assignments>
         <name>Reset_Github_URL</name>
         <label>Reset Github URL</label>
-        <locationX>188</locationX>
-        <locationY>300</locationY>
+        <locationX>197</locationX>
+        <locationY>332</locationY>
         <assignmentItems>
             <assignToReference>GithubURL.value</assignToReference>
             <operator>Assign</operator>
@@ -71,7 +71,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Duplicate_gPBU_Package</targetReference>
+                <targetReference>Get_gPBU_Package</targetReference>
             </connector>
             <label>Package is not null</label>
         </rules>
@@ -98,19 +98,19 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
-        <name>Get_Duplicate_gPBU_Package</name>
-        <label>Get Duplicate gPBU Package</label>
+        <name>Get_gPBU_Package</name>
+        <label>Get gPBU Package</label>
         <locationX>768</locationX>
-        <locationY>322</locationY>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Confirmation_Screen</targetReference>
         </connector>
         <filters>
-            <field>Title__c</field>
+            <field>Github_Repository__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>gPBUPackage.Title__c</elementReference>
+                <elementReference>GithubURL.value</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -133,7 +133,7 @@
         </fields>
         <fields>
             <name>ccConfirmationText</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;That worked!&lt;/b&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt; Package added.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: &lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;{!gPBUPackage.Description__c}&lt;/i&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; &lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Github_Repository__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;: {!gPBUPackage.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;That worked!&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt; Package added.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Name&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!Get_gPBU_Package.Title__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Description&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!Get_gPBU_Package.Description__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Package Repository&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!Get_gPBU_Package.Github_Repository__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;&lt;i&gt;Latest Version&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;: {!Get_gPBU_Package.Latest_Version__c}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;&lt;i&gt;Intallation Options&lt;/i&gt;&lt;/b&gt;&lt;i style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;: {!InstallTypeAvailable}&lt;/i&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Click finish to add package to the list of available packages.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>

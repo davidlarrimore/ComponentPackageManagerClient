@@ -88,6 +88,7 @@ public with sharing class VersionHelper {
                         if(!demoConfigFileFlag){
                             //No demo config file found, using the Package Name as the name of the GPBU package Record
                             gpbuPackage.Title__c =  packageName;
+                            gpbuPackage.Description__c = thisPackageDirectory.containsKey('description') && gpbuPackage.Description__c == '' ? (String)thisPackageDirectory.get('description') : '';
                         }  
                     }
                 }
