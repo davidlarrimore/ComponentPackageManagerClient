@@ -8,10 +8,10 @@ echo "*** Pushing metadata to scratch org ..."
 sfdx force:source:push
 
 echo "*** Assigning permission set to your user ..."
-sfdx force:user:permset:assign --permsetname Package_Manager
+sfdx force:user:permset:assign --permsetname Demo_Component_Manager
 
 echo "*** Generating password for your user ..."
 sfdx force:user:password:generate --targetusername ComponentManagerScratch
 
 echo "*** Creating data"
-sfdx force:data:tree:import -f ./data/export-demo-GPBU_Package__cs.json -u ComponentManagerScratch
+sfdx force:data:tree:import -f ./data/export-demo-Demo_Component__cs.json -u ComponentManagerScratch

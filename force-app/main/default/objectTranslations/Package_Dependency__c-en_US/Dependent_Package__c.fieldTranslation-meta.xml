@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label><!-- Dependent Package --></label>
-    <name>Dependent_Package__c</name>
-    <relationshipLabel><!-- Packages Depending on This --></relationshipLabel>
-</CustomFieldTranslation>

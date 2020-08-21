@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "Demo_Component__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "export-demo-Demo_Component__cs.json"
+        ]
+    }
+]
