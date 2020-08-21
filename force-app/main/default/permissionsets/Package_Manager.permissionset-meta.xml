@@ -42,6 +42,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GPBU_Package__c.Installed_Version_Tracking_Method__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GPBU_Package__c.Installed_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -62,7 +67,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Commit_Hash__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Package_Version_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Package_Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GPBU_Package__c.Latest_Subscriber_Package_Version_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Tag_Commit_Hash__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Tag_Version_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Latest_Tag_Version_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -92,6 +127,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GPBU_Package__c.Package_Installed_Version_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Package_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GPBU_Package__c.SFDX_Install_Type_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -103,6 +148,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>GPBU_Package__c.Source_Install_Url__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Source_Installed_Commit_Hash__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Source_Installed_Tag_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Source_Installed_Tag_Hash__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GPBU_Package__c.Source_Installed_Tag_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

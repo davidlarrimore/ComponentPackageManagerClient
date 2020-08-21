@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Installation_Type__c</fullName>
-    <description>Determines how the package was installed</description>
+    <fullName>Installed_Version_Tracking_Method__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>How was this package installed?</inlineHelpText>
-    <label>Installation Type</label>
+    <label>Installed_Version Tracking Method</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
@@ -14,14 +12,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Source</fullName>
+                <fullName>Github_Commit</fullName>
                 <default>false</default>
-                <label>Source</label>
+                <label>Github Commit</label>
             </value>
             <value>
-                <fullName>Package</fullName>
+                <fullName>Github Tag</fullName>
                 <default>false</default>
-                <label>Package</label>
+                <label>Github Tag</label>
+            </value>
+            <value>
+                <fullName>SFDX Project</fullName>
+                <default>false</default>
+                <label>SFDX Project</label>
             </value>
         </valueSetDefinition>
     </valueSet>
