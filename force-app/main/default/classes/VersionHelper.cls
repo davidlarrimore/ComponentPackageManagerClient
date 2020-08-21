@@ -22,7 +22,7 @@ public with sharing class VersionHelper {
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
-    public static GPBU_Package__c getPackageFromGithubURL(String githubUrl){
+    public static Demo_Component__c getComponentFromGithubURL(String githubUrl){
 
         System.debug('Processing ' + githubUrl);
         List<String> versions = new List<String>();
@@ -30,7 +30,7 @@ public with sharing class VersionHelper {
         Boolean demoConfigFileFlag = false;
         String packageName = '';
 
-        GPBU_Package__c gpbuPackage = new GPBU_Package__c();
+        Demo_Component__c gpbuPackage = new Demo_Component__c();
         gpbuPackage.Title__c = '';
 
         //@TODO: add the ability to find the package.xml in a child directory
@@ -165,7 +165,7 @@ public with sharing class VersionHelper {
         }
 
         System.debug('Seeing if Package already exists');
-        List<GPBU_Package__c> existingPackageLookup = [SELECT Id from GPBU_Package__c WHERE Title__c  = :gpbuPackage.Title__c LIMIT 1];
+        List<Demo_Component__c> existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Title__c  = :gpbuPackage.Title__c LIMIT 1];
         if(existingPackageLookup.size() > 0){
             System.debug('Package already exists, adding Id and updating');
             gpbuPackage.Id = existingPackageLookup[0].Id;
@@ -191,18 +191,18 @@ public with sharing class VersionHelper {
         System.debug('Running processDependentPackages');
         for(String subscriberPackageVersionId: subscriberPackageVersionIds){
             System.debug('Looking up the following SubscriberPackageVersionId: ' + subscriberPackageVersionId);
-            List<GPBU_Package__c> existingPackageLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c from GPBU_Package__c WHERE Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersionId LIMIT 1];
+            List<Demo_Component__c> existingPackageLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c from Demo_Component__c WHERE Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersionId LIMIT 1];
             if(existingPackageLookup.size() > 0){
                 System.debug('DependentPackage already exists');
 
-                List<Package_Dependency__c> packageDependencyLookup = [SELECT Id, GPBU_Package__c, Dependent_Package__c FROM Package_Dependency__c WHERE GPBU_Package__c = :gpbuPackageId AND Dependent_Package__c = :existingPackageLookup[0].Id LIMIT 1];
+                List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :existingPackageLookup[0].Id LIMIT 1];
                 if(packageDependencyLookup.size() > 0){
                     System.debug('Package Dependency Record Already Exists, skipping');
                 }else{
                     System.debug('Creating new Package Dependency Record');
-                    Package_Dependency__c packageDependency = new Package_Dependency__c();
-                    packageDependency.GPBU_Package__c = gpbuPackageId;
-                    packageDependency.Dependent_Package__c = existingPackageLookup[0].id;
+                    Component_Dependency__c packageDependency = new Component_Dependency__c();
+                    packageDependency.Demo_Component__c = gpbuPackageId;
+                    packageDependency.Dependent_Component__c = existingPackageLookup[0].id;
                     insert packageDependency;
                 }
             }else{
@@ -227,7 +227,7 @@ public with sharing class VersionHelper {
         System.debug('Start createPackageFromSubscriberPackageVersionId');
         System.debug('Processing ' + SubscriberPackageVersionId);
 
-        GPBU_Package__c gpbuDependentPackage = new GPBU_Package__c();
+        Demo_Component__c gpbuDependentPackage = new Demo_Component__c();
         gpbuDependentPackage.Last_Fetched__c = Datetime.Now();
 
         //Preset Options. We assume we can at least do an install from a Package
@@ -280,14 +280,14 @@ public with sharing class VersionHelper {
         insert gpbuDependentPackage;
 
 
-        List<Package_Dependency__c> packageDependencyLookup = [SELECT Id, GPBU_Package__c, Dependent_Package__c FROM Package_Dependency__c WHERE GPBU_Package__c = :gpbuPackageId AND Dependent_Package__c = :gpbuDependentPackage.Id LIMIT 1];
+        List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :gpbuDependentPackage.Id LIMIT 1];
         if(packageDependencyLookup.size() > 0){
             System.debug('Package Dependency Already Exists, skipping');
         }else{
             System.debug('Creating new Package Dependency');
-            Package_Dependency__c packageDependency = new Package_Dependency__c();
-            packageDependency.GPBU_Package__c = gpbuPackageId;
-            packageDependency.Dependent_Package__c = gpbuDependentPackage.id;
+            Component_Dependency__c packageDependency = new Component_Dependency__c();
+            packageDependency.Demo_Component__c = gpbuPackageId;
+            packageDependency.Dependent_Component__c = gpbuDependentPackage.id;
             insert packageDependency;
         }
 
@@ -305,9 +305,9 @@ public with sharing class VersionHelper {
     public static void updatePackageFromSubscriberPackageVersionId(String gpbuPackageId){
         System.debug('Start updatePackageFromSubscriberPackageVersionId');
 
-        List<GPBU_Package__c> gpbuPackage = [SELECT Id, Description__c, Latest_Subscriber_Package_Version_Id__c, Subscriber_Package_Id__c FROM GPBU_Package__c WHERE Id = :gpbuPackageId LIMIT 1];
+        List<Demo_Component__c> gpbuPackage = [SELECT Id, Description__c, Latest_Subscriber_Package_Version_Id__c, Subscriber_Package_Id__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
         if(gpbuPackage.size() > 0){
-            System.debug('GPBU_Package__c found');  
+            System.debug('Demo_Component__c found');  
 
             String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+ gpbuPackage[0].Latest_Subscriber_Package_Version_Id__c + '\'';
             
@@ -353,7 +353,7 @@ public with sharing class VersionHelper {
             System.debug('Updating Package');  
             upsert gpbuPackage[0];
         }else{
-            System.debug('No GPBU_Package__c found, skipping');  
+            System.debug('No Demo_Component__c found, skipping');  
         }
     }
 
@@ -365,7 +365,7 @@ public with sharing class VersionHelper {
     public static void getInstalledPackages(){
         System.debug('Start getInstalledPackages');
 
-        List<GPBU_Package__c> newGPBUPackages = new List<GPBU_Package__c>();       
+        List<Demo_Component__c> newGPBUPackages = new List<Demo_Component__c>();       
 
         /*
         newGPBUPackage.Last_Fetched__c = Datetime.Now();
@@ -387,7 +387,7 @@ public with sharing class VersionHelper {
         records = (List<Object>) results.get('records');
         
         system.debug('InstalledSubscriberPackage Records:' + records);
-        List<GPBU_Package__c> existingPackageLookup = [SELECT Id, Package_Name__c, Installed__c, Title__c, Latest_Package_Version__c from GPBU_Package__c];
+        List<Demo_Component__c> existingPackageLookup = [SELECT Id, Package_Name__c, Installed__c, Title__c, Latest_Package_Version__c from Demo_Component__c];
 
         for(Object record: records){
             Map<String,Object> thisRecord = (Map<String,Object>) record;
@@ -397,11 +397,11 @@ public with sharing class VersionHelper {
             thisSubscriberPackage = (Map<String,Object>) thisRecord.get('SubscriberPackage');
             thisSubscriberPackageVersion = (Map<String,Object>) thisRecord.get('SubscriberPackageVersion');
 
-            GPBU_Package__c newGPBUPackage = new GPBU_Package__c();
+            Demo_Component__c newGPBUPackage = new Demo_Component__c();
             Boolean packageExistsFlag = false;
             system.debug('Processing Package ' + (String)thisSubscriberPackage.get('Name'));
             system.debug('Looking to see if Installed Package Matches existing Packages');
-            for(GPBU_Package__c existingPackage: existingPackageLookup){
+            for(Demo_Component__c existingPackage: existingPackageLookup){
                 system.debug('Does Installed Package ' + (String)thisSubscriberPackage.get('Name') + ' = ' + existingPackage.Package_Name__c);
                 if(String.valueOf(thisSubscriberPackage.get('Name')) == existingPackage.Package_Name__c){
                     system.debug('Package already exists, assigning it');

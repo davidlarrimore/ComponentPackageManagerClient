@@ -1,0 +1,81 @@
+<template>
+  <template if:true={record}>
+    <template if:true={record2}>
+      <template if:false={getPackageInstalledFlag}>
+        <template if:true={canInstallPackageFlag}>
+          <lightning-card title="Install this Package" icon-name="custom:custom19">
+            <template if:true={getSourceInstallTypeFlag}>
+              <div class="slds-var-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Source_Install_Url__c.value}>Install as Source</a>
+              </div>
+            </template>
+            <template if:true={getPackageInstallTypeFlag}>
+              <div class="slds-var-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank" href={record.fields.Package_Install_Url__c.value}>Install as Package</a>
+              </div>   
+            </template>     
+          </lightning-card>
+        </template>
+      </template>
+      <template if:true={getComponentInstalledFlag}>
+        <lightning-card title="Uninstall Component" icon-name="custom:custom14">
+          <div class="slds-var-m-around_medium">
+            <p>Component Name: {record.fields.Name.value}</p>
+          </div>
+        </lightning-card>
+      </template>
+      <template if:false={canInstallComponentFlag}>
+        <div title="Install this Component" class="slds-card-wrapper">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__figure">
+              <span class="slds-icon_container slds-icon-standard-contact" title="Install this Component">
+                <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                  <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom19"></use>
+                </svg>
+                <span class="slds-assistive-text">Install this Component</span>
+              </span>
+            </div>
+            <div class="slds-media__body">
+              <h2 class="slds-card__header-title">
+                  <span>Install this Component</span>
+              </h2>
+            </div>
+          </header>
+          <div class="slds-card__body slds-card__body_inner">In order to install this component, you must first install the following dependent component(s):</div>
+            <template for:each={record2} for:item="rec">
+              <template if:false={rec.Installed__c}>
+                <article class="slds-card slds-card_boundary" key={rec.Id}>
+                  <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                      <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-custom-custom57" title="Demo Component">
+                          <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                            <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom57"></use>
+                          </svg>
+                          <span class="slds-assistive-text">{rec.Title__c}</span>
+                        </span>
+                      </div>
+                      <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                          <a href="/Demo_Component__c/\{rec.Id}\/view" class="slds-card__header-link slds-truncate" title={rec.Title__c}>
+                            <span>{rec.Title__c}</span>
+                          </a>
+                        </h2>
+                      </div>
+                      <div class="slds-var-p-around_small lgc-bg">
+                        <lightning-button-menu alternative-text="Show menu">
+                            <lightning-menu-item value="Install as Source" href={rec.Source_Install_Url__c} label="Install as Source" if:true={rec.Source_Install_Type_Flag__c}></lightning-menu-item>
+                            <lightning-menu-item value="Install as Package" href={rec.Package_Install_Url__c} label="Install as Package" if:true={rec.Package_Install_Type_Flag__c}></lightning-menu-item>
+                        </lightning-button-menu>
+                      </div>
+                    </header>
+                  </div>
+                </article>
+              </template>
+          </template>
+          </div>
+        </template>
+      </template>
+    </template>
+  </template>
+</template>
