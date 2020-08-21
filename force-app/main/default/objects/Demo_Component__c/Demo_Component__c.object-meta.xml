@@ -159,14 +159,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Component</label>
+    <label>Demo Component</label>
     <nameField>
         <displayFormat>D-{00000}</displayFormat>
         <label>Component Number</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Components</pluralLabel>
+    <pluralLabel>Demo Components</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

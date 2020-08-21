@@ -287,6 +287,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Name</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>CreatedById</field>
             </layoutItems>
             <layoutItems>
@@ -349,7 +353,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h54000002WjxD</masterLabel>
+        <masterLabel>00hR0000002HtbW</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
