@@ -3,7 +3,7 @@
     <fullName>Installed_Packages</fullName>
     <columns>NAME</columns>
     <columns>Install_Date__c</columns>
-    <columns>Installed_Version__c</columns>
+    <columns>Package_Installed_Version_Number__c</columns>
     <columns>Title__c</columns>
     <columns>Update_Available__c</columns>
     <filterScope>Everything</filterScope>

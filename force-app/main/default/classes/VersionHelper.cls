@@ -19,8 +19,6 @@
 
 public with sharing class VersionHelper {
 
-    private static List<SFDXPackage> installedSFDXPackages;
-
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
@@ -93,6 +91,7 @@ public with sharing class VersionHelper {
                     if((boolean) thisPackageDirectory.get('default')){
                         packageName = (String)thisPackageDirectory.get('package');
                         gpbuPackage.Package_Name__c = packageName;
+                        gpbuPackage.SFDX_Package_Enabled_Flag__c = true; 
                         gpbuPackage.Latest_Package_Version_Name__c = thisPackageDirectory.containsKey('versionName') ? (String)thisPackageDirectory.get('versionName') : '';  
                         System.debug('found default package ' + packageName);
                         if(!demoConfigFileFlag){
@@ -111,7 +110,6 @@ public with sharing class VersionHelper {
 
                     //If no packageAliases are provided, this means there are no Unlocked or Managed Packages available
                     string latestVersion = '';
-                    gpbuPackage.Latest_Version__c = '0.1.0-1';
 
                     if(packageAliases != null && packageAliases.keySet().size() > 0){
                         System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
@@ -121,7 +119,6 @@ public with sharing class VersionHelper {
                             if(packageAliasKey.contains(packageName + '@')){
                                 System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
                                 latestVersion = packageAliasKey;
-                                gpbuPackage.Latest_Version__c = latestVersion.substring(latestVersion.indexOf('@')+1, latestVersion.length());
                                 gpbuPackage.Latest_Package_Version__c = latestVersion.substring(latestVersion.indexOf('@')+1, latestVersion.length());
                             } 
                         }  
@@ -159,7 +156,6 @@ public with sharing class VersionHelper {
                             gpbuPackage.Description__c = child.getText();
                         }else if(child.getName()=='version'){
                             System.debug('version: ' + child.getText());
-                            gpbuPackage.Latest_Version__c = child.getText();
                         }
                     }
                 }
@@ -441,7 +437,7 @@ public with sharing class VersionHelper {
             newGPBUPackage.Latest_Package_Version_Name__c = thisSubscriberPackageVersion.containsKey('Name') ? (String)thisSubscriberPackageVersion.get('Name') : '';  
             newGPBUPackage.Installed_Subscriber_Package_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
             newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
-            newGPBUPackage.Installed_Version__c = version;
+            newGPBUPackage.Package_Installed_Version_Number__c = version;
             newGPBUPackage.Installed__c = true;
             newGPBUPackage.Installation_Type__c = 'Managed Package';
 
