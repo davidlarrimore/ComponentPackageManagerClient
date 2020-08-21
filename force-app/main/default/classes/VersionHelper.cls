@@ -40,12 +40,12 @@ public with sharing class VersionHelper {
 
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
 
-        gpbuPackage.Github_repository__c = githubUrl;
+        gpbuPackage.Github_Repository_URL__c = githubUrl;
         gpbuPackage.Last_Fetched__c = Datetime.Now();
 
         //Preset Options. We assume we can at least do a Source install from a valid github repo
         gpbuPackage.Source_Install_Type_Flag__c = true;
-        gpbuPackage.SFDX_Install_Type_Flag__c = false; 
+        gpbuPackage.SFDX_Package_Enabled_Flag__c = false; 
         gpbuPackage.Package_Install_Type_Flag__c = false;
 
         Map<String, Object> results = new Map<String, Object>();
@@ -103,7 +103,7 @@ public with sharing class VersionHelper {
                     }
                 }
                 if (null != packageName  || packageName != ''){
-                    gpbuPackage.SFDX_Install_Type_Flag__c = true;
+                    gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
 
                     // Step 2: Check for packageAliases to see if we can use packaging model
                     System.debug('Grabbing packageAliases');
@@ -236,7 +236,7 @@ public with sharing class VersionHelper {
 
         //Preset Options. We assume we can at least do an install from a Package
         gpbuDependentPackage.Source_Install_Type_Flag__c = false;
-        gpbuDependentPackage.SFDX_Install_Type_Flag__c = false; 
+        gpbuDependentPackage.SFDX_Package_Enabled_Flag__c = false; 
         gpbuDependentPackage.Package_Install_Type_Flag__c = true;        
         gpbuDependentPackage.Latest_Subscriber_Package_Version_Id__c = SubscriberPackageVersionId;
 
@@ -376,7 +376,7 @@ public with sharing class VersionHelper {
 
         //Preset Options. We assume we can at least do an install from a Package
         newGPBUPackage.Source_Install_Type_Flag__c = false;
-        newGPBUPackage.SFDX_Install_Type_Flag__c = false; 
+        newGPBUPackage.SFDX_Package_Enabled_Flag__c = false; 
         newGPBUPackage.Package_Install_Type_Flag__c = true;        
         newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = SubscriberPackageVersionId;
         */

@@ -32,7 +32,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>packageInstaller</componentName>
+            <componentName>packageInstallerCard</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>

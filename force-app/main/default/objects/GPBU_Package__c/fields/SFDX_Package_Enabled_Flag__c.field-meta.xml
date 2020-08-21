@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>SFDX_Install_Type_Flag__c</fullName>
+    <fullName>SFDX_Package_Enabled_Flag__c</fullName>
     <defaultValue>false</defaultValue>
     <description>This is an SFDX Project that leverages Packages for versioning</description>
     <externalId>false</externalId>

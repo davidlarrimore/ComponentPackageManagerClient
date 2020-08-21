@@ -5,7 +5,7 @@ import NAME_FIELD from '@salesforce/schema/GPBU_Package__c.Name';
 import INSTALLED_FIELD from '@salesforce/schema/GPBU_Package__c.Installed__c';
 import SOURCE_INSTALL_TYPE_FLAG_FIELD from '@salesforce/schema/GPBU_Package__c.Source_Install_Type_Flag__c';
 import PACKAGE_INSTALL_TYPE_FLAG_FIELD from '@salesforce/schema/GPBU_Package__c.Package_Install_Type_Flag__c';
-import GITHUB_REPOSITORY_FIELD from '@salesforce/schema/GPBU_Package__c.Github_Repository__c';
+import GITHUB_REPOSITORY_FIELD from '@salesforce/schema/GPBU_Package__c.Github_Repository_URL__c';
 import LATEST_SUBSCRIBER_VERSION_ID_FIELD from '@salesforce/schema/GPBU_Package__c.Latest_Subscriber_Package_Version_Id__c';
 import INSTALL_KEY_FIELD from '@salesforce/schema/GPBU_Package__c.Install_Key__c';
 import SOURCE_INSTALL_URL_FIELD from '@salesforce/schema/GPBU_Package__c.Source_Install_Url__c';
@@ -16,14 +16,14 @@ const FIELDS = [
   'GPBU_Package__c.Installed__c',
   'GPBU_Package__c.Source_Install_Type_Flag__c',
   'GPBU_Package__c.Package_Install_Type_Flag__c',
-  'GPBU_Package__c.Github_Repository__c',
+  'GPBU_Package__c.Github_Repository_URL__c',
   'GPBU_Package__c.Latest_Subscriber_Package_Version_Id__c',
   'GPBU_Package__c.Install_Key__c',
   'GPBU_Package__c.Source_Install_Url__c',
   'GPBU_Package__c.Package_Install_Url__c'
 ]
 
-export default class PackageInstaller extends LightningElement {
+export default class PackageInstallerCard extends LightningElement {
   @api recordId;
   @track record;
   @track error;

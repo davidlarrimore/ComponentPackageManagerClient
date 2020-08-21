@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Latest_Tag_Version_Number__c</fullName>
-    <description>Version Number of the Latest Tag</description>
+    <fullName>Latest_Tag_Commit_DateTime__c</fullName>
+    <description>DateTime of Latest Tag</description>
     <externalId>false</externalId>
-    <label>Latest Tag Version Number</label>
-    <length>255</length>
+    <label>Latest Tag Commit DateTime</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>DateTime</type>
 </CustomField>
