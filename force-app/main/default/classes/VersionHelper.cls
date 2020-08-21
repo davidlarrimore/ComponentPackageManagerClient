@@ -3,8 +3,18 @@
  *Description: Manages data gathering to support Unlocked Package version and upgrade functions
  *hosted.scratch.herokuapp.com/byoo?template=GithubURL
  *Contact: dlarrimore@salesforce.com
+ *
+ * 
  */
-// 
+
+
+/* EXAMPLE TOOLING API CALLS
+ *
+ * Package Install Requests: /services/data/v48.0/tooling/query/?q=SELECT+Id+,CreatedDate+,SubscriberPackageVersionKey,+PackageInstallSource+,Status+FROM+PackageInstallRequest
+ * 
+ * 
+ * 
+ */
 
 
 public with sharing class VersionHelper {
@@ -390,8 +400,6 @@ public with sharing class VersionHelper {
 
             thisSubscriberPackage = (Map<String,Object>) thisRecord.get('SubscriberPackage');
             thisSubscriberPackageVersion = (Map<String,Object>) thisRecord.get('SubscriberPackageVersion');
-
-
 
             GPBU_Package__c newGPBUPackage = new GPBU_Package__c();
             Boolean packageExistsFlag = false;
