@@ -1,6 +1,38 @@
 public with sharing class GithubAPIHelper {
 
 
+    public class DemoConfigDotJSON {
+        public String name;
+        public String description;
+        public String author;
+        public String alias;
+        public String packageType;
+        public String permissionSet;
+        public Boolean disableSourceInstall;             
+        public Boolean disablePackageInstall;
+        public List<map<string,string>> dependencies;
+        public String errorFlag;
+        public String errorMessage;
+    }
+    public class SFDXProjectDotJSON {
+        List<PackageDirectory> packageDirectories;
+        public String namespace;
+        public string sfdcLoginUrl;
+        public String sourceApiVersion;
+        public String errorFlag;
+        public String errorMessage;
+        public map<string,string> packageAliases;
+    }
+
+    public class PackageDirectory {
+        public String path;
+        public Boolean defaultDirectory;
+        public String packageName;
+        public String versionName;
+        public String versionNumber;
+        public List<map<string,string>> dependencies;
+    }
+
     public static String convertToRawGithubUrl(String githubUrl, String contentName){
         system.debug('Running convertToRawGithubUrl against URL:' + githubUrl);
         String rawGithubUrl = '';
@@ -38,6 +70,26 @@ public with sharing class GithubAPIHelper {
         String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
         return (Map<String,Object>) APIHelper.doRestRequest(newGithubUrl, false);
     }
+    
+
+    public static SFDXProjectDotJSON getGithubSFDXProjectDotJSONTWo(String githubUrl){
+        system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
+        String newGithubUrl = GithubAPIHelper.convertToRawGithubUrl(githubUrl, 'sfdx-project.json');
+        String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
+        //SFDXProjectDotJSON configFile = new SFDXProjectDotJSON();
+
+        // Parse entire JSON response.
+        String JSONResponse = APIHelper.doRestRequestJSON(newGithubUrl, false);
+
+        JSONResponse = JSONResponse.replace('"package":', '"packageName":');
+        system.debug('Processing JSON: ' + JSONResponse);
+        SFDXProjectDotJSON configFile =(SFDXProjectDotJSON)System.JSON.deserialize(JSONResponse, SFDXProjectDotJSON.class);
+        system.debug('ConfigFile: ' + configFile);
+
+        return configFile;
+    }
+
+
 
     public static Map<String,Object> getGithubDemoConfigDotJSON(String githubUrl){
         system.debug('Running getGithubDemoConfigDotJSON against URL:' + githubUrl);
@@ -72,5 +124,6 @@ public with sharing class GithubAPIHelper {
             return null;
         }          
     }
+
 
 }
