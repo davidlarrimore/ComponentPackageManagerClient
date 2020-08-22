@@ -8,15 +8,6 @@
  */
 
 
-/* EXAMPLE TOOLING API CALLS
- *
- * Package Install Requests: /services/data/v48.0/tooling/query/?q=SELECT+Id+,CreatedDate+,SubscriberPackageVersionKey,+PackageInstallSource+,Status+FROM+PackageInstallRequest
- * 
- * 
- * 
- */
-
-
 public with sharing class VersionHelper {
 
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
@@ -49,13 +40,13 @@ public with sharing class VersionHelper {
         Map<String, Object> results = new Map<String, Object>();
         System.debug('Attempting to grab sfdx-project.json from: ' + githubUrl);
 
-        results = VersionHelper.getGithubSFDXProjectDotJSON(githubUrl);
+        results = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
 
         //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
         if (null != results){
             System.debug('Looking for Demo Config JSON file');
-            Map<String, Object> demoConfigDotJSONresults = VersionHelper.getGithubDemoConfigDotJSON(githubUrl);
+            Map<String, Object> demoConfigDotJSONresults = GithubAPIHelper.getGithubDemoConfigDotJSON(githubUrl);
             //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
             if (null != demoConfigDotJSONresults){
                 demoConfigFileFlag = true;
@@ -141,7 +132,7 @@ public with sharing class VersionHelper {
         //If the sfdx-package.json model did not work, we have another way. Older Project Types have a package.xml file in the /src directory
         if(null == results || packageName == '' || packageName == null){
             System.debug('Could not find sfdx-project.json, looking in src folder for package.xml');
-            Dom.Document doc = VersionHelper.getGithubSFDXProjectDotXML(githubUrl);
+            Dom.Document doc = GithubAPIHelper.getGithubSFDXProjectDotXML(githubUrl);
             if (null != doc){
                 //Retrieve the root element for this document.
                 Dom.XMLNode rootXMLNode = doc.getRootElement();
@@ -238,7 +229,7 @@ public with sharing class VersionHelper {
 
         String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+SubscriberPackageVersionId + '\'';
         Map<String,Object> results = new Map<String,Object>();
-        results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
 
         List<Object> records = new List<Object>();
         records = (List<Object>) results.get('records');
@@ -264,7 +255,7 @@ public with sharing class VersionHelper {
 
         query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuDependentPackage.Subscriber_Package_Id__c + '\'';
         
-        results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
         records = (List<Object>) results.get('records');
 
         system.debug('SubscriberPackage Records:' + records);
@@ -297,9 +288,6 @@ public with sharing class VersionHelper {
 
 
 
-
-
-
     //Updates Package Name and Subscriber Id from the Tooling API based upon its Subscriber Version ID
     @future(callout = true)
     public static void updatePackageFromSubscriberPackageVersionId(String gpbuPackageId){
@@ -314,7 +302,7 @@ public with sharing class VersionHelper {
             System.debug('Running Metadata API using the following query: ' + query); 
             Map<String,Object> results = new Map<String,Object>();
             
-            results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+            results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
 
             List<Object> records = new List<Object>();
             records = (List<Object>) results.get('records');
@@ -340,7 +328,7 @@ public with sharing class VersionHelper {
 
 
             query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuPackage[0].Subscriber_Package_Id__c + '\'';
-            results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+            results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
             records = (List<Object>) results.get('records');
 
             system.debug('SubscriberPackage Records:' + records);
@@ -381,7 +369,7 @@ public with sharing class VersionHelper {
         String query = 'SELECT+Id,+SubscriberPackageId,+SubscriberPackage.NamespacePrefix,+++++++SubscriberPackage.Name,+++++++SubscriberPackage.Description,+SubscriberPackageVersion.Id,+++++++SubscriberPackageVersion.Name,+SubscriberPackageVersion.MajorVersion,+++++++SubscriberPackageVersion.MinorVersion,+++++++SubscriberPackageVersion.PatchVersion,+++++++SubscriberPackageVersion.BuildNumber++++FROM+InstalledSubscriberPackage++++ORDER+BY+SubscriberPackageId';
         
         Map<String,Object> results = new Map<String,Object>();
-        results = (Map<String,Object>) VersionHelper.getMetadataAPI(query);
+        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
 
         List<Object> records = new List<Object>();
         records = (List<Object>) results.get('records');
@@ -450,192 +438,5 @@ public with sharing class VersionHelper {
         upsert newGPBUPackages;
 
     }
-
-
-    
-/*
-
-    //Grabs information on all installed packages
-    public static List<SFDXPackage> getInstalledPackages(){
-        String query = 'query='SELECT+Id+,SubscriberPackage.Name+,SubscriberPackage.Id+,SubscriberPackage.NamespacePrefix+,SubscriberPackageVersion.Name+,SubscriberPackageVersion.BuildNumber+,SubscriberPackageVersion.Id+,SubscriberPackageVersion.MajorVersion+,SubscriberPackageVersion.MinorVersion+,SubscriberPackageVersion.PatchVersion+FROM+InstalledSubscriberPackage';
-        
-        List<Object> records = (List<Object>) VersionHelper.getMetadataAPI(query);
-        
-        system.debug('Records:' + records);
-        List<SFDXPackage> SFDXPackages = new List<SFDXPackage>();
-
-        for(Object thisRecord: records){
-            SFDXPackage newSFDXPackage = new SFDXPackage();
-            Map<String, Object> ThisPackage = (Map<String, Object>) thisRecord;
-            Map<String, Object> ThisSubscriberPackage = (Map<String, Object>) ThisPackage.get('SubscriberPackage');
-            Map<String, Object> ThisSubscriberPackageVersion = (Map<String, Object>) ThisPackage.get('SubscriberPackageVersion');
-
-            newSFDXPackage.PackageId = (String)ThisPackage.get('Id');
-            newSFDXPackage.SubscriberPackageVersionId = (String)ThisPackage.get('SubscriberPackageVersionId');
-            newSFDXPackage.SubscriberPackageId = (String)ThisPackage.get('SubscriberPackageId');
-            newSFDXPackage.SubscriberPackageName = (String)ThisSubscriberPackage.get('Name');               
-            
-            system.debug('Record:' + thisRecord);
-            system.debug('PackageId = ' + newSFDXPackage.PackageId); 
-            system.debug('PackageName = ' + newSFDXPackage.SubscriberPackageName); 
-            system.debug('SubscriberPackageVersionId = ' + newSFDXPackage.SubscriberPackageVersionId); 
-            system.debug('SubscriberPackageId = ' + newSFDXPackage.SubscriberPackageId); 
-            
-            SFDXPackages.add(newSFDXPackage);
-        }          
-        
-        System.debug(records);
-        return SFDXPackages;
-    }
-
-*/
-
-
-    //query='SELECT+Id+,SubscriberPackage.Name+,SubscriberPackage.Id+,SubscriberPackage.NamespacePrefix+,SubscriberPackageVersion.Name+,SubscriberPackageVersion.BuildNumber+,SubscriberPackageVersion.Id+,SubscriberPackageVersion.MajorVersion+,SubscriberPackageVersion.MinorVersion+,SubscriberPackageVersion.PatchVersion+FROM+InstalledSubscriberPackage';
-    //string query='SELECT+Id+FROM+InstalledSubscriberPackage';
-    public static Map<String,Object> getMetadataAPI(String query){
-        system.debug('Running getMetadataAPI');
-        system.debug('Query is ' + query);
-        String SFdomainUrl=URL.getOrgDomainUrl().toExternalForm();
-        String Url = SFdomainUrl+'/services/data/v48.0/tooling/query/?q='+query;
-        return (Map<String,Object>) VersionHelper.doRestRequest(url, true);
-    }
-
-
-    public static Map<String,Object> doRestRequest(String url, Boolean auth){
-        system.debug('Running getRestRequest');
-        system.debug('URL is ' + url);
-
-        HttpRequest request = new HttpRequest();
-        if(auth){
-            request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
-        }
-        request.setHeader('Content-Type', 'application/json');
-
-        request.setEndpoint(url); 
-        request.setMethod('GET');   
-          
-        try{
-
-            Http http = new Http();
-            HttpResponse response = http.send(request);
-
-            if (response.getStatusCode() == 200) {
-                // Deserialize the JSON string into collections of primitive data types.
-                system.debug('Success!');
-                system.debug('Response: ' + response.getBody());
-                return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            }else{
-                system.debug('Request failed. Status Code: ' + response.getStatusCode());
-                return null;
-            }
-
-        }catch(Exception e){
-            system.debug('Error Running HTTP Request: ' + e);
-            return null;
-        }  
-    }
-
-
-    public static Map<String,Object> getGithubSFDXProjectDotJSON(String githubUrl){
-        system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
-        String rawGithubUrl = '';
-        String newGithubUrl = '';
-
-        if(githubUrl.indexOf('www.github.com') > 0){
-            rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
-        }else{
-            rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
-        }
-
-        if(rawGithubUrl.contains('master')){
-            system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
-            rawGithubUrl = rawGithubUrl.replace('/tree', '');
-            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
-        }else{
-            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
-        }
-
-        system.debug('Converted URL to ' + newGithubUrl);
-
-        String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
-        return (Map<String,Object>) VersionHelper.doRestRequest(newGithubUrl, false);
-    }
-
-
-    public static Map<String,Object> getGithubDemoConfigDotJSON(String githubUrl){
-        system.debug('Running getGithubDemoConfigDotJSON against URL:' + githubUrl);
-        String rawGithubUrl = '';
-        String newGithubUrl = '';
-
-        if(githubUrl.indexOf('www.github.com') > 0){
-            rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
-        }else{
-            rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
-        }
-
-        if(rawGithubUrl.contains('master')){
-            system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
-            rawGithubUrl = rawGithubUrl.replace('/tree', '');
-            newGithubUrl = rawGithubUrl + '/demo-config.json';
-        }else{
-            newGithubUrl = rawGithubUrl + '/master/demo-config.json';
-        }
-
-        system.debug('Converted URL to ' + newGithubUrl);
-
-        String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
-        return (Map<String,Object>) VersionHelper.doRestRequest(newGithubUrl, false);
-    }
-
-
-
-    //For older packages (PRE SFDX), we can try to grab the /src/package.xml
-    public static Dom.Document getGithubSFDXProjectDotXML(String githubUrl){
-        system.debug('Running getGithubSFDXProjectDotXML against URL:' + githubUrl);
-        String rawGithubUrl = '';
-        String newGithubUrl = '';
-        if(githubUrl.indexOf('www.github.com') > 0){
-            rawGithubUrl = githubUrl.replace('www.github', 'raw.githubusercontent.com');
-        }else{
-            rawGithubUrl = githubUrl.replace('github.com', 'raw.githubusercontent.com');
-        }
-        
-        if(rawGithubUrl.contains('master')){
-            system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
-            rawGithubUrl = rawGithubUrl.replace('/tree', '');
-            newGithubUrl = rawGithubUrl + '/sfdx-project.json';
-        }else{
-            newGithubUrl = rawGithubUrl + '/master/sfdx-project.json';
-        }
-
-        system.debug('Converted URL to ' + newGithubUrl);
-        
-
-
-        try{        
-            Http http = new Http();
-            HttpRequest request = new HttpRequest();
-
-            request.setEndpoint(newGithubUrl);
-
-            request.setMethod('GET');
-            HttpResponse response = http.send(request);
-            // If the request is successful, parse the JSON response.
-            if (response.getStatusCode() == 200) {
-                // Deserialize the JSON string into collections of primitive data types.
-                return response.getBodyDocument();
-            }else{
-                return null;
-            }
-        }catch(Exception e){
-            system.debug('Error Running API: ' + e);
-            return null;
-        }          
-    }
-
-
-
-    
 
 }
