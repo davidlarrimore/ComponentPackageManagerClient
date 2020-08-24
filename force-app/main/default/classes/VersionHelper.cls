@@ -19,13 +19,10 @@ public with sharing class VersionHelper {
         List<String> versions = new List<String>();
         
         Boolean demoConfigFileFlag = false;
-        String packageName = '';
 
         Demo_Component__c gpbuPackage = new Demo_Component__c();
-        gpbuPackage.Title__c = '';
 
         //@TODO: add the ability to find the package.xml in a child directory
-        String sourcePath = '';
 
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
 
@@ -37,126 +34,95 @@ public with sharing class VersionHelper {
         gpbuPackage.SFDX_Package_Enabled_Flag__c = false; 
         gpbuPackage.Package_Install_Type_Flag__c = false;
 
-        Map<String, Object> results = new Map<String, Object>();
-        System.debug('Attempting to grab sfdx-project.json from: ' + githubUrl);
+        System.debug('Attempting to grab component-config.json from: ' + githubUrl);
+        GithubAPIHelper.ComponentConfigDotJSON componentConfig = GithubAPIHelper.getGithubComponentConfigDotJSON(githubUrl);
+        
+        if(componentConfig != null){
+            demoConfigFileFlag = true;
+            gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
 
-        results = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
+            gpbuPackage.Title__c = componentConfig.name;
+            gpbuPackage.Description__c = componentConfig.description != null ? componentConfig.description : '';
+            gpbuPackage.POC_Name__c = componentConfig.author != null ? componentConfig.author : '';
+            gpbuPackage.POC_Email__c = componentConfig.authorEmail != null  ? componentConfig.authorEmail : '';
+            gpbuPackage.Admin_Permission_Set__c = componentConfig.permissionSet != null ? componentConfig.permissionSet  : '';
+            gpbuPackage.SFDX_Package_Name__c = componentConfig.name;
 
-        //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-
-        if (null != results){
-            System.debug('Looking for Demo Config JSON file');
-            Map<String, Object> demoConfigDotJSONresults = GithubAPIHelper.getGithubDemoConfigDotJSON(githubUrl);
-            //return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            if (null != demoConfigDotJSONresults){
-                demoConfigFileFlag = true;
-                gpbuPackage.Title__c = demoConfigDotJSONresults.containsKey('name') ? (String)demoConfigDotJSONresults.get('name') : '';
-                gpbuPackage.Description__c = demoConfigDotJSONresults.containsKey('description') ? (String)demoConfigDotJSONresults.get('description') : '';
-                gpbuPackage.POC_Name__c = demoConfigDotJSONresults.containsKey('author') ? (String)demoConfigDotJSONresults.get('author') : '';
-                gpbuPackage.POC_Email__c = demoConfigDotJSONresults.containsKey('authorEmail') ? (String)demoConfigDotJSONresults.get('authorEmail') : '';
-                gpbuPackage.Admin_Permission_Set__c = demoConfigDotJSONresults.containsKey('permissionSet') ? (String)demoConfigDotJSONresults.get('permissionSet') : '';
-                gpbuPackage.Package_Name__c = packageName;
-                //Grabing Package Dependencies
-                if(demoConfigDotJSONresults.containsKey('dependencies')){
-                    for(Object dependencies: (List<Object>)demoConfigDotJSONresults.get('dependencies')){
-                        Map<String, Object> thisDependencies = (Map<String,Object>) dependencies;
-                        dependentPackageSubscriberPackageVersionIds.add((String)thisDependencies.get('package'));
+            //Processing Dependencies
+            if(componentConfig.dependencies != null){
+                for(Map<String,String> thisDependency: (List<map<string,string>>) componentConfig.dependencies){
+                    if(thisDependency.containsKey('packageName')){
+                        dependentPackageSubscriberPackageVersionIds.add((String)thisDependency.get('packageName'));
                     }
-                     System.debug('Found some dependent Packages, will address later: ' + dependentPackageSubscriberPackageVersionIds);
                 }
+                 System.debug('Found some dependent Packages in component-config.json, will address later: ' + dependentPackageSubscriberPackageVersionIds);
+            }
+            if(componentConfig.disableSourceInstall && componentConfig.disableSourceInstall == true){
+                gpbuPackage.Source_Install_Type_Flag__c = false;                   
+            }
+        }
 
-                if(demoConfigDotJSONresults.containsKey('disableSourceInstall') && (Boolean)demoConfigDotJSONresults.get('disableSourceInstall') == true){
-                    gpbuPackage.Source_Install_Type_Flag__c = false;                   
-                }
+
+
+        System.debug('Attempting to grab sfdx-project.json from: ' + githubUrl);
+        GithubAPIHelper.SFDXProjectDotJSON componentSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
+        if(componentSFDXProjectDotJSON != null){
+            System.debug('found sfdx-project.json, processing...');
+
+            if(!demoConfigFileFlag){
+                gpbuPackage.Source_Install_Type_Flag__c = true; 
             }
 
-
-            /* SFDX-project.json Package Lookup Model */
-            // Step 1: Get Package name from "Default" project
-            System.debug('Grabbing packageDirectories');
-            List<Object> packageDirectories = (List<Object>) results.get('packageDirectories');
-            if (packageDirectories != null && packageDirectories.size() > 0){
-                System.debug('found ' + packageDirectories.size() + ' packageDirectories');
-                for(Object packageDirectory: packageDirectories){
-                    Map<String,Object> thisPackageDirectory = (Map<String,Object>) packageDirectory;
-                    if((boolean) thisPackageDirectory.get('default')){
-                        packageName = (String)thisPackageDirectory.get('package');
-                        gpbuPackage.Package_Name__c = packageName;
-                        gpbuPackage.SFDX_Package_Enabled_Flag__c = true; 
-                        gpbuPackage.Latest_Package_Version_Name__c = thisPackageDirectory.containsKey('versionName') ? (String)thisPackageDirectory.get('versionName') : '';  
-                        System.debug('found default package ' + packageName);
-                        if(!demoConfigFileFlag){
-                            //No demo config file found, using the Package Name as the name of the GPBU package Record
-                            gpbuPackage.Title__c =  packageName;
-                            gpbuPackage.Description__c = thisPackageDirectory.containsKey('description') && gpbuPackage.Description__c == '' ? (String)thisPackageDirectory.get('description') : '';
-                        }  
-                    }
-                }
-                if (null != packageName  || packageName != ''){
-                    gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
-
-                    // Step 2: Check for packageAliases to see if we can use packaging model
-                    System.debug('Grabbing packageAliases');
-                    Map<String,Object> packageAliases = (Map<String,Object>) results.get('packageAliases');
-
-                    //If no packageAliases are provided, this means there are no Unlocked or Managed Packages available
-                    string latestVersion = '';
-
-                    if(packageAliases != null && packageAliases.keySet().size() > 0){
-                        System.debug('found ' + packageAliases.keySet().size() + ' packageAliases');
-                        for (String packageAliasKey: packageAliases.keySet()){
-                            //PackageName = 'Demo Reset Tools'
-                            System.debug('Analyzing packageAliasKey ' + packageAliasKey);
-                            if(packageAliasKey.contains(packageName + '@')){
-                                System.debug('packageAliases ' + packageAliasKey + ' is for the default packageDirectory.');
-                                latestVersion = packageAliasKey;
-                                gpbuPackage.Latest_Package_Version__c = latestVersion.substring(latestVersion.indexOf('@')+1, latestVersion.length());
-                            } 
-                        }  
-                        gpbuPackage.Latest_Subscriber_Package_Version_Id__c = (String) packageAliases.get(latestVersion);
-
-                        System.debug('Latest version of package ' + packageName + ' is ' + latestVersion);
+            //Processing dependencies
+            if(componentSFDXProjectDotJSON.packageDirectories != null){
+                gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
+                for(GithubAPIHelper.PackageDirectory thisPackageDirectory: (List<GithubAPIHelper.PackageDirectory>) componentSFDXProjectDotJSON.packageDirectories){
+                    if(thisPackageDirectory.defaultDirectory == true){
+                        System.debug('Found the default package directory');
                         gpbuPackage.Package_Install_Type_Flag__c = true;
 
-                    }else{
-                        System.debug('no packageAliases found, Source is only install option. Using Github Repo Name as the title');
-                        //No Packages found, we just use the Github Repo Name as the title
-                        packageName = githubUrl.substring(githubUrl.lastIndexOf('/')+1, githubUrl.length());
-                        gpbuPackage.Title__c =  packageName;
-                    }
-                }
-            }
-        }
-
-
-        //If the sfdx-package.json model did not work, we have another way. Older Project Types have a package.xml file in the /src directory
-        if(null == results || packageName == '' || packageName == null){
-            System.debug('Could not find sfdx-project.json, looking in src folder for package.xml');
-            Dom.Document doc = GithubAPIHelper.getGithubSFDXProjectDotXML(githubUrl);
-            if (null != doc){
-                //Retrieve the root element for this document.
-                Dom.XMLNode rootXMLNode = doc.getRootElement();
-                
-                for (Dom.XMLNode child: rootXMLNode.getChildElements()) {
-                    if (child.getNodeType() == DOM.XMLNodeType.ELEMENT) {
-                        if(child.getName()=='fullName'){
-                            System.debug('fullName: ' + child.getText());
-                            packageName = child.getText();
-                        }else if(child.getName()=='description'){
-                            System.debug('description: ' + child.getText());
-                            gpbuPackage.Description__c = child.getText();
-                        }else if(child.getName()=='version'){
-                            System.debug('version: ' + child.getText());
+                        if(!demoConfigFileFlag){
+                            gpbuPackage.Title__c = thisPackageDirectory.packageName;  
                         }
+
+                        //Processing Dependencies
+                        if(thisPackageDirectory.dependencies == null){
+                            for(Map<String,String> thisDependency: (List<map<string,string>>) thisPackageDirectory.dependencies){
+                                if(thisDependency.containsKey('packageName')){
+                                    dependentPackageSubscriberPackageVersionIds.add((String)thisDependency.get('packageName'));
+                                }
+                            }
+                            System.debug('Found some dependent Packages in SFDX-Project.json, will address later: ' + dependentPackageSubscriberPackageVersionIds);
+                        }
+
+                        gpbuPackage.SFDX_Package_Name__c = thisPackageDirectory.packageName;
+                        gpbuPackage.Latest_SFDX_Package_Version_Name__c = thisPackageDirectory.versionName;
+                        gpbuPackage.Latest_SFDX_Package_Version_Description__c = thisPackageDirectory.versionDescription;
+
+                    }else{
+                        System.debug('This is not the default package directory, skipping');
                     }
                 }
-            }else{
-                return null;
+
+
+                //Processing Dependencies
+                if(componentSFDXProjectDotJSON.packageAliases != null){
+                    for (String packageAlias : componentSFDXProjectDotJSON.packageAliases.keySet()){
+                        System.debug('Processing packageAlias ' + packageAlias + ' : ' + componentSFDXProjectDotJSON.packageAliases.get(packageAlias));
+                        gpbuPackage.Latest_SFDX_Package_Alias__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
+                        gpbuPackage.Latest_Subscriber_Package_Version_Id__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
+                    }
+
+                }
             }
-        }
+        }   
+
+
+        //TODO: Check for Package.XML (Low Priority)
+
 
         System.debug('Seeing if Package already exists');
-        List<Demo_Component__c> existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Title__c  = :gpbuPackage.Title__c LIMIT 1];
+        List<Demo_Component__c> existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Github_Repository_URL__c  = :githubUrl LIMIT 1];
         if(existingPackageLookup.size() > 0){
             System.debug('Package already exists, adding Id and updating');
             gpbuPackage.Id = existingPackageLookup[0].Id;
