@@ -213,14 +213,7 @@
             <targetReference>Get_Github_URL_Screen</targetReference>
         </connector>
     </start>
-    <status>Active</status>
-    <variables>
-        <name>githubURLs</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>true</isOutput>
-    </variables>
+    <status>Draft</status>
     <variables>
         <name>demoComponent</name>
         <dataType>SObject</dataType>
@@ -228,5 +221,12 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Demo_Component__c</objectType>
+    </variables>
+    <variables>
+        <name>githubURLs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
 </Flow>

@@ -114,7 +114,10 @@ public with sharing class VersionHelper {
                     gpbuPackage.Latest_Subscriber_Package_Version_Id__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
                 }
             }
-        }  
+        }else{
+            System.debug('Until we get the Package.XML lookup stuff working, we cannot process a repo without at least an sfdx-project.json');
+            return null;
+        }
 
         if(!gpbuPackage.SFDX_Package_Enabled_Flag__c){
             System.debug('Not a SFDX Based project, defaulting project name to Github Repo Name');
