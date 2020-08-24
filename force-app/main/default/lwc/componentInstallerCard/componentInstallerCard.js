@@ -84,11 +84,15 @@ export default class ComponentInstallerCard extends LightningElement {
       var obj = this.record2[i];
       console.log('Dependency Number ' + i + ', Id: ' + obj.Id);
       if(obj.Installed__c == false){
+        console.log('canInstallPackageFlag is false');
         return false;
       }
     }
+       console.log('canInstallPackageFlag is true');
       return true;
   } 
+
+
 
   greeting = 'World';
   changeHandler(event) {

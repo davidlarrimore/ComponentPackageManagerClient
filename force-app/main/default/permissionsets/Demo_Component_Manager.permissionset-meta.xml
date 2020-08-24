@@ -231,6 +231,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Demo_Component__c.Source_Installed_Commit_Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Demo_Component__c.Source_Installed_Commit_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>

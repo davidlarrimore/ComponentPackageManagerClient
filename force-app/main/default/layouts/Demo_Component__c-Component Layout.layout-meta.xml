@@ -260,6 +260,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Source_Installed_Tag_Hash__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Source_Installed_Tag_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -270,11 +274,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Source_Installed_Tag_Hash__c</field>
+                <field>Source_Installed_Commit_Hash__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Source_Installed_Commit_Hash__c</field>
+                <behavior>Edit</behavior>
+                <field>Source_Installed_Commit_Description__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -353,7 +357,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hR0000002HtbW</masterLabel>
+        <masterLabel>00h1F000002ZMsI</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

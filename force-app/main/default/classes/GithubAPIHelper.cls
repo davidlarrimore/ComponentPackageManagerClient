@@ -69,21 +69,20 @@ public with sharing class GithubAPIHelper {
         public String url;
         public GithubCommitInfo commitInfo;
         public Boolean latestCommitFlag;
+        public GithubCommitAuthor author;
     }
+
+    public class GithubCommitAuthor {
+        public String login;
+        public String id;
+        public String url;
+        public String type;
+    }    
 
     public class GithubCommitInfo {
-        public String sha;
-        public String node_id;
         public GithubCommitInfoCommiter committer;
-        public GithubCommitInfoAuthor author;
         public String message;
     }
-
-    public class GithubCommitInfoAuthor {
-        public String authorName;
-        public String email;
-        public DateTime commitDate;
-    }    
 
     public class GithubCommitInfoCommiter {
         public String name;
@@ -94,6 +93,8 @@ public with sharing class GithubAPIHelper {
     public class GithubTag {
         public String name;
         public GithubCommit githubCommit;
+        public Boolean latestTagFlag;
+        public DateTime tagDate;
     }
 
     public static String convertToRawGithubUrl(String githubUrl, String contentName){
@@ -214,6 +215,7 @@ public with sharing class GithubAPIHelper {
     }
 
     /* 
+    * Get All commits
     * Get Base Repo Info from Github API: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management
     * Get Commits: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits
     * Get Tags: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/tags
@@ -251,7 +253,6 @@ public with sharing class GithubAPIHelper {
                 for(GithubCommit thisCommit: githubCommits){
                     if(NewestCommitDateTime == thisCommit.commitInfo.committer.commitDate){
                         thisCommit.latestCommitFlag = true;
-                        NewestCommitDateTime = thisCommit.commitInfo.committer.commitDate;
                     }
                 }
                 system.debug(githubCommits);
@@ -263,6 +264,36 @@ public with sharing class GithubAPIHelper {
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
+
+    /* 
+    * Get individual commit
+    */
+    public static GithubCommit getGithubCommit(String commitUrl){
+        system.debug('Running getGithubCommit against URL:' + commitUrl);
+
+        //get JSON String
+        String JSONResponse = APIHelper.doRestRequestJSON(commitUrl, false);
+
+        if(JSONResponse != null){
+            //Changing Reserved words
+            JSONResponse = JSONResponse.replace('"commit":', '"commitInfo":');
+            JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
+
+            system.debug('Processing JSON: ' + JSONResponse);
+            List<GithubCommit> githubCommits = (List<GithubCommit>)System.JSON.deserialize(JSONResponse, List<GithubCommit>.class);
+
+            if(githubCommits != null){
+                system.debug(githubCommits[0]);
+                return githubCommits[0];
+            }
+            return null;
+        }
+
+        system.debug('There was an issue with the doRestRequestJSON');
+        return null;
+    }
+
+
 
     public static List<GithubTag> getGithubTags(String githubUrl){
         system.debug('Running getGithubTags against URL:' + githubUrl);
@@ -279,11 +310,46 @@ public with sharing class GithubAPIHelper {
             system.debug('Processing JSON: ' + JSONResponse);
             List<GithubTag> githubTags = (List<GithubTag>)System.JSON.deserialize(JSONResponse, List<GithubTag>.class);
 
-            DateTime NewestCommitDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
-
-            if(githubTags != null){
+            if(githubTags != null && githubTags.size() > 0){
                 system.debug(githubTags);
-                return githubTags;
+                system.debug('Found Tags, grabbing commits');
+
+                List<GithubCommit> githubCommits = GithubAPIHelper.getGithubCommits(githubUrl);
+
+                if(githubCommits != null && githubCommits.size() > 0){
+                    system.debug(githubTags);
+                    system.debug('Found Commits, processing');
+                    for(GithubTag githubTag: githubTags){
+                        for(GithubCommit githubCommit: githubCommits){
+                            if(githubTag.githubCommit.sha == githubCommit.sha){
+                                system.debug('Commit matches tag, merging');
+                                githubTag.githubCommit = githubCommit;
+                                githubTag.tagDate = githubCommit.commitInfo.committer.commitDate;
+                            }
+                        }                        
+                    }
+                    system.debug('Now finding latest tag');
+                    if(githubCommits.size() == 1){
+                        system.debug('Only 1 tag, defaulting to latest');
+                        githubTags[0].latestTagFlag = true;
+                    }else{
+                        DateTime NewestTagDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
+                        for(GithubTag githubTag: githubTags){
+                            if(NewestTagDateTime < githubTag.tagDate){
+                                NewestTagDateTime = githubTag.tagDate;
+                            }              
+                        }
+                        system.debug('Latest tag date is: ' + NewestTagDateTime + '. now setting it as latest tag flag');
+                        for(GithubTag githubTag: githubTags){
+                            if(NewestTagDateTime == githubTag.tagDate){
+                                githubTag.latestTagFlag = true;
+                            }
+                        }
+                    }
+                    
+                    return githubTags;
+                }
+
             }
             return null;
         }

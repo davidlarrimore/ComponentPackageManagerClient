@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Source_Install_Url__c</fullName>
+    <fullName>Source_Installed_Commit_Description__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(Source_Install_Type_Flag__c,&apos;https://gpbu-deployer.herokuapp.com/byoo?template=&apos; + Github_Repository_URL__c, &apos;N/A&apos;)</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Source Install Url</label>
+    <label>Source Installed Commit Description</label>
+    <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

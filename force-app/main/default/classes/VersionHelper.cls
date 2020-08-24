@@ -19,6 +19,8 @@ public with sharing class VersionHelper {
         List<String> versions = new List<String>();
         
         Boolean demoConfigFileFlag = false;
+        Boolean subRepoFlag = githubUrl.contains('master') ? true : false;
+
 
         Demo_Component__c gpbuPackage = new Demo_Component__c();
 
@@ -27,6 +29,7 @@ public with sharing class VersionHelper {
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
 
         gpbuPackage.Github_Repository_URL__c = githubUrl;
+        gpbuPackage.Description__c = '';
         gpbuPackage.Last_Fetched__c = Datetime.Now();
 
         //Preset Options. We assume we can at least do a Source install from a valid github repo
@@ -74,7 +77,8 @@ public with sharing class VersionHelper {
             }
 
             //Processing dependencies
-            if(componentSFDXProjectDotJSON.packageDirectories != null){
+            if(componentSFDXProjectDotJSON.packageAliases != null){
+                System.debug('this is an SFDX deployed Project, processing');
                 gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
                 for(GithubAPIHelper.PackageDirectory thisPackageDirectory: (List<GithubAPIHelper.PackageDirectory>) componentSFDXProjectDotJSON.packageDirectories){
                     if(thisPackageDirectory.defaultDirectory == true){
@@ -86,7 +90,7 @@ public with sharing class VersionHelper {
                         }
 
                         //Processing Dependencies
-                        if(thisPackageDirectory.dependencies == null){
+                        if(dependentPackageSubscriberPackageVersionIds.size() < 1 && thisPackageDirectory.dependencies != null && thisPackageDirectory.dependencies.size() > 0){
                             for(Map<String,String> thisDependency: (List<map<string,string>>) thisPackageDirectory.dependencies){
                                 if(thisDependency.containsKey('packageName')){
                                     dependentPackageSubscriberPackageVersionIds.add((String)thisDependency.get('packageName'));
@@ -104,19 +108,21 @@ public with sharing class VersionHelper {
                     }
                 }
 
-
-                //Processing Dependencies
-                if(componentSFDXProjectDotJSON.packageAliases != null){
-                    for (String packageAlias : componentSFDXProjectDotJSON.packageAliases.keySet()){
-                        System.debug('Processing packageAlias ' + packageAlias + ' : ' + componentSFDXProjectDotJSON.packageAliases.get(packageAlias));
-                        gpbuPackage.Latest_SFDX_Package_Alias__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
-                        gpbuPackage.Latest_Subscriber_Package_Version_Id__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
-                    }
-
+                for (String packageAlias : componentSFDXProjectDotJSON.packageAliases.keySet()){
+                    System.debug('Processing packageAlias ' + packageAlias + ' : ' + componentSFDXProjectDotJSON.packageAliases.get(packageAlias));
+                    gpbuPackage.Latest_SFDX_Package_Alias__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
+                    gpbuPackage.Latest_Subscriber_Package_Version_Id__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
                 }
             }
-        }   
+        }  
 
+        if(!gpbuPackage.SFDX_Package_Enabled_Flag__c){
+            System.debug('Not a SFDX Based project, defaulting project name to Github Repo Name');
+            String tempName = githubUrl.substring(githubUrl.lastIndexOf('/')+1, githubUrl.length());
+            tempName = tempName.replace('_', ' ');
+            tempName = tempName.replace('-', ' ');
+            gpbuPackage.Title__c = tempName;
+        }
 
         //TODO: Check for Package.XML (Low Priority)
 
@@ -139,6 +145,13 @@ public with sharing class VersionHelper {
         if(gpbuPackage.Package_Install_Type_Flag__c){
             System.debug('This is Package Install Enabled, using Tooling api to grab info');
             VersionHelper.updatePackageFromSubscriberPackageVersionId(gpbuPackage.Id);
+        }
+
+        //Updating Source Info
+        if(gpbuPackage.Source_Install_Type_Flag__c && !subRepoFlag){
+            System.debug('This is Source Install Enabled, using Github api to grab Commit/tag info');
+            VersionHelper.updateComponentSourceCommitInfo(gpbuPackage.Id);
+            VersionHelper.updateComponentSourceTagInfo(gpbuPackage.Id);
         }
 
         return gpbuPackage; 
@@ -168,8 +181,75 @@ public with sharing class VersionHelper {
             }
         }
     }
-
     
+    @future(callout = true)
+    public static void updateComponentSourceCommitInfo(Id gpbuPackageId){
+        System.debug('Running updateComponentSourceCommitInfo');  
+        List<Demo_Component__c> gpbuPackage = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
+        if(gpbuPackage.size() > 0){
+            System.debug('Processing ' + gpbuPackage[0].Github_Repository_URL__c);   
+            List<GithubAPIHelper.GithubCommit> githubCommits = GithubAPIHelper.getGithubCommits(gpbuPackage[0].Github_Repository_URL__c);
+
+            if(githubCommits != null && githubCommits.size() > 0){
+                for(GithubAPIHelper.GithubCommit thisCommit: githubCommits){
+                    if (thisCommit.latestCommitFlag){
+                        gpbuPackage[0].Latest_Commit_DateTime__c = thisCommit.commitInfo.committer.commitDate;
+                        gpbuPackage[0].Latest_Commit_Description__c = thisCommit.commitInfo.message;
+                        gpbuPackage[0].Latest_Commit_Hash__c = thisCommit.sha;
+
+                        //If not an SFDX Based project, we assume POC information is not there, grabbing commit author info;
+                        if (!gpbuPackage[0].SFDX_Package_Enabled_Flag__c){
+                            GithubAPIHelper.GithubUser githubUser = GithubAPIHelper.getGithubUser(thisCommit.author.url);
+                            gpbuPackage[0].POC_Name__c = githubUser.name;
+                            gpbuPackage[0].POC_Email__c = githubUser.email;
+                        }
+
+                        update gpbuPackage[0];
+                    }
+                }
+            }else{
+                System.debug('No Commits found');  
+            }
+        }else{
+            System.debug('Could not find Component ' + gpbuPackage[0].Id);   
+        }
+
+    }
+
+
+    @future(callout = true)
+    public static void updateComponentSourceTagInfo(Id gpbuPackageId){
+        System.debug('Running updateComponentSourceTagInfo');  
+        List<Demo_Component__c> gpbuPackage = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
+        if(gpbuPackage.size() > 0){
+            System.debug('Processing ' + gpbuPackage[0].Github_Repository_URL__c);   
+            List<GithubAPIHelper.GithubTag> githubTags = GithubAPIHelper.getGithubTags(gpbuPackage[0].Github_Repository_URL__c);
+
+            if(githubTags != null && githubTags.size() > 0){
+                for(GithubAPIHelper.GithubTag thisTag: githubTags){
+                    if (thisTag.latestTagFlag){
+                        gpbuPackage[0].Latest_Tag_Commit_DateTime__c = thisTag.tagDate;
+                        gpbuPackage[0].Latest_Tag_Commit_Description__c = thisTag.githubCommit.commitInfo.message;
+                        gpbuPackage[0].Latest_Tag_Commit_Hash__c = thisTag.githubCommit.sha;
+                        gpbuPackage[0].Latest_Tag_Version_Name__c = thisTag.name;
+                        update gpbuPackage[0];
+                    }
+                }
+            }else{
+                System.debug('No Commits found');  
+            }
+        }else{
+            System.debug('Could not find Component ' + gpbuPackage[0].Id);   
+        }
+
+    }
+
+
+
+
+
+
+
 /*
  * Sample Data and queries for Tooling API calls:
  * SubscriberPackageVersion: 04t1K000002J0KK
