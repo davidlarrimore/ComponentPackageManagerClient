@@ -1,6 +1,5 @@
 public with sharing class GithubAPIHelper {
 
-
     public class ComponentConfigDotJSON {
         public String name;
         public String description;
@@ -15,6 +14,7 @@ public with sharing class GithubAPIHelper {
         public String errorFlag;
         public String errorMessage;
     }
+
     public class SFDXProjectDotJSON {
         public List<PackageDirectory> packageDirectories;
         public String namespace;
@@ -148,7 +148,6 @@ public with sharing class GithubAPIHelper {
         return rawGithubUrl;
     }
 
-
     public static SFDXProjectDotJSON getGithubSFDXProjectDotJSON(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRawGithubUrl(githubUrl, 'sfdx-project.json');
@@ -167,7 +166,6 @@ public with sharing class GithubAPIHelper {
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
-
     }
 
     public static ComponentConfigDotJSON getGithubComponentConfigDotJSON(String githubUrl){
@@ -190,7 +188,6 @@ public with sharing class GithubAPIHelper {
         return null;
     }
 
-
     //For older packages (PRE SFDX), we can try to grab the /src/package.xml
     public static Dom.Document getGithubSFDXProjectDotXML(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotXML against URL:' + githubUrl);
@@ -201,7 +198,6 @@ public with sharing class GithubAPIHelper {
             HttpRequest request = new HttpRequest();
 
             request.setEndpoint(newGithubUrl);
-
             request.setMethod('GET');
             HttpResponse response = http.send(request);
             // If the request is successful, parse the JSON response.
@@ -216,7 +212,6 @@ public with sharing class GithubAPIHelper {
             return null;
         }          
     }
-
 
     /* 
     * Get Base Repo Info from Github API: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management
@@ -269,8 +264,6 @@ public with sharing class GithubAPIHelper {
         return null;
     }
 
-
-
     public static List<GithubTag> getGithubTags(String githubUrl){
         system.debug('Running getGithubTags against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
@@ -298,7 +291,6 @@ public with sharing class GithubAPIHelper {
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
-
 
     public static GithubRepository getGithubRepo(String githubUrl){
         system.debug('Running getGithubRepo against URL:' + githubUrl);
@@ -355,7 +347,5 @@ public with sharing class GithubAPIHelper {
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
-
-
 
 }
