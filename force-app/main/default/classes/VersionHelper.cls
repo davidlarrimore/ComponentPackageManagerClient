@@ -185,6 +185,8 @@ public with sharing class VersionHelper {
         }
     }
     
+
+
     @future(callout = true)
     public static void updateComponentSourceCommitInfo(Id gpbuPackageId){
         System.debug('Running updateComponentSourceCommitInfo');  
@@ -218,6 +220,8 @@ public with sharing class VersionHelper {
         }
 
     }
+
+
 
 
     @future(callout = true)
@@ -278,7 +282,7 @@ public with sharing class VersionHelper {
 
         String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+SubscriberPackageVersionId + '\'';
         Map<String,Object> results = new Map<String,Object>();
-        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
+        results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
 
         List<Object> records = new List<Object>();
         records = (List<Object>) results.get('records');
@@ -304,7 +308,7 @@ public with sharing class VersionHelper {
 
         query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuDependentPackage.Subscriber_Package_Id__c + '\'';
         
-        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
+        results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
         records = (List<Object>) results.get('records');
 
         system.debug('SubscriberPackage Records:' + records);
@@ -319,18 +323,18 @@ public with sharing class VersionHelper {
         System.debug('Insert New Package: ' + gpbuDependentPackage);  
         insert gpbuDependentPackage;
 
-
-        List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :gpbuDependentPackage.Id LIMIT 1];
-        if(packageDependencyLookup.size() > 0){
-            System.debug('Package Dependency Already Exists, skipping');
-        }else{
-            System.debug('Creating new Package Dependency');
-            Component_Dependency__c packageDependency = new Component_Dependency__c();
-            packageDependency.Demo_Component__c = gpbuPackageId;
-            packageDependency.Dependent_Component__c = gpbuDependentPackage.id;
-            insert packageDependency;
+        if(gpbuPackageId != null){
+            List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :gpbuDependentPackage.Id LIMIT 1];
+            if(packageDependencyLookup.size() > 0){
+                System.debug('Package Dependency Already Exists, skipping');
+            }else{
+                System.debug('Creating new Package Dependency');
+                Component_Dependency__c packageDependency = new Component_Dependency__c();
+                packageDependency.Demo_Component__c = gpbuPackageId;
+                packageDependency.Dependent_Component__c = gpbuDependentPackage.id;
+                insert packageDependency;
+            }
         }
-
     }
 
 
@@ -351,7 +355,7 @@ public with sharing class VersionHelper {
             System.debug('Running Metadata API using the following query: ' + query); 
             Map<String,Object> results = new Map<String,Object>();
             
-            results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
+            results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
 
             List<Object> records = new List<Object>();
             records = (List<Object>) results.get('records');
@@ -377,7 +381,7 @@ public with sharing class VersionHelper {
 
 
             query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuPackage[0].Subscriber_Package_Id__c + '\'';
-            results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
+            results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
             records = (List<Object>) results.get('records');
 
             system.debug('SubscriberPackage Records:' + records);
@@ -394,98 +398,61 @@ public with sharing class VersionHelper {
         }
     }
 
-    
-
 
 
     //TODO: Check to see if Subscriber_Package_Id__c already exists
+    @future(callout = true)
     public static void getInstalledPackages(){
         System.debug('Start getInstalledPackages');
 
         List<Demo_Component__c> newGPBUPackages = new List<Demo_Component__c>();       
 
-        /*
-        newGPBUPackage.Last_Fetched__c = Datetime.Now();
+        List<MetadataAPIHelper.MetadataResponseRecord> subscriberPackages = MetadataAPIHelper.getInstalledPackages();
 
-        //Preset Options. We assume we can at least do an install from a Package
-        newGPBUPackage.Source_Install_Type_Flag__c = false;
-        newGPBUPackage.SFDX_Package_Enabled_Flag__c = false; 
-        newGPBUPackage.Package_Install_Type_Flag__c = true;        
-        newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = SubscriberPackageVersionId;
-        */
+        if(subscriberPackages != null){
+            system.debug('Found ' + subscriberPackages.size() + ' Installed Packages. Processing...');
 
+            system.debug('Grabbing Demo Components');
+            List<Demo_Component__c> demoComponents = [SELECT Id, Package_Name__c, Installed__c, Title__c, SFDX_Package_Enabled_Flag__c, Subscriber_Package_Id__c, Package_Installed_Subscriber_Version_Id__c, Latest_Package_Version__c from Demo_Component__c];
 
-        String query = 'SELECT+Id,+SubscriberPackageId,+SubscriberPackage.NamespacePrefix,+++++++SubscriberPackage.Name,+++++++SubscriberPackage.Description,+SubscriberPackageVersion.Id,+++++++SubscriberPackageVersion.Name,+SubscriberPackageVersion.MajorVersion,+++++++SubscriberPackageVersion.MinorVersion,+++++++SubscriberPackageVersion.PatchVersion,+++++++SubscriberPackageVersion.BuildNumber++++FROM+InstalledSubscriberPackage++++ORDER+BY+SubscriberPackageId';
-        
-        Map<String,Object> results = new Map<String,Object>();
-        results = (Map<String,Object>) MetadataAPIHelper.getMetadataAPI(query);
-
-        List<Object> records = new List<Object>();
-        records = (List<Object>) results.get('records');
-        
-        system.debug('InstalledSubscriberPackage Records:' + records);
-        List<Demo_Component__c> existingPackageLookup = [SELECT Id, Package_Name__c, Installed__c, Title__c, Latest_Package_Version__c from Demo_Component__c];
-
-        for(Object record: records){
-            Map<String,Object> thisRecord = (Map<String,Object>) record;
-            Map<String,Object> thisSubscriberPackage = new Map<String,Object>();
-            Map<String,Object> thisSubscriberPackageVersion = new Map<String,Object>();
-
-            thisSubscriberPackage = (Map<String,Object>) thisRecord.get('SubscriberPackage');
-            thisSubscriberPackageVersion = (Map<String,Object>) thisRecord.get('SubscriberPackageVersion');
-
-            Demo_Component__c newGPBUPackage = new Demo_Component__c();
-            Boolean packageExistsFlag = false;
-            system.debug('Processing Package ' + (String)thisSubscriberPackage.get('Name'));
-            system.debug('Looking to see if Installed Package Matches existing Packages');
-            for(Demo_Component__c existingPackage: existingPackageLookup){
-                system.debug('Does Installed Package ' + (String)thisSubscriberPackage.get('Name') + ' = ' + existingPackage.Package_Name__c);
-                if(String.valueOf(thisSubscriberPackage.get('Name')) == existingPackage.Package_Name__c){
-                    system.debug('Package already exists, assigning it');
-                    newGPBUPackage = existingPackage;
-                    packageExistsFlag = true;
+            for(MetadataAPIHelper.MetadataResponseRecord subscriberPackage: subscriberPackages){
+                Boolean newDemoComponentFlag = true;
+                system.debug('Looping through Demo Components to find matching component to SubscriberId: ' + subscriberPackage.subscriberpackage.id);
+                for(Demo_Component__c demoComponent: demoComponents){
+                    if(demoComponent.Subscriber_Package_Id__c == subscriberPackage.subscriberpackage.id){
+                        system.debug('There is a match with an existing Demo Component. Processing...');
+                        if(demoComponent.Installed__c){
+                            //WE ASSUME DEMO COMPONENT WAS ALREADY INSTALLED AS A PACKAGE RECENTLY
+                            system.debug('Demo component already marked as installed');
+                            if(demoComponent.Package_Installed_Subscriber_Version_Id__c != subscriberPackage.subscriberPackageVersion.id){
+                                system.debug('Subscriber Package Version ID is different, updating'); 
+                                demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackage.subscriberPackageVersion.id;
+                                demoComponent.Package_Installed_Version_Name__c = subscriberPackage.subscriberPackageVersion.name;
+                                demoComponent.Package_Installed_Version_Number__c = MetadataAPIHelper.getSubscriberPackageVersionNumber(subscriberPackage.subscriberPackageVersion); 
+                            }else{
+                                system.debug('Subscriber Package Version ID is the same, we can break this loop');   
+                                break;
+                            }
+                        }else{
+                            system.debug('Demo Component not Marked as installed. Updating');
+                            demoComponent.Installed__c = true;
+                            if(demoComponent.SFDX_Package_Enabled_Flag__c){
+                                demoComponent.Installed_Version_Tracking_Method__c = 'SFDX Project';
+                            }   
+                        }
+                        system.debug('Updating Demo Component');
+                        update demoComponent;
+                        system.debug('Breaking loop because we found the match.');
+                        break;
+                    }else{
+                        system.debug(demoComponent.Subscriber_Package_Id__c + ' is not a match to ' + subscriberPackage.subscriberpackage.id + 'Moving to next record');
+                    }
+                }
+                if(newDemoComponentFlag){
+                    system.debug('No existing Demo Component found, creating a new one');
+                    //TODO: Update createPackageFromSubscriberPackageVersionId
                 }
             }
-            
-            if(!packageExistsFlag){
-                system.debug('Package does not already exist. Creating a new one');
-                newGPBUPackage.Package_Name__c = (String)thisSubscriberPackage.get('Name');
-                newGPBUPackage.Title__c =  (String)thisSubscriberPackage.get('Name');  
-                newGPBUPackage.Description__c = thisSubscriberPackage.containsKey('Description') ? (String)thisSubscriberPackage.get('Description') : '';    
-            }
-            
-            newGPBUPackage.Subscriber_Package_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
-            String version = '';
-            version += thisSubscriberPackageVersion.containsKey('MajorVersion') ? String.valueOf(thisSubscriberPackageVersion.get('MajorVersion')) : '0';
-            version += '.';
-            version += thisSubscriberPackageVersion.containsKey('MinorVersion') ? String.valueOf(thisSubscriberPackageVersion.get('MinorVersion')) : '0';
-            version += '.';
-            version += thisSubscriberPackageVersion.containsKey('PatchVersion') ? String.valueOf(thisSubscriberPackageVersion.get('PatchVersion')) : '0';               
-            version += '-';
-            version += thisSubscriberPackageVersion.containsKey('BuildNumber') ? String.valueOf(thisSubscriberPackageVersion.get('BuildNumber')) : '0';               
-            system.debug('Version: ' + version);            
-            
-            if(!packageExistsFlag && newGPBUPackage.Latest_Package_Version__c != ''){
-                //TODO: Compare Package Versions to see if an update is available
-                newGPBUPackage.Latest_Package_Version__c = thisSubscriberPackageVersion.containsKey('Name') ? (String)thisSubscriberPackageVersion.get('Name') : '';  
-            }else{
-                newGPBUPackage.Latest_Package_Version__c = version;
-            }
-            newGPBUPackage.Latest_Package_Version_Name__c = thisSubscriberPackageVersion.containsKey('Name') ? (String)thisSubscriberPackageVersion.get('Name') : '';  
-            newGPBUPackage.Installed_Subscriber_Package_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
-            newGPBUPackage.Latest_Subscriber_Package_Version_Id__c = thisSubscriberPackageVersion.containsKey('Id') ? (String)thisSubscriberPackageVersion.get('Id') : '';
-            newGPBUPackage.Package_Installed_Version_Number__c = version;
-            newGPBUPackage.Installed__c = true;
-            newGPBUPackage.Installation_Type__c = 'Managed Package';
-
-            if(newGPBUPackage.Title__c != null && newGPBUPackage.Title__c != ''){
-                newGPBUPackages.add(newGPBUPackage);
-            }
-
-        } 
-        System.debug('Upserting Installed Packages: ' + newGPBUPackages);  
-        upsert newGPBUPackages;
-
+        }
     }
-
 }

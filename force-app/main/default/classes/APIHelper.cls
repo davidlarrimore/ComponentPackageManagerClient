@@ -59,7 +59,8 @@ public with sharing class APIHelper {
             if (response.getStatusCode() == 200) {
                 // Deserialize the JSON string into collections of primitive data types.
                 system.debug('Success!');
-                system.debug('Response: ' + response.getBody());
+                system.debug('Response: ');
+                APIHelper.mDebugUntruncated(response.getBody());
                 return response.getBody();
             }else{
                 system.debug('Request failed. Status Code: ' + response.getStatusCode());
@@ -71,6 +72,14 @@ public with sharing class APIHelper {
             return null;
         }  
     }
+
+    public static void mDebugUntruncated(String sMsg) {
+        for (Integer i = 0; i < sMsg.length(); i=i+300) {
+            Integer iEffectiveEnd = (i+300 > (sMsg.length()-1) ? sMsg.length()-1 : i+300);
+            System.debug(sMsg.substring(i,iEffectiveEnd));
+        }
+    }
+
 
 
 }

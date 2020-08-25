@@ -66,11 +66,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Installed_Subscriber_Package_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Demo_Component__c.Installed_Version_Tracking_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -177,6 +172,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Demo_Component__c.Package_Install_Url__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Demo_Component__c.Package_Installed_Subscriber_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Demo_Component__c.Package_Installed_Subscriber_Version_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

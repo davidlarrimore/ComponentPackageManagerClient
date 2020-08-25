@@ -103,6 +103,10 @@
                 <behavior>Edit</behavior>
                 <field>Subscriber_Package_Id__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Package_Install_Url__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -239,15 +243,11 @@
                 <behavior>Readonly</behavior>
                 <field>Package_Installed_Version_Number__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Package_Install_Url__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Installed_Subscriber_Package_Id__c</field>
+                <behavior>Edit</behavior>
+                <field>Package_Installed_Subscriber_Version_Id__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

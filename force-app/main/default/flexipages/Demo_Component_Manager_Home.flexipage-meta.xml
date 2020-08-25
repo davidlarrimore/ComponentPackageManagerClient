@@ -68,6 +68,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>cPMInstallCheckerCard</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>flowLayout</name>
                 <value>oneColumn</value>
