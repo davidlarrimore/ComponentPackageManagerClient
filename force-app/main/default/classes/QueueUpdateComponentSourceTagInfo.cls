@@ -25,10 +25,10 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
                     }
                 }
             }else{
-                System.debug('No Commits found');  
+                System.debug('No Tags found');  
             }
         }else{
-            System.debug('Could not find Component ' + gpbuPackage[0].Id);   
+            System.debug('Could not find Component ' + demoComponentId);   
         }
  
       }

@@ -2,6 +2,9 @@
     <lightning-card title="Component Refresh Checker" icon-name="custom:custom19">
         <div class="slds-media__body">
           <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
+          <template for:each={record} for:item="rec">
+            <div class="slds-card__body slds-card__body_inner" key={rec}>Job: {rec}</div>
+          </template>
         </div>
     </lightning-card>
 </template>

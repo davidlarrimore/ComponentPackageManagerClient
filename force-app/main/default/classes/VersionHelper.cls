@@ -118,7 +118,7 @@ public with sharing class VersionHelper {
 
                 for (String packageAlias : componentSFDXProjectDotJSON.packageAliases.keySet()){
                     System.debug('Processing packageAlias ' + packageAlias + ' : ' + componentSFDXProjectDotJSON.packageAliases.get(packageAlias));
-                    gpbuPackage.Latest_SFDX_Package_Alias__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
+                    gpbuPackage.Latest_SFDX_Package_Alias__c = packageAlias;
                     gpbuPackage.Latest_Subscriber_Package_Version_Id__c = componentSFDXProjectDotJSON.packageAliases.get(packageAlias);
                 }
             }

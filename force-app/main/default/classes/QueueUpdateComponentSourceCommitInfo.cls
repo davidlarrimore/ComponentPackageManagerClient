@@ -35,7 +35,7 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
                 System.debug('No Commits found');  
             }
         }else{
-            System.debug('Could not find Component ' + gpbuPackage[0].Id);   
+            System.debug('Could not find Component ' + demoComponentId);   
         }
 
      }

@@ -42,6 +42,9 @@ export default class CMPRefreshCheckerCard extends LightningElement {
             this.record = undefined;
         }
     }
-  
-  
+    
+    get getIDs() {
+        return this.record;
+    } 
+
   }

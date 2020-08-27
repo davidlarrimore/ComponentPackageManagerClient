@@ -31,7 +31,7 @@ public class MetadataSubscriberPackageVersion {
     }
 
     public String getSubscriberPackageVersionNumberText(){
-        system.debug('Running getSubscriberPackageVersionNumberText');       
+        system.debug('Running MetadataSubscriberPackageVersion.getSubscriberPackageVersionNumberText');       
         String version = '';
         version += this.majorVersion != null ? String.valueOf(this.majorVersion)  : '0';
         version += '.';
@@ -46,11 +46,11 @@ public class MetadataSubscriberPackageVersion {
     }
 
     public Integer getSubscriberPackageVersionNumber(){
-        system.debug('Running getSubscriberPackageVersionNumber');  
+        system.debug('Running MetadataSubscriberPackageVersion.getSubscriberPackageVersionNumber');  
         Integer versionNumber = 0;
-        versionNumber += Integer.valueOf(String.valueOf(this.majorVersion) + '000000000');
-        versionNumber += Integer.valueOf(String.valueOf(this.minorVersion) + '000000');
-        versionNumber += Integer.valueOf(String.valueOf(this.patchVersion) + '000');
+        versionNumber += Integer.valueOf(String.valueOf(this.majorVersion) + '000000');
+        versionNumber += Integer.valueOf(String.valueOf(this.minorVersion) + '0000');
+        versionNumber += Integer.valueOf(String.valueOf(this.patchVersion) + '00');
         versionNumber += Integer.valueOf(String.valueOf(this.buildNumber));                    
         
         system.debug('Version Number: ' + String.valueOf(versionNumber));    
