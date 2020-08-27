@@ -8,9 +8,6 @@ public with sharing class CMPRefreshCheckerController {
         List<ID> JobIDs = new List<ID>();
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :searchKey LIMIT 1];
         if(demoComponent.size() > 0){
-            QueueComponentUpdateCheck queueComponentUpdateCheckJob = new QueueComponentUpdateCheck(searchKey); 
-            JobIDs.add(System.enqueueJob(queueComponentUpdateCheckJob));  
-            
             if(demoComponent[0].SFDX_Package_Enabled_Flag__c){
                 QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(searchKey); 
                 JobIDs.add(System.enqueueJob(queueUpdateComponentFromSFDXJob));  
@@ -23,6 +20,10 @@ public with sharing class CMPRefreshCheckerController {
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(searchKey); 
                 JobIDs.add(System.enqueueJob(queueUpdateComponentSourceTagInfoJob));    
             }
+
+            QueueComponentUpdateCheck queueComponentUpdateCheckJob = new QueueComponentUpdateCheck(searchKey); 
+            JobIDs.add(System.enqueueJob(queueComponentUpdateCheckJob));  
+                        
         }
 
         return JobIDs;
