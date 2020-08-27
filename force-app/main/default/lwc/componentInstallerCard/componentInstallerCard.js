@@ -10,6 +10,8 @@ import LATEST_SUBSCRIBER_VERSION_ID_FIELD from '@salesforce/schema/Demo_Componen
 import INSTALL_KEY_FIELD from '@salesforce/schema/Demo_Component__c.Install_Key__c';
 import SOURCE_INSTALL_URL_FIELD from '@salesforce/schema/Demo_Component__c.Source_Install_Url__c';
 import PACKAGE_INSTALL_URL_FIELD from '@salesforce/schema/Demo_Component__c.Package_Install_Url__c';
+import UPDATE_AVAILABLE_FIELD from '@salesforce/schema/Demo_Component__c.Update_Available__c';
+import INSTALLATION_TYPE_FIELD from '@salesforce/schema/Demo_Component__c.Installation_Type__c';
 
 const FIELDS = [
   'Demo_Component__c.Name',
@@ -20,7 +22,9 @@ const FIELDS = [
   'Demo_Component__c.Latest_Subscriber_Package_Version_Id__c',
   'Demo_Component__c.Install_Key__c',
   'Demo_Component__c.Source_Install_Url__c',
-  'Demo_Component__c.Package_Install_Url__c'
+  'Demo_Component__c.Package_Install_Url__c',
+  'Demo_Component__c.Update_Available__c',
+  'Demo_Component__c.Installation_Type__c'
 ]
 
 export default class ComponentInstallerCard extends LightningElement {
@@ -64,6 +68,10 @@ export default class ComponentInstallerCard extends LightningElement {
     return this.record.fields.Name.value;
   }
 
+  get getUpdateAvailableFlag() {
+    return this.record.fields.Update_Available__c.value;
+  }
+
   get getSourceInstallTypeFlag() {
     return this.record.fields.Source_Install_Type_Flag__c.value;
   }
@@ -72,10 +80,14 @@ export default class ComponentInstallerCard extends LightningElement {
     return this.record.fields.Package_Install_Type_Flag__c.value;
   }
 
-  get packageInstalledFlag() {
+  get getComponentInstalledFlag() {
     return this.record.fields.Installed__c.value;
   } 
 
+
+  get getUpdateFlag() {
+    return this.record.fields.Update_Available__c.value;
+  } 
 
   
   get canInstallPackageFlag() {
@@ -88,11 +100,31 @@ export default class ComponentInstallerCard extends LightningElement {
         return false;
       }
     }
-       console.log('canInstallPackageFlag is true');
-      return true;
+    if(this.record.fields.Installed__c.value){
+      return false;
+    }
+    console.log('canInstallPackageFlag is true');
+    return true;
   } 
 
+get needDependenciesInstalledFlag() {
+  for(var i = 0; i < this.record2.length; i++) {
+    var obj = this.record2[i];
+    console.log('Dependency Number ' + i + ', Id: ' + obj.Id);
+    if(obj.Installed__c == false){
+      console.log('needDependenciesInstalledFlag is false');
+      return true;
+    }
+  }
+  return false;
+}
 
+  get canUpdatePackageFlag() {
+    if(this.record.fields.Installed__c.value && this.record.fields.Update_Available__c.value){
+      return true;
+    }
+    return false;
+  } 
 
   greeting = 'World';
   changeHandler(event) {

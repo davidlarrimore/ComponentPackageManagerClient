@@ -6,6 +6,8 @@
 //MetadataAPIHelper.getInstalledPackages();
 //MetadataAPIHelper.getSubscriberPackage('0333h000000AYQGAA4');
 //MetadataAPIHelper.getSubscriberPackageVersion('04t3h000004bdsNAAQ');
+
 MetadataAPIHelper.createComponentFromPackage('04t3h000004bdsNAAQ', null);
 
 
+//VersionHelper.componentUpdateCheck('a02R000000VVckFIAT');
