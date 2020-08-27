@@ -46,5 +46,13 @@ export default class CPMInstallCheckerCard extends LightningElement {
     get getIDs() {
         return this.record;
     } 
-    
+  
+    get apexRanFlag(){
+        if(this.record){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
   }

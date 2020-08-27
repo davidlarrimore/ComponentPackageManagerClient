@@ -47,4 +47,13 @@ export default class CMPRefreshCheckerCard extends LightningElement {
         return this.record;
     } 
 
+    get apexRanFlag(){
+        if(this.record){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
   }
