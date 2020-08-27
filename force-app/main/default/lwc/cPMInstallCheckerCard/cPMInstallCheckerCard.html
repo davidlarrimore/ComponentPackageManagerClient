@@ -1,7 +1,10 @@
 <template>
-    <lightning-card title="Installed Component Checker" icon-name="custom:custom19">
-        <div class="slds-media__body">
-          <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
-        </div>
-    </lightning-card>
+  <lightning-card title="Installed Package Checker" icon-name="custom:custom19">
+      <div class="slds-media__body">
+        <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
+        <template for:each={record} for:item="rec">
+          <div class="slds-card__body slds-card__body_inner" key={rec}>Job Id: {rec}</div>
+        </template>
+      </div>
+  </lightning-card>
 </template>

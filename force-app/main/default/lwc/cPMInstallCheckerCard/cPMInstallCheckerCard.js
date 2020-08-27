@@ -1,6 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
-import installedComponents from '@salesforce/apex/CPMInstallCheckerController.getInstalledComponents';
+import installedComponents from '@salesforce/apex/CPMInstallCheckerController.runApex';
 import NAME_FIELD from '@salesforce/schema/Demo_Component__c.Name';
 import INSTALLED_FIELD from '@salesforce/schema/Demo_Component__c.Installed__c';
 import SOURCE_INSTALL_TYPE_FLAG_FIELD from '@salesforce/schema/Demo_Component__c.Source_Install_Type_Flag__c';
@@ -43,5 +43,8 @@ export default class CPMInstallCheckerCard extends LightningElement {
         }
     }
   
-  
+    get getIDs() {
+        return this.record;
+    } 
+    
   }
