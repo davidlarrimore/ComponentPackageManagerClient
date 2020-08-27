@@ -2,7 +2,7 @@
     <lightning-card title="Component Refresh Checker" icon-name="custom:custom19">
         <div class="slds-media__body">
           <template if:true={apexRanFlag}>
-          <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
+            <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
           </template>
           <template for:each={record} for:item="rec">
             <div class="slds-card__body slds-card__body_inner" key={rec}>Job Id: {rec}</div>
