@@ -32,6 +32,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>cMPRefreshCheckerCard</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentName>componentInstallerCard</componentName>
         </componentInstances>
         <componentInstances>

@@ -1,101 +1,5 @@
 public with sharing class GithubAPIHelper {
 
-    public class ComponentConfigDotJSON {
-        public String name;
-        public String description;
-        public String author;
-        public String authorEmail;
-        public String alias;
-        public String packageType;
-        public String permissionSet;
-        public Boolean disableSourceInstall;             
-        public Boolean disablePackageInstall;
-        public List<map<string,string>> dependencies;
-        public String errorFlag;
-        public String errorMessage;
-    }
-
-    public class SFDXProjectDotJSON {
-        public List<PackageDirectory> packageDirectories;
-        public String namespace;
-        public string sfdcLoginUrl;
-        public String sourceApiVersion;
-        public String errorFlag;
-        public String errorMessage;
-        public map<string,string> packageAliases;
-    }
-
-    public class PackageDirectory {
-        public String path;
-        public Boolean defaultDirectory;
-        public String packageName;
-        public String versionName;
-        public String versionNumber;
-        public String versionDescription;
-        public List<map<string,string>> dependencies;
-    }
-
-    public class GithubRepository {
-        public String id;
-        public String name;
-        public String full_name;
-        public String description;
-        public String default_branch;
-        public String homepage;
-        public GithubRepoOwner githubRepoOwner;
-    }
-
-    public class GithubRepoOwner {
-        public String login;
-        public String id;
-        public String url;
-        public String bio;
-    }
-
-    public class GithubUser {
-        public String login;
-        public String id;
-        public String url;
-        public String name;
-        public String email;
-        public String bio;
-        public String gravatar_id;
-        public String type;
-        public String company;
-    }
-
-    public class GithubCommit {
-        public String sha;
-        public String url;
-        public GithubCommitInfo commitInfo;
-        public Boolean latestCommitFlag;
-        public GithubCommitAuthor author;
-    }
-
-    public class GithubCommitAuthor {
-        public String login;
-        public String id;
-        public String url;
-        public String type;
-    }    
-
-    public class GithubCommitInfo {
-        public GithubCommitInfoCommiter committer;
-        public String message;
-    }
-
-    public class GithubCommitInfoCommiter {
-        public String name;
-        public String email;
-        public DateTime commitDate;
-    }
-
-    public class GithubTag {
-        public String name;
-        public GithubCommit githubCommit;
-        public Boolean latestTagFlag;
-        public DateTime tagDate;
-    }
 
     public static String convertToRawGithubUrl(String githubUrl, String contentName){
         system.debug('Running convertToRawGithubUrl against URL:' + githubUrl);
@@ -149,7 +53,7 @@ public with sharing class GithubAPIHelper {
         return rawGithubUrl;
     }
 
-    public static SFDXProjectDotJSON getGithubSFDXProjectDotJSON(String githubUrl){
+    public static GithubSFDXProjectDotJSON getGithubSFDXProjectDotJSON(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRawGithubUrl(githubUrl, 'sfdx-project.json');
         String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
@@ -163,13 +67,13 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"default":', '"defaultDirectory":');
             
             system.debug('Processing JSON: ' + JSONResponse);
-            return (SFDXProjectDotJSON)System.JSON.deserialize(JSONResponse, SFDXProjectDotJSON.class);
+            return (GithubSFDXProjectDotJSON)System.JSON.deserialize(JSONResponse, GithubSFDXProjectDotJSON.class);
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
 
-    public static ComponentConfigDotJSON getGithubComponentConfigDotJSON(String githubUrl){
+    public static GithubComponentConfigDotJSON getGithubComponentConfigDotJSON(String githubUrl){
         system.debug('Running getGithubComponentConfigDotJSON against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRawGithubUrl(githubUrl, 'component-config.json');
         String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
@@ -183,7 +87,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"default":', '"defaultDirectory":');
 
             system.debug('Processing JSON: ' + JSONResponse);
-            return (ComponentConfigDotJSON)System.JSON.deserialize(JSONResponse, ComponentConfigDotJSON.class);
+            return (GithubComponentConfigDotJSON)System.JSON.deserialize(JSONResponse, GithubComponentConfigDotJSON.class);
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
@@ -221,7 +125,7 @@ public with sharing class GithubAPIHelper {
     * Get Tags: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/tags
     * 
     */
-    public static List<GithubCommit> getGithubCommits(String githubUrl){
+    public static List<GithubRepoCommit> getGithubCommits(String githubUrl){
         system.debug('Running getGithubCommits against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
@@ -234,13 +138,13 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
             system.debug('Processing JSON: ' + JSONResponse);
-            List<GithubCommit> githubCommits = (List<GithubCommit>)System.JSON.deserialize(JSONResponse, List<GithubCommit>.class);
+            List<GithubRepoCommit> githubCommits = (List<GithubRepoCommit>)System.JSON.deserialize(JSONResponse, List<GithubRepoCommit>.class);
 
             DateTime NewestCommitDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
 
             if(githubCommits != null){
                 system.debug('Processing GithubCommit Object to find latest commit');
-                for(GithubCommit thisCommit: githubCommits){
+                for(GithubRepoCommit thisCommit: githubCommits){
                     //defaulting commit flag to false
                     thisCommit.latestCommitFlag = false;
 
@@ -250,7 +154,7 @@ public with sharing class GithubAPIHelper {
                 }
                 system.debug('Latest commit date is: ' + NewestCommitDateTime + '. now setting it as latest commit flag');
 
-                for(GithubCommit thisCommit: githubCommits){
+                for(GithubRepoCommit thisCommit: githubCommits){
                     if(NewestCommitDateTime == thisCommit.commitInfo.committer.commitDate){
                         thisCommit.latestCommitFlag = true;
                     }
@@ -268,7 +172,7 @@ public with sharing class GithubAPIHelper {
     /* 
     * Get individual commit
     */
-    public static GithubCommit getGithubCommit(String commitUrl){
+    public static GithubRepoCommit getGithubCommit(String commitUrl){
         system.debug('Running getGithubCommit against URL:' + commitUrl);
 
         //get JSON String
@@ -280,7 +184,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
             system.debug('Processing JSON: ' + JSONResponse);
-            List<GithubCommit> githubCommits = (List<GithubCommit>)System.JSON.deserialize(JSONResponse, List<GithubCommit>.class);
+            List<GithubRepoCommit> githubCommits = (List<GithubRepoCommit>)System.JSON.deserialize(JSONResponse, List<GithubRepoCommit>.class);
 
             if(githubCommits != null){
                 system.debug(githubCommits[0]);
@@ -295,7 +199,7 @@ public with sharing class GithubAPIHelper {
 
 
 
-    public static List<GithubTag> getGithubTags(String githubUrl){
+    public static List<GithubRepoTag> getGithubTags(String githubUrl){
         system.debug('Running getGithubTags against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
@@ -308,19 +212,19 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
             system.debug('Processing JSON: ' + JSONResponse);
-            List<GithubTag> githubTags = (List<GithubTag>)System.JSON.deserialize(JSONResponse, List<GithubTag>.class);
+            List<GithubRepoTag> githubTags = (List<GithubRepoTag>)System.JSON.deserialize(JSONResponse, List<GithubRepoTag>.class);
 
             if(githubTags != null && githubTags.size() > 0){
                 system.debug(githubTags);
                 system.debug('Found Tags, grabbing commits');
 
-                List<GithubCommit> githubCommits = GithubAPIHelper.getGithubCommits(githubUrl);
+                List<GithubRepoCommit> githubCommits = GithubAPIHelper.getGithubCommits(githubUrl);
 
                 if(githubCommits != null && githubCommits.size() > 0){
                     system.debug(githubTags);
                     system.debug('Found Commits, processing');
-                    for(GithubTag githubTag: githubTags){
-                        for(GithubCommit githubCommit: githubCommits){
+                    for(GithubRepoTag githubTag: githubTags){
+                        for(GithubRepoCommit githubCommit: githubCommits){
                             if(githubTag.githubCommit.sha == githubCommit.sha){
                                 system.debug('Commit matches tag, merging');
                                 githubTag.githubCommit = githubCommit;
@@ -334,13 +238,13 @@ public with sharing class GithubAPIHelper {
                         githubTags[0].latestTagFlag = true;
                     }else{
                         DateTime NewestTagDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
-                        for(GithubTag githubTag: githubTags){
+                        for(GithubRepoTag githubTag: githubTags){
                             if(NewestTagDateTime < githubTag.tagDate){
                                 NewestTagDateTime = githubTag.tagDate;
                             }              
                         }
                         system.debug('Latest tag date is: ' + NewestTagDateTime + '. now setting it as latest tag flag');
-                        for(GithubTag githubTag: githubTags){
+                        for(GithubRepoTag githubTag: githubTags){
                             if(NewestTagDateTime == githubTag.tagDate){
                                 githubTag.latestTagFlag = true;
                             }

@@ -14,7 +14,7 @@ public with sharing class VersionHelper {
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
     public static Demo_Component__c getComponentFromGithubURL(String githubUrl){
-
+        System.debug('Running VersionHelper.getComponentFromGithubURL');  
         System.debug('Processing ' + githubUrl);
         List<String> versions = new List<String>();
         
@@ -38,7 +38,7 @@ public with sharing class VersionHelper {
         gpbuPackage.Package_Install_Type_Flag__c = false;
 
         System.debug('Attempting to grab component-config.json from: ' + githubUrl);
-        GithubAPIHelper.ComponentConfigDotJSON componentConfig = GithubAPIHelper.getGithubComponentConfigDotJSON(githubUrl);
+        GithubComponentConfigDotJSON componentConfig = GithubAPIHelper.getGithubComponentConfigDotJSON(githubUrl);
         
         if(componentConfig != null){
             demoConfigFileFlag = true;
@@ -65,10 +65,8 @@ public with sharing class VersionHelper {
             }
         }
 
-
-
         System.debug('Attempting to grab sfdx-project.json from: ' + githubUrl);
-        GithubAPIHelper.SFDXProjectDotJSON componentSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
+        GithubSFDXProjectDotJSON componentSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
         if(componentSFDXProjectDotJSON != null){
             System.debug('found sfdx-project.json, processing...');
 
@@ -80,7 +78,7 @@ public with sharing class VersionHelper {
             if(componentSFDXProjectDotJSON.packageAliases != null){
                 System.debug('this is an SFDX deployed Project, processing');
                 gpbuPackage.SFDX_Package_Enabled_Flag__c = true;
-                for(GithubAPIHelper.PackageDirectory thisPackageDirectory: (List<GithubAPIHelper.PackageDirectory>) componentSFDXProjectDotJSON.packageDirectories){
+                for(GithubPackageDirectory thisPackageDirectory: (List<GithubPackageDirectory>) componentSFDXProjectDotJSON.packageDirectories){
                     if(thisPackageDirectory.defaultDirectory == true){
                         System.debug('Found the default package directory');
                         gpbuPackage.Package_Install_Type_Flag__c = true;
@@ -129,74 +127,52 @@ public with sharing class VersionHelper {
 
         //TODO: Check for Package.XML (Low Priority)
 
-
         System.debug('Seeing if Package already exists');
-        List<Demo_Component__c> existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Github_Repository_URL__c  = :githubUrl LIMIT 1];
+        List<Demo_Component__c> existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Github_Repository_URL__c = :githubUrl OR Package_Name__c = :gpbuPackage.SFDX_Package_Name__c OR Title__c = :gpbuPackage.Title__c LIMIT 1];
         if(existingPackageLookup.size() > 0){
             System.debug('Package already exists, adding Id and updating');
             gpbuPackage.Id = existingPackageLookup[0].Id;
         }else{
             System.debug('Nope....Inserting New Package: ' + gpbuPackage);
-            //Insert gpbuPackage; 
         }
+
         upsert gpbuPackage;
 
         System.debug('Processing Dependent Packages');
-        VersionHelper.processDependentPackages(dependentPackageSubscriberPackageVersionIds, gpbuPackage.Id);
+        QueueUpdateComponentFromPackageVersion processDependenciesJob = new QueueUpdateComponentFromPackageVersion(dependentPackageSubscriberPackageVersionIds, new Map<String,String>{'parentDemoComponentId'=> gpbuPackage.Id}); 
+        ID processDependenciesJobId = System.enqueueJob(processDependenciesJob);      
 
         //Updating Package Info
         if(gpbuPackage.Package_Install_Type_Flag__c){
             System.debug('This is Package Install Enabled, using Tooling api to grab info');
-            VersionHelper.updatePackageFromSubscriberPackageVersionId(gpbuPackage.Id);
+            QueueUpdateComponentFromPackageVersion updateJob = new QueueUpdateComponentFromPackageVersion(new List<String>{gpbuPackage.Latest_Subscriber_Package_Version_Id__c},new Map<String,String>{}); 
+            ID updateJobID = System.enqueueJob(updateJob);        
         }
 
         //Updating Source Info
         if(gpbuPackage.Source_Install_Type_Flag__c && !subRepoFlag){
             System.debug('This is Source Install Enabled, using Github api to grab Commit/tag info');
-            VersionHelper.updateComponentSourceCommitInfo(gpbuPackage.Id);
-            VersionHelper.updateComponentSourceTagInfo(gpbuPackage.Id);
+            QueueUpdateComponentSourceCommitInfo commitUpdateJob = new QueueUpdateComponentSourceCommitInfo(gpbuPackage.Id); 
+            ID commitUpdateJobID = System.enqueueJob(commitUpdateJob);   
+            
+            QueueUpdateComponentSourceTagInfo tagUpdateJob = new QueueUpdateComponentSourceTagInfo(gpbuPackage.Id); 
+            ID tagUpdateJobID = System.enqueueJob(tagUpdateJob);   
+            
         }
 
         return gpbuPackage; 
     }
-
-    public static void processDependentPackages(List<String> subscriberPackageVersionIds, Id gpbuPackageId){
-        System.debug('Running processDependentPackages');
-        for(String subscriberPackageVersionId: subscriberPackageVersionIds){
-            System.debug('Looking up the following SubscriberPackageVersionId: ' + subscriberPackageVersionId);
-            List<Demo_Component__c> existingPackageLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c from Demo_Component__c WHERE Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersionId LIMIT 1];
-            if(existingPackageLookup.size() > 0){
-                System.debug('DependentPackage already exists');
-
-                List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :existingPackageLookup[0].Id LIMIT 1];
-                if(packageDependencyLookup.size() > 0){
-                    System.debug('Package Dependency Record Already Exists, skipping');
-                }else{
-                    System.debug('Creating new Package Dependency Record');
-                    Component_Dependency__c packageDependency = new Component_Dependency__c();
-                    packageDependency.Demo_Component__c = gpbuPackageId;
-                    packageDependency.Dependent_Component__c = existingPackageLookup[0].id;
-                    insert packageDependency;
-                }
-            }else{
-                System.debug('No existing package, adding new one #Future');
-                VersionHelper.createPackageFromSubscriberPackageVersionId(subscriberPackageVersionId, gpbuPackageId);
-            }
-        }
-    }
     
-
-
     @future(callout = true)
     public static void updateComponentSourceCommitInfo(Id gpbuPackageId){
-        System.debug('Running updateComponentSourceCommitInfo');  
+        System.debug('Running VersionHelper.updateComponentSourceCommitInfo');  
         List<Demo_Component__c> gpbuPackage = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
         if(gpbuPackage.size() > 0){
             System.debug('Processing ' + gpbuPackage[0].Github_Repository_URL__c);   
-            List<GithubAPIHelper.GithubCommit> githubCommits = GithubAPIHelper.getGithubCommits(gpbuPackage[0].Github_Repository_URL__c);
+            List<GithubRepoCommit> githubCommits = GithubAPIHelper.getGithubCommits(gpbuPackage[0].Github_Repository_URL__c);
 
             if(githubCommits != null && githubCommits.size() > 0){
-                for(GithubAPIHelper.GithubCommit thisCommit: githubCommits){
+                for(GithubRepoCommit thisCommit: githubCommits){
                     if (thisCommit.latestCommitFlag){
                         gpbuPackage[0].Latest_Commit_DateTime__c = thisCommit.commitInfo.committer.commitDate;
                         gpbuPackage[0].Latest_Commit_Description__c = thisCommit.commitInfo.message;
@@ -204,7 +180,7 @@ public with sharing class VersionHelper {
 
                         //If not an SFDX Based project, we assume POC information is not there, grabbing commit author info;
                         if (!gpbuPackage[0].SFDX_Package_Enabled_Flag__c){
-                            GithubAPIHelper.GithubUser githubUser = GithubAPIHelper.getGithubUser(thisCommit.author.url);
+                            GithubUser githubUser = GithubAPIHelper.getGithubUser(thisCommit.author.url);
                             gpbuPackage[0].POC_Name__c = githubUser.name;
                             gpbuPackage[0].POC_Email__c = githubUser.email;
                         }
@@ -218,22 +194,18 @@ public with sharing class VersionHelper {
         }else{
             System.debug('Could not find Component ' + gpbuPackage[0].Id);   
         }
-
     }
-
-
-
 
     @future(callout = true)
     public static void updateComponentSourceTagInfo(Id gpbuPackageId){
-        System.debug('Running updateComponentSourceTagInfo');  
+        System.debug('Running VersionHelperupdateComponentSourceTagInfo');  
         List<Demo_Component__c> gpbuPackage = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
         if(gpbuPackage.size() > 0){
             System.debug('Processing ' + gpbuPackage[0].Github_Repository_URL__c);   
-            List<GithubAPIHelper.GithubTag> githubTags = GithubAPIHelper.getGithubTags(gpbuPackage[0].Github_Repository_URL__c);
+            List<GithubRepoTag> githubTags = GithubAPIHelper.getGithubTags(gpbuPackage[0].Github_Repository_URL__c);
 
             if(githubTags != null && githubTags.size() > 0){
-                for(GithubAPIHelper.GithubTag thisTag: githubTags){
+                for(GithubRepoTag thisTag: githubTags){
                     if (thisTag.latestTagFlag){
                         gpbuPackage[0].Latest_Tag_Commit_DateTime__c = thisTag.tagDate;
                         gpbuPackage[0].Latest_Tag_Commit_Description__c = thisTag.githubCommit.commitInfo.message;
@@ -248,211 +220,144 @@ public with sharing class VersionHelper {
         }else{
             System.debug('Could not find Component ' + gpbuPackage[0].Id);   
         }
-
     }
 
 
+    /* 
+     * Uses Subscriber_Package_Version_Id to find Component and updates. If none is found, it creates a new component. This one includes an ID method that allows you to create a dependency on the spot....
+     * Options:
+     *  - parentDemoComponentId = '<Id of parent/depender component>' (If set, We need to create a package dependency as well)
+     *  - installedFlag = 'true' or 'false' (This package is installed, we should update fields appropriatley)
+     * 
+     */
+    public static void updateComponentFromPackageVersion(MetadataSubscriberPackage subscriberPackage, MetadataSubscriberPackageVersion subscriberPackageVersion, Map<String,String> options){
+         System.debug('Running VersionHelper.updateComponentFromPackageVersion'); 
+         Boolean newComponentFlag = false;
+         Boolean createDependencyFlag = false;
 
-
-
-
-
-/*
- * Sample Data and queries for Tooling API calls:
- * SubscriberPackageVersion: 04t1K000002J0KK
- * /services/data/v48.0/tooling/query/?q=SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+FROM+SubscriberPackageVersion+WHERE+Id+='04t3h000004bdPAAAY'
- * SubscriberPackage: 0331K000000oduuQAA
- * /services/data/v48.0/tooling/query/?q=SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+='0331K000000oduuQAA'
- */
-
-    //TODO: Check to see if Subscriber_Package_Id__c already exists
-    @future(callout = true)
-    public static void createPackageFromSubscriberPackageVersionId(String SubscriberPackageVersionId, Id gpbuPackageId){
-        System.debug('Start createPackageFromSubscriberPackageVersionId');
-        System.debug('Processing ' + SubscriberPackageVersionId);
-
-        Demo_Component__c gpbuDependentPackage = new Demo_Component__c();
-        gpbuDependentPackage.Last_Fetched__c = Datetime.Now();
-
-        //Preset Options. We assume we can at least do an install from a Package
-        gpbuDependentPackage.Source_Install_Type_Flag__c = false;
-        gpbuDependentPackage.SFDX_Package_Enabled_Flag__c = false; 
-        gpbuDependentPackage.Package_Install_Type_Flag__c = true;        
-        gpbuDependentPackage.Latest_Subscriber_Package_Version_Id__c = SubscriberPackageVersionId;
-
-        String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+SubscriberPackageVersionId + '\'';
-        Map<String,Object> results = new Map<String,Object>();
-        results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
-
-        List<Object> records = new List<Object>();
-        records = (List<Object>) results.get('records');
+        Demo_Component__c demoComponent = new Demo_Component__c();
+        System.debug('attempting to find Demo Component via Subscriber Package Id or Subscriber Package Version Id');
+        List<Demo_Component__c> demoComponentLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c, Title__c, Package_Installed_Subscriber_Version_Id__c,Subscriber_Package_Id__c, Github_Repository_URL__c, Package_Install_Type_Flag__c FROM Demo_Component__c WHERE Subscriber_Package_Id__c = :subscriberPackage.id OR Latest_Subscriber_Package_Version_Id__c = :subscriberPackageVersion.id LIMIT 1];
         
-        system.debug('SubscriberPackageVersion Records:' + records);
-
-        for(Object record: records){
-            Map<String,Object> thisRecord = (Map<String,Object>) record;
-            system.debug((String)thisRecord.get('SubscriberPackageId'));
-            gpbuDependentPackage.Subscriber_Package_Id__c = thisRecord.containsKey('SubscriberPackageId') ? (String)thisRecord.get('SubscriberPackageId') : '';
-            String version = '';
-            version += thisRecord.containsKey('MajorVersion') ? String.valueOf(thisRecord.get('MajorVersion')) : '0';
-            version += '.';
-            version += thisRecord.containsKey('MinorVersion') ? String.valueOf(thisRecord.get('MinorVersion')) : '0';
-            version += '.';
-            version += thisRecord.containsKey('PatchVersion') ? String.valueOf(thisRecord.get('PatchVersion')) : '0';               
-            version += '-';
-            version += thisRecord.containsKey('BuildNumber') ? String.valueOf(thisRecord.get('BuildNumber')) : '0';               
-            system.debug('Version: ' + version);            
-            gpbuDependentPackage.Latest_Package_Version__c = version;
-            gpbuDependentPackage.Latest_Package_Version_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';  
-        }
-
-        query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuDependentPackage.Subscriber_Package_Id__c + '\'';
-        
-        results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
-        records = (List<Object>) results.get('records');
-
-        system.debug('SubscriberPackage Records:' + records);
-
-        for(Object record: records){
-            Map<String,Object> thisRecord = (Map<String,Object>) record;
-            gpbuDependentPackage.Title__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';
-            gpbuDependentPackage.Description__c = thisRecord.containsKey('description') ? (String)thisRecord.get('description') : '';     
-            gpbuDependentPackage.Package_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';        
-        }
-        
-        System.debug('Insert New Package: ' + gpbuDependentPackage);  
-        insert gpbuDependentPackage;
-
-        if(gpbuPackageId != null){
-            List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :gpbuPackageId AND Dependent_Component__c = :gpbuDependentPackage.Id LIMIT 1];
-            if(packageDependencyLookup.size() > 0){
-                System.debug('Package Dependency Already Exists, skipping');
+        if(demoComponentLookup.size() > 0){
+            demoComponent = demoComponentLookup[0];  
+            System.debug('This package already exists as part of component, ' + demoComponent.Title__c + ', checking Latest_Subscriber_Package_Version_Id__c.');
+            if(demoComponentLookup[0].Latest_Subscriber_Package_Version_Id__c == subscriberPackageVersion.id){
+                System.debug('Component Latest_Subscriber_Package_Version_Id__c is the same as provided Subscriber Package Version ID');
             }else{
-                System.debug('Creating new Package Dependency');
-                Component_Dependency__c packageDependency = new Component_Dependency__c();
-                packageDependency.Demo_Component__c = gpbuPackageId;
-                packageDependency.Dependent_Component__c = gpbuDependentPackage.id;
-                insert packageDependency;
+                System.debug('Found a different (And we can assume updated) Latest_Subscriber_Package_Version_Id__c. We will update existing: Provided ' + subscriberPackageVersion.id + ' vs Latest ' + demoComponent.Latest_Subscriber_Package_Version_Id__c);
             }
-        }
-    }
-
-
-
-
-
-    //Updates Package Name and Subscriber Id from the Tooling API based upon its Subscriber Version ID
-    @future(callout = true)
-    public static void updatePackageFromSubscriberPackageVersionId(String gpbuPackageId){
-        System.debug('Start updatePackageFromSubscriberPackageVersionId');
-
-        List<Demo_Component__c> gpbuPackage = [SELECT Id, Description__c, Latest_Subscriber_Package_Version_Id__c, Subscriber_Package_Id__c FROM Demo_Component__c WHERE Id = :gpbuPackageId LIMIT 1];
-        if(gpbuPackage.size() > 0){
-            System.debug('Demo_Component__c found');  
-
-            String query = 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion+WHERE+Id+=\''+ gpbuPackage[0].Latest_Subscriber_Package_Version_Id__c + '\'';
-            
-            System.debug('Running Metadata API using the following query: ' + query); 
-            Map<String,Object> results = new Map<String,Object>();
-            
-            results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
-
-            List<Object> records = new List<Object>();
-            records = (List<Object>) results.get('records');
-            
-            system.debug('SubscriberPackageVersion Records:' + records);
-
-            for(Object record: records){
-                Map<String,Object> thisRecord = (Map<String,Object>) record;
-                system.debug((String)thisRecord.get('SubscriberPackageId'));
-                gpbuPackage[0].Subscriber_Package_Id__c = thisRecord.containsKey('SubscriberPackageId') ? (String)thisRecord.get('SubscriberPackageId') : '';
-                String version = '';
-                version += thisRecord.containsKey('MajorVersion') ? String.valueOf(thisRecord.get('MajorVersion')) : '0';
-                version += '.';
-                version += thisRecord.containsKey('MinorVersion') ? String.valueOf(thisRecord.get('MinorVersion')) : '0';
-                version += '.';
-                version += thisRecord.containsKey('PatchVersion') ? String.valueOf(thisRecord.get('PatchVersion')) : '0';               
-                version += '-';
-                version += thisRecord.containsKey('BuildNumber') ? String.valueOf(thisRecord.get('BuildNumber')) : '0';               
-                system.debug('Version: ' + version);            
-                gpbuPackage[0].Latest_Package_Version__c = version;
-                gpbuPackage[0].Latest_Package_Version_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';  
-            }
-
-
-            query = 'SELECT+Id+,Name+,Description+FROM+SubscriberPackage+WHERE+Id+=\''+gpbuPackage[0].Subscriber_Package_Id__c + '\'';
-            results = (Map<String,Object>) MetadataAPIHelper.getMetadataQueryAPI(query);
-            records = (List<Object>) results.get('records');
-
-            system.debug('SubscriberPackage Records:' + records);
-
-            for(Object record: records){
-                Map<String,Object> thisRecord = (Map<String,Object>) record;
-                gpbuPackage[0].Package_Name__c = thisRecord.containsKey('Name') ? (String)thisRecord.get('Name') : '';       
-            }
-            
-            System.debug('Updating Package');  
-            upsert gpbuPackage[0];
+            demoComponent = demoComponentLookup[0];
         }else{
-            System.debug('No Demo_Component__c found, skipping');  
+            newComponentFlag = true;
+        }
+
+        if(newComponentFlag){
+            System.debug('No component found. Creating.');
+            System.debug('Since this is a new component, we are going to set basic info');
+            demoComponent.Source_Install_Type_Flag__c = false;
+            demoComponent.SFDX_Package_Enabled_Flag__c = false; 
+            demoComponent.Package_Install_Type_Flag__c = true;     
+            demoComponent.Title__c = subscriberPackage.name;
+            demoComponent.Description__c = subscriberPackage.description;  
+        }
+
+        demoComponent.Subscriber_Package_Id__c = subscriberPackage.id;
+        demoComponent.Package_Name__c = subscriberPackage.name;
+        demoComponent.Latest_Subscriber_Package_Version_Id__c = subscriberPackageVersion.id;
+        demoComponent.Latest_Package_Version__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+        demoComponent.Latest_Package_Version_Name__c = subscriberPackageVersion.name;
+        demoComponent.Last_Fetched__c = Datetime.Now();
+
+        //We only process this if installedFlag is true, which means it came from a getInstalledPackages call
+        if(options.containsKey('installedFlag') && options.get('installedFlag') == 'true'){
+            system.debug('Found Installed Flag, processing');
+
+            demoComponent.Installed__c = true;
+            demoComponent.Installation_Type__c = 'Package'; 
+
+            if(demoComponent.Package_Install_Type_Flag__c){
+                system.debug('Found Installed Flag, processing'); 
+                demoComponent.Installed_Version_Tracking_Method__c = 'SFDX Project';                    
+            }else{
+                demoComponent.Installed_Version_Tracking_Method__c = 'None'; 
+            }
+
+            demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
+            demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
+            demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();    
+        }
+
+        upsert demoComponent;
+
+        if(options.containsKey('parentDemoComponentId')){
+            System.debug('parentDemoComponentId found, creating dependency'); 
+            
+            List<Demo_Component__c> parentDemoComponent = [SELECT Id FROM Demo_Component__c WHERE Id = :options.get('parentDemoComponentId') LIMIT 1];
+            if(parentDemoComponent.size() > 0){
+                System.debug('Found Parent Demo Component'); 
+                if(!newComponentFlag){
+                    List<Component_Dependency__c> packageDependencyLookup = [SELECT Id, Demo_Component__c, Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :parentDemoComponent[0].Id AND Dependent_Component__c = :demoComponentLookup[0].Id LIMIT 1];
+                    if(packageDependencyLookup.size() > 0){
+                        System.debug('Package Dependency Already Exists, skipping');  
+                        createDependencyFlag = false;
+                    }         
+                }else{
+                    createDependencyFlag = true;
+                }
+
+                if(options.containsKey('parentDemoComponentId') && createDependencyFlag){
+                    System.debug('Creating new Package Dependency');
+                    Component_Dependency__c packageDependency = new Component_Dependency__c();
+                    
+                    packageDependency.Demo_Component__c = parentDemoComponent[0].Id;
+                    packageDependency.Dependent_Component__c = demoComponent.Id;
+                    insert packageDependency;
+                }
+            }else{
+                System.debug('Could not find parent demo component'); 
+            }         
         }
     }
-
-
 
     //TODO: Check to see if Subscriber_Package_Id__c already exists
-    @future(callout = true)
-    public static void getInstalledPackages(){
-        System.debug('Start getInstalledPackages');
+    public static void componentUpdateCheck(Id gpbuComponentId){
+        System.debug('Start componentUpdateCheck');
+        Boolean updateFlag = false;
+        List<Demo_Component__c> demoComponent = [SELECT Id, Description__c, Latest_Commit_DateTime__c, Installation_Type__c, Package_Installed_Version_Number__c, Source_Installed_Commit_Hash__c, Source_Installed_Commit_DateTime__c, SFDX_Installed_Package_Alias__c, Package_Install_Type_Flag__c, Latest_SFDX_Package_Alias__c, Latest_Tag_Commit_Hash__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, Package_Installed_Subscriber_Version_Id__c, Installed__c  FROM Demo_Component__c WHERE Id = :gpbuComponentId LIMIT 1];
+        if(demoComponent.size() > 0){
+            system.debug('Found Demo Component');
+            if(demoComponent[0].Installed__c){
+                system.debug('It is installed');
+                system.debug('Component Install Type is' + demoComponent[0].Installation_Type__c);
+                system.debug('Component Version Tracking Method' + demoComponent[0].Installed_Version_Tracking_Method__c);
 
-        List<Demo_Component__c> newGPBUPackages = new List<Demo_Component__c>();       
-
-        List<MetadataAPIHelper.MetadataResponseRecord> subscriberPackages = MetadataAPIHelper.getInstalledPackages();
-
-        if(subscriberPackages != null){
-            system.debug('Found ' + subscriberPackages.size() + ' Installed Packages. Processing...');
-
-            system.debug('Grabbing Demo Components');
-            List<Demo_Component__c> demoComponents = [SELECT Id, Package_Name__c, Installed__c, Title__c, SFDX_Package_Enabled_Flag__c, Subscriber_Package_Id__c, Package_Installed_Subscriber_Version_Id__c, Latest_Package_Version__c from Demo_Component__c];
-
-            for(MetadataAPIHelper.MetadataResponseRecord subscriberPackage: subscriberPackages){
-                Boolean newDemoComponentFlag = true;
-                system.debug('Looping through Demo Components to find matching component to SubscriberId: ' + subscriberPackage.subscriberpackage.id);
-                for(Demo_Component__c demoComponent: demoComponents){
-                    if(demoComponent.Subscriber_Package_Id__c == subscriberPackage.subscriberpackage.id){
-                        system.debug('There is a match with an existing Demo Component. Processing...');
-                        if(demoComponent.Installed__c){
-                            //WE ASSUME DEMO COMPONENT WAS ALREADY INSTALLED AS A PACKAGE RECENTLY
-                            system.debug('Demo component already marked as installed');
-                            if(demoComponent.Package_Installed_Subscriber_Version_Id__c != subscriberPackage.subscriberPackageVersion.id){
-                                system.debug('Subscriber Package Version ID is different, updating'); 
-                                demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackage.subscriberPackageVersion.id;
-                                demoComponent.Package_Installed_Version_Name__c = subscriberPackage.subscriberPackageVersion.name;
-                                demoComponent.Package_Installed_Version_Number__c = MetadataAPIHelper.getSubscriberPackageVersionNumber(subscriberPackage.subscriberPackageVersion); 
-                            }else{
-                                system.debug('Subscriber Package Version ID is the same, we can break this loop');   
-                                break;
-                            }
-                        }else{
-                            system.debug('Demo Component not Marked as installed. Updating');
-                            demoComponent.Installed__c = true;
-                            if(demoComponent.SFDX_Package_Enabled_Flag__c){
-                                demoComponent.Installed_Version_Tracking_Method__c = 'SFDX Project';
-                            }   
+                if(demoComponent[0].Installed_Version_Tracking_Method__c == 'SFDX Project'){
+                    if(demoComponent[0].Installation_Type__c == 'Package'){
+                        if(demoComponent[0].Package_Installed_Subscriber_Version_Id__c != demoComponent[0].Latest_Subscriber_Package_Version_Id__c){
+                            system.debug('Component Latest Subscriber Package Version ID of ' + demoComponent[0].Latest_Subscriber_Package_Version_Id__c + ' Is not the same as the installed version of ' + demoComponent[0].Package_Installed_Subscriber_Version_Id__c);
+                            updateFlag = true;
                         }
-                        system.debug('Updating Demo Component');
-                        update demoComponent;
-                        system.debug('Breaking loop because we found the match.');
-                        break;
-                    }else{
-                        system.debug(demoComponent.Subscriber_Package_Id__c + ' is not a match to ' + subscriberPackage.subscriberpackage.id + 'Moving to next record');
+                    }else if(demoComponent[0].Installed_Version_Tracking_Method__c == 'Source' && demoComponent[0].Source_Installed_Tag_Hash__c != ''){
+                        if(demoComponent[0].Source_Installed_Tag_DateTime__c < demoComponent[0].Latest_Tag_Commit_DateTime__c){
+                            system.debug('Component Source Tag Installed date of ' + demoComponent[0].Source_Installed_Tag_DateTime__c + ' Is less than the latest tag commit date ' + demoComponent[0].Latest_Tag_Commit_DateTime__c);
+                            updateFlag = true;
+                        }
+                    }else if(demoComponent[0].Installed_Version_Tracking_Method__c == 'Source' && demoComponent[0].Source_Installed_Commit_Hash__c != ''){ 
+                        if(demoComponent[0].Source_Installed_Commit_DateTime__c < demoComponent[0].Latest_Commit_DateTime__c){
+                            system.debug('Component Source Tag Installed date of ' + demoComponent[0].Source_Installed_Tag_DateTime__c + ' Is less than the latest tag commit date ' + demoComponent[0].Latest_Tag_Commit_DateTime__c);
+                            updateFlag = true;
+                        }                     
                     }
                 }
-                if(newDemoComponentFlag){
-                    system.debug('No existing Demo Component found, creating a new one');
-                    //TODO: Update createPackageFromSubscriberPackageVersionId
-                }
-            }
+            }           
+        }
+
+        if(updateFlag){
+            demoComponent[0].Update_Available__c = true;
+            update demoComponent;
         }
     }
+
+
 }

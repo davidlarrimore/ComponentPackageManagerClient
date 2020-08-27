@@ -9,45 +9,12 @@
 
  public with sharing class MetadataAPIHelper {
 
-    public class MetadataResponse {
-        public Integer size;
-        public Integer totalSize;
-        public Boolean done;
-        public String queryLocator;
-        public String entityTypeName;
-        public List<MetadataResponseRecord> records;
-    }   
-
-    public class MetadataResponseRecord {
-        public String id;
-        public String subscriberPackageId;
-        public SubscriberPackage subscriberpackage;
-        public SubscriberPackageVersion subscriberPackageVersion;
-    }   
-
-    public class SubscriberPackage {
-        public String id;
-        public String description;
-        public String name;
-        public String namespacePrefix;     
-    }   
-
-    public class SubscriberPackageVersion {
-        public String id;
-        public String name;
-        public Integer MajorVersion;
-        public Integer MinorVersion;
-        public Integer PatchVersion;
-        public Integer BuildNumber;    
-    }   
-
     public MetadataAPIHelper() {
 
     }
 
-    public static List<MetadataResponseRecord> getInstalledPackages(){
+    public static List<MetadataInstalledPackageResponseRecord> getInstalledPackages(){
         system.debug('Running getInstalledPackages');
-        List<SubscriberPackage> subscriberPackages = new List<SubscriberPackage>();
 
         //get JSON String
         String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getInstalledPackagesQueryUrl(), true);
@@ -57,19 +24,68 @@
         if(JSONResponse != null){
             //Changing Reserved words
             JSONResponse = fixJSONVariableNames(JSONResponse);
-            MetadataResponse metadataResponse = (MetadataResponse)System.JSON.deserialize(JSONResponse, MetadataResponse.class);
-            system.debug('Found ' +  MetadataResponse.records.size() + ' SubscriberPackages');
+            MetadataInstalledPackageResponse metadataInstalledPackageResponse = (MetadataInstalledPackageResponse)System.JSON.deserialize(JSONResponse, metadataInstalledPackageResponse.class);
+            system.debug('Found ' +  metadataInstalledPackageResponse.records.size() + ' SubscriberPackages');
             
-            for(MetadataResponseRecord record: MetadataResponse.records){
+            for(MetadataInstalledPackageResponseRecord record: metadataInstalledPackageResponse.records){
                 system.debug('MetadataResponseRecord: ' + record);
             }
 
-            return MetadataResponse.records;
+            return metadataInstalledPackageResponse.records;
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
 
+
+    public static MetadataSubscriberPackageVersion getSubscriberPackageVersion(String SubscriberPackageVersionId){
+        system.debug('Running getSubscriberPackageVersion');
+
+        //get JSON String
+        String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getSubscriberPackageVersionQueryUrl(SubscriberPackageVersionId), true);
+
+        system.debug('JSON Response: ' + JSONResponse);
+
+        if(JSONResponse != null){
+            //Changing Reserved words
+            JSONResponse = fixJSONVariableNames(JSONResponse);
+            MetadataSubscriberPackageVersionResponse metadataResponse = (MetadataSubscriberPackageVersionResponse)System.JSON.deserialize(JSONResponse, MetadataSubscriberPackageVersionResponse.class);
+            system.debug('Found ' +  MetadataResponse.records.size() + ' SubscriberPackages');
+            
+            for(MetadataSubscriberPackageVersion record: MetadataResponse.records){
+                system.debug('SubscriberPackageVersion: ' + record);
+            }
+
+            return MetadataResponse.records[0];
+        }
+        system.debug('There was an issue with the doRestRequestJSON');
+        return null;
+    }
+
+
+    public static MetadataSubscriberPackage getSubscriberPackage(String SubscriberPackageId){
+        system.debug('Running getSubscriberPackage');
+
+        //get JSON String
+        String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getSubscriberPackageQueryUrl(SubscriberPackageId), true);
+
+        system.debug('JSON Response: ' + JSONResponse);
+
+        if(JSONResponse != null){
+            //Changing Reserved words
+            JSONResponse = fixJSONVariableNames(JSONResponse);
+            MetadataSubscriberPackageResponse metadataResponse = (MetadataSubscriberPackageResponse)System.JSON.deserialize(JSONResponse, MetadataSubscriberPackageResponse.class);
+            system.debug('Found ' +  MetadataResponse.records.size() + ' SubscriberPackages');
+            
+            for(MetadataSubscriberPackage record: MetadataResponse.records){
+                system.debug('SubscriberPackage: ' + record);
+            }
+
+            return MetadataResponse.records[0];
+        }
+        system.debug('There was an issue with the doRestRequestJSON');
+        return null;
+    }
 
 
  
@@ -80,13 +96,15 @@
         JSONResponse = JSONResponse.replace('"Description":', '"description":');
         JSONResponse = JSONResponse.replace('"SubscriberPackage":', '"subscriberPackage":');
         JSONResponse = JSONResponse.replace('"NamespacePrefix":', '"namespacePrefix":');        
-        JSONResponse = JSONResponse.replace('"Name":', '"name":');        
+        JSONResponse = JSONResponse.replace('"Name":', '"name":');    
+        JSONResponse = JSONResponse.replace('"PublisherName":', '"publisherName":');       
         JSONResponse = JSONResponse.replace('"BuildNumber":', '"buildNumber":');             
         JSONResponse = JSONResponse.replace('"MajorVersion":', '"majorVersion":');        
         JSONResponse = JSONResponse.replace('"MinorVersion":', '"minorVersion":');        
         JSONResponse = JSONResponse.replace('"PatchVersion":', '"patchVersion":');        
         JSONResponse = JSONResponse.replace('"SubscriberPackageVersion":', '"subscriberPackageVersion":'); 
-        JSONResponse = JSONResponse.replace('"SubscriberPackageId":', '"subscriberPackageId":');     
+        JSONResponse = JSONResponse.replace('"SubscriberPackageId":', '"subscriberPackageId":');   
+        JSONResponse = JSONResponse.replace('"IsPackageValid":', '"isPackageValid":'); 
 
         system.debug('Updated JSONResponse: ' + JSONResponse);
 
@@ -120,16 +138,26 @@
     }
 
     public static String getSubscriberPackageVersionQueryUrl(String subscriberPackageVersionId){
-        system.debug('Running getInstalledPackagesQueryUrl');       
+        system.debug('Running getSubscriberPackageVersionQueryUrl');       
         return MetadataAPIHelper.getBaseMetadataAPIURL() + MetadataAPIHelper.getSubscriberPackageVersionQuery() + '+WHERE+Id+=\''+subscriberPackageVersionId + '\'';
     }
 
     public static String getSubscriberPackageVersionQuery(){
-        system.debug('Running getInstalledPackagesQuery');
+        system.debug('Running getSubscriberPackageVersionQuery');
         return 'SELECT+Id+,Dependencies+,SubscriberPackageId+,Name+,Description+,PublisherName+,MajorVersion+,MinorVersion+,PatchVersion+,BuildNumber+FROM+SubscriberPackageVersion';
     }    
 
-    public static String getSubscriberPackageVersionNumber(SubscriberPackageVersion subscriberPackageVersion){
+    public static String getSubscriberPackageQueryUrl(String subscriberPackageId){
+        system.debug('Running getSubscriberPackageQueryUrl');       
+        return MetadataAPIHelper.getBaseMetadataAPIURL() + MetadataAPIHelper.getSubscriberPackageQuery() + '+WHERE+Id+=\''+subscriberPackageId + '\'';
+    }
+
+    public static String getSubscriberPackageQuery(){
+        system.debug('Running getSubscriberPackageQuery');
+        return 'SELECT+Id+,Name+,NamespacePrefix+,IsPackageValid+,Description+FROM+SubscriberPackage';
+    }    
+
+    public static String getSubscriberPackageVersionNumber(MetadataSubscriberPackageVersion subscriberPackageVersion){
         system.debug('Running getSubscriberPackageVersionNumber');       
         String version = '';
         version += SubscriberPackageVersion.majorVersion != null ? String.valueOf(SubscriberPackageVersion.majorVersion)  : '0';

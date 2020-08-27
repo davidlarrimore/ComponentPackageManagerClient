@@ -260,6 +260,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Source_Installed_Tag_DateTime__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Source_Installed_Tag_Hash__c</field>
             </layoutItems>
             <layoutItems>
@@ -272,6 +276,10 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Source_Installed_Commit_DateTime__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Source_Installed_Commit_Hash__c</field>

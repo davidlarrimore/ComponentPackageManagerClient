@@ -1,6 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { getRecord } from 'lightning/uiRecordApi';
-import installedComponents from '@salesforce/apex/CPMInstallCheckerController.getInstalledComponents';
+import refreshComponent from '@salesforce/apex/CMPRefreshCheckerController.runApex';
 import NAME_FIELD from '@salesforce/schema/Demo_Component__c.Name';
 import INSTALLED_FIELD from '@salesforce/schema/Demo_Component__c.Installed__c';
 import SOURCE_INSTALL_TYPE_FLAG_FIELD from '@salesforce/schema/Demo_Component__c.Source_Install_Type_Flag__c';
@@ -25,14 +25,14 @@ const FIELDS = [
 
 console.log('Running CPMInstallCheckerCard');
 
-export default class CPMInstallCheckerCard extends LightningElement {
-    
+export default class CMPRefreshCheckerCard extends LightningElement {
+    @api recordId;
     @track error;
     @track record;
 
-    @wire(installedComponents) 
-    wiredInstalledComponents({ error, data }) {
-        console.log('wiredInstalledComponents');
+    @wire(refreshComponent, {searchKey:'$recordId'}) 
+    wiredrefreshComponent({ error, data }) {
+        console.log('wiredrefreshComponent');
         if (data) {
             this.record = data;
             console.log(data);
