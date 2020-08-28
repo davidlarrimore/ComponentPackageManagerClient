@@ -7,7 +7,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
 
     public void execute(QueueableContext context) {
         System.debug('Running QueueUpdateComponentFromSFDX.execute');  
-        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
             Boolean triggerPackageUpdate = false;
@@ -45,6 +45,15 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                         demoComponent[0].Latest_SFDX_Package_Alias__c = githubSFDXProjectDotJSON.getLatestVersionAlias();
                         demoComponent[0].Latest_Subscriber_Package_Version_Id__c = githubSFDXProjectDotJSON.getLatestVersionPackageVersionId();
                         triggerPackageUpdate = true;
+
+                        if(demoComponent[0].Installed__c){
+                            System.debug('Checking to see if update is available');
+                            if(demoComponent[0].Installed_Version_Tracking_Method__c == 'SFDX Project' ){
+                                System.debug('Update Available');
+                                demoComponent[0].Update_Available__c = true;
+                            }
+                        }
+
                     }
                 }
 

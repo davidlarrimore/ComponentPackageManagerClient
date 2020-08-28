@@ -20,10 +20,7 @@ public with sharing class CMPRefreshCheckerController {
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(searchKey); 
                 JobIDs.add(System.enqueueJob(queueUpdateComponentSourceTagInfoJob));    
             }
-
-            QueueComponentUpdateCheck queueComponentUpdateCheckJob = new QueueComponentUpdateCheck(searchKey); 
-            JobIDs.add(System.enqueueJob(queueComponentUpdateCheckJob));  
-                        
+    
         }
 
         return JobIDs;

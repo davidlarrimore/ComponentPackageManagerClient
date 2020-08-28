@@ -298,6 +298,7 @@ public with sharing class VersionHelper {
             demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();    
         }
 
+        
         upsert demoComponent;
 
         if(options.containsKey('parentDemoComponentId')){
