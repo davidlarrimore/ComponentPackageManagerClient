@@ -43,9 +43,13 @@ public with sharing class APIHelper {
         system.debug('URL is ' + url);
 
         HttpRequest request = new HttpRequest();
-        if(auth){
+        if(url.contains('github')){
+            request.setHeader('Authorization', 'token 0391120ce68c63bda5e7c84d6771f2edfa6b1d8b');
+        }else if(auth){
             request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
+            
         }
+        
         request.setHeader('Content-Type', 'application/json');
 
         request.setEndpoint(url); 
@@ -60,7 +64,7 @@ public with sharing class APIHelper {
                 // Deserialize the JSON string into collections of primitive data types.
                 system.debug('Success!');
                 system.debug('Response: ');
-                APIHelper.mDebugUntruncated(response.getBody());
+                //APIHelper.mDebugUntruncated(response.getBody());
                 return response.getBody();
             }else{
                 system.debug('Request failed. Status Code: ' + response.getStatusCode());

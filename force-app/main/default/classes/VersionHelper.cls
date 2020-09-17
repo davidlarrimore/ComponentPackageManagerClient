@@ -13,7 +13,7 @@ public with sharing class VersionHelper {
     //Checks for sfdx-project.json if it has it, that means its an SFDX project
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
-    public static Demo_Component__c getComponentFromGithubURL(String githubUrl){
+    public static Demo_Component__c getComponentFromGithubURL(String githubUrl, Map<String,String> options){
         System.debug('Running VersionHelper.getComponentFromGithubURL');  
         System.debug('Processing ' + githubUrl);
         List<String> versions = new List<String>();
@@ -138,7 +138,7 @@ public with sharing class VersionHelper {
         //TODO: Check for Package.XML (Low Priority)
 
         System.debug('Seeing if Package already exists');
-        existingPackageLookup = [SELECT Id from Demo_Component__c WHERE Github_Repository_URL__c = :githubUrl OR Package_Name__c = :gpbuPackage.SFDX_Package_Name__c OR Title__c = :gpbuPackage.Title__c LIMIT 1];
+        existingPackageLookup = [SELECT Id from Demo_Component__c WHERE (Github_Repository_URL__c != null AND Github_Repository_URL__c = :githubUrl) OR (Package_Name__c = :gpbuPackage.SFDX_Package_Name__c AND Package_Name__c != null) OR Title__c = :gpbuPackage.Title__c LIMIT 1];
         if(existingPackageLookup.size() > 0){
             System.debug('Package already exists, adding Id and updating');
             gpbuPackage.Id = existingPackageLookup[0].Id;
@@ -162,7 +162,7 @@ public with sharing class VersionHelper {
         //Updating Source Info
         if(gpbuPackage.Source_Install_Type_Flag__c && !subRepoFlag){
             System.debug('This is Source Install Enabled, using Github api to grab Commit/tag info');
-            QueueUpdateComponentSourceCommitInfo commitUpdateJob = new QueueUpdateComponentSourceCommitInfo(gpbuPackage.Id); 
+            QueueUpdateComponentSourceCommitInfo commitUpdateJob = new QueueUpdateComponentSourceCommitInfo(gpbuPackage.Id, options); 
             ID commitUpdateJobID = System.enqueueJob(commitUpdateJob);   
             
             QueueUpdateComponentSourceTagInfo tagUpdateJob = new QueueUpdateComponentSourceTagInfo(gpbuPackage.Id); 
@@ -204,6 +204,53 @@ public with sharing class VersionHelper {
         }else{
             System.debug('Could not find Component ' + gpbuPackage[0].Id);   
         }
+    }
+
+    public static void updateComponentFromXTag(){
+        System.debug('Running VersionHelper.getStaticResource');        
+        List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
+        List<String> githubRepositoryUrls = new List<String>();
+        List<XTagFile> xTagFiles = new List<XTagFile>();
+
+        if(staticResources.size() > 0){
+            System.debug('Found' + staticResources.size() + ' static_resources');
+            for (StaticResource staticResource: staticResources){
+                XTagFile xTagFile = (XTagFile)System.JSON.deserialize(staticResource.Body.toString(), XTagFile.class);
+
+                System.debug('Found Static Resource ID: ' + staticResource.Id + ', with name: '+ xTagFile.name); 
+                githubRepositoryUrls.add(xTagFile.githubRepositoryUrl);
+                xTagFiles.add(xTagFile);
+            }
+
+            List<Demo_Component__c> demoComponents = [SELECT Id, Name, Github_Repository_URL__c, Title__c, Installed__c, Source_Installed_Commit_Hash__c, Source_Installed_Tag_Hash__c FROM Demo_Component__c WHERE Github_Repository_URL__c IN: githubRepositoryUrls];       
+            
+            if(demoComponents.size() > 0){
+                System.debug('Found' + demoComponents.size() + ' Demo Components');
+                for (XTagFile xTagFile: xTagFiles){
+                    xTagFile.demoComponentAlreadyExistsFlag = false;
+                    xTagFile.demoComponentAlreadyInstalledFlag = false;
+                    for (Demo_Component__c demoComponent: demoComponents){
+                        if (xTagFile.githubRepositoryUrl == demoComponent.Github_Repository_URL__c){
+                            System.debug('Existing demo component ' + demoComponent.Title__c + ' Is a match to this XTag File');
+                            xTagFile.demoComponentAlreadyExistsFlag = true;
+                            if (demoComponent.Installed__c){
+                                System.debug('Component is already marked as installed');
+                                xTagFile.demoComponentAlreadyInstalledFlag = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(XTagFile xTagFile: xTagFiles){
+                if(!xTagFile.demoComponentAlreadyExistsFlag){
+                    System.debug('Repository ' + xTagFile.githubRepositoryUrl + ' Does not match an existing component, creating a new one');
+                    getComponentFromGithubURL(xTagFile.githubRepositoryUrl, new map<String,String>{'installDate'=>string.valueOfGmt(xTagFile.installDateTime), 'installedFlag'=>'true', 'installType' => xTagFile.installType, 'commitHash' => xTagFile.commitHash});
+                }
+            }
+        }
+
+
     }
 
     @future(callout = true)

@@ -32,10 +32,10 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>cMPRefreshCheckerCard</componentName>
+            <componentName>cpmRefreshCheckerCard</componentName>
         </componentInstances>
         <componentInstances>
-            <componentName>componentInstallerCard</componentName>
+            <componentName>cpmComponentInstaller</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>

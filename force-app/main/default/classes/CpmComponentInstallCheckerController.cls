@@ -1,4 +1,4 @@
-public with sharing class CPMInstallCheckerController {
+public with sharing class CpmComponentInstallCheckerController {
     @AuraEnabled
     public String recordId { get; set; }
 
@@ -9,6 +9,9 @@ public with sharing class CPMInstallCheckerController {
 
         QueueGetInstalledPackages updateJob = new QueueGetInstalledPackages();
         JobIDs.add(System.enqueueJob(updateJob));
+        
+
+        VersionHelper.updateComponentFromXTag();
 
         return JobIDs;
     }

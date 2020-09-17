@@ -14,9 +14,9 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
             List<GithubRepoTag> githubTags = GithubAPIHelper.getGithubTags(demoComponent[0].Github_Repository_URL__c);
 
-            if(githubTags != null && githubTags.size() > 0){
+            if(githubTags.size() > 0 && githubTags != null){
                 for(GithubRepoTag thisTag: githubTags){
-                    if (thisTag.latestTagFlag){
+                    if (thisTag.latestTagFlag != null && thisTag.latestTagFlag){
                         demoComponent[0].Latest_Tag_Commit_DateTime__c = thisTag.tagDate;
                         demoComponent[0].Latest_Tag_Commit_Description__c = thisTag.githubCommit.commitInfo.message;
                         demoComponent[0].Latest_Tag_Commit_Hash__c = thisTag.githubCommit.sha;

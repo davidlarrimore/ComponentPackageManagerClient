@@ -1,0 +1,70 @@
+<template>
+  <template if:true={demoComponent}>
+    <template if:true={demoComponentDependencies}>
+      <template if:false={getComponentInstalledFlag}>
+        <template if:true={canInstallPackageFlag}>
+          <lightning-card title="Install this Component" icon-name="custom:custom19">
+            <template if:true={getSourceInstallTypeFlag}>
+              <div class="slds-var-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank"
+                  href={demoComponent.fields.Source_Install_Url__c.value}>Install as Source</a>
+              </div>
+            </template>
+            <template if:true={getPackageInstallTypeFlag}>
+              <div class="slds-var-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank"
+                  href={demoComponent.fields.Package_Install_Url__c.value}>Install as Package</a>
+              </div>
+            </template>
+          </lightning-card>
+        </template>
+      </template>
+      <template if:true={getComponentInstalledFlag}>
+        <template if:true={canUpdatePackageFlag}>
+          <lightning-card title="Component Update Available" icon-name="custom:custom19">
+            <template if:true={getSourceInstallTypeFlag}> </template>
+            <template if:true={getPackageInstallTypeFlag}>
+              <div class="slds-var-m-around_medium">
+                <a class="slds-button slds-button_brand" target="_blank"
+                  href={demoComponent.fields.Package_Install_Url__c.value}>Update package now</a>
+              </div>
+            </template>
+          </lightning-card>
+        </template>
+        <!--
+        <lightning-card title="Uninstall Component" icon-name="custom:custom14">
+          <div class="slds-var-m-around_medium">
+            <p>Component Name: {demoComponent.fields.Name.value}</p>
+          </div>
+        </lightning-card>
+        -->
+      </template>
+      <template if:false={getComponentInstalledFlag}>
+        <template if:true={needDependenciesInstalledFlag}>
+          <div title="Install this Component" class="slds-card-wrapper">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container slds-icon-standard-contact" title="Install this Component">
+                  <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                    <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom19"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Install this Component</span>
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                  <span>Install this Component</span>
+                </h2>
+              </div>
+            </header>
+            <div class="slds-card__body slds-card__body_inner">
+              In order to install this component, you must first install the
+              following dependent component(s):
+            </div>
+            <c-cpm-component-installer-dependencies demo-component={demoComponent}></c-cpm-component-installer-dependencies>
+          </div>
+        </template>
+      </template>
+    </template>
+  </template>
+</template>

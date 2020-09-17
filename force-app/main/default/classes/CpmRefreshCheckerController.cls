@@ -1,4 +1,4 @@
-public with sharing class CMPRefreshCheckerController {
+public with sharing class CpmRefreshCheckerController {
     @AuraEnabled
     public String recordId { get; set; }
 
@@ -14,7 +14,7 @@ public with sharing class CMPRefreshCheckerController {
             }
 
             if(demoComponent[0].Source_Install_Type_Flag__c){
-                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(searchKey); 
+                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(searchKey, new Map<String,String>{}); 
                 JobIDs.add(System.enqueueJob(queueUpdateComponentSourceCommitInfoJob));    
         
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(searchKey); 

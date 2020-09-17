@@ -4,7 +4,7 @@ public with sharing class vfGetComponentFromGithubURL {
         List<Demo_Component__c> gpbuPackages = new List<Demo_Component__c>();
         Demo_Component__c gpbuPackage = new Demo_Component__c();
         for(String githubUrl: githubUrls){
-            gpbuPackages.add(VersionHelper.getComponentFromGithubURL(githubUrl));
+            gpbuPackages.add(VersionHelper.getComponentFromGithubURL(githubUrl, new map<String,String>{}));
         }
         return gpbuPackages; 
     }

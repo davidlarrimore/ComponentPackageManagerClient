@@ -118,11 +118,56 @@ public with sharing class GithubAPIHelper {
         }          
     }
 
+   /* 
+    * Get Latest Master Commit
+    * Options:
+    * commitHash, will look for a specific hash
+    * Otherwise defaults to master
+    */
+    public static GithubRepoCommit getGithubCommit(String githubUrl, Map<String,String> options){
+        system.debug('Running getLatestGithubCommit against URL:' + githubUrl);
+        String newGithubUrl = GithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
+
+        //get JSON String
+        //TODO: Use the /master to grab the latest commit
+        
+        if(options.containsKey('commitHash')){
+            newGithubUrl = newGithubUrl + '/commits/'+options.get('commitHash');
+        }else{
+            newGithubUrl = newGithubUrl + '/commits/master';
+        }
+        String JSONResponse = APIHelper.doRestRequestJSON(newGithubUrl, false);
+
+        if(JSONResponse != null ){
+            //Changing Reserved words
+            JSONResponse = JSONResponse.replace('"commit":', '"commitInfo":');
+            JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
+
+            system.debug('Processing JSON: ' + JSONResponse);
+            GithubRepoCommit githubCommit = (GithubRepoCommit)System.JSON.deserialize(JSONResponse, GithubRepoCommit.class);
+            if(githubCommit != null){
+                githubCommit.latestCommitFlag = true;
+    
+                system.debug(githubCommit);
+                return githubCommit;
+            }else{
+                return null;
+            }
+        }
+
+        system.debug('There was an issue with the doRestRequestJSON');
+        return null;
+    }
+
+
     /* 
     * Get All commits
     * Get Base Repo Info from Github API: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management
-    * Get Commits: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits
+    * Get Commits: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits/master (the /master grabs the latest)
     * Get Tags: https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/tags
+    * ALternative Method:
+    * 1) Grab Latest Release: https://api.github.com/repos/davidlarrimore/richtextinputfsc/releases/latest
+    * 2) Use Name to grab latest Tag: https://api.github.com/repos/davidlarrimore/richtextinputfsc/releases/tags/3.0
     * 
     */
     public static List<GithubRepoCommit> getGithubCommits(String githubUrl){
@@ -130,6 +175,7 @@ public with sharing class GithubAPIHelper {
         String newGithubUrl = GithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
         //get JSON String
+        //TODO: Use the /master to grab the latest commit
         String JSONResponse = APIHelper.doRestRequestJSON(newGithubUrl + '/commits', false);
 
         if(JSONResponse != null){

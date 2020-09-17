@@ -68,7 +68,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>cPMInstallCheckerCard</componentName>
+            <componentName>cpmComponentInstallChecker</componentName>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>

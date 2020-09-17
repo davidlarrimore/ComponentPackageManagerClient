@@ -1,4 +1,4 @@
-public with sharing class PackageInstallerController {
+public with sharing class CpmComponentInstallerController {
     @AuraEnabled
     public String recordId { get; set; }
 

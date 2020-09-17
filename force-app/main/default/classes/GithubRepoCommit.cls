@@ -6,6 +6,6 @@ public with sharing class GithubRepoCommit {
     public GithubRepoCommitAuthor author;    
     
     public GithubRepoCommit() {
-
+        this.latestCommitFlag = false;
     }
 }
