@@ -90,8 +90,4 @@ export default class ComponentInstallerCard extends LightningElement {
     return false;
   }
 
-  greeting = "World";
-  changeHandler(event) {
-    this.greeting = event.target.value;
-  }
 }
