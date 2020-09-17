@@ -1,6 +1,10 @@
 import { LightningElement, api, track, wire } from "lwc";
-import { getRecord } from "lightning/uiRecordApi";
-import NAME_FIELD from "@salesforce/schema/Demo_Component__c.Name";
+import {
+  getRecord,
+  getFieldValue,
+  getFieldDisplayValue
+} from "lightning/uiRecordApi";
+import PACKAGE_NAME_FIELD from "@salesforce/schema/Demo_Component__c.Package_Name__c";
 import INSTALLED_FIELD from "@salesforce/schema/Demo_Component__c.Installed__c";
 import SOURCE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Source_Install_Type_Flag__c";
 import PACKAGE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Package_Install_Type_Flag__c";
@@ -12,8 +16,8 @@ import PACKAGE_INSTALL_URL_FIELD from "@salesforce/schema/Demo_Component__c.Pack
 import UPDATE_AVAILABLE_FIELD from "@salesforce/schema/Demo_Component__c.Update_Available__c";
 import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Demo_Component__c.Installation_Type__c";
 
-const FIELDS = [
-  NAME_FIELD,
+const fields = [
+  PACKAGE_NAME_FIELD,
   INSTALLED_FIELD,
   SOURCE_INSTALL_TYPE_FLAG_FIELD,
   PACKAGE_INSTALL_TYPE_FLAG_FIELD,
@@ -33,43 +37,57 @@ export default class CpmComponentInstaller extends LightningElement {
   @track demoComponentDependencies;
   @track selectedItemValue = "closed";
 
-  @wire(getRecord, { recordId: "$recordId", fields: FIELDS })
-  wiredDemo_Component__c({ error, data }) {
-    if (data) {
-      this.demoComponent = data;
-      console.log("wiredDemo_Component__c SUCCESS");
-      console.log(data);
-      this.error = undefined;
-    } else if (error) {
-      this.error = error;
-      console.log("wiredDemo_Component__c ERROR: " + error);
-      this.demoComponent = undefined;
-    }
+  @wire(getRecord, {
+    recordId: "$recordId",
+    fields
+  })
+  wired_demoComponent;
+
+  get componentPackageName() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      PACKAGE_NAME_FIELD
+    );
   }
 
-
-  get packageName() {
-    return this.demoComponent.fields.Name.value;
+  get componentUpdateAvailableFlag() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      UPDATE_AVAILABLE_FIELD
+    );
   }
 
-  get getUpdateAvailableFlag() {
-    return this.demoComponent.fields.Update_Available__c.value;
+  get componentPackageInstallUrl() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      PACKAGE_INSTALL_URL_FIELD
+    );
+  }
+  get componentSourceInstallUrl() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      SOURCE_INSTALL_URL_FIELD
+    );
+  }
+  get componentSourceInstallTypeFlag() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      SOURCE_INSTALL_TYPE_FLAG_FIELD
+    );
   }
 
-  get getSourceInstallTypeFlag() {
-    return this.demoComponent.fields.Source_Install_Type_Flag__c.value;
+  get componentPackageInstallTypeFlag() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      PACKAGE_INSTALL_TYPE_FLAG_FIELD
+    );
   }
 
-  get getPackageInstallTypeFlag() {
-    return this.demoComponent.fields.Package_Install_Type_Flag__c.value;
-  }
-
-  get getComponentInstalledFlag() {
-    return this.demoComponent.fields.Installed__c.value;
-  }
-
-  get getUpdateFlag() {
-    return this.demoComponent.fields.Update_Available__c.value;
+  get componentInstalledFlag() {
+    return this._getDisplayValue(
+      this.wired_demoComponent.data,
+      INSTALLED_FIELD
+    );
   }
 
   get canInstallPackageFlag() {
@@ -81,13 +99,15 @@ export default class CpmComponentInstaller extends LightningElement {
   }
 
   get canUpdatePackageFlag() {
-    if (
-      this.demoComponent.fields.Installed__c.value &&
-      this.demoComponent.fields.Update_Available__c.value
-    ) {
+    if (this.getComponentInstalledFlag() && this.getUpdateAvailableFlag()) {
       return true;
     }
     return false;
   }
 
+  _getDisplayValue(data, field) {
+    return getFieldDisplayValue(data, field)
+      ? getFieldDisplayValue(data, field)
+      : getFieldValue(data, field);
+  }
 }

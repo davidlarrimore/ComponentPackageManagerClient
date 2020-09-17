@@ -1,5 +1,6 @@
 <template>
-    <template for:each={demoComponentDependencies} for:item="demoComponentDependency">
-        {demoComponentDependency.Name}
+    <template for:each={demoComponentDependencies} for:item="demoComponent">
+        <c-cpm-component-installer-dependency demo-component={demoComponent} key={demoComponent.Id}>
+        </c-cpm-component-installer-dependency>
     </template>
 </template>

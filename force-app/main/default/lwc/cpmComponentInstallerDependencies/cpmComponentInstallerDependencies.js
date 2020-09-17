@@ -1,17 +1,16 @@
-import { LightningElement, api, track, wire } from "lwc";
+import { LightningElement, track, api, wire } from "lwc";
 import dependentPackages from "@salesforce/apex/CpmComponentInstallerController.getDependentPackages";
 
 export default class CpmComponentInstallerDependencies extends LightningElement {
-  @api recordId;
-  demoComponent;
+  @api demoComponentId;
   @track error;
   @track demoComponentDependencies;
 
-  @wire(dependentPackages, { searchKey: "$recordId" })
+  @wire(dependentPackages, { searchKey: "$demoComponentId" })
   wiredPackageDependencies({ error, data }) {
     if (data) {
-      this.demoComponentDependencies = data;
       console.log("wiredPackageDependencies SUCCESS");
+      this.demoComponentDependencies = data;
       console.log(data);
       this.error = undefined;
     } else if (error) {
@@ -21,4 +20,10 @@ export default class CpmComponentInstallerDependencies extends LightningElement 
     }
   }
 
+  get thedemoComponentId(){
+    return this.demoComponentId;  
+  }
+
+
+  
 }
