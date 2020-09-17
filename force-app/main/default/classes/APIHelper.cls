@@ -4,7 +4,7 @@ public with sharing class APIHelper {
     }
 
     public static Map<String,Object> doRestRequest(String url, Boolean auth){
-        system.debug('Running getRestRequest');
+        system.debug('Running doRestRequest');
         system.debug('URL is ' + url);
 
         HttpRequest request = new HttpRequest();
@@ -39,12 +39,12 @@ public with sharing class APIHelper {
 
 
     public static String doRestRequestJSON(String url, Boolean auth){
-        system.debug('Running getRestRequest');
+        system.debug('Running doRestRequestJSON');
         system.debug('URL is ' + url);
 
         HttpRequest request = new HttpRequest();
         if(url.contains('github')){
-            request.setHeader('Authorization', 'token 0391120ce68c63bda5e7c84d6771f2edfa6b1d8b');
+            //TODO: request.setHeader('Authorization', 'token');
         }else if(auth){
             request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
             

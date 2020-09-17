@@ -1,5 +1,5 @@
-//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/gpbu-visitor-management', , new map<String,String>{});
-//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/richTextInputFSC', , new map<String,String>{});
+//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/gpbu-visitor-management', new map<String,String>{});
+//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/richTextInputFSC', new map<String,String>{});
 //VersionHelper.updateComponentSourceCommitInfo('a021F0000057Pe5QAE');
 //VersionHelper.updateComponentSourceTagInfo('a021F0000057Pe5QAE');
 //VersionHelper.getInstalledPackages();
