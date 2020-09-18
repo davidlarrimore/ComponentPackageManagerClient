@@ -10,7 +10,6 @@ public with sharing class CpmComponentInstallCheckerController {
         QueueGetInstalledPackages updateJob = new QueueGetInstalledPackages();
         JobIDs.add(System.enqueueJob(updateJob));
         
-
         VersionHelper.updateComponentFromXTag();
 
         return JobIDs;

@@ -33,7 +33,7 @@ public with sharing class APIHelper {
 
         }catch(Exception e){
             system.debug('Error Running HTTP Request: ' + e);
-            return null;
+            throw e;
         }  
     }
 
@@ -73,7 +73,7 @@ public with sharing class APIHelper {
 
         }catch(Exception e){
             system.debug('Error Running HTTP Request: ' + e);
-            return null;
+            throw e;
         }  
     }
 

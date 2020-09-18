@@ -114,8 +114,8 @@ public with sharing class GithubAPIHelper {
             }
         }catch(Exception e){
             system.debug('Error Running API: ' + e);
-            return null;
-        }          
+            throw e;
+        }      
     }
 
    /* 

@@ -1,5 +1,6 @@
 import { LightningElement, api } from "lwc";
 import jobInfo from "@salesforce/apex/CpmJobStatusController.getJobInfo";
+import Utils from "c/utils";
 
 export default class CpmJobStatus extends LightningElement {
   @api jobId;
@@ -12,6 +13,10 @@ export default class CpmJobStatus extends LightningElement {
 
   get jobStatus() {
     return this._getJob.Status;
+  }
+
+  get jobExtendedStatus() {
+    return this._getJob.ExtendedStatus;
   }
 
   get jobApexClassId() {
@@ -37,10 +42,13 @@ export default class CpmJobStatus extends LightningElement {
   connectedCallback() {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setInterval(() => {
-        if (this._getJob.Status !== "Completed") {
-            console.log("refreshing.....");
-            this.doJobSearch();
-        }
+      if (
+        this._getJob.Status !== "Completed" &&
+        this._getJob.Status !== "Failed"
+      ) {
+        console.log("refreshing.....");
+        this.doJobSearch();
+      }
     }, 5000);
 
     this.doJobSearch();
@@ -53,6 +61,9 @@ export default class CpmJobStatus extends LightningElement {
         if (result) {
           console.log(`Receive Job Record: ${JSON.stringify(result[0])}`);
           this._getJob = result[0];
+          if(this._getJob.Status === "Failed"){
+            Utils.showToast(this, 'Job Failed', `Job ${this.jobId} failed with message: ${this.jobExtendedStatus}`, 'error');
+          }
           this.error = undefined;
         }
       })
@@ -65,11 +76,13 @@ export default class CpmJobStatus extends LightningElement {
 
   get jobStatusClass() {
     if (this._getJob.Status === "Completed") {
-      return "slds-theme_success";
+      return "slds-badge slds-theme_success";
     } else if (this._getJob.Status === "Queued") {
       return "slds-badge";
     } else if (this._getJob.Status === "Processing") {
-      return "slds-theme_warning";
+      return "slds-badge slds-theme_warning";
+    } else if (this._getJob.Status === "Failed") {
+      return "slds-badge slds-theme_error";
     }
     return "slds-badge_lightest";
   }

@@ -6,13 +6,13 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     }
 
     public void execute(QueueableContext context) {
+
         System.debug('Running QueueUpdateComponentFromSFDX.execute');  
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
             Boolean triggerPackageUpdate = false;
             GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(demoComponent[0].Github_Repository_URL__c);
-
             if(githubSFDXProjectDotJSON != null){
                 if(githubSFDXProjectDotJSON.packageDirectories != null && githubSFDXProjectDotJSON.packageDirectories.size() > 0){
                     for(GithubPackageDirectory thisPackageDirectory: (List<GithubPackageDirectory>) githubSFDXProjectDotJSON.packageDirectories){
