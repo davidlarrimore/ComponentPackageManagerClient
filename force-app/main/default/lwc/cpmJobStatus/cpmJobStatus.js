@@ -86,7 +86,7 @@ export default class CpmJobStatus extends LightningElement {
       .catch((error) => {
         console.log(`wired_Job had an error: ${JSON.stringify(error)}`);
         this.error = error;
-        this.contacts = undefined;
+        this._getJob = undefined;
       });
   }
 

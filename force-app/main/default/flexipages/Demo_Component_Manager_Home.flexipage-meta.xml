@@ -68,18 +68,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>cpmComponentInstallChecker</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>flowLayout</name>
-                <value>oneColumn</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>flowName</name>
-                <value>Add_Github_Component_by_URL</value>
-            </componentInstanceProperties>
-            <componentName>flowruntime:interview</componentName>
+            <componentName>cpmHomeLayoutManager</componentName>
         </componentInstances>
         <name>sidebar</name>
         <type>Region</type>

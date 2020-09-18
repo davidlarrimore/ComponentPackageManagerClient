@@ -213,7 +213,7 @@
             <targetReference>Get_Github_URL_Screen</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>demoComponent</name>
         <dataType>SObject</dataType>
