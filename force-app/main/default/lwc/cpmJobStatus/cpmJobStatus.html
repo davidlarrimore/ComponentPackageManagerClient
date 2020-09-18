@@ -1,0 +1,7 @@
+<template>
+    <template if:true={_getJob}>
+        <div class="slds-card__body slds-card__body_inner">Job #{jobId} &nbsp;
+            <lightning-badge label={jobStatus} class={jobStatusClass}></lightning-badge>
+        </div>
+    </template>
+</template>

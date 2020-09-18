@@ -6,7 +6,7 @@ console.log("Running CpmRefreshCheckerCard");
 export default class CpmRefreshCheckerCard extends LightningElement {
   @api recordId;
   @track error;
-  @track record;
+  @track record = [];
 
   @wire(refreshComponent, { searchKey: "$recordId" })
   wiredrefreshComponent({ error, data }) {

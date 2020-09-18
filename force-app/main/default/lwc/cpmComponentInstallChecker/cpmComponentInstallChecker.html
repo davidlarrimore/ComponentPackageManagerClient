@@ -1,12 +1,7 @@
 <template>
   <lightning-card title="Installed Package Checker" icon-name="custom:custom19">
-      <div class="slds-media__body">
-        <template if:true={apexRanFlag}>
-          <div class="slds-card__body slds-card__body_inner">Apex Ran Successfully</div>
-        </template>
-        <template for:each={record} for:item="rec">
-          <div class="slds-card__body slds-card__body_inner" key={rec}>Job Id: {rec}</div>
-        </template>
-      </div>
+    <template for:each={record} for:item="rec">
+      <c-cpm-job-status job-id={rec} key={rec}></c-cpm-job-status>
+    </template>
   </lightning-card>
 </template>

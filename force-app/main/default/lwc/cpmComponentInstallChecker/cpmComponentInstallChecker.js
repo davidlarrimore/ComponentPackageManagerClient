@@ -5,7 +5,7 @@ console.log("Running CPMInstallCheckerCard");
 
 export default class CpmInstallCheckerCard extends LightningElement {
   @track error;
-  @track record;
+  @track record = [];
 
   @wire(installedComponents)
   wiredInstalledComponents({ error, data }) {
