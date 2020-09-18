@@ -1,11 +1,11 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, track} from "lwc";
 import jobInfo from "@salesforce/apex/CpmJobStatusController.getJobInfo";
 import Utils from "c/utils";
 
 export default class CpmJobStatus extends LightningElement {
   @api jobId;
   _getJob;
-
+  @track jobStatusClass;
   //refreshApex(valueProvisionedByWireService)
 
   //SELECT Id, Status, ApexClassId, MethodName, ExtendedStatus, JobType, NumberOfErrors FROM AsyncApexJob
@@ -61,9 +61,25 @@ export default class CpmJobStatus extends LightningElement {
         if (result) {
           console.log(`Receive Job Record: ${JSON.stringify(result[0])}`);
           this._getJob = result[0];
-          if(this._getJob.Status === "Failed"){
-            Utils.showToast(this, 'Job Failed', `Job ${this.jobId} failed with message: ${this.jobExtendedStatus}`, 'error');
+
+          if (this._getJob.Status === "Completed") {
+            this.jobStatusClass =  "slds-badge slds-theme_success";
+          } else if (this._getJob.Status === "Queued") {
+            this.jobStatusClass =   "slds-badge";
+          } else if (this._getJob.Status === "Processing") {
+            this.jobStatusClass =  "slds-badge slds-theme_warning";
+          } else if (this._getJob.Status === "Failed") {
+            this.jobStatusClass =  "slds-badge slds-theme_error";
+            Utils.showToast(
+              this,
+              "Job Failed",
+              `Job ${this.jobId} failed with message: ${this.jobExtendedStatus}`,
+              "error"
+            );
+          }else{
+            this.jobStatusClass =  "slds-badge_lightest";
           }
+
           this.error = undefined;
         }
       })
@@ -74,16 +90,4 @@ export default class CpmJobStatus extends LightningElement {
       });
   }
 
-  get jobStatusClass() {
-    if (this._getJob.Status === "Completed") {
-      return "slds-badge slds-theme_success";
-    } else if (this._getJob.Status === "Queued") {
-      return "slds-badge";
-    } else if (this._getJob.Status === "Processing") {
-      return "slds-badge slds-theme_warning";
-    } else if (this._getJob.Status === "Failed") {
-      return "slds-badge slds-theme_error";
-    }
-    return "slds-badge_lightest";
-  }
 }
