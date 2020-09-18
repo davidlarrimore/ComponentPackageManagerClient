@@ -34,8 +34,8 @@ export default class CpmComponentInstaller extends LightningElement {
   @api recordId;
   @track demoComponent;
   @track error;
-  @track demoComponentDependencies;
   @track selectedItemValue = "closed";
+  @track installedDependenciesFlag = false;
 
   @wire(getRecord, {
     recordId: "$recordId",
@@ -89,15 +89,7 @@ export default class CpmComponentInstaller extends LightningElement {
       INSTALLED_FIELD
     );
   }
-
-  get canInstallPackageFlag() {
-    return false;
-  }
-
-  get needDependenciesInstalledFlag() {
-    return true;
-  }
-
+  
   get canUpdatePackageFlag() {
     if (this.getComponentInstalledFlag() && this.getUpdateAvailableFlag()) {
       return true;
@@ -110,4 +102,5 @@ export default class CpmComponentInstaller extends LightningElement {
       ? getFieldDisplayValue(data, field)
       : getFieldValue(data, field);
   }
+
 }

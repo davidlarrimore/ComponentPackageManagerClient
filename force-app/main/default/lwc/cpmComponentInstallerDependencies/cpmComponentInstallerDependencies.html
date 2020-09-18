@@ -1,6 +1,30 @@
 <template>
-    <template for:each={demoComponentDependencies} for:item="demoComponent">
-        <c-cpm-component-installer-dependency demo-component={demoComponent} key={demoComponent.Id}>
-        </c-cpm-component-installer-dependency>
+    <template if:false={componentInstalledFlag}>
+        <lightning-card title="Install this Component" icon-name="custom:custom19">
+            <template if:true={dependenciesMetFlag}>
+                <template if:true={componentSourceInstallTypeFlag}>
+                    <div class="slds-var-m-around_medium">
+                        <a class="slds-button slds-button_brand" target="_blank"
+                            href={componentSourceInstallUrl}>Install as Source</a>
+                    </div>
+                </template>
+                <template if:true={componentPackageInstallTypeFlag}>
+                    <div class="slds-var-m-around_medium">
+                        <a class="slds-button slds-button_brand" target="_blank"
+                            href={componentPackageInstallUrl}>Install as
+                            Package</a>
+                    </div>
+                </template>
+            </template>
+            <template if:false={dependenciesMetFlag}>
+                <div class="slds-card__body slds-card__body_inner">
+                    In order to install {componentPackageTitle}, you must first install the following dependent component(s):
+                </div>
+                <template for:each={demoComponentDependencies} for:item="demoComponentDependency">
+                    <c-cpm-component-installer-dependency demo-component={demoComponentDependency} key={demoComponentDependency.Id}>
+                    </c-cpm-component-installer-dependency>
+                </template>
+            </template>
+        </lightning-card>
     </template>
 </template>

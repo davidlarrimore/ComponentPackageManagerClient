@@ -16,5 +16,8 @@ sfdx force:user:password:generate --targetusername ComponentManagerScratch
 echo "*** Creating data"
 sfdx force:data:tree:import -f ./data/export-demo-Demo_Component__cs.json -u ComponentManagerScratch
 
+echo "*** Setting up debug mode..."
+sfdx force:apex:execute -f scripts/apex/DebugMode.apex
+
 echo "*** Opening Org"
 sfdx force:org:open
