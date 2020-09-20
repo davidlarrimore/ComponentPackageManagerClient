@@ -1,7 +1,34 @@
 <template>
     <template if:true={_getJob}>
-        <div class="slds-card__body slds-card__body_inner">Job #{jobId} &nbsp;
-            <lightning-badge label={jobStatus} class={jobStatusClass}></lightning-badge>
-        </div>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Job Id">Job ID</div>
+                </th>
+                <th class="" scope="col">
+                  <div class="slds-truncate" title="Status">Status</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Actions">Actions</div>
+                </th>               
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="slds-hint-parent">
+                <th data-label="Job Id" scope="row">
+                  <div class="slds-truncate" title={jobId}>
+                    <a href="javascript:void(0);" tabindex="-1">{jobId}</a>
+                  </div>
+                </th>
+                <td data-label="Status">
+                  <div class="slds-truncate" title="Status"><lightning-badge label={jobStatus} class={jobStatusClass}></lightning-badge></div>
+                </td>
+                <td data-label="Close Date">
+                  <div class="slds-truncate" title="Actions">None</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
     </template>
 </template>
