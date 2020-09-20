@@ -1,6 +1,7 @@
 import { LightningElement, api } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
 
-export default class CpmComponentAvailableListView extends LightningElement {
+export default class CpmComponentAvailableListView extends NavigationMixin(LightningElement) {
   @api demoComponents;
 
   cols = [
@@ -11,54 +12,27 @@ export default class CpmComponentAvailableListView extends LightningElement {
 		{
 			fieldName: "Title__c",
 			label: "Title"
-		},
+    },
+		{
+			fieldName: "Installed_Version__c",
+			label: "Installed Version"
+		},    
 		{
 			fieldName: "Update_Available__c",
-			label: "Update Available",
-		},
-		{
-			fieldName: "POC_Email__c",
-			label: "POC E-Mail"
+      label: "Update Available",
+      type: "boolean"
 		}
 	];
 
-  onRowClick(event) {
-    let target = event.currentTarget;
-    const evt = new CustomEvent("rowclick", {
-      detail: {
-        pk: target.getAttribute("data-pk"),
-        domEl: target
-      }
-    });
-    this.dispatchEvent(evt);
-    this.highlightSelectedRow(target);
-  }
-
-  onRowDblClick(event) {
-    let target = event.currentTarget;
-    const evt = new CustomEvent("rowdblclick", {
-      detail: {
-        pk: target.getAttribute("data-pk"),
-        domEl: target
-      }
-    });
-    this.dispatchEvent(evt);
-  }
-
-  highlightSelectedRow(target) {
-    if (this._selectedRow) {
-      this._selectedRow.classList.remove("slds-is-selected");
-    }
-    target.classList.add("slds-is-selected");
-    this._selectedRow = target;
-  }
-
-  @api
-  setSelectedRecord(recordId) {
-    let mySelector = `tr[data-pk='${recordId}']`;
-    let selectedRow = this.template.querySelector(mySelector);
-    if (selectedRow) {
-      this.highlightSelectedRow(selectedRow);
-    }
-  }
+	handleRowDblClick(event) {
+		const demoComponentId = event.detail.pk;
+		this[NavigationMixin.Navigate]({
+			type: "standard__recordPage",
+			attributes: {
+				recordId: demoComponentId,
+				objectApiName: "Demo_Component__c",
+				actionName: "view"
+			}
+		});
+	}
 }

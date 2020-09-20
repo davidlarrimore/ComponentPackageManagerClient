@@ -1,7 +1,5 @@
 <template>
   <lightning-card title="Installed Package Checker" icon-name="custom:custom19">
-    <template for:each={record} for:item="rec">
-      <c-cpm-job-status job-id={rec} key={rec}></c-cpm-job-status>
-    </template>
+      <c-cpm-async-job-monitor job-id-list={record}></c-cpm-async-job-monitor>
   </lightning-card>
 </template>

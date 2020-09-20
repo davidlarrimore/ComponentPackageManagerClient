@@ -1,9 +1,9 @@
 import { LightningElement, track, api } from "lwc";
 
 export default class CpmComponentAvailableListView extends LightningElement {
-	@api columnConfig;
-	@api pkField;
-	@track rows;
+  @api columnConfig;
+  @api pkField;
+  @track rows;
   _selectedRow;
   @api installedFilter = false;
 
@@ -24,37 +24,51 @@ export default class CpmComponentAvailableListView extends LightningElement {
 
     for (let i = 0; i < rowData.length; i++) {
       let rowDataItems = [];
-      
+
       let isInstalled = false;
       for (let j = 0; j < colItems.length; j++) {
-
-        let colClass = "";
+        let colClass = "slds-truncate";
         if (colItems[j].hiddenOnMobile) {
-          colClass = "hiddenOnMobile";
+          colClass = colClass + " hiddenOnMobile";
         }
-        
-        if (rowData[i].Installed__c){
+
+        if (rowData[i].Installed__c) {
           isInstalled = true;
+        }
+        let fieldValue = "";
+
+        if (undefined === rowData[i][colItems[j].fieldName] || colItems[j].type !== "richText") {
+          fieldValue = rowData[i][colItems[j].fieldName];
+        } else {
+          fieldValue = rowData[i][colItems[j].fieldName].replace(/(<([^>]+)>)/gi,"");
         }
 
         rowDataItems.push({
-          value: rowData[i][colItems[j].fieldName],
+          value: fieldValue,
           label: colItems[j].label,
           type: colItems[j].type,
           class: colClass,
           columnId: "col" + j + "-" + rowData[i][this.pkField],
           isPhone: colItems[j].type === "phone",
           isEmail: colItems[j].type === "email",
-          isOther: colItems[j].type !== "phone" && colItems[j].type !== "email"
+          isRichText: colItems[j].type === "richText",
+          isBoolean: colItems[j].type === "boolean",
+          isOther:
+            colItems[j].type !== "phone" &&
+            colItems[j].type !== "email" &&
+            colItems[j].type !== "boolean" &&
+            colItems[j].type !== "richText"
         });
       }
-      if((this.installedFilter && isInstalled) || (!this.installedFilter && !isInstalled)){
+      if (
+        (this.installedFilter && isInstalled) ||
+        (!this.installedFilter && !isInstalled)
+      ) {
         reformattedRows.push({
           data: rowDataItems,
           pk: rowData[i][this.pkField]
         });
       }
-
     }
     return reformattedRows;
   };

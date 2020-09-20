@@ -1,7 +1,7 @@
 <template>
   <lightning-card title="Component Refresh Checker" icon-name="custom:custom19">
-    <template for:each={record} for:item="rec">
-      <c-cpm-job-status job-id={rec} key={rec}></c-cpm-job-status>
-    </template>
+    <template if:true={record}>
+    <c-cpm-async-job-monitor job-id-list={record}></c-cpm-async-job-monitor>
+  </template>
   </lightning-card>
 </template>
