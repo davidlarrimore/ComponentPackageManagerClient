@@ -1,12 +1,10 @@
 import { LightningElement, api, track } from "lwc";
-import jobInfo from "@salesforce/apex/CpmAsyncJobMonitorController.getJobsByDate";
-import Utils from "c/utils";
+import jobInfo from "@salesforce/apex/CpmAsyncJobMonitorController.getAllJobs";
 
 export default class cmpAsynchJobMonitor extends LightningElement {
-  @track jobIds = [];
-  @track jobs = [];
-  //refreshApex(valueProvisionedByWireService)
-  inDate = new Date();
+  jobIds = [];
+
+  @track jobs;
 
   @api
   get jobIdList() {
@@ -14,15 +12,8 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   set jobIdList(value) {
-    if (this.jobIdList.length > 0) {
-      console.log(`Adding ${value} to Tracked jobList`);
-      this.jobIds.push(value);
-    } else {
-      console.log(`Initializing Tracked JobList`);
-      this.jobIds = value;
-    }
-
-    console.log(`Job List: ${this.jobIds.length} - ${this.jobIds}`);
+    this.jobIds = value;
+    console.log(`Job List: ${this.jobIds}`);
     this.doJobSearch();
   }
 
@@ -32,7 +23,9 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       console.log(`PING! Interval hit...`);
       if (this.jobIdList.length > 0) {
         console.log(
-          `Processing the following Tracked Jobs: ${this.jobIdList.length} - ${this.jobIdList}`
+          `Processing the following Tracked Jobs: ${JSON.stringify(
+            this.jobIdList
+          )}`
         );
         this.doJobSearch();
       }
@@ -40,11 +33,11 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   doJobSearch() {
-    jobInfo({ recordIds: this.jobIds, inDate: this.inDate })
+    jobInfo({ recordIds: this.jobIds })
       .then((result) => {
         console.log("cmpAsynchJobMonitor: running jobInfo");
         if (result) {
-          console.log(`Received ${result.length} results`);
+          console.log(`Received ${result.length} AsyncApexJobs`);
           if (result.length > 0) {
             this.jobs = result;
             for (let i = 0; i < this.jobs.length; i++) {
@@ -87,7 +80,8 @@ export default class cmpAsynchJobMonitor extends LightningElement {
                   this.jobs[i].JobName = "Checking for Installed Packages";
                   break;
                 case "QueueUpdateComponentFromPackageVersion":
-                  this.jobs[i].JobName = "Fetching Updated Component Package Info";
+                  this.jobs[i].JobName =
+                    "Fetching Updated Component Package Info";
                   break;
                 case "QueueUpdateComponentSourceCommitInfo":
                   this.jobs[i].JobName = "Fetching Updated Source Commit Info";
@@ -98,14 +92,16 @@ export default class cmpAsynchJobMonitor extends LightningElement {
                 case "QueueUpdateComponentSourceTagInfo":
                   this.jobs[i].JobName = "Fetching Updated Source Tag Info";
                   break;
+                case "QueueUpdateComponentFromGithubUser":
+                  this.jobs[i].JobName = "Fetching Updated Source Owner Info";
+                  break;
                 default:
                   this.jobs[i].JobName = this.jobs[i].ApexClass.JobName;
                   break;
               }
             }
+            console.log(`Converted Results: ${JSON.stringify(this.jobs)}`);
           }
-
-          console.log(`Converted Results: ${JSON.stringify(this.jobs)}`);
           this.error = undefined;
         }
       })

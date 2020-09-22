@@ -16,7 +16,7 @@ public with sharing class CpmAddGithubComponentController {
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
 
         System.debug('Seeing if Package already exists');
-        List<Demo_Component__c> existingPackageLookup = [SELECT Id, Source_Install_Type_Flag__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Github_Repository_URL__c = :githubUrl LIMIT 1];
+        List<Demo_Component__c> existingPackageLookup = [SELECT Id, Source_Install_Type_Flag__c, Latest_Subscriber_Package_Version_Id__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Github_Repository_URL__c = :githubUrl LIMIT 1];
         if(existingPackageLookup.size() > 0){
             System.debug('Package already exists, adding Id and updating');
             gpbuPackage = existingPackageLookup[0];

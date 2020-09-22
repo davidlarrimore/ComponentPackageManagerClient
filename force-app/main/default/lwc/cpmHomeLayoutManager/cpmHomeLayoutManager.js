@@ -1,59 +1,69 @@
 import { LightningElement, wire, track } from "lwc";
-import { refreshApex } from '@salesforce/apex';
 
-import availableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
-import installedDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
+import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
+import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
 import componentInstallChecker from "@salesforce/apex/CpmComponentInstallCheckerController.runApex";
 
 export default class CmpHomeLayoutManager extends LightningElement {
-  @track availableDemoComponents;
-  @track installedDemoComponents;
+  availableDemoComponents;
+  installedDemoComponents;
   @track error;
-  @track record = [];
+  jobList = [];
 
-  @wire(availableDemoComponents)
-  wiredAvailableDemoComponents({ error, data }) {
-    if (data) {
-      console.log("CmpHomeLayoutManager.wiredAvailableDemoComponents SUCCESS");
-      //console.log(`Data = ${console.log(JSON.stringify(data))}`);
-      this.availableDemoComponents = data;
-      this.error = undefined;
-    } else if (error) {
-      this.error = error;
-      console.log(
-        "CmpHomeLayoutManager wiredAvailableDemoComponents ERROR: " + error
-      );
-    }
+  connectedCallback() {
+    this.doDemoComponentRefresh();
   }
 
 
-  @wire(installedDemoComponents)
-  wiredInstalledDemoComponents({ error, data }) {
-    if (data) {
-      console.log("CmpHomeLayoutManager.wiredInstalledDemoComponents SUCCESS");
-      //console.log(`Data = ${console.log(JSON.stringify(data))}`);
-      this.installedDemoComponents = data;
-      this.error = undefined;
-    } else if (error) {
-      this.error = error;
-      console.log(
-        "CmpHomeLayoutManager wiredDemoComponents ERROR: " + error
-      );
-    }
+  doDemoComponentRefresh() {
+
+    APXAvailableDemoComponents({ recordIds: this.jobIds })
+      .then((data) => {
+        console.log("CmpHomeLayoutManager.APXAvailableDemoComponents SUCCESS");
+        console.log(`Found ${data.length} availableDemoComponents`);
+        this.availableDemoComponents = data;
+        this.error = undefined;          
+      })
+      .catch((error) => {
+        this.error = error;
+        console.log(`CmpHomeLayoutManager APXAvailableDemoComponents ERROR: ${JSON.stringify(error)}`);          
+      });
+
+      APXInstalledDemoComponents({ recordIds: this.jobIds })
+      .then((data) => {
+        console.log("CmpHomeLayoutManager.APXInstalledDemoComponents SUCCESS");
+        console.log(`Found ${data.length} availableDemoComponents`);
+        this.installedDemoComponents = data;
+        this.error = undefined;          
+      })
+      .catch((error) => {
+        this.error = error;
+        console.log(`CmpHomeLayoutManager APXInstalledDemoComponents ERROR: ${JSON.stringify(error)}`);          
+      });      
   }
- 
 
   @wire(componentInstallChecker)
   wiredcomponentInstallChecker({ error, data }) {
     console.log("Running CmpHomeLayoutManager.wiredcomponentInstallChecker");
     if (data) {
-      this.record = data;
-      console.log(`CmpHomeLayoutManager.wiredcomponentInstallChecker Received the following Data: ${this.record}`);
+      console.log(`wiredcomponentInstallChecker Response: ${data}`);
+
+      let newjobList = [];
+      for(let i = 0; i < data.length; i ++){
+        newjobList.push(String(data[i]));
+      }
+      this.jobList = newjobList; 
+      
+      console.log(
+        `CmpHomeLayoutManager.wiredcomponentInstallChecker Received the following Data: ${this.jobList}`
+      );
       this.error = undefined;
     } else if (error) {
-      console.log(`CmpHomeLayoutManager.wiredcomponentInstallChecker ERROR: ${JSON.stringify(error)}`);
+      console.log(
+        `CmpHomeLayoutManager.wiredcomponentInstallChecker ERROR: ${JSON.stringify(error)}`
+      );
       this.error = error;
-      this.record = undefined;
+      this.jobList = undefined;
     }
   }
 
@@ -61,11 +71,20 @@ export default class CmpHomeLayoutManager extends LightningElement {
     return this.record;
   }
 
-  refreshDemoComponents(){
-    console.log('Refreshing DemoComponents');
-    refreshApex(this.wiredAvailableDemoComponents);
-    refreshApex(this.installedDemoComponents);
+  handleAddedDemoComponent(event) {
+    console.log(`Running handleAddedDemoComponent`);
+    console.log(`Original jobList: ${this.jobList.length} - ${this.jobList}`);
+    console.log(`Adding the following Jobs: ${event.detail.jobList.length} - ${event.detail.jobList}`);
+
+    let newjobList = this.jobList;
+    for(let i = 0; i < event.detail.jobList.length; i ++){
+      newjobList.push(String(event.detail.jobList[i]));
+    }
+    this.jobList = newjobList;
+    
+    console.log(`Updated jobList: ${this.jobList.length} - ${this.jobList}`);
+
+    this.doDemoComponentRefresh();
+
   }
-
-
 }

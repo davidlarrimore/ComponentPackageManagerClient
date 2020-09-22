@@ -74,14 +74,16 @@ export default class CpmComponentAvailableListView extends NavigationMixin(
 
   navigateToRecordViewPage(recordId) {
     // View a custom object record.
-    this[NavigationMixin.Navigate]({
+    this[NavigationMixin.GenerateUrl]({
         type: 'standard__recordPage',
         attributes: {
             recordId: recordId,
             objectApiName: 'Demo_Component__c', // objectApiName is optional
             actionName: 'view'
         }
-    });
+    }).then(generatedUrl => {
+            window.open(generatedUrl);
+        });
 }
 
   handleRowAction(event) {

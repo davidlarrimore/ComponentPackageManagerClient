@@ -1,9 +1,8 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement } from "lwc";
 import addGithubComponent from "@salesforce/apex/CpmAddGithubComponentController.runApex";
 import Utils from "c/utils";
 
 export default class CmpAddGithubComponent extends LightningElement {
-  @track demoComponent;
   githubURL;
 
 
@@ -13,12 +12,16 @@ export default class CmpAddGithubComponent extends LightningElement {
       .then((result) => {
         console.log("Running addGithubComponent");
         if (result) {
-          this.demoComponent = result;
           console.log(
-            `Adding github component from URL: ${this.githubURL}`
+            `Adding github component from URL: ${this.githubURL}, post processing the follwoing jobs: ${result.length} - ${result}`
           );
 
-          this.dispatchEvent(new CustomEvent("addeddemocomponent", { bubbles: true, composed: true }));
+          const evt = new CustomEvent("addeddemocomponent", {
+            detail: {
+              jobList: result
+            }
+          });
+          this.dispatchEvent(evt);
 
           this.error = undefined;
         }
@@ -28,7 +31,6 @@ export default class CmpAddGithubComponent extends LightningElement {
           `addGithubComponent had an error: ${JSON.stringify(error)}`
         );
         this.error = error;
-        this.demoComponent = undefined;
 
         Utils.showToast(
           this,

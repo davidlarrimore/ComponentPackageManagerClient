@@ -8,5 +8,6 @@
 		>
 		</lightning-datatable>
 	</template>
-	<template if:false={rows}>No Demo Components Installed.</template>
+	<template if:false={rows}><lightning-spinner alternative-text="Loading">
+	</lightning-spinner></template>
 </template>
