@@ -1,22 +1,22 @@
 <template>
     <lightning-layout horizontal-align="space" multiple-rows>
-        <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="9">
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8">
             <lightning-layout horizontal-align="space" multiple-rows>
                 <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
-                    <c-cpm-component-available-list-view demo-components={demoComponents}></c-cpm-component-available-list-view>
+                    <c-cpm-component-available-list-view demo-components={availableDemoComponents}></c-cpm-component-available-list-view>
                 </lightning-layout-item>   
                 <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
-                    <c-cpm-component-installed-list-view demo-components={demoComponents}></c-cpm-component-installed-list-view>
+                    <c-cpm-component-installed-list-view demo-components={installedDemoComponents}></c-cpm-component-installed-list-view>
                 </lightning-layout-item>                              
             </lightning-layout>
         </lightning-layout-item>
-        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="3">
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
             <lightning-layout horizontal-align="space" multiple-rows>
                 <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
-                    <c-cpm-component-install-checker></c-cpm-component-install-checker>
+                    <c-cpm-async-job-monitor job-id-list={record}></c-cpm-async-job-monitor>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
-                    <c-cpm-add-github-component></c-cpm-add-github-component>
+                    <c-cpm-add-github-component onaddeddemocomponent={refreshDemoCmponents}></c-cpm-add-github-component>
                 </lightning-layout-item>
             </lightning-layout>
         </lightning-layout-item>

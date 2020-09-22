@@ -1,6 +1,29 @@
-// Use .soql files to store SOQL queries.
-// You can execute queries in VS Code by selecting the
-//     query text and running the command:
-//     SFDX: Execute SOQL Query with Currently Selected Text
-
-SELECT Admin_Permission_Set__c, Description__c, Install_Key__c, POC_Email__c, POC_Name__c, Title__c from Demo_Component__c
+SELECT Admin_Permission_Set__c, 
+       Description__c, 
+       Github_Repository_URL__c,
+       Install_Date__c,
+       Install_Key__c, 
+       Installation_Type__c,
+       Last_Fetched__c,
+       Latest_Commit_DateTime__c,
+       Latest_Commit_Description__c,
+       Latest_Commit_Hash__c,
+       Latest_Package_Version__c,
+       Latest_Package_Version_Name__c,
+       Latest_SFDX_Package_Alias__c,
+       Latest_SFDX_Package_Version_Description__c,
+       Latest_SFDX_Package_Version_Name__c,
+       Latest_Subscriber_Package_Version_Id__c,
+       Latest_Tag_Commit_DateTime__c,
+       Latest_Tag_Commit_Description__c,
+       Latest_Tag_Commit_Hash__c,
+       Latest_Tag_Version_Name__c,
+       Package_Name__c,
+       POC_Email__c, 
+       POC_Name__c, 
+       SFDX_Package_Enabled_Flag__c,
+       SFDX_Package_Name__c,
+       Source_Install_Type_Flag__c,
+       Subscriber_Package_Id__c,
+       Title__c
+  FROM Demo_Component__c

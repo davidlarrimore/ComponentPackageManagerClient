@@ -1,40 +1,12 @@
 <template>
-	<table class="slds-table slds-table_bordered slds-max-medium-table_stacked slds-table_fixed-layout">
-		<thead>
-			<tr class="slds-text-heading_label">
-				<template for:each={columnConfig} for:item="col">
-					<th key={col.fieldName} scope="col" class={col.class}><span class="slds-truncate">{col.label}</span>
-					</th>
-				</template>
-			</tr>
-		</thead>
-		<tbody if:true={rows}>
-			<template for:each={rows} for:item="row" for:index="idx">
-				<tr class="slds-hint-parent" onclick={onRowClick} ondblclick={onRowDblClick} data-pk={row.pk}
-					key={row.pk}>
-					<template for:each={row.data} for:item="colData">
-						<td class={colData.class} data-label={colData.label} key={colData.columnId}>
-							<span class="slds-truncate">
-								<template if:true={colData.isPhone}>
-									<lightning-formatted-phone value={colData.value}></lightning-formatted-phone>
-								</template>
-								<template if:true={colData.isBoolean}>
-									<lightning-input type="checkbox" value={colData.value} disabled></lightning-input>
-								</template>								
-								<template if:true={colData.isEmail}>
-									<lightning-formatted-email value={colData.value}></lightning-formatted-email>
-								</template>
-								<template if:true={colData.isRichText}>
-									<div class="slds-truncate">{colData.value}</div>
-								</template>								
-								<template if:true={colData.isOther}>
-									{colData.value}
-								</template>
-							</span>
-						</td>
-					</template>
-				</tr>
-			</template>
-		</tbody>
-	</table>
+	<template if:true={rows}>
+		<lightning-datatable 
+			key-field="Id" data={rows} 
+			columns={columnConfig} 
+			onrowaction={handleRowAction} 
+			hide-checkbox-column
+		>
+		</lightning-datatable>
+	</template>
+	<template if:false={rows}>No Demo Components Installed.</template>
 </template>

@@ -1,11 +1,13 @@
 import { LightningElement, track, api } from "lwc";
+import { NavigationMixin } from "lightning/navigation";
 
-export default class CpmComponentAvailableListView extends LightningElement {
+export default class CpmComponentAvailableListView extends NavigationMixin(
+  LightningElement
+) {
   @api columnConfig;
   @api pkField;
   @track rows;
   _selectedRow;
-  @api installedFilter = false;
 
   @api
   get rowData() {
@@ -14,7 +16,7 @@ export default class CpmComponentAvailableListView extends LightningElement {
 
   set rowData(value) {
     if (typeof value !== "undefined") {
-      this.rows = this.reformatRows(value);
+      this.rows = value;
     }
   }
 
@@ -25,22 +27,24 @@ export default class CpmComponentAvailableListView extends LightningElement {
     for (let i = 0; i < rowData.length; i++) {
       let rowDataItems = [];
 
-      let isInstalled = false;
       for (let j = 0; j < colItems.length; j++) {
-        let colClass = "slds-truncate";
+        let colClass = "slds-truncate slds-is-resizable slds-is-sortable";
         if (colItems[j].hiddenOnMobile) {
           colClass = colClass + " hiddenOnMobile";
         }
 
-        if (rowData[i].Installed__c) {
-          isInstalled = true;
-        }
         let fieldValue = "";
 
-        if (undefined === rowData[i][colItems[j].fieldName] || colItems[j].type !== "richText") {
+        if (
+          undefined === rowData[i][colItems[j].fieldName] ||
+          colItems[j].type !== "richText"
+        ) {
           fieldValue = rowData[i][colItems[j].fieldName];
         } else {
-          fieldValue = rowData[i][colItems[j].fieldName].replace(/(<([^>]+)>)/gi,"");
+          fieldValue = rowData[i][colItems[j].fieldName].replace(
+            /(<([^>]+)>)/gi,
+            ""
+          );
         }
 
         rowDataItems.push({
@@ -60,56 +64,39 @@ export default class CpmComponentAvailableListView extends LightningElement {
             colItems[j].type !== "richText"
         });
       }
-      if (
-        (this.installedFilter && isInstalled) ||
-        (!this.installedFilter && !isInstalled)
-      ) {
-        reformattedRows.push({
-          data: rowDataItems,
-          pk: rowData[i][this.pkField]
-        });
-      }
+      reformattedRows.push({
+        data: rowDataItems,
+        pk: rowData[i][this.pkField]
+      });
     }
     return reformattedRows;
   };
 
-  onRowClick(event) {
-    let target = event.currentTarget;
-    const evt = new CustomEvent("rowclick", {
-      detail: {
-        pk: target.getAttribute("data-pk"),
-        domEl: target
-      }
+  navigateToRecordViewPage(recordId) {
+    // View a custom object record.
+    this[NavigationMixin.Navigate]({
+        type: 'standard__recordPage',
+        attributes: {
+            recordId: recordId,
+            objectApiName: 'Demo_Component__c', // objectApiName is optional
+            actionName: 'view'
+        }
     });
-    this.dispatchEvent(evt);
-    this.highlightSelectedRow(target);
-  }
+}
 
-  onRowDblClick(event) {
-    let target = event.currentTarget;
-    const evt = new CustomEvent("rowdblclick", {
-      detail: {
-        pk: target.getAttribute("data-pk"),
-        domEl: target
-      }
-    });
-    this.dispatchEvent(evt);
-  }
-
-  highlightSelectedRow(target) {
-    if (this._selectedRow) {
-      this._selectedRow.classList.remove("slds-is-selected");
-    }
-    target.classList.add("slds-is-selected");
-    this._selectedRow = target;
-  }
-
-  @api
-  setSelectedRecord(recordId) {
-    let mySelector = `tr[data-pk='${recordId}']`;
-    let selectedRow = this.template.querySelector(mySelector);
-    if (selectedRow) {
-      this.highlightSelectedRow(selectedRow);
+  handleRowAction(event) {
+    const action = event.detail.action;
+    const row = event.detail.row;
+    switch (action.name) {
+      case "show_details":
+        console.log("Showing Details: " + JSON.stringify(row));
+        this.navigateToRecordViewPage(event.detail.row.Id);
+        break;
+      case "delete":
+        console.log("Deleting Record: " + JSON.stringify(row));
+        break;
+      default:
+        break;
     }
   }
 }

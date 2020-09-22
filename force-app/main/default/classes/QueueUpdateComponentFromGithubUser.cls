@@ -1,8 +1,8 @@
-public class QueueUpdateComponnetFromGithubUser implements Queueable, Database.AllowsCallouts  {
+public class QueueUpdateComponentFromGithubUser implements Queueable, Database.AllowsCallouts  {
     Id demoComponentId = null;
     
     
-    public QueueUpdateComponnetFromGithubUser(Id demoComponentId) {
+    public QueueUpdateComponentFromGithubUser(Id demoComponentId) {
         this.demoComponentId = demoComponentId;
     }
 

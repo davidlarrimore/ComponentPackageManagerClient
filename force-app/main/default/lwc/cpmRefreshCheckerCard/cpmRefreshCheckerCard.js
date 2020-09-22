@@ -10,12 +10,13 @@ export default class CpmRefreshCheckerCard extends LightningElement {
 
   @wire(refreshComponent, { searchKey: "$recordId" })
   wiredrefreshComponent({ error, data }) {
-    console.log("wiredrefreshComponent");
+    console.log("Running CpmRefreshCheckerCard.wiredrefreshComponent");
     if (data) {
       this.record = data;
-      console.log(data);
+      console.log(`CpmRefreshCheckerCard.wiredrefreshComponent Received the following Data: ${this.record}`);
       this.error = undefined;
     } else if (error) {
+      console.log(`CpmRefreshCheckerCard.wiredrefreshComponent ERROR: ${JSON.stringify(error)}`);
       this.error = error;
       this.record = undefined;
     }

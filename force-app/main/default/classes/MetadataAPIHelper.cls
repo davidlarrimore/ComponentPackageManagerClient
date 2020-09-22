@@ -134,7 +134,7 @@
 
     public static String getInstalledPackagesQuery(){
         system.debug('Running getInstalledPackagesQuery');
-        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description,+SubscriberPackageVersion.Id, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage ORDER BY SubscriberPackageId', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description, SubscriberPackageVersion.Id, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage ORDER BY SubscriberPackageId', 'UTF-8');
 
     }
 

@@ -6,6 +6,7 @@ export default class CmpAddGithubComponent extends LightningElement {
   @track demoComponent;
   githubURL;
 
+
   onSubmit() {
     console.log(`githubURL is ${this.githubURL}`);
     addGithubComponent({ githubUrl: this.githubURL })
@@ -14,19 +15,12 @@ export default class CmpAddGithubComponent extends LightningElement {
         if (result) {
           this.demoComponent = result;
           console.log(
-            `Added github component from URL: ${JSON.stringify(
-              this.demoComponent
-            )}`
+            `Adding github component from URL: ${this.githubURL}`
           );
 
-          Utils.showToast(
-            this,
-            "Add was successful",
-            `Created new Demo Component: ${this.demoComponent.Title__c}`,
-            "success"
-          );
+          this.dispatchEvent(new CustomEvent("addeddemocomponent", { bubbles: true, composed: true }));
+
           this.error = undefined;
-          this.githubURL = "";
         }
       })
       .catch((error) => {

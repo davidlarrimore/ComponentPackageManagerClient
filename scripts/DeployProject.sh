@@ -20,6 +20,9 @@
 #echo "*** Creating Package Version..."
 #sfdx force:package:version:create --package "Demo Reset Tools" -x --wait 10 --codecoverage
 
+echo "*** Export Data..."
+sfdx force:data:tree:export -q ./scripts/soql/demo.soql -x export-demo -d ./data/
+
 echo "*** Creating Unlocked Package Version..."
 sfdx force:package:version:create --package "gPBU Component Package Manager" -x --wait 10 --codecoverage 
 
