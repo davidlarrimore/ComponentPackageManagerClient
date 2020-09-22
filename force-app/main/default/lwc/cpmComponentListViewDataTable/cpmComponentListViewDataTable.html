@@ -1,4 +1,6 @@
 <template>
+	<template if:false={rows}><lightning-spinner alternative-text="Loading">
+	</lightning-spinner></template>
 	<template if:true={rows}>
 		<lightning-datatable 
 			key-field="Id" data={rows} 
@@ -8,6 +10,4 @@
 		>
 		</lightning-datatable>
 	</template>
-	<template if:false={rows}><lightning-spinner alternative-text="Loading">
-	</lightning-spinner></template>
 </template>

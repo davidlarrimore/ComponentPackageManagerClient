@@ -7,10 +7,12 @@ public with sharing class CpmComponentInstallCheckerController {
         System.debug('Running CPMInstallCheckerController.runApex');
         List<ID> JobIDs = new List<ID>();
 
-        List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueGetInstalledPackages'];
+        List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueGetInstalledPackages' LIMIT 1];
         if (existingJobs.size() == 0){
             QueueGetInstalledPackages updateJob = new QueueGetInstalledPackages();
             JobIDs.add(System.enqueueJob(updateJob));
+        }else{
+            JobIDs.add(existingJobs[0].Id);
         }
 
         
