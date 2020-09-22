@@ -1,4 +1,4 @@
-import { LightningElement, api, track} from "lwc";
+import { LightningElement, api, track } from "lwc";
 import jobInfo from "@salesforce/apex/CpmAsyncJobMonitorController.getJobsByDate";
 import Utils from "c/utils";
 
@@ -9,63 +9,103 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   inDate = new Date();
 
   @api
-	get jobIdList() {
-		return this.jobIds;
-	}
+  get jobIdList() {
+    return this.jobIds;
+  }
 
-	set jobIdList(value) {
-      if(this.jobIdList.length > 0){
-        console.log(`Adding ${value} to Tracked jobList`);
-        this.jobIds.push(value);
-      }else{
-        console.log(`Initializing Tracked JobList`);
-        this.jobIds = value;
-      } 
+  set jobIdList(value) {
+    if (this.jobIdList.length > 0) {
+      console.log(`Adding ${value} to Tracked jobList`);
+      this.jobIds.push(value);
+    } else {
+      console.log(`Initializing Tracked JobList`);
+      this.jobIds = value;
+    }
 
-      console.log(`Job List: ${this.jobIds.length} - ${this.jobIds}`);
-      this.doJobSearch();
-	}
+    console.log(`Job List: ${this.jobIds.length} - ${this.jobIds}`);
+    this.doJobSearch();
+  }
 
   connectedCallback() {
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setInterval(() => {
       console.log(`PING! Interval hit...`);
-      if(this.jobIdList.length > 0){
-          console.log(`Processing the following Tracked Jobs: ${this.jobIdList.length} - ${this.jobIdList}`);
-          this.doJobSearch();
+      if (this.jobIdList.length > 0) {
+        console.log(
+          `Processing the following Tracked Jobs: ${this.jobIdList.length} - ${this.jobIdList}`
+        );
+        this.doJobSearch();
       }
     }, 6000);
   }
 
   doJobSearch() {
-    jobInfo({ recordIds: this.jobIds, inDate:this.inDate  })
+    jobInfo({ recordIds: this.jobIds, inDate: this.inDate })
       .then((result) => {
         console.log("cmpAsynchJobMonitor: running jobInfo");
         if (result) {
           console.log(`Received ${result.length} results`);
-          if(result.length > 0){
-            console.log(`Results: ${JSON.stringify(result)}`);
+          if (result.length > 0) {
             this.jobs = result;
-            for(let i =0; i < this.jobs.length; i++){
-              if (this.jobs[i].Status === "Completed") {
-                this.jobs[i].jobStatusClass = "slds-badge slds-theme_success";
-              } else if (this.jobs[i].Status === "Queued") {
-                this.jobs[i].jobStatusClass = "slds-badge";
-              } else if (this.jobs[i].Status === "Processing") {
-                this.jobs[i].jobStatusClass = "slds-badge slds-theme_warning";
-              } else if (this.jobs[i].Status === "Failed") {
-                this.jobs[i].jobStatusClass = "slds-badge slds-theme_error";
-                Utils.showToast(
-                  this,
-                  "Job Failed",
-                  `Job ${this.jobId} failed with message: ${this.jobExtendedStatus}`,
-                  "error"
-                );
-              }else{
-                this.jobs[i].jobStatusClass = "slds-badge_lightest";
+            for (let i = 0; i < this.jobs.length; i++) {
+              this.jobs[i].icon = {};
+              switch (this.jobs[i].Status) {
+                case "Completed":
+                  this.jobs[i].icon.name = "action:approval";
+                  this.jobs[i].icon.altText = "Completed";
+                  this.jobs[i].icon.title = "Completed";
+                  this.jobs[i].icon.variant = "success";
+                  break;
+                case "Queued":
+                  this.jobs[i].icon.name = "action:refresh";
+                  this.jobs[i].icon.altText = "Queued";
+                  this.jobs[i].icon.title = "Queued";
+                  this.jobs[i].icon.variant = "inverse";
+                  break;
+                case "Processing":
+                  this.jobs[i].icon.name = "action:defer";
+                  this.jobs[i].icon.altText = "Processing";
+                  this.jobs[i].icon.title = "Processing";
+                  this.jobs[i].icon.variant = "warning";
+                  break;
+                case "Failed":
+                  this.jobs[i].icon.name = "utility:error";
+                  this.jobs[i].icon.altText = "Failed";
+                  this.jobs[i].icon.title = "Failed";
+                  this.jobs[i].icon.variant = "error";
+                  break;
+                default:
+                  this.jobs[i].icon.name = "action:refresh";
+                  this.jobs[i].icon.altText = "Other";
+                  this.jobs[i].icon.title = "Other";
+                  this.jobs[i].icon.variant = "inverse";
+                  break;
+              }
+
+              switch (this.jobs[i].ApexClass.Name) {
+                case "QueueGetInstalledPackages":
+                  this.jobs[i].JobName = "Checking for Installed Packages";
+                  break;
+                case "QueueUpdateComponentFromPackageVersion":
+                  this.jobs[i].JobName = "Fetching Updated Component Package Info";
+                  break;
+                case "QueueUpdateComponentSourceCommitInfo":
+                  this.jobs[i].JobName = "Fetching Updated Source Commit Info";
+                  break;
+                case "QueueUpdateComponentFromSFDX":
+                  this.jobs[i].JobName = "Fetching Updated SFDX Info";
+                  break;
+                case "QueueUpdateComponentSourceTagInfo":
+                  this.jobs[i].JobName = "Fetching Updated Source Tag Info";
+                  break;
+                default:
+                  this.jobs[i].JobName = this.jobs[i].ApexClass.JobName;
+                  break;
               }
             }
           }
+
+          console.log(`Converted Results: ${JSON.stringify(this.jobs)}`);
           this.error = undefined;
         }
       })
@@ -75,5 +115,4 @@ export default class cmpAsynchJobMonitor extends LightningElement {
         //this.jobs = undefined;
       });
   }
-
 }

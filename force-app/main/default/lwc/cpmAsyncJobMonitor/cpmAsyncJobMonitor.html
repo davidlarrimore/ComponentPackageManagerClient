@@ -1,7 +1,7 @@
 <template>
   <lightning-card title="Async Job Monitor" icon-name="custom:custom19">
     <template if:true={jobs}>
-      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped slds-table_fixed-layout">
+      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
         <thead>
           <tr class="slds-line-height_reset slds-truncate">
             <th class="" scope="col">
@@ -15,9 +15,9 @@
         <tbody>
           <template for:each={jobs} for:item="rec" for:index="idx">
             <tr class="slds-hint-parent slds-truncate" key={rec.Id}>
-              <td class="slds-truncate" data-label="JobName">{rec.ApexClass.Name}</td>
+              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.JobName}</td>
               <td class="slds-truncate" data-label="Status">
-                <lightning-badge label={rec.Status} class={rec.jobStatusClass}></lightning-badge>
+                <lightning-icon icon-name={rec.icon.name} alternative-text={rec.icon.altText} title={rec.icon.title} size="xx-small" variant={rec.icon.variant}></lightning-icon>
               </td>
             </tr>
           </template>
