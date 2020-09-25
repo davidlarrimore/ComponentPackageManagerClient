@@ -12,6 +12,7 @@ public with sharing class CpmRefreshCheckerController {
                 List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueUpdateComponentFromSFDX' LIMIT 1];
                 if (existingJobs.size() == 0){
                     QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(searchKey); 
+                    
                     JobIDs.add(System.enqueueJob(queueUpdateComponentFromSFDXJob));  
                 }else{
                     JobIDs.add(existingJobs[0].Id);

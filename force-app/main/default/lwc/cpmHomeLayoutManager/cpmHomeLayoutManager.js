@@ -1,4 +1,4 @@
-import { LightningElement, wire, track } from "lwc";
+import { LightningElement, track } from "lwc";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
@@ -8,10 +8,10 @@ export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
   installedDemoComponents;
   @track error;
-  jobList = [];
 
   connectedCallback() {
     this.doDemoComponentRefresh();
+    this.doComponentInstallChecker();
   }
 
   doDemoComponentRefresh() {
@@ -48,32 +48,18 @@ export default class CmpHomeLayoutManager extends LightningElement {
       });
   }
 
-  @wire(componentInstallChecker)
-  wiredcomponentInstallChecker({ error, data }) {
-    console.log("Running CmpHomeLayoutManager.wiredcomponentInstallChecker");
-    if (data) {
+
+  doComponentInstallChecker() {
+    componentInstallChecker()
+    .then((data) => {
       console.log(`wiredcomponentInstallChecker Response: ${data}`);
-
-      let newjobList = [];
-      for (let i = 0; i < data.length; i++) {
-        newjobList.push(String(data[i]));
-      }
-      this.jobList = newjobList;
-
-      console.log(
-        `CmpHomeLayoutManager.wiredcomponentInstallChecker Received the following Data: ${this.jobList}`
-      );
       this.error = undefined;
-    } else if (error) {
-      console.log(
-        `CmpHomeLayoutManager.wiredcomponentInstallChecker ERROR: ${JSON.stringify(
-          error
-        )}`
-      );
+    })
+    .catch((error) => {
       this.error = error;
-      this.jobList = undefined;
-    }
+    });
   }
+
 
   get getIDs() {
     return this.record;
@@ -95,26 +81,5 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
     this.doDemoComponentRefresh();
   }
-
-
-  handleRemoveAsyncJobById(event){
-    console.log(`Running handleRemoveAsyncJobById`);
-    console.log(
-      `Removing the following Job: ${event.detail.Id}`
-    );
-
-    let jobId = event.detail.Id;
-    let newJobList = [];
-    for(let i = 0; i < this.jobList.length; i ++){
-      if (this.jobList[i] !== jobId){
-        newJobList.push(this.jobList[i]);
-      }
-    }
-
-    console.log(`Updated jobList: ${this.jobList.length} - ${this.jobList}`);
-
-    this.jobList = newJobList;
-  }
-
 
 }

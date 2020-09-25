@@ -6,7 +6,6 @@ console.log("Running CpmRefreshCheckerCard");
 export default class CpmRefreshCheckerCard extends LightningElement {
   @api recordId;
   @track error;
-  jobList = [];
 
   @wire(refreshComponent, { searchKey: "$recordId" })
   wiredrefreshComponent({ error, data }) {
@@ -15,13 +14,6 @@ export default class CpmRefreshCheckerCard extends LightningElement {
       console.log(
         `CpmRefreshCheckerCard.wiredrefreshComponent Response: ${data}`
       );
-
-      let newjobList = [];
-      for (let i = 0; i < data.length; i++) {
-        newjobList.push(String(data[i]));
-      }
-      this.jobList = newjobList;
-
       this.error = undefined;
     } else if (error) {
       console.log(

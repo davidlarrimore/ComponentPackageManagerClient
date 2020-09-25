@@ -1,10 +1,37 @@
 public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallouts {
+    /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
+    public final String JOBNAME = 'All Demo Components - Package Fetch';
+    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
 
-    public QueueGetInstalledXTags() {
-
+    public String getJobName() {
+    return this.JOBNAME;
     }
 
+    public String getJobInfo(String key) {
+    return this.jobInfo.get(key);
+    }
+
+    public Map<String,String> getJobInfo() {
+    return this.jobInfo;
+    }    
+
+    /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
+
+
+
+    /*************CONSTRUCTORS*************/
+    public QueueGetInstalledXTags(ID parentJobId) {
+        this.jobInfo.put('parentJobId', parentJobId);  
+    }
+
+    public QueueGetInstalledXTags() {
+    }
+
+    /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
+        /*************STANDARD JOB ID SETTER*************/
+        this.jobInfo.put('jobId', context.getJobId());
+
         System.debug('Start QueueGetInstalledXTags.execute');            
         List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
         List<String> githubRepositoryUrls = new List<String>();

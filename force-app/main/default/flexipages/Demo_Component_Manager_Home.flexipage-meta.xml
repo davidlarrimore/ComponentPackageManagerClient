@@ -8,64 +8,10 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>enableInlineEdit</name>
-                <value>false</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>entityName</name>
-                <value>Demo_Component__c</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>filterName</name>
-                <value>Installed_Components</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>hideActionBar</name>
-                <value>true</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>hideSearchBar</name>
-                <value>false</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>pageSize</name>
-                <value>15</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:filterListCard</componentName>
-        </componentInstances>
         <name>left</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>enableInlineEdit</name>
-                <value>false</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>entityName</name>
-                <value>Demo_Component__c</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>filterName</name>
-                <value>All_Components</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>hideActionBar</name>
-                <value>true</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>hideSearchBar</name>
-                <value>false</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>pageSize</name>
-                <value>15</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:filterListCard</componentName>
-        </componentInstances>
         <name>middle</name>
         <type>Region</type>
     </flexiPageRegions>

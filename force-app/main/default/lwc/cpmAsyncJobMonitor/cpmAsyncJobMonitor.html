@@ -1,6 +1,6 @@
 <template>
   <lightning-card title="Async Job Monitor" icon-name="custom:custom19">
-    <template if:true={jobs}>
+    <template if:true={hasJobs}>
       <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
         <thead>
           <tr class="slds-line-height_reset slds-truncate">
@@ -13,16 +13,25 @@
           </tr>
         </thead>
         <tbody>
-          <template for:each={jobs} for:item="rec" for:index="idx">
-            <tr class="slds-hint-parent slds-truncate" key={rec.Id}>
-              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.JobName}</td>
+          <template for:each={jobTracker} for:item="rec" for:index="idx">
+            <tr class="slds-hint-parent slds-truncate" key={rec.AsyncApexJob_Id__c}>
+              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.AsyncApexJob_Name__c}</td>
               <td class="slds-truncate" data-label="Status">
-                <lightning-icon icon-name={rec.icon.name} alternative-text={rec.icon.altText} title={rec.icon.title} size="xx-small" variant={rec.icon.variant}></lightning-icon>
+                <lightning-icon icon-name={rec.icon.name} alternative-text={rec.icon.altText} title={rec.icon.title}
+                  size="xx-small" variant={rec.icon.variant}></lightning-icon>
               </td>
             </tr>
           </template>
         </tbody>
       </table>
+    </template>
+    <template if:false={hasJobs}>
+      <div class="slds-illustration slds-illustration_large" aria-hidden="true">
+        <img src="/img/chatter/Desert.svg" class="slds-illustration__svg" alt="" />
+        <div class="slds-text-color_weak">
+          <h3 class="slds-text-heading_medium">Waiting for Async Jobs</h3>
+        </div>
+      </div>
     </template>
   </lightning-card>
 </template>

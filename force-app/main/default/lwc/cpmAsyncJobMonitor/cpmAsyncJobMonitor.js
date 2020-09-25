@@ -1,160 +1,203 @@
-import { LightningElement, api, track } from "lwc";
-import jobInfo from "@salesforce/apex/CpmAsyncJobMonitorController.getAllJobs";
+import { LightningElement, track } from "lwc";
+import { subscribe, unsubscribe, onError } from "lightning/empApi";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class cmpAsynchJobMonitor extends LightningElement {
-  jobIds = [];
+  channelName = "/event/CPM_Async_Event__e";
+  isSubscribeDisabled = false;
+  isUnsubscribeDisabled = !this.isSubscribeDisabled;
+  subscription = {};
 
-  @track jobs = [];
+  @track jobTracker = [];
 
-  @api
-  get jobIdList() {
-    return this.jobIds;
-  }
 
-  set jobIdList(value) {
-    this.jobIds = value;
-    console.log(`Job List: ${this.jobIds}`);
+  get hasJobs(){
+    if(this.jobTracker.length > 0){
+      return true;
+    }
+    return false;
   }
 
   connectedCallback() {
+    this.registerErrorListener();
+    this.handleSubscribe();
     // eslint-disable-next-line @lwc/lwc/no-async-operation
     setInterval(() => {
-      console.log(`PING! Interval hit...`);
-      if (this.jobIdList.length > 0) {
-        console.log(
-          `Processing the following Tracked Jobs: ${JSON.stringify(
-            this.jobIdList
-          )}`
-        );
-        this.doJobSearch();
-      }
+      console.log(`PING! Interval hit...pruning`);
+      this.doPruneJobTracker();
     }, 6000);
-
-    this.doJobSearch();
   }
 
-  doJobSearch() {
-    jobInfo({ recordIds: this.jobIds })
-      .then((result) => {
-        console.log("cmpAsynchJobMonitor: running jobInfo");
-        if (result) {
-          console.log(`Received ${result.length} AsyncApexJobs`);
-          if (result.length > 0) {
-            if (this.jobs.length > 0) {
-              let jobInfoResults = result;
-              let newJobs = [];
-              let existingJobs = this.jobs;
 
-              for (let i = 0; i < jobInfoResults.length; i++) {
-                let existingJobIndex = -1;
-                console.log(
-                  `Checking to see if ${jobInfoResults[i].Id} already exists`
-                );
-                for (let j = 0; j < existingJobs.length; j++) {
-                  if (jobInfoResults[i].Id === existingJobs[j].Id) {
-                    console.log(`It exists, setting Index as ${j}`);
-                    existingJobIndex = j;
-                  }
-                }
-
-                if (existingJobIndex > -1) {
-                  console.log(
-                    `Existing Status=${existingJobs[existingJobIndex].Status} || New Status=${jobInfoResults[i].Status}`
-                  );
-                  if (
-                    jobInfoResults[i].Status === "Completed" &&
-                    existingJobs[existingJobIndex].Status === "Completed"
-                  ) {
-                    console.log(
-                      `${existingJobs[existingJobIndex].Id} Is already completed, Marking as Completed and removing from List`
-                    );
-                    
-                    this.dispatchEvent(new CustomEvent('removeasyncjobbyid', {bubbles: true, composed: true, detail :{ Id: existingJobs[existingJobIndex].Id}}));
-                  } else {
-                    newJobs.push(jobInfoResults[i]);
-                  }
-                } else {
-                  newJobs.push(jobInfoResults[i]);
-                }
-              }
-              this.jobs = newJobs;
-            } else {
-              this.jobs = result;
-            }
-
-            //We may have just removed all of the jobs.....
-            if (this.jobs.length > 0) {
-              for (let i = 0; i < this.jobs.length; i++) {
-                this.jobs[i].icon = {};
-                switch (this.jobs[i].Status) {
-                  case "Completed":
-                    this.jobs[i].icon.name = "action:approval";
-                    this.jobs[i].icon.altText = "Completed";
-                    this.jobs[i].icon.title = "Completed";
-                    this.jobs[i].icon.variant = "success";
-                    break;
-                  case "Queued":
-                    this.jobs[i].icon.name = "action:refresh";
-                    this.jobs[i].icon.altText = "Queued";
-                    this.jobs[i].icon.title = "Queued";
-                    this.jobs[i].icon.variant = "inverse";
-                    break;
-                  case "Processing":
-                    this.jobs[i].icon.name = "action:defer";
-                    this.jobs[i].icon.altText = "Processing";
-                    this.jobs[i].icon.title = "Processing";
-                    this.jobs[i].icon.variant = "warning";
-                    break;
-                  case "Failed":
-                    this.jobs[i].icon.name = "utility:error";
-                    this.jobs[i].icon.altText = "Failed";
-                    this.jobs[i].icon.title = "Failed";
-                    this.jobs[i].icon.variant = "error";
-                    break;
-                  default:
-                    this.jobs[i].icon.name = "action:refresh";
-                    this.jobs[i].icon.altText = "Other";
-                    this.jobs[i].icon.title = "Other";
-                    this.jobs[i].icon.variant = "inverse";
-                    break;
-                }
-
-                switch (this.jobs[i].ApexClass.Name) {
-                  case "QueueGetInstalledPackages":
-                    this.jobs[i].JobName = "Checking for Installed Packages";
-                    break;
-                  case "QueueUpdateComponentFromPackageVersion":
-                    this.jobs[i].JobName =
-                      "Fetching Updated Component Package Info";
-                    break;
-                  case "QueueUpdateComponentSourceCommitInfo":
-                    this.jobs[i].JobName =
-                      "Fetching Updated Source Commit Info";
-                    break;
-                  case "QueueUpdateComponentFromSFDX":
-                    this.jobs[i].JobName = "Fetching Updated SFDX Info";
-                    break;
-                  case "QueueUpdateComponentSourceTagInfo":
-                    this.jobs[i].JobName = "Fetching Updated Source Tag Info";
-                    break;
-                  case "QueueUpdateComponentFromGithubUser":
-                    this.jobs[i].JobName = "Fetching Updated Source Owner Info";
-                    break;
-                  default:
-                    this.jobs[i].JobName = this.jobs[i].ApexClass.JobName;
-                    break;
-                }
-              }
-              console.log(`Converted Results: ${JSON.stringify(this.jobs)}`);
-            }
-          }
-          this.error = undefined;
+  doPruneJobTracker(){
+    let newJobTracker = [];
+    for (let i = 0; i < this.jobTracker.length; i++) {
+      let job = this.jobTracker[i];
+      if (job.markedForRemoval === false){
+        if(job.AsyncApexJob_Status__c === 'Completed'){
+          job.markedForRemoval = true;
+          console.log(`${job.AsyncApexJob_Name__c} is completed and now marked for removal, will remove next round.`);
         }
-      })
-      .catch((error) => {
-        console.log(`cmpAsynchJobMonitor ERROR: ${JSON.stringify(error)}`);
-        this.error = error;
-        //this.jobs = undefined;
+        newJobTracker.push(job);
+      }
+    }
+    this.jobTracker = newJobTracker;
+  }
+
+
+  // Tracks changes to channelName text field
+  handleChannelName(event) {
+    this.channelName = event.target.value;
+  }
+
+  doProcessPlatformEventCPMAsync(payload) {
+    console.log("Processing AsyncApexJob Payload");
+    if (undefined !== payload.AsyncApexJob_Id__c) {
+      console.log(`Current list of AsyncApexJobs = ${this.jobTracker.length}`);
+
+      let newJobTracker = [];
+      let newJobFlag = true;
+
+      let newJob = payload;
+      newJob.icon = {};
+      newJob.markedForRemoval = false;
+      switch (newJob.AsyncApexJob_Status__c) {
+        case "Completed":
+          newJob.icon.name = "action:approval";
+          newJob.icon.altText = "Completed";
+          newJob.icon.title = "Completed";
+          newJob.icon.variant = "success";
+          break;
+        case "Queued":
+          newJob.icon.name = "action:refresh";
+          newJob.icon.altText = "Queued";
+          newJob.icon.title = "Queued";
+          newJob.icon.variant = "inverse";
+          break;
+        case "Processing":
+          newJob.icon.name = "action:defer";
+          newJob.icon.altText = "Processing";
+          newJob.icon.title = "Processing";
+          newJob.icon.variant = "warning";
+          break;
+        case "Failed":
+          newJob.icon.name = "utility:error";
+          newJob.icon.altText = "Failed";
+          newJob.icon.title = "Failed";
+          newJob.icon.variant = "error";
+          break;
+        default:
+          newJob.icon.name = "action:refresh";
+          newJob.icon.altText = "Other";
+          newJob.icon.title = "Other";
+          newJob.icon.variant = "inverse";
+          break;
+      }
+      console.log(`Successfully updated icons`);
+
+      for (let i = 0; i < this.jobTracker.length; i++) {
+        if (
+          this.jobTracker[i].AsyncApexJob_Id__c === newJob.AsyncApexJob_Id__c
+        ) {
+          console.log(`Found Existing AsyncApexJob, updating...`);
+          newJobFlag = false;
+          newJobTracker.push(newJob);
+        } else {
+          newJobTracker.push(this.jobTracker[i]);
+        }
+      }
+      console.log(`newJobFlag is ${newJobFlag}`);
+      if (newJobFlag) {
+        console.log(`Adding New AsyncApexJob, ${newJob.AsyncApexJob_Id__c}`);
+        newJobTracker.push(newJob);
+      }
+
+      this.jobTracker = newJobTracker;
+    }else{
+      console.log('TODO: Will need to figure out a way for Job info to propogate, in child jobs');
+    }
+    console.log("Completed AsyncApexJob Payload");
+  }
+  /*
+{"Demo_Component_Title__c":null,
+  "Send_Toast__c":false,
+  "ApexClass_Name__c":
+  "QueueUpdateComponentFromPackageVersion",
+  "Toast_Variant__c":null,
+  "AsyncApexJob_Id__c":"7073D00000ypMRwQAM",
+  "Toast_Title__c":null,
+  "CreatedById":"0053D000004h8QDQAY",
+  "AsyncApexJob_Status__c":"Queued",
+  "CreatedDate":"2020-09-23T18:09:10Z",
+  "Toast_Message__c":null,
+  "jobTracker":"Fetching Updated Component Package Info",
+  "Demo_Component_Id__c":null,"Toast_Mode__c":null,
+  "AsyncApexJob_Parent_Id__c":"7073D00000ypMJsQAM"}
+*/
+
+  doToast(payload) {
+    console.log("Publishing Toast");
+    try {
+      const evt = new ShowToastEvent({
+        mode: "pester",
+        title: payload.Toast_Title__c,
+        message: payload.Toast_Message__c,
+        variant: payload.Toast_Variant__c
       });
+      this.dispatchEvent(evt);
+    } catch (err) {
+      console.log(`Toast error: ${err}`);
+    }
+  }
+
+  // Handles subscribe button click
+  handleSubscribe() {
+    // Callback invoked whenever a new event message is received
+    const messageCallback = function (response) {
+      console.log("New message received: ", JSON.stringify(response));
+      this.doProcessPlatformEventCPMAsync(response.data.payload);
+
+      if (response.data.payload.Send_Toast__c) {
+        this.doToast(response.data.payload);
+      }
+
+      console.log("Published Toast");
+      // Response contains the payload of the new message received
+    }.bind(this);
+
+    // Invoke subscribe method of empApi. Pass reference to messageCallback
+    subscribe(this.channelName, -1, messageCallback).then((response) => {
+      // Response contains the subscription information on subscribe call
+      console.log(
+        "Subscription request sent to: ",
+        JSON.stringify(response.channel)
+      );
+      this.subscription = response;
+      this.toggleSubscribeButton(true);
+    });
+  }
+
+  // Handles unsubscribe button click
+  handleUnsubscribe() {
+    this.toggleSubscribeButton(false);
+
+    // Invoke unsubscribe method of empApi
+    unsubscribe(this.subscription, (response) => {
+      console.log("unsubscribe() response: ", JSON.stringify(response));
+      // Response is true for successful unsubscribe
+    });
+  }
+
+  toggleSubscribeButton(enableSubscribe) {
+    this.isSubscribeDisabled = enableSubscribe;
+    this.isUnsubscribeDisabled = !enableSubscribe;
+  }
+
+  registerErrorListener() {
+    // Invoke onError empApi method
+    onError((error) => {
+      console.log("Received error from server: ", JSON.stringify(error));
+      // Error contains the server-side error
+    });
   }
 }

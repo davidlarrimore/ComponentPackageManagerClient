@@ -1,12 +1,38 @@
 public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsCallouts  {
+    /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
+    public final String JOBNAME = 'All Demo Components - Package Fetch';
+    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
+
+    public String getJobName() {
+    return this.JOBNAME;
+    }
+
+    public String getJobInfo(String key) {
+    return this.jobInfo.get(key);
+    }
+
+    public Map<String,String> getJobInfo() {
+    return this.jobInfo;
+    }    
+
+    /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
-        
+
+
+    /*************CONSTRUCTORS*************/    
+    public QueueUpdateComponentFromSFDX(ID parentJobId, Id demoComponentId) {
+        this.demoComponentId = demoComponentId;
+        this.jobInfo.put('parentJobId', parentJobId);
+    }
+
     public QueueUpdateComponentFromSFDX(Id demoComponentId) {
         this.demoComponentId = demoComponentId;
     }
 
+    /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
-
+        /*************STANDARD JOB ID SETTER*************/
+        this.jobInfo.put('jobId', context.getJobId());       
         System.debug('Running QueueUpdateComponentFromSFDX.execute');  
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
@@ -18,13 +44,13 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                     for(GithubPackageDirectory thisPackageDirectory: (List<GithubPackageDirectory>) githubSFDXProjectDotJSON.packageDirectories){
                         if(thisPackageDirectory.defaultDirectory == true){
                             System.debug('Found the default package directory, this is an SFDX Enabled Project!');
-    
+
                             demoComponent[0].Package_Install_Type_Flag__c = true;
                             demoComponent[0].SFDX_Package_Enabled_Flag__c = true;
                             demoComponent[0].SFDX_Package_Name__c = thisPackageDirectory.packageName;
                             demoComponent[0].Latest_SFDX_Package_Version_Name__c = thisPackageDirectory.versionName;
                             demoComponent[0].Latest_SFDX_Package_Version_Description__c = thisPackageDirectory.versionDescription;
-    
+
                             //Processing Dependencies
                             if(thisPackageDirectory.dependencies != null && thisPackageDirectory.dependencies.size() > 0){
                                 List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
@@ -39,7 +65,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                             System.debug('This is not the default package directory, skipping');
                         }
                     }
-    
+
                     if(demoComponent[0].Latest_Subscriber_Package_Version_Id__c != githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()){
                         System.debug('Package Versions are different, QueueUpdateComponentFromPackageVersion');
                         demoComponent[0].Latest_SFDX_Package_Alias__c = githubSFDXProjectDotJSON.getLatestVersionAlias();
@@ -71,5 +97,4 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
             System.debug('Could not find Component ' + demoComponentId);   
         }
     }
-
 }    

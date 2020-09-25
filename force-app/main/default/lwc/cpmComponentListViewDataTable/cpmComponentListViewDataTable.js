@@ -14,6 +14,14 @@ export default class CpmComponentAvailableListView extends NavigationMixin(
     return this.rows;
   }
 
+  get hasRows(){
+    if(this.rowData && this.rowData.length > 0){
+      return true;
+    }
+    return false;
+  }
+
+
   set rowData(value) {
     if (typeof value !== "undefined") {
       this.rows = value;
