@@ -17,8 +17,7 @@
             <tr class="slds-hint-parent slds-truncate" key={rec.AsyncApexJob_Id__c}>
               <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.AsyncApexJob_Name__c}</td>
               <td class="slds-truncate" data-label="Status">
-                <lightning-icon icon-name={rec.icon.name} alternative-text={rec.icon.altText} title={rec.icon.title}
-                  size="xx-small" variant={rec.icon.variant}></lightning-icon>
+                <lightning-helptext icon-name={rec.icon.name} content={rec.icon.title}></lightning-helptext>
               </td>
             </tr>
           </template>

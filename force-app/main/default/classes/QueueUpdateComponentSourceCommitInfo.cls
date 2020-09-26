@@ -1,7 +1,7 @@
 public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
-    public final String JOBNAME = 'All Demo Components - Package Fetch';
-    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
+    public final String JOBNAME = 'QueueUpdateComponentSourceCommitInfo';
+    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentSourceCommitInfo.class.getName()};
 
     public String getJobName() {
     return this.JOBNAME;
@@ -33,9 +33,21 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
-        /*************STANDARD JOB ID SETTER*************/
-        this.jobInfo.put('jobId', context.getJobId());              
+        /*************STANDARD EXECUTE STARTER*************/
+        this.jobInfo.put('jobId', context.getJobId());
+        QueuePlatformEventHelper.publishAsyncPlatformEvent(this.jobInfo,'Processing');
 
+        System.debug('Processing QueueUpdateComponentSourceCommitInfo');   
+        doLater(this.jobInfo, this.demoComponentId, this.options);
+
+    }
+
+    @future(callout=true)
+    public static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
+        Boolean triggerPackageUpdate = false;
+        GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
+
+        try {
         System.debug('Running updateComponentSourceCommitInfo');  
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
@@ -100,6 +112,19 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
             System.debug('Could not find Component ' + demoComponentId);   
         }
 
+
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Completed', new Map<String,String>{
+            'Toast_Title__c' => 'Job Completion Notification',
+            'Toast_Message__c' => jobInfo.get('jobId') + ' - ' + jobInfo.get('jobName') + ' Completed Successfully',
+            'Toast_Variant__c' => 'success'}) ;    
+
+    }
+    catch (Exception e) {
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Failed', new Map<String,String>{
+            'Toast_Title__c' => 'Job Completion Notification',
+            'Toast_Message__c' => 'QueueUpdateComponentSourceCommitInfo Failed. Error: ' + e.getMessage(),
+            'Toast_Variant__c' => 'error'}) ;    
+    }           
     }
 
 }

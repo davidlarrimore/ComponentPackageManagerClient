@@ -25,7 +25,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     setInterval(() => {
       console.log(`PING! Interval hit...pruning`);
       this.doPruneJobTracker();
-    }, 6000);
+    }, 10000);
   }
 
 
@@ -81,7 +81,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           newJob.icon.variant = "warning";
           break;
         case "Failed":
-          newJob.icon.name = "utility:error";
+          newJob.icon.name = "action:close";
           newJob.icon.altText = "Failed";
           newJob.icon.title = "Failed";
           newJob.icon.variant = "error";
@@ -96,9 +96,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       console.log(`Successfully updated icons`);
 
       for (let i = 0; i < this.jobTracker.length; i++) {
-        if (
-          this.jobTracker[i].AsyncApexJob_Id__c === newJob.AsyncApexJob_Id__c
-        ) {
+        if (this.jobTracker[i].AsyncApexJob_Id__c === newJob.AsyncApexJob_Id__c) {
           console.log(`Found Existing AsyncApexJob, updating...`);
           newJobFlag = false;
           newJobTracker.push(newJob);
@@ -118,22 +116,6 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     }
     console.log("Completed AsyncApexJob Payload");
   }
-  /*
-{"Demo_Component_Title__c":null,
-  "Send_Toast__c":false,
-  "ApexClass_Name__c":
-  "QueueUpdateComponentFromPackageVersion",
-  "Toast_Variant__c":null,
-  "AsyncApexJob_Id__c":"7073D00000ypMRwQAM",
-  "Toast_Title__c":null,
-  "CreatedById":"0053D000004h8QDQAY",
-  "AsyncApexJob_Status__c":"Queued",
-  "CreatedDate":"2020-09-23T18:09:10Z",
-  "Toast_Message__c":null,
-  "jobTracker":"Fetching Updated Component Package Info",
-  "Demo_Component_Id__c":null,"Toast_Mode__c":null,
-  "AsyncApexJob_Parent_Id__c":"7073D00000ypMJsQAM"}
-*/
 
   doToast(payload) {
     console.log("Publishing Toast");
@@ -158,10 +140,10 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       this.doProcessPlatformEventCPMAsync(response.data.payload);
 
       if (response.data.payload.Send_Toast__c) {
+        console.log(`Toast requested`);
         this.doToast(response.data.payload);
       }
 
-      console.log("Published Toast");
       // Response contains the payload of the new message received
     }.bind(this);
 

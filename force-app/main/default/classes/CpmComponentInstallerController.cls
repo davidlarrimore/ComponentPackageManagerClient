@@ -1,9 +1,8 @@
 public with sharing class CpmComponentInstallerController {
-    @AuraEnabled
-    public String recordId { get; set; }
 
     @AuraEnabled(cacheable=true)
     public static list<Demo_Component__c> getDependentPackages(String searchKey){
+        System.debug('Running CpmComponentInstallerController.runApex');
         List<Component_Dependency__c> packageDependencies = new List<Component_Dependency__c>([SELECT Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :searchKey ]);
         Set<Id> Ids = new Set<Id>();
         for(Component_Dependency__c packageDependency:packageDependencies){

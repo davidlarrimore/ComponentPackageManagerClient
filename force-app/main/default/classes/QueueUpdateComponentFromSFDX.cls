@@ -1,7 +1,7 @@
 public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
-    public final String JOBNAME = 'All Demo Components - Package Fetch';
-    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
+    public final String JOBNAME = 'QueueUpdateComponentFromSFDX';
+    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromSFDX.class.getName()};
 
     public String getJobName() {
     return this.JOBNAME;
@@ -17,28 +17,41 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
-
+    String githubUrl = null;
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateComponentFromSFDX(ID parentJobId, Id demoComponentId) {
+    public QueueUpdateComponentFromSFDX(ID parentJobId, Id demoComponentId, String githubUrl) {
         this.demoComponentId = demoComponentId;
+        this.githubUrl = githubUrl;       
         this.jobInfo.put('parentJobId', parentJobId);
     }
 
-    public QueueUpdateComponentFromSFDX(Id demoComponentId) {
+    public QueueUpdateComponentFromSFDX(Id demoComponentId, String githubUrl) {
         this.demoComponentId = demoComponentId;
+        this.githubUrl = githubUrl;
     }
+
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
-        /*************STANDARD JOB ID SETTER*************/
-        this.jobInfo.put('jobId', context.getJobId());       
-        System.debug('Running QueueUpdateComponentFromSFDX.execute');  
-        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
-        if(demoComponent.size() > 0){
-            System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
-            Boolean triggerPackageUpdate = false;
-            GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(demoComponent[0].Github_Repository_URL__c);
+        /*************STANDARD EXECUTE STARTER*************/
+        this.jobInfo.put('jobId', context.getJobId());
+        QueuePlatformEventHelper.publishAsyncPlatformEvent(this.jobInfo,'Processing');
+
+        System.debug('Processing ' + this.githubUrl);   
+        doLater(this.jobInfo, this.demoComponentId, this.githubUrl);
+
+    }
+
+    @future(callout=true)
+    public static void doLater(Map<String, String> jobInfo, Id demoComponentId, String githubUrl) {
+        Boolean triggerPackageUpdate = false;
+        GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
+
+        try {
+            githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(githubUrl);
+
+            List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
             if(githubSFDXProjectDotJSON != null){
                 if(githubSFDXProjectDotJSON.packageDirectories != null && githubSFDXProjectDotJSON.packageDirectories.size() > 0){
                     for(GithubPackageDirectory thisPackageDirectory: (List<GithubPackageDirectory>) githubSFDXProjectDotJSON.packageDirectories){
@@ -83,7 +96,12 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                     }
                 }
 
-                update demoComponent[0];
+                update demoComponent;
+
+                QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Completed', new Map<String,String>{
+                    'Toast_Title__c' => 'Job Completion Notification',
+                    'Toast_Message__c' => jobInfo.get('jobId') + ' - ' + jobInfo.get('jobName') + ' Completed Successfully',
+                    'Toast_Variant__c' => 'success'}) ;                  
 
                 if(triggerPackageUpdate){
                     QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(new List<String>{githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()}, new Map<String,String>()); 
@@ -93,8 +111,14 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
             }else{
                 System.debug('sfdx-project.json not found');  
             }
-        }else{
-            System.debug('Could not find Component ' + demoComponentId);   
-        }
+        }catch (Exception e) {
+            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Failed', new Map<String,String>{
+                'Toast_Title__c' => 'Job Completion Notification',
+                'Toast_Message__c' => 'QueueUpdateComponentFromSFDX Failed. Error: ' + e.getMessage(),
+                'Toast_Variant__c' => 'error'}) ;    
+        }  
+
+    
     }
+
 }    

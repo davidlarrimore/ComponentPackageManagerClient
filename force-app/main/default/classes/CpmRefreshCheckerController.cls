@@ -1,44 +1,97 @@
 public with sharing class CpmRefreshCheckerController {
-    @AuraEnabled
-    public String recordId { get; set; }
 
-    @AuraEnabled(cacheable=true)
-    public static List<ID> runApex(String searchKey){ 
+    @AuraEnabled
+    public static List<ID> runApex(String demoComponentId){ 
         System.debug('Running CMPRefreshCheckerController.runApex');
-        List<ID> JobIDs = new List<ID>();
-        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :searchKey LIMIT 1];
+        List<ID> jobIds = new List<ID>();
+        ID jobId;
+
+        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
+
             if(demoComponent[0].SFDX_Package_Enabled_Flag__c){
-                List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueUpdateComponentFromSFDX' LIMIT 1];
+                QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponentId, demoComponent[0].Github_Repository_URL__c); 
+                List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentFromSFDXJob.getJobInfo('ApexClassName') LIMIT 1];
                 if (existingJobs.size() == 0){
-                    QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(searchKey); 
-                    
-                    JobIDs.add(System.enqueueJob(queueUpdateComponentFromSFDXJob));  
+                    jobId = System.enqueueJob(queueUpdateComponentFromSFDXJob);
+                    jobIds.add(jobId);    
+                           
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentFromSFDXJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = jobId,
+                        AsyncApexJob_Name__c = queueUpdateComponentFromSFDXJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Queued',
+                        Send_Toast__c = false
+                    ));  
                 }else{
-                    JobIDs.add(existingJobs[0].Id);
+                    jobIds.add(existingJobs[0].Id);
+
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentFromSFDXJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = existingJobs[0].Id,
+                        AsyncApexJob_Name__c = queueUpdateComponentFromSFDXJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Processing',
+                        Send_Toast__c = false
+                    ));  
                 }
             }
 
             if(demoComponent[0].Source_Install_Type_Flag__c){
-                List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueUpdateComponentSourceCommitInfo' LIMIT 1];
+                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(demoComponentId, new Map<String,String>{});   
+                List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentSourceCommitInfoJob.getJobInfo('ApexClassName') LIMIT 1];
                 if (existingJobs.size() == 0){
-                    QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(searchKey, new Map<String,String>{}); 
-                    JobIDs.add(System.enqueueJob(queueUpdateComponentSourceCommitInfoJob));   
+                    jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+                    jobIds.add(jobId);    
+                    
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentSourceCommitInfoJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = jobId,
+                        AsyncApexJob_Name__c = queueUpdateComponentSourceCommitInfoJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Queued',
+                        Send_Toast__c = false
+                    ));  
+
+                    jobIds.add(jobId); 
                 }else{
-                    JobIDs.add(existingJobs[0].Id);
+                    jobIds.add(existingJobs[0].Id);
+
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentSourceCommitInfoJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = existingJobs[0].Id,
+                        AsyncApexJob_Name__c = queueUpdateComponentSourceCommitInfoJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Processing',
+                        Send_Toast__c = false
+                    ));                      
                 }
                 
-                existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = 'QueueUpdateComponentSourceTagInfo' LIMIT 1];
+                QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(demoComponentId); 
+                existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentSourceTagInfoJob.getJobInfo('ApexClassName') LIMIT 1];
                 if (existingJobs.size() == 0){
-                    QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(searchKey); 
-                    JobIDs.add(System.enqueueJob(queueUpdateComponentSourceTagInfoJob));    
+                    jobId = System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+                    jobIds.add(jobId);    
+
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentSourceTagInfoJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = jobId,
+                        AsyncApexJob_Name__c = queueUpdateComponentSourceTagInfoJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Queued',
+                        Send_Toast__c = false
+                    ));  
                 }else{
-                    JobIDs.add(existingJobs[0].Id);
+                    jobIds.add(existingJobs[0].Id);
+
+                    EventBus.publish(new CPM_Async_Event__e(
+                        ApexClass_Name__c = queueUpdateComponentSourceTagInfoJob.getJobInfo('ApexClassName'),
+                        AsyncApexJob_Id__c = existingJobs[0].Id,
+                        AsyncApexJob_Name__c = queueUpdateComponentSourceTagInfoJob.getJobInfo('jobName'),
+                        AsyncApexJob_Status__c = 'Processing',
+                        Send_Toast__c = false
+                    ));   
                 }
             }
     
         }
 
-        return JobIDs;
+        return jobIds;
     }
 }

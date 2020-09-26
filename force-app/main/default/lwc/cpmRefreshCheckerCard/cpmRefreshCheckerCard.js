@@ -1,28 +1,24 @@
-import { LightningElement, api, track, wire } from "lwc";
+import { LightningElement, api, track } from "lwc";
 import refreshComponent from "@salesforce/apex/CpmRefreshCheckerController.runApex";
-
-console.log("Running CpmRefreshCheckerCard");
 
 export default class CpmRefreshCheckerCard extends LightningElement {
   @api recordId;
   @track error;
 
-  @wire(refreshComponent, { searchKey: "$recordId" })
-  wiredrefreshComponent({ error, data }) {
-    console.log("wiredrefreshComponent");
-    if (data) {
-      console.log(
-        `CpmRefreshCheckerCard.wiredrefreshComponent Response: ${data}`
-      );
-      this.error = undefined;
-    } else if (error) {
-      console.log(
-        `CpmRefreshCheckerCard.wiredrefreshComponent ERROR: ${JSON.stringify(
-          error
-        )}`
-      );
-      this.error = error;
-      this.record = undefined;
-    }
+
+  connectedCallback() {
+    console.log("Running doRefreshComponent");
+    this.doRefreshComponent();
   }
+
+  doRefreshComponent() {
+    refreshComponent({demoComponentId: this.recordId})
+      .then((data) => {
+        console.log(`CpmRefreshCheckerCard Response: ${data}`);
+        this.error = undefined;
+      })
+      .catch((error) => {
+        this.error = error;
+      });
+    }
 }

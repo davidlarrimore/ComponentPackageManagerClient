@@ -1,7 +1,7 @@
 public class QueueUpdateComponentFromGithubUser implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
-    public final String JOBNAME = 'Update Component from GithubUser';
-    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
+    public final String JOBNAME = 'QueueUpdateComponentFromGithubUser';
+    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromGithubUser.class.getName()};
 
     public String getJobName() {
     return this.JOBNAME;
@@ -31,7 +31,13 @@ public class QueueUpdateComponentFromGithubUser implements Queueable, Database.A
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
-        /*************STANDARD JOB ID SETTER*************/
-        this.jobInfo.put('jobId', context.getJobId());        
+        /*************STANDARD EXECUTE STARTER*************/
+        this.jobInfo.put('jobId', context.getJobId());
+        QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Processing');
+        
+        QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Completed', new Map<String,String>{
+            'Toast_Title__c' => 'Job Completion Notification',
+            'Toast_Message__c' => this.getJobInfo('jobId') + ' - ' + this.getJobInfo('jobName') + ' Completed Successfully',
+            'Toast_Variant__c' => 'success'}) ;    
     }
 }

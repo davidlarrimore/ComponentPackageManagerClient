@@ -1,8 +1,8 @@
 public class QueueUpdateComponentFromPackageVersion implements Queueable, Database.AllowsCallouts {
   /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
-  public final String JOBNAME = 'Update Component from GithubUser';
+  public final String JOBNAME = 'QueueUpdateComponentFromPackageVersion';
   Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromPackageVersion.class.getName()};
-
+  
   public String getJobName() {
   return this.JOBNAME;
   }
@@ -21,13 +21,13 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   Map<String,String> options = new Map<String,String>();     
 
   /*************CONSTRUCTORS*************/      
-  public QueueUpdateComponentFromPackageVersion(ID parentJobId,List<String> subscriberPackageVersionIds,Map<String, String> options) {
+  public QueueUpdateComponentFromPackageVersion(ID parentJobId, List<String> subscriberPackageVersionIds, Map<String,String> options) {
     this.subscriberPackageVersionIds = subscriberPackageVersionIds;
     this.options = options;
     this.jobInfo.put('parentJobId', parentJobId);
   }
 
-  public QueueUpdateComponentFromPackageVersion(List<String> subscriberPackageVersionIds,Map<String, String> options) {
+  public QueueUpdateComponentFromPackageVersion(List<String> subscriberPackageVersionIds,Map<String,String> options) {
     this.subscriberPackageVersionIds = subscriberPackageVersionIds;
     this.options = options;
   }
@@ -38,25 +38,15 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
 
   /*************EXECUTE METHOD*************/   
   public void execute(QueueableContext context) {
-  /*************STANDARD JOB ID SETTER*************/
-  this.jobInfo.put('jobId', context.getJobId());
-
-    EventBus.publish(
-      new CPM_Async_Event__e(
-        ApexClass_Name__c = QueueUpdateComponentFromPackageVersion.class
-          .getName(),
-        AsyncApexJob_Id__c = context.getJobId(),
-        AsyncApexJob_Name__c = this.getJobName(),
-        AsyncApexJob_Status__c = 'Processing',
-        Send_Toast__c = false
-      )
-    );
+    /*************STANDARD EXECUTE STARTER*************/
+    this.jobInfo.put('jobId', context.getJobId());
+    QueuePlatformEventHelper.publishAsyncPlatformEvent(this.jobInfo,'Processing');
 
     doLater(jobInfo, subscriberPackageVersionIds, options);
   }
 
   @future(callout=true)
-  public static void doLater(
+  private static void doLater(
     Map<String, String> jobInfo,
     List<String> subscriberPackageVersionIds,
     Map<String, String> options
@@ -244,14 +234,9 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
       }
     }
 
-    EventBus.publish(
-      new CPM_Async_Event__e(
-        ApexClass_Name__c = jobInfo.get('ApexClassName'),
-        AsyncApexJob_Id__c = jobInfo.get('jobId'),
-        AsyncApexJob_Name__c = jobInfo.get('jobName'),
-        AsyncApexJob_Status__c = 'Completed',
-        Send_Toast__c = false
-      )
-    );
+    QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Completed', new Map<String,String>{
+      'Toast_Title__c' => 'Job Completion Notification',
+      'Toast_Message__c' => jobInfo.get('jobId') + ' - ' + jobInfo.get('jobName') + ' Completed Successfully',
+      'Toast_Variant__c' => 'success'});    
   }
 }
