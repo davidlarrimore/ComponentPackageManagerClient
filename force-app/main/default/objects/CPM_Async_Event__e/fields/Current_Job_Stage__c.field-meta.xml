@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>AsyncApexJob_Id__c</fullName>
+    <fullName>Current_Job_Stage__c</fullName>
+    <description>Queued, Processing, Completed, Completed with Warnings, Completed with Errors, Failed</description>
     <externalId>false</externalId>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
-    <label>AsyncApexJob Id</label>
-    <length>55</length>
+    <label>Current Async Job Stage</label>
+    <length>40</length>
     <required>false</required>
     <type>Text</type>
     <unique>false</unique>

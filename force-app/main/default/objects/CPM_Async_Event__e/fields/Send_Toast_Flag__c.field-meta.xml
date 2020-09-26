@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>AsyncApexJob_Parent_Id__c</fullName>
+    <fullName>Send_Toast_Flag__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>Send toast to UI</description>
     <externalId>false</externalId>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
-    <label>AsyncApexJob Parent Id</label>
-    <length>55</length>
-    <required>false</required>
-    <type>Text</type>
-    <unique>false</unique>
+    <label>Send Toast Flag</label>
+    <type>Checkbox</type>
 </CustomField>

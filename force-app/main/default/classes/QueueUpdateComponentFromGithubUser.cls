@@ -1,19 +1,25 @@
 public class QueueUpdateComponentFromGithubUser implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
-    public final String JOBNAME = 'QueueUpdateComponentFromGithubUser';
-    Map<String,String> jobInfo = new Map<String,String>{'jobName' => JOBNAME, 'ApexClassName' => QueueUpdateComponentFromGithubUser.class.getName()};
+    Map<String,String> jobInfo = new Map<String,String>{
+        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentFromGithubUser', 
+        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
+    };
 
-    public String getJobName() {
-    return this.JOBNAME;
-    }
-
-    public String getJobInfo(String key) {
-    return this.jobInfo.get(key);
-    }
-
-    public Map<String,String> getJobInfo() {
-    return this.jobInfo;
+    public Map<String,String> GetJobInfo() {
+        return this.jobInfo;
     }    
+
+    public String GetJobInfo(String key) {
+        return this.jobInfo.get(key);
+    }
+
+    public void SetJobInfo(String key, String value) {
+        this.jobInfo.put(key, value);
+    }
+
+    public void SetJobStage(String value) {
+        this.jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+    }   
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
@@ -21,23 +27,28 @@ public class QueueUpdateComponentFromGithubUser implements Queueable, Database.A
 
     /*************CONSTRUCTORS*************/    
     public QueueUpdateComponentFromGithubUser(ID parentJobId, Id demoComponentId) {
-        this.jobInfo.put('parentJobId', parentJobId);  
+        this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
         this.demoComponentId = demoComponentId;
     }
 
     public QueueUpdateComponentFromGithubUser(Id demoComponentId) {
+        this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED);  
         this.demoComponentId = demoComponentId;
     }
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.jobInfo.put('jobId', context.getJobId());
-        QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Processing');
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, context.getJobId());
+        this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
         
-        QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Completed', new Map<String,String>{
-            'Toast_Title__c' => 'Job Completion Notification',
-            'Toast_Message__c' => this.getJobInfo('jobId') + ' - ' + this.getJobInfo('jobName') + ' Completed Successfully',
-            'Toast_Variant__c' => 'success'}) ;    
+        
+        jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+          QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID) + ' - ' + jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Completed Successfully',
+          QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});     
     }
 }

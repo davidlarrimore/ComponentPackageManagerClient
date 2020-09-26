@@ -51,17 +51,24 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   doProcessPlatformEventCPMAsync(payload) {
-    console.log("Processing AsyncApexJob Payload");
+    console.log("Processing CPM Async Event Payload");
     if (undefined !== payload.AsyncApexJob_Id__c) {
       console.log(`Current list of AsyncApexJobs = ${this.jobTracker.length}`);
 
       let newJobTracker = [];
       let newJobFlag = true;
-
       let newJob = payload;
       newJob.icon = {};
+      newJob.events = {};
+
+      let newJobEvent = {
+        'Event_Status_Title__c': payload.Event_Status_Title__c,
+        'Event_Status_Message__c': payload.Event_Status_Message__c,
+        'Event_Level__c': payload.Event_Level__c
+      };
+
       newJob.markedForRemoval = false;
-      switch (newJob.AsyncApexJob_Status__c) {
+      switch (newJob.Job_Stage__c) {
         case "Completed":
           newJob.icon.name = "action:approval";
           newJob.icon.altText = "Completed";
@@ -95,19 +102,27 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }
       console.log(`Successfully updated icons`);
 
+
+      
       for (let i = 0; i < this.jobTracker.length; i++) {
-        if (this.jobTracker[i].AsyncApexJob_Id__c === newJob.AsyncApexJob_Id__c) {
-          console.log(`Found Existing AsyncApexJob, updating...`);
+        if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
+          console.log(`Found Existing CPM Async Event, updating...`);
           newJobFlag = false;
+          newJob.events = this.jobTracker[i].events;
+          newJob.events.push(newJobEvent);
+
           newJobTracker.push(newJob);
+
         } else {
           newJobTracker.push(this.jobTracker[i]);
         }
       }
       console.log(`newJobFlag is ${newJobFlag}`);
       if (newJobFlag) {
-        console.log(`Adding New AsyncApexJob, ${newJob.AsyncApexJob_Id__c}`);
+        console.log(`Adding New AsyncApexJob, ${newJob.Job_Id__c}`);
+        newJob.events.push(newJobEvent);
         newJobTracker.push(newJob);
+        
       }
 
       this.jobTracker = newJobTracker;
@@ -122,9 +137,9 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     try {
       const evt = new ShowToastEvent({
         mode: "pester",
-        title: payload.Toast_Title__c,
-        message: payload.Toast_Message__c,
-        variant: payload.Toast_Variant__c
+        title: payload.Event_Status_Title__c,
+        message: payload.Event_Status_Message__c,
+        variant: payload.Event_Level__c
       });
       this.dispatchEvent(evt);
     } catch (err) {
@@ -139,7 +154,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       console.log("New message received: ", JSON.stringify(response));
       this.doProcessPlatformEventCPMAsync(response.data.payload);
 
-      if (response.data.payload.Send_Toast__c) {
+      if (response.data.payload.Send_Toast_Flag__c) {
         console.log(`Toast requested`);
         this.doToast(response.data.payload);
       }
