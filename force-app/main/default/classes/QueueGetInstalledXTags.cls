@@ -32,7 +32,7 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
         this.jobInfo.put('jobId', context.getJobId());
-        QueuePlatformEventHelper.publishAsyncPlatformEvent(this.jobInfo,'Processing');
+        QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Processing');
 
         System.debug('Processing QueueGetInstalledXTags');   
         doLater(this.jobInfo);
@@ -90,6 +90,7 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
                 'Toast_Title__c' => 'Job Completion Notification',
                 'Toast_Message__c' => jobInfo.get('jobId') + ' - ' + jobInfo.get('jobName') + ' Completed Successfully',
                 'Toast_Variant__c' => 'success'}) ;    
+
         }catch (Exception e) {
             QueuePlatformEventHelper.publishPlatformEvent(jobInfo,'Failed', new Map<String,String>{
                 'Toast_Title__c' => 'Job Completion Notification',

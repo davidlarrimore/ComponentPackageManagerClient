@@ -40,7 +40,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   public void execute(QueueableContext context) {
     /*************STANDARD EXECUTE STARTER*************/
     this.jobInfo.put('jobId', context.getJobId());
-    QueuePlatformEventHelper.publishAsyncPlatformEvent(this.jobInfo,'Processing');
+    QueuePlatformEventHelper.publishPlatformEvent(this.jobInfo,'Processing');
 
     doLater(jobInfo, subscriberPackageVersionIds, options);
   }
