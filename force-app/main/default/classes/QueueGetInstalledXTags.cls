@@ -48,7 +48,7 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
     }
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo) {
+    private static void doLater(Map<String, String> jobInfo) {
         try {
             List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
             List<String> githubRepositoryUrls = new List<String>();

@@ -11,6 +11,7 @@ public with sharing class CpmComponentInstallCheckerController {
         existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :updateJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
         if (existingJobs.size() == 0){
             jobId = System.enqueueJob(updateJob);
+            updateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
             QueuePlatformEventHelper.publishPlatformEvent(updateJob.GetJobInfo());
             jobIds.add(jobId);    
 
@@ -24,6 +25,7 @@ public with sharing class CpmComponentInstallCheckerController {
         existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :updateXTAGJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
         if (existingJobs.size() == 0){
             jobId = System.enqueueJob(updateXTAGJob);
+            updateXTAGJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
             QueuePlatformEventHelper.publishPlatformEvent(updateXTAGJob.GetJobInfo());
             jobIds.add(jobId);    
         }else{

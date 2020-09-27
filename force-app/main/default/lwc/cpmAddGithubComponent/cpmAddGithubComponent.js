@@ -12,10 +12,6 @@ export default class CmpAddGithubComponent extends LightningElement {
       .then((result) => {
         console.log("Running addGithubComponent");
         if (result) {
-          console.log(
-            `Adding github component from URL: ${this.githubURL}, post processing the follwoing jobs: ${result.length} - ${result}`
-          );
-
           const evt = new CustomEvent("addeddemocomponent", {
             detail: {
               jobList: result

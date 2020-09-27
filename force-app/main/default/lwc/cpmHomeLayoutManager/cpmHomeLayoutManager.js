@@ -66,19 +66,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
   }
 
   handleAddedDemoComponent(event) {
-    console.log(`Running handleAddedDemoComponent`);
-    console.log(
-      `Adding the following Jobs: ${event.detail.jobList.length} - ${event.detail.jobList}`
-    );
-
-    let newJobList = this.jobList;
-    for (let i = 0; i < event.detail.jobList.length; i++) {
-      newJobList.push(String(event.detail.jobList[i]));
-    }
-    this.jobList = newJobList;
-
-    console.log(`Updated jobList: ${this.jobList.length} - ${this.jobList}`);
-
+    console.log(`Running handleAddedDemoComponent ${event.detail}`);
     this.doDemoComponentRefresh();
   }
 

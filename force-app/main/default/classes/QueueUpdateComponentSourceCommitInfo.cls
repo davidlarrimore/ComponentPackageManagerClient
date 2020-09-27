@@ -53,16 +53,16 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
     }
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
+    private static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
         Boolean triggerPackageUpdate = false;
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
-
+        GithubRepoCommit githubCommit = new GithubRepoCommit();
         try {
         System.debug('Running updateComponentSourceCommitInfo');  
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
-            GithubRepoCommit githubCommit = GithubAPIHelper.getGithubCommit(demoComponent[0].Github_Repository_URL__c, new Map<String,String>());
+            githubCommit = GithubAPIHelper.getGithubCommit(demoComponent[0].Github_Repository_URL__c, new Map<String,String>());
 
             if(githubCommit != null){
                 demoComponent[0].Latest_Commit_DateTime__c = githubCommit.commitInfo.committer.commitDate;

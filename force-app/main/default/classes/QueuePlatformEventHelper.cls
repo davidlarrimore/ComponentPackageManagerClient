@@ -53,8 +53,9 @@ public with sharing class QueuePlatformEventHelper
         
         if(null == eventInfo){
             sendToastFlag = false;
+            eventInfo = new Map<String,String>();
         }
-        
+
 		EventBus.publish(new CPM_Async_Event__e(
             Apex_Class_Name__c = jobInfo.get(FIELD_APEX_CLASS_NAME), 
             Job_Id__c = jobInfo.get(FIELD_JOB_ID), 
@@ -66,6 +67,13 @@ public with sharing class QueuePlatformEventHelper
             Event_Status_Message__c = eventInfo.containsKey(FIELD_EVENT_STATUS_MESSAGE) ? eventInfo.get(FIELD_EVENT_STATUS_MESSAGE) : '', 
             Event_Level__c = eventInfo.containsKey(FIELD_EVENT_LEVEL) ? eventInfo.get(FIELD_EVENT_LEVEL) : EVENT_LEVEL_INFO));
             
+    }
+
+    public static String generateId() {
+        Integer s_num = 1;
+           String result = String.valueOf(s_num++);
+           return CPM_Async_Event__e.SObjectType.getDescribe().getKeyPrefix() + 
+              '0'.repeat(12-result.length()) + result;
     }
     
 }

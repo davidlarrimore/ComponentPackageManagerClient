@@ -56,11 +56,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   }
 
   @future(callout=true)
-  private static void doLater(
-    Map<String, String> jobInfo,
-    List<String> subscriberPackageVersionIds,
-    Map<String, String> options
-  ) {
+  private static void doLater(Map<String, String> jobInfo,List<String> subscriberPackageVersionIds,Map<String, String> options) {
     List<MetadataInstalledPackageResponseRecord> recordsToProcess = new List<MetadataInstalledPackageResponseRecord>();
     System.debug('Start QueueUpdateComponentFromPackageVersion.execute');
     for (String subscriberPackageVersionId : subscriberPackageVersionIds) {
@@ -238,7 +234,6 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
     }
 
         jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-
         QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
           QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
           QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID) + ' - ' + jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Completed Successfully',

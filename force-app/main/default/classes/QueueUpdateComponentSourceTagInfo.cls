@@ -51,18 +51,18 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
 
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
+    private static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
         Boolean triggerPackageUpdate = false;
-        GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
+        List<GithubRepoTag> githubTags = new List<GithubRepoTag>();
 
         try {
         System.debug('Running QueueUpdateComponentSourceTagInfo');  
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Installed_Version_Tracking_Method__c, Installed__c, Update_Available__c, Source_Installed_Tag_Hash__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
-            List<GithubRepoTag> githubTags = GithubAPIHelper.getGithubTags(demoComponent[0].Github_Repository_URL__c);
+            githubTags = GithubAPIHelper.getGithubTags(demoComponent[0].Github_Repository_URL__c);
 
-            if(githubTags.size() > 0 && githubTags != null){
+            if(githubTags != null && githubTags.size() > 0){
                 for(GithubRepoTag thisTag: githubTags){
                     if (thisTag.latestTagFlag != null && thisTag.latestTagFlag){
                         demoComponent[0].Latest_Tag_Commit_DateTime__c = thisTag.tagDate;

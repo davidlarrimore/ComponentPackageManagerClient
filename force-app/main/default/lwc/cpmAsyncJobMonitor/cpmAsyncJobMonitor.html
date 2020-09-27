@@ -14,8 +14,8 @@
         </thead>
         <tbody>
           <template for:each={jobTracker} for:item="rec" for:index="idx">
-            <tr class="slds-hint-parent slds-truncate" key={rec.AsyncApexJob_Id__c}>
-              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.AsyncApexJob_Name__c}</td>
+            <tr class="slds-hint-parent slds-truncate" key={rec.Job_Id__c}>
+              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.Job_Name__c}</td>
               <td class="slds-truncate" data-label="Status">
                 <lightning-helptext icon-name={rec.icon.name} icon-variant="brand" content={rec.icon.title}></lightning-helptext>
               </td>

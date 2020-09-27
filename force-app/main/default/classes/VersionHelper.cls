@@ -16,6 +16,9 @@ public with sharing class VersionHelper {
     public static Demo_Component__c getComponentFromGithubURL(String githubUrl, Map<String,String> options){
         System.debug('Running VersionHelper.getComponentFromGithubURL');  
         System.debug('Processing ' + githubUrl);
+        List<ID> jobIds = new List<ID>();
+        ID jobId;
+
         List<String> versions = new List<String>();
         
         Boolean demoConfigFileFlag = false;
@@ -150,23 +153,35 @@ public with sharing class VersionHelper {
 
         System.debug('Processing Dependent Packages');
         QueueUpdateComponentFromPackageVersion processDependenciesJob = new QueueUpdateComponentFromPackageVersion(dependentPackageSubscriberPackageVersionIds, new Map<String,String>{'parentDemoComponentId'=> gpbuPackage.Id}); 
-        ID processDependenciesJobId = System.enqueueJob(processDependenciesJob);      
+        jobId = System.enqueueJob(processDependenciesJob);
+        processDependenciesJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
+        QueuePlatformEventHelper.publishPlatformEvent(processDependenciesJob.GetJobInfo());
+        jobIds.add(jobId);    
 
         //Updating Package Info
         if(gpbuPackage.Package_Install_Type_Flag__c){
             System.debug('This is Package Install Enabled, using Tooling api to grab info');
             QueueUpdateComponentFromPackageVersion updateJob = new QueueUpdateComponentFromPackageVersion(new List<String>{gpbuPackage.Latest_Subscriber_Package_Version_Id__c},new Map<String,String>{}); 
-            ID updateJobID = System.enqueueJob(updateJob);        
+            jobId = System.enqueueJob(processDependenciesJob);
+            updateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
+            QueuePlatformEventHelper.publishPlatformEvent(updateJob.GetJobInfo());
+            jobIds.add(jobId);           
         }
 
         //Updating Source Info
         if(gpbuPackage.Source_Install_Type_Flag__c && !subRepoFlag){
             System.debug('This is Source Install Enabled, using Github api to grab Commit/tag info');
             QueueUpdateComponentSourceCommitInfo commitUpdateJob = new QueueUpdateComponentSourceCommitInfo(gpbuPackage.Id, options); 
-            ID commitUpdateJobID = System.enqueueJob(commitUpdateJob);   
+            jobId = System.enqueueJob(commitUpdateJob);
+            commitUpdateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
+            QueuePlatformEventHelper.publishPlatformEvent(commitUpdateJob.GetJobInfo());
+            jobIds.add(jobId);     
             
             QueueUpdateComponentSourceTagInfo tagUpdateJob = new QueueUpdateComponentSourceTagInfo(gpbuPackage.Id); 
-            ID tagUpdateJobID = System.enqueueJob(tagUpdateJob);   
+            jobId = System.enqueueJob(tagUpdateJob);
+            tagUpdateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
+            QueuePlatformEventHelper.publishPlatformEvent(tagUpdateJob.GetJobInfo());
+            jobIds.add(jobId);       
             
         }
 

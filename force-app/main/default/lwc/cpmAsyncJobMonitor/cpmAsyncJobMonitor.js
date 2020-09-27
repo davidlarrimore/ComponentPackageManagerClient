@@ -34,7 +34,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     for (let i = 0; i < this.jobTracker.length; i++) {
       let job = this.jobTracker[i];
       if (job.markedForRemoval === false){
-        if(job.AsyncApexJob_Status__c === 'Completed'){
+        if(job.Current_Job_Stage__c === 'Completed'){
           job.markedForRemoval = true;
           console.log(`${job.AsyncApexJob_Name__c} is completed and now marked for removal, will remove next round.`);
         }
@@ -52,23 +52,24 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
   doProcessPlatformEventCPMAsync(payload) {
     console.log("Processing CPM Async Event Payload");
-    if (undefined !== payload.AsyncApexJob_Id__c) {
-      console.log(`Current list of AsyncApexJobs = ${this.jobTracker.length}`);
+    if (undefined !== payload.Job_Id__c) {
+      console.log(`Current list of CPM Async Events (CPM_Async_Event__e) = ${this.jobTracker.length}`);
 
       let newJobTracker = [];
       let newJobFlag = true;
       let newJob = payload;
       newJob.icon = {};
-      newJob.events = {};
+      newJob.events = [];
 
-      let newJobEvent = {
+      let newJobEvent = [{
         'Event_Status_Title__c': payload.Event_Status_Title__c,
         'Event_Status_Message__c': payload.Event_Status_Message__c,
-        'Event_Level__c': payload.Event_Level__c
-      };
+        'Event_Level__c': payload.Event_Level__c,
+        'Current_Job_Stage__c': payload.Current_Job_Stage__c
+      }];
 
       newJob.markedForRemoval = false;
-      switch (newJob.Job_Stage__c) {
+      switch (newJob.Current_Job_Stage__c) {
         case "Completed":
           newJob.icon.name = "action:approval";
           newJob.icon.altText = "Completed";
@@ -100,13 +101,13 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           newJob.icon.variant = "inverse";
           break;
       }
-      console.log(`Successfully updated icons`);
+      console.log(`Successfully updated icons for ${newJob.Current_Job_Stage__c}`);
 
 
       
       for (let i = 0; i < this.jobTracker.length; i++) {
         if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
-          console.log(`Found Existing CPM Async Event, updating...`);
+          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
           newJobFlag = false;
           newJob.events = this.jobTracker[i].events;
           newJob.events.push(newJobEvent);
@@ -117,19 +118,19 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           newJobTracker.push(this.jobTracker[i]);
         }
       }
+      
       console.log(`newJobFlag is ${newJobFlag}`);
       if (newJobFlag) {
-        console.log(`Adding New AsyncApexJob, ${newJob.Job_Id__c}`);
+        console.log(`Adding New CPM Async Event (CPM_Async_Event__e), ${newJob.Job_Id__c}`);
         newJob.events.push(newJobEvent);
         newJobTracker.push(newJob);
-        
       }
 
       this.jobTracker = newJobTracker;
     }else{
       console.log('TODO: Will need to figure out a way for Job info to propogate, in child jobs');
     }
-    console.log("Completed AsyncApexJob Payload");
+    console.log("Completed doProcessPlatformEventCPMAsync()");
   }
 
   doToast(payload) {

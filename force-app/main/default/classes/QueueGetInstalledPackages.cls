@@ -46,7 +46,7 @@
   }
 
   @future(callout=true)
-  public static void doLater(Map<String, String> jobInfo) {
+  private static void doLater(Map<String, String> jobInfo) {
     List<String> recordsToProcess = new List<String>();
     List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();
     if (metadataInstalledPackageResponseRecords != null) {
@@ -61,7 +61,6 @@
 
       QueueUpdateComponentFromPackageVersion updateJob = new QueueUpdateComponentFromPackageVersion(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), recordsToProcess, new Map<String, String>{ 'installedFlag' => 'true' });
       ID newJobId = System.enqueueJob(updateJob);
-
       updateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, newJobId);
       QueuePlatformEventHelper.publishPlatformEvent(updateJob.GetJobInfo());     
 
