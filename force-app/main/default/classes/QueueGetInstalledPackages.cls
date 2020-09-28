@@ -62,11 +62,12 @@
         recordsToProcess.add(metadataInstalledPackageResponseRecord.subscriberPackageVersion.id);
       }
 
-      QueueUpdateComponentFromPackageVersion updateJob = new QueueUpdateComponentFromPackageVersion(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), recordsToProcess, new Map<String, String>{ 'installedFlag' => 'true' });
-      ID newJobId = System.enqueueJob(updateJob);   
+      QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), recordsToProcess, new Map<String, String>{ 'installedFlag' => 'true' });
+      System.enqueueJob(queueUpdateComponentFromPackageVersionJob);   
+      
+      jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
+      QueuePlatformEventHelper.publishPlatformEvent(jobInfo);     
 
-        jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);     
     }
   }
 }

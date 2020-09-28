@@ -117,7 +117,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueGetInstalledXTags</apexClass>
+        <apexClass>QueuePlatformEventHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QueueProcessXTag</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -141,15 +145,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>QueueUpdateInstalledSourceCommitInfo</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VersionHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>XTagFile</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>vfGetComponentFromGithubURL</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <customSettingAccesses>

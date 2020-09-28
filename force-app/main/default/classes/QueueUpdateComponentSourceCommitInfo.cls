@@ -72,44 +72,10 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
                 demoComponent[0].Latest_Commit_Description__c = githubCommit.commitInfo.message;
                 demoComponent[0].Latest_Commit_Hash__c = githubCommit.sha;
 
-                //If not an SFDX Based project, we assume POC information is not there, grabbing commit author info;
-                if (!demoComponent[0].SFDX_Package_Enabled_Flag__c){
-                    System.debug('This project is not SFDX Package Enabled, grabbing github info');  
-                    GithubUser githubUser = GithubAPIHelper.getGithubUser(githubCommit.author.url);
-                    demoComponent[0].POC_Name__c = githubUser.name;
-                    demoComponent[0].POC_Email__c = githubUser.email;
-                }
-
-                if(options.get('installedFlag') != null && options.get('commitHash') != null && options.get('installType') != null && options.get('installDate') != null){
-                    if(options.get('installedFlag') == 'true' && options.get('installType') == 'Github Commit'){
-                        System.debug('This was an install request, updating appropriatley');
-                        demoComponent[0].Installed__c = true;
-                        demoComponent[0].Installation_Type__c = 'Source';
-                        demoComponent[0].Install_Date__c = DateTime.valueOf(options.get('installDate'));
-                        demoComponent[0].Installed_Version_Tracking_Method__c = 'Github_Commit'; //Using API Name!
-
-                        System.debug('This was marked as installed, updating');
-                        if(githubCommit.sha.equals(options.get('commitHash'))){
-                            System.debug('The same hash was installed, Leveraging it');
-                            demoComponent[0].Source_Installed_Commit_Hash__c = githubCommit.sha;
-                            demoComponent[0].Source_Installed_Commit_Description__c = githubCommit.commitInfo.message;
-                            demoComponent[0].Source_Installed_Commit_DateTime__c = githubCommit.commitInfo.committer.commitDate;
-                                                                
-                        }else{
-                            System.debug('Installed hash ('+options.get('commitHash')+') does not match latest hash ('+githubCommit.sha+'), We assume Prior version was installed, grabbing that hash info');
-                            GithubRepoCommit installedGithubCommit = GithubAPIHelper.getGithubCommit(demoComponent[0].Github_Repository_URL__c, options);
-                            demoComponent[0].Source_Installed_Commit_Hash__c = installedGithubCommit.sha;
-                            demoComponent[0].Source_Installed_Commit_Description__c = installedGithubCommit.commitInfo.message;
-                            demoComponent[0].Source_Installed_Commit_DateTime__c = installedGithubCommit.commitInfo.committer.commitDate;
-                        }
-                        
-                    }
-                    
-                }
 
                 if(demoComponent[0].Installed__c){
                     System.debug('Checking to see if update is available');
-                    if(demoComponent[0].Installed_Version_Tracking_Method__c == 'Github Commit' && demoComponent[0].Source_Installed_Commit_Hash__c != githubCommit.sha){
+                    if(demoComponent[0].Installed_Version_Tracking_Method__c == 'Github_Commit' && demoComponent[0].Source_Installed_Commit_Hash__c != githubCommit.sha){
                         System.debug('Update Available');
                         demoComponent[0].Update_Available__c = true;
                     }else{
@@ -129,9 +95,11 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
         QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
 
     }catch (Exception e) {
+        System.debug(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());   
+
         jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);
         QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Failed Notification',
           QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
           QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_ERROR});     
     }           

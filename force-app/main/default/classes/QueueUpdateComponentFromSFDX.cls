@@ -56,7 +56,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
 
     @future(callout=true)
     private static void doLater(Map<String, String> jobInfo, Id demoComponentId, String githubUrl) {
-        ID newJobId;
+        String newJobId;
         Boolean triggerPackageUpdate = false;
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
         List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
@@ -118,7 +118,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
 
                 if(triggerPackageUpdate){
                     QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(new List<String>{githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()}, new Map<String,String>()); 
-                    newJobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);            
+                    System.enqueueJob(queueUpdateComponentFromPackageVersionJob);            
                     
                 }
 

@@ -14,13 +14,13 @@ public with sharing class VersionHelper {
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
     public static void AddGithubComponent(String githubUrl, Map<String,String> options){
-        ID jobId = QueuePlatformEventHelper.generateId();
+        String jobId = QueuePlatformEventHelper.generateId();
 
         System.debug('CpmAddGithubComponentController.runApex');  
         System.debug('Processing ' + githubUrl);
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'VersionHelper', 
+            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'AddGithubComponent', 
             QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
             QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
             QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
@@ -41,7 +41,20 @@ public with sharing class VersionHelper {
             demoComponent.Title__c = tempName;
             demoComponent.Source_Install_Type_Flag__c = true;
 
+
+            //XTAG file was included, meaning it was installed, Updating
+            if(options.containsKey('xTagFile')){
+                XTagFile xTagFile = (XTagFile)System.JSON.deserialize(options.get('xTagFile'), XTagFile.class);
+                System.debug('Existing demo component ' + demoComponent.Name + ' Is a match to this XTag File');
+                demoComponent.Installed__c = true;
+                demoComponent.Install_Date__c = xTagFile.installDateTime;
+                demoComponent.Installation_Type__c = 'Source';
+                demoComponent.Installed_Version_Tracking_Method__c = 'Github_Commit';   
+            }                              
+ 
+
             insert demoComponent;
+
 
             jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_PROCESSING);
             QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
@@ -50,17 +63,22 @@ public with sharing class VersionHelper {
               QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});     
 
 
+            if(options.containsKey('xTagFile')){
+                QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), demoComponent.Id, options.get('xTagFile')); 
+                System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
+            }
+
             QueueUpdateComponentFromGithubUser queueUpdateComponentFromGithubUserJob = new QueueUpdateComponentFromGithubUser(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id);    
-            jobId = System.enqueueJob(queueUpdateComponentFromGithubUserJob);
+            System.enqueueJob(queueUpdateComponentFromGithubUserJob);
 
             QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id, githubUrl); 
-            jobId = System.enqueueJob(queueUpdateComponentFromSFDXJob);
+            System.enqueueJob(queueUpdateComponentFromSFDXJob);
             
             QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id, new Map<String,String>{});   
-            jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+            System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
 
             QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id);    
-            jobId = System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+            System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
                  
         }else{
             jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
@@ -76,7 +94,7 @@ public with sharing class VersionHelper {
     public static void RefreshComponent(String demoComponentId){
         ID jobId = QueuePlatformEventHelper.generateId();
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'VersionHelper', 
+            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'RefreshComponent', 
             QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
             QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
             QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
@@ -109,4 +127,47 @@ public with sharing class VersionHelper {
         QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
     }    
     
+
+    public static void getinstalledXTAGs(){
+        String jobId = QueuePlatformEventHelper.generateId();
+
+        Map<String,String> jobInfo = new Map<String,String>{
+            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'GetInstalledXTags', 
+            QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
+            QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
+            QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
+        };
+
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);
+
+        try {
+            List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
+            List<XTagFile> xTagFiles = new List<XTagFile>();
+
+            if(staticResources.size() > 0){
+                System.debug('Found' + staticResources.size() + ' static_resources');
+                for (StaticResource staticResource: staticResources){
+                    XTagFile xTagFile = (XTagFile)System.JSON.deserialize(staticResource.Body.toString(), XTagFile.class);
+                    System.debug('Found Static Resource ID: ' + staticResource.Id + ', with name: '+ xTagFile.name); 
+                    xTagFiles.add(xTagFile);
+                }
+
+                for (XTagFile xTagFile: xTagFiles){
+                    QueueProcessXTag queueProcessXTagJob = new QueueProcessXTag(jobId, JSON.serialize(xTagFile)); 
+                    System.enqueueJob(queueProcessXTagJob); 
+                    
+                }
+            }
+
+            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
+            QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
+            
+        }catch (Exception e) {
+            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);
+            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+            QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+            QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+            QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_ERROR});                
+        }  
+    }
 }
