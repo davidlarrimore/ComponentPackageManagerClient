@@ -2,7 +2,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
         QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentFromSFDX', 
-        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
+        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromSFDX.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -26,16 +26,19 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     String githubUrl = null;
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateComponentFromSFDX(ID parentJobId, Id demoComponentId, String githubUrl) {
+    public QueueUpdateComponentFromSFDX(String parentJobId, Id demoComponentId, String githubUrl) {
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId());   
         this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);         
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());       
         this.demoComponentId = demoComponentId;
         this.githubUrl = githubUrl;       
     }
 
     public QueueUpdateComponentFromSFDX(Id demoComponentId, String githubUrl) {
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId());   
         this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
         this.demoComponentId = demoComponentId;
         this.githubUrl = githubUrl;
     }
@@ -43,7 +46,6 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, context.getJobId());
         this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
         QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
 
@@ -116,9 +118,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
 
                 if(triggerPackageUpdate){
                     QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(new List<String>{githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()}, new Map<String,String>()); 
-                    newJobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
-                    queueUpdateComponentFromPackageVersionJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, newJobId);  
-                    QueuePlatformEventHelper.publishPlatformEvent(queueUpdateComponentFromPackageVersionJob.GetJobInfo());                     
+                    newJobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);            
                     
                 }
 

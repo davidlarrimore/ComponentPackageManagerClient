@@ -27,18 +27,21 @@
 
     /*************CONSTRUCTORS*************/
     public QueueGetInstalledPackages() {
+      this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
       this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
+      QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
     }
 
     public QueueGetInstalledPackages(ID parentJobId) {
+      this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
       this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-      this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
+      this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+      QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());  
     }
 
   /*************EXECUTE METHOD*************/   
   public void execute(QueueableContext context) {
     /*************STANDARD EXECUTE STARTER*************/
-    this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, context.getJobId());
     this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
     QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
 
@@ -60,15 +63,10 @@
       }
 
       QueueUpdateComponentFromPackageVersion updateJob = new QueueUpdateComponentFromPackageVersion(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), recordsToProcess, new Map<String, String>{ 'installedFlag' => 'true' });
-      ID newJobId = System.enqueueJob(updateJob);
-      updateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, newJobId);
-      QueuePlatformEventHelper.publishPlatformEvent(updateJob.GetJobInfo());     
+      ID newJobId = System.enqueueJob(updateJob);   
 
         jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-          QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID) + ' - ' + jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Completed Successfully',
-          QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});     
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);     
     }
   }
 }

@@ -2,7 +2,7 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
         QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueGetInstalledXTags', 
-        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
+        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledXTags.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -27,19 +27,22 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
 
     /*************CONSTRUCTORS*************/
     public QueueGetInstalledXTags(ID parentJobId) {
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
         this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
         this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
     }
 
     public QueueGetInstalledXTags() {
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
         this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
     }
 
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, context.getJobId());
         this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
         QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
 
@@ -67,7 +70,7 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
                 List<Demo_Component__c> demoComponents = [SELECT Id, Name, Github_Repository_URL__c, Installed__c, Source_Installed_Commit_Hash__c, Source_Installed_Tag_Hash__c FROM Demo_Component__c WHERE Github_Repository_URL__c IN: githubRepositoryUrls];       
                 
                 if(demoComponents.size() > 0){
-                    System.debug('Found' + demoComponents.size() + ' Demo Components');
+                    System.debug('Found ' + demoComponents.size() + ' Demo Components');
                     for (XTagFile xTagFile: xTagFiles){
                         xTagFile.demoComponentAlreadyExistsFlag = false;
                         xTagFile.demoComponentAlreadyInstalledFlag = false;
@@ -84,21 +87,26 @@ public class QueueGetInstalledXTags implements Queueable, Database.AllowsCallout
                         }
                     }
                 }
+                update demoComponents;
 
                 for(XTagFile xTagFile: xTagFiles){
                     if(!xTagFile.demoComponentAlreadyExistsFlag){
                         System.debug('Repository ' + xTagFile.githubRepositoryUrl + ' Does not match an existing component, creating a new one');
-                        VersionHelper.getComponentFromGithubURL(xTagFile.githubRepositoryUrl, new map<String,String>{'installDate'=>string.valueOfGmt(xTagFile.installDateTime), 'installedFlag'=>'true', 'installType' => xTagFile.installType, 'commitHash' => xTagFile.commitHash});
+                        jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
+
+                        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                          QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
+                          QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_INFO});  
+
+                        VersionHelper.AddGithubComponent(xTagFile.githubRepositoryUrl, new map<String,String>{'installDate'=>string.valueOfGmt(xTagFile.installDateTime), 'installedFlag'=>'true', 'installType' => xTagFile.installType, 'commitHash' => xTagFile.commitHash});
                     }
                 }
             }
 
 
             jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID) + ' - ' + jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Completed Successfully',
-              QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});    
+            QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
 
         }catch (Exception e) {
             jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);

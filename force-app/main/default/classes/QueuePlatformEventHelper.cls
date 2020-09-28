@@ -70,10 +70,18 @@ public with sharing class QueuePlatformEventHelper
     }
 
     public static String generateId() {
+
+        Integer len = 16;
+        Blob blobKey = crypto.generateAesKey(128);
+        String key = EncodingUtil.convertToHex(blobKey);
+        return key.substring(0,len);
+
+        /*
         Integer s_num = 1;
            String result = String.valueOf(s_num++);
            return CPM_Async_Event__e.SObjectType.getDescribe().getKeyPrefix() + 
               '0'.repeat(12-result.length()) + result;
+        */
     }
     
 }

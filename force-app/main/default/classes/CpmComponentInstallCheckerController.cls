@@ -7,12 +7,11 @@ public with sharing class CpmComponentInstallCheckerController {
         ID jobId;
         List<AsyncApexJob> existingJobs;
 
-        QueueGetInstalledPackages updateJob = new QueueGetInstalledPackages();
-        existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :updateJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
+        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
         if (existingJobs.size() == 0){
-            jobId = System.enqueueJob(updateJob);
-            updateJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
-            QueuePlatformEventHelper.publishPlatformEvent(updateJob.GetJobInfo());
+            System.debug('Running queueGetInstalledPackagesJob');
+            jobId = System.enqueueJob(queueGetInstalledPackagesJob);
             jobIds.add(jobId);    
 
         }else{
@@ -21,12 +20,11 @@ public with sharing class CpmComponentInstallCheckerController {
     
 
 
-        QueueGetInstalledXTags updateXTAGJob = new QueueGetInstalledXTags();
-        existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :updateXTAGJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
+        QueueGetInstalledXTags queueGetInstalledXTagsJob = new QueueGetInstalledXTags();
+        existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledXTagsJob.getJobInfo(QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
         if (existingJobs.size() == 0){
-            jobId = System.enqueueJob(updateXTAGJob);
-            updateXTAGJob.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, jobId);  
-            QueuePlatformEventHelper.publishPlatformEvent(updateXTAGJob.GetJobInfo());
+            System.debug('Running queueGetInstalledXTagsJob');
+            jobId = System.enqueueJob(queueGetInstalledXTagsJob);
             jobIds.add(jobId);    
         }else{
             jobIds.add(existingJobs[0].Id);              

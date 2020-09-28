@@ -2,7 +2,7 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
         QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentSourceTagInfo', 
-        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
+        QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentSourceTagInfo.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -26,21 +26,24 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
     Map<String,String> options = new Map<String,String>();   
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateComponentSourceTagInfo(ID parentJobId, Id demoComponentId) {
+    public QueueUpdateComponentSourceTagInfo(String parentJobId, Id demoComponentId) {
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId());  
         this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);           
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());       
         this.demoComponentId = demoComponentId;
     }
 
     public QueueUpdateComponentSourceTagInfo(Id demoComponentId) {
-        this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED);          
+        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId());  
+        this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED);    
+        QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());      
         this.demoComponentId = demoComponentId;
     }
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, context.getJobId());
         this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
         QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
 
@@ -90,10 +93,7 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
         }
  
         jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-          QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-          QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID) + ' - ' + jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Completed Successfully',
-          QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});    
+        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
 
     }catch (Exception e) {
         jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);
