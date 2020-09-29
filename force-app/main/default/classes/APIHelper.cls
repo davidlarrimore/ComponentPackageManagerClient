@@ -49,7 +49,7 @@ public with sharing class APIHelper {
             request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
             
         }
-        
+        request.setTimeout(20000);
         request.setHeader('Content-Type', 'application/json');
 
         request.setEndpoint(url); 

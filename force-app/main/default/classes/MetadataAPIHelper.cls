@@ -116,7 +116,7 @@
         system.debug('Running getMetadataQueryAPI');
         system.debug('Query is ' + query);
         String SFdomainUrl=URL.getOrgDomainUrl().toExternalForm();
-        String Url = SFdomainUrl+'/services/data/v48.0/tooling/query/?q='+query;
+        String Url = SFdomainUrl+'/services/data/v49.0/tooling/query/?q='+query;
         return (Map<String,Object>) APIHelper.doRestRequest(url, true);
     }
 
@@ -124,7 +124,7 @@
     public static String getBaseMetadataAPIURL(){
         system.debug('Running getBaseMetadataAPIURL');
         String SFdomainUrl=URL.getOrgDomainUrl().toExternalForm();
-        return SFdomainUrl+'/services/data/v48.0/tooling/query/?q=';
+        return SFdomainUrl+'/services/data/v49.0/tooling/query/?q=';
     }    
 
     public static String getInstalledPackagesQueryUrl(){

@@ -24,6 +24,7 @@ SELECT Admin_Permission_Set__c,
        SFDX_Package_Enabled_Flag__c,
        SFDX_Package_Name__c,
        Source_Install_Type_Flag__c,
+       Package_Install_Type_Flag__c,
        Subscriber_Package_Id__c,
        Title__c
   FROM Demo_Component__c

@@ -30,13 +30,15 @@
       this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
       this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
       QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+      system.debug(this.GetJobInfo(QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
     }
 
     public QueueGetInstalledPackages(ID parentJobId) {
       this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
       this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
       this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
-      QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());  
+      QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+      system.debug(this.GetJobInfo(QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
     }
 
   /*************EXECUTE METHOD*************/   
@@ -44,6 +46,7 @@
     /*************STANDARD EXECUTE STARTER*************/
     this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
     QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+    system.debug(this.GetJobInfo(QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME)+' has been is now processing');  
 
     doLater(this.jobInfo);
   }

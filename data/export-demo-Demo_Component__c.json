@@ -12,6 +12,7 @@
             "Package_Name__c": "DynamicHeaderFooter",
             "SFDX_Package_Enabled_Flag__c": false,
             "Source_Install_Type_Flag__c": false,
+            "Package_Install_Type_Flag__c": false,
             "Subscriber_Package_Id__c": "0331t000000c4w5AAA",
             "Title__c": "DynamicHeaderFooter"
         },
@@ -42,6 +43,7 @@
             "SFDX_Package_Enabled_Flag__c": true,
             "SFDX_Package_Name__c": "Visitor Management Demo Scenario",
             "Source_Install_Type_Flag__c": true,
+            "Package_Install_Type_Flag__c": false,
             "Subscriber_Package_Id__c": "0333h000000AY9lAAG",
             "Title__c": "GPBU Visitor Management"
         },
@@ -58,6 +60,7 @@
             "Package_Name__c": "horizontalRule",
             "SFDX_Package_Enabled_Flag__c": false,
             "Source_Install_Type_Flag__c": false,
+            "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331K000000oduuQAA",
             "Title__c": "horizontalRule"
         },
@@ -85,6 +88,7 @@
             "SFDX_Package_Enabled_Flag__c": true,
             "SFDX_Package_Name__c": "richTextAreaFSC",
             "Source_Install_Type_Flag__c": true,
+            "Package_Install_Type_Flag__c": false,
             "Subscriber_Package_Id__c": "0333h000000AYQGAA4",
             "Title__c": "richTextAreaFSC"
         }
