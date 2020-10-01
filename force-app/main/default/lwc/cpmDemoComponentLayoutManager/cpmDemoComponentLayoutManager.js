@@ -4,6 +4,7 @@ import {
   getFieldValue,
   getFieldDisplayValue
 } from "lightning/uiRecordApi";
+import { subscribe, unsubscribe, onError } from "lightning/empApi";
 
 import ID_FIELD from "@salesforce/schema/Demo_Component__c.Id";
 import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
@@ -39,6 +40,14 @@ const fields = [
 
 export default class CpmDemoComponentLayoutManager extends LightningElement {
     @api recordId;
+    channelName = "/event/CPM_Component_Update__e";
+
+
+    connectedCallback() {
+      this.registerErrorListener();
+      this.handleSubscribe();
+    }
+  
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -54,14 +63,64 @@ export default class CpmDemoComponentLayoutManager extends LightningElement {
         );
       }
 
-
-
-
     _getDisplayValue(data, field) {
     return getFieldDisplayValue(data, field)
         ? getFieldDisplayValue(data, field)
         : getFieldValue(data, field);
     }
+
+
+    doProcessPlatformEvent(payload) {
+      console.log(`Processing CPM_Component_Update__e Event Payload: ${JSON.stringify(payload)}`);
+    }
+
+  // Handles subscribe button click
+  handleSubscribe() {
+    // Callback invoked whenever a new event message is received
+    const messageCallback = function (response) {
+      console.log("New message received: ", JSON.stringify(response));
+      this.doProcessPlatformEvent(response.data.payload);
+
+      // Response contains the payload of the new message received
+    }.bind(this);
+
+    // Invoke subscribe method of empApi. Pass reference to messageCallback
+    subscribe(this.channelName, -1, messageCallback).then((response) => {
+      // Response contains the subscription information on subscribe call
+      console.log(
+        "Subscription request sent to: ",
+        JSON.stringify(response.channel)
+      );
+      this.subscription = response;
+      this.toggleSubscribeButton(true);
+    });
+  }
+
+  // Handles unsubscribe button click
+  handleUnsubscribe() {
+    this.toggleSubscribeButton(false);
+
+    // Invoke unsubscribe method of empApi
+    unsubscribe(this.subscription, (response) => {
+      console.log("unsubscribe() response: ", JSON.stringify(response));
+      // Response is true for successful unsubscribe
+    });
+  }
+
+  toggleSubscribeButton(enableSubscribe) {
+    this.isSubscribeDisabled = enableSubscribe;
+    this.isUnsubscribeDisabled = !enableSubscribe;
+  }
+
+  registerErrorListener() {
+    // Invoke onError empApi method
+    onError((error) => {
+      console.log("Received error from server: ", JSON.stringify(error));
+      // Error contains the server-side error
+    });
+  }
+
+
 
 
 }

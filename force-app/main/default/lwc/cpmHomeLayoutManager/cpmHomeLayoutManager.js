@@ -1,4 +1,5 @@
 import { LightningElement, track } from "lwc";
+import { subscribe, unsubscribe, onError } from "lightning/empApi";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
@@ -7,11 +8,15 @@ import componentInstallChecker from "@salesforce/apex/CpmComponentInstallChecker
 export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
   installedDemoComponents;
+  channelName = "/event/CPM_Component_Update__e";
+
   @track error;
 
   connectedCallback() {
     this.doDemoComponentRefresh();
     this.doComponentInstallChecker();
+    this.handleSubscribe();
+    this.registerErrorListener();
   }
 
   doDemoComponentRefresh() {
@@ -48,7 +53,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
       });
   }
 
-
   doComponentInstallChecker() {
     componentInstallChecker()
     .then((data) => {
@@ -60,14 +64,60 @@ export default class CmpHomeLayoutManager extends LightningElement {
     });
   }
 
-
   get getIDs() {
     return this.record;
   }
 
-  handleAddedDemoComponent(event) {
-    console.log(`Running handleAddedDemoComponent ${event.detail}`);
-    this.doDemoComponentRefresh();
+  // Handles subscribe button click
+  handleSubscribe() {
+    // Callback invoked whenever a new event message is received
+    const messageCallback = function (response) {
+      console.log("New message received: ", JSON.stringify(response));
+      this.doDemoComponentRefresh();
+
+      // Response contains the payload of the new message received
+    }.bind(this);
+
+    // Invoke subscribe method of empApi. Pass reference to messageCallback
+    subscribe(this.channelName, -1, messageCallback).then((response) => {
+      // Response contains the subscription information on subscribe call
+      console.log(
+        "Subscription request sent to: ",
+        JSON.stringify(response.channel)
+      );
+      this.subscription = response;
+      this.toggleSubscribeButton(true);
+    });
   }
+
+  // Handles unsubscribe button click
+  handleUnsubscribe() {
+    this.toggleSubscribeButton(false);
+
+    // Invoke unsubscribe method of empApi
+    unsubscribe(this.subscription, (response) => {
+      console.log("unsubscribe() response: ", JSON.stringify(response));
+      // Response is true for successful unsubscribe
+    });
+  }
+
+  toggleSubscribeButton(enableSubscribe) {
+    this.isSubscribeDisabled = enableSubscribe;
+    this.isUnsubscribeDisabled = !enableSubscribe;
+  }
+
+  registerErrorListener() {
+    // Invoke onError empApi method
+    onError((error) => {
+      console.log("Received error from server: ", JSON.stringify(error));
+      // Error contains the server-side error
+    });
+  }
+
+
+
+
+
+
 
 }

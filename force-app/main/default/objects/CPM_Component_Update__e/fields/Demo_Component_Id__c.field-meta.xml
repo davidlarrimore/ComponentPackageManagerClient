@@ -6,7 +6,7 @@
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
     <label>Demo Component Id</label>
-    <length>60</length>
+    <length>55</length>
     <required>false</required>
     <type>Text</type>
     <unique>false</unique>

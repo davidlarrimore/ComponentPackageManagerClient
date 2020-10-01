@@ -14,18 +14,18 @@ public with sharing class VersionHelper {
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
     public static void AddGithubComponent(String githubUrl, Map<String,String> options){
-        String jobId = QueuePlatformEventHelper.generateId();
+        String jobId = QueuePlatformAsyncEventHelper.generateId();
 
         System.debug('VersionHelper.AddGithubComponent.runApex');  
         System.debug('Processing ' + githubUrl);
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Add Demo Component from Github Repository', 
-            QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
-            QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
+            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Add Demo Component from Github Repository', 
+            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
+            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
+            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
         };
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);
+        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
 
         System.debug('Seeing if Package already exists');
         List<Demo_Component__c> existingPackageLookup = [SELECT Id, Source_Install_Type_Flag__c, Latest_Subscriber_Package_Version_Id__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Github_Repository_URL__c = :githubUrl LIMIT 1];
@@ -51,46 +51,48 @@ public with sharing class VersionHelper {
                 demoComponent.Installation_Type__c = 'Source';
                 demoComponent.Installed_Version_Tracking_Method__c = 'Github_Commit';   
                 
+                
             }                              
  
             demoComponent.Last_Fetched__c = datetime.now();
 
-            insert demoComponent;
-
-
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_PROCESSING);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Created new Demo Component, and performing post processing!',
-              QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});     
-
+            insert demoComponent;   
 
             if(options.containsKey('xTagFile')){
               XTagFile xTagFile = (XTagFile)System.JSON.deserialize(options.get('xTagFile'), XTagFile.class);
-              QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
-              System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
+              QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+              System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob);   
             }
 
-            QueueUpdateComponentFromGithubUser queueUpdateComponentFromGithubUserJob = new QueueUpdateComponentFromGithubUser(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id);    
+            QueueUpdateComponentFromGithubUser queueUpdateComponentFromGithubUserJob = new QueueUpdateComponentFromGithubUser(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
             System.enqueueJob(queueUpdateComponentFromGithubUserJob);
 
-            QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+            QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
             System.enqueueJob(queueUpdateComponentFromSFDXJob);
             
-            QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id, new Map<String,String>{});   
+            QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, new Map<String,String>{});   
             System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
 
-            QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID),demoComponent.Id);    
+            QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
             System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo);
+            
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Added new Demo Component "' + demoComponent.Title__c + '". performing Post Processing!',
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+            });                
 
+            QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+              QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
+              QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+            });               
         }else{
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-              QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component already exists',
-              QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_INFO});               
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component already exists',
+              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_INFO});               
         }
 
     }
@@ -99,14 +101,27 @@ public with sharing class VersionHelper {
     public static void RefreshComponent(String demoComponentId){
         System.debug('Running VersionHelper.RefreshComponent');
 
-        String jobId = QueuePlatformEventHelper.generateId();
+        String jobId = QueuePlatformAsyncEventHelper.generateId();
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Refresh Demo Component Info', 
-            QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
-            QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
+            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Refresh Demo Component Info', 
+            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
+            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
+            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
         };
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);
+        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
+
+
+        //FIRST THING WE DO IS CHECK TO SEE IF PACKAGES WERE ALREADY INSTALLED
+        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
+        if (existingJobs.size() == 0){
+            System.debug('Running queueGetInstalledPackagesJob');
+            System.enqueueJob(queueGetInstalledPackagesJob);
+        }
+
+        VersionHelper.getinstalledXTAGs();
+
+
 
 
         List<Demo_Component__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
@@ -114,7 +129,7 @@ public with sharing class VersionHelper {
             Demo_Component__c demoComponent = demoComponentSearch[0];
 
             QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobId, demoComponentId); 
-            List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentFromSFDXJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
+            existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentFromSFDXJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
             if (existingJobs.size() == 0){
                 jobId = System.enqueueJob(queueUpdateComponentFromSFDXJob);
             }
@@ -130,22 +145,22 @@ public with sharing class VersionHelper {
             demoComponent.Last_Fetched__c = datetime.now();
             update demoComponent;
         }
-        jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
+        jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
     }    
     
 
     public static void getinstalledXTAGs(){
-        String jobId = QueuePlatformEventHelper.generateId();
+        String jobId = QueuePlatformAsyncEventHelper.generateId();
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
-            QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
-            QueuePlatformEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformEventHelper.STAGE_PROCESSING
+            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
+            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
+            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
+            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
         };
 
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);
+        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
 
         try {
             List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
@@ -164,15 +179,15 @@ public with sharing class VersionHelper {
                 }
             }
 
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
             
         }catch (Exception e) {
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-            QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-            QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_ERROR});                
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});                
         }  
     }
 
@@ -199,12 +214,18 @@ public with sharing class VersionHelper {
 
                     update demoComponent;  
 
-                    QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                        QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                        QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found Newly installed component, updating',
-                        QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_INFO});  
+                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component ' + demoComponent.Title__c + ' was installed. Updating',
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+                    });  
 
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+                      QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
+                      QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+                    });
+                        
+                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 //Newer version was installed
@@ -217,7 +238,13 @@ public with sharing class VersionHelper {
                     
                     update demoComponent;  
 
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'It looks like Demo Component ' + demoComponent.Title__c + ' was updated! Congratulations.',
+                      QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+                    });  
+
+                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 }else{
@@ -228,27 +255,27 @@ public with sharing class VersionHelper {
 
                 System.debug('Repository ' + xTagFile.githubRepositoryUrl + ' Does not match an existing component, creating a new one');
 
-                QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                    QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                    QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
-                    QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_SUCCESS});  
+                QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
+                    QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS});  
 
 
                 VersionHelper.AddGithubComponent(xTagFile.githubRepositoryUrl, new map<String,String>{'xTagFile'=>xTagJSON});
             }
 
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo);    
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
 
         }catch (Exception e) {
-            System.debug(jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());   
+            System.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());   
 
-            jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_FAILED);
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
 
-            QueuePlatformEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-            QueuePlatformEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Failed Notification',
-            QueuePlatformEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-            QueuePlatformEventHelper.FIELD_EVENT_LEVEL => QueuePlatformEventHelper.EVENT_LEVEL_ERROR});                
+            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Failed Notification',
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+            QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});                
         }  
     }
 

@@ -5,6 +5,56 @@
                 "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef1"
             },
+            "Github_Repository_URL__c": "https://github.com/salesforcelabs/lightningwebchartjs",
+            "Install_Date__c": "2020-09-29T13:07:37.000+0000",
+            "Installation_Type__c": "Source",
+            "Last_Fetched__c": "2020-09-29T15:15:28.000+0000",
+            "Latest_Commit_DateTime__c": "2020-09-24T07:09:53.000+0000",
+            "Latest_Commit_Description__c": "Add deploy button (#16)  At the beginning of the README",
+            "Latest_Commit_Hash__c": "0fdcd671a28ca8acdad1381be5bd85cbf0ce46b7",
+            "Latest_Tag_Commit_DateTime__c": "2020-09-18T17:51:35.000+0000",
+            "Latest_Tag_Commit_Description__c": "Revert breaking API naming changes on tick property (#14)",
+            "Latest_Tag_Commit_Hash__c": "02af81851d956fba5fa17d4eef4468d54d49bfaa",
+            "Latest_Tag_Version_Name__c": "v1.2.0",
+            "SFDX_Package_Enabled_Flag__c": false,
+            "Source_Install_Type_Flag__c": true,
+            "Package_Install_Type_Flag__c": false,
+            "Title__c": "lightningwebchartjs"
+        },
+        {
+            "attributes": {
+                "type": "Demo_Component__c",
+                "referenceId": "Demo_Component__cRef2"
+            },
+            "Github_Repository_URL__c": "https://github.com/SalesforceLabs/ExcelUpload",
+            "Last_Fetched__c": "2020-09-29T16:05:47.000+0000",
+            "Latest_Commit_DateTime__c": "2020-09-28T11:56:38.000+0000",
+            "Latest_Commit_Description__c": "Removed email from project-scratch-def.json",
+            "Latest_Commit_Hash__c": "fd0523534510113f1a7861ebbf97d08f05c76a5a",
+            "SFDX_Package_Enabled_Flag__c": false,
+            "Source_Install_Type_Flag__c": true,
+            "Package_Install_Type_Flag__c": false,
+            "Title__c": "ExcelUpload"
+        },
+        {
+            "attributes": {
+                "type": "Demo_Component__c",
+                "referenceId": "Demo_Component__cRef3"
+            },
+            "Github_Repository_URL__c": "https://github.com/SalesforceLabs/ApprovalHistoryLWC",
+            "Latest_Commit_DateTime__c": "2020-09-05T21:11:13.000+0000",
+            "Latest_Commit_Description__c": "Merge pull request #3 from SalesforceLabs/adding-comments-column  adding comments",
+            "Latest_Commit_Hash__c": "b3be4c7700fc49de8a0129dae44263e97afbe528",
+            "SFDX_Package_Enabled_Flag__c": false,
+            "Source_Install_Type_Flag__c": true,
+            "Package_Install_Type_Flag__c": false,
+            "Title__c": "ApprovalHistoryLWC"
+        },
+        {
+            "attributes": {
+                "type": "Demo_Component__c",
+                "referenceId": "Demo_Component__cRef4"
+            },
             "Last_Fetched__c": "2020-09-17T18:41:34.000+0000",
             "Latest_Package_Version__c": "2.61.0-1",
             "Latest_Package_Version_Name__c": "Spring 2020",
@@ -19,41 +69,10 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef2"
-            },
-            "Admin_Permission_Set__c": "Package_Manager",
-            "Description__c": "GPBU Visitor Management demo scenario",
-            "Github_Repository_URL__c": "https://github.com/davidlarrimore/gpbu-visitor-management",
-            "Last_Fetched__c": "2020-09-17T18:41:14.000+0000",
-            "Latest_Commit_DateTime__c": "2020-08-22T17:45:47.000+0000",
-            "Latest_Commit_Description__c": "Merge branch 'master' of https://github.com/davidlarrimore/gpbu-visitor-management",
-            "Latest_Commit_Hash__c": "9ef094d1e494d5f7444642c173b749f86e218eea",
-            "Latest_Package_Version__c": "0.1.1-1",
-            "Latest_Package_Version_Name__c": "ver 0.1",
-            "Latest_SFDX_Package_Alias__c": "Visitor Management Demo Scenario@0.1.1-1",
-            "Latest_SFDX_Package_Version_Name__c": "ver 0.1",
-            "Latest_Subscriber_Package_Version_Id__c": "04t3h000004bdPAAAY",
-            "Latest_Tag_Commit_DateTime__c": "2020-08-06T20:07:16.000+0000",
-            "Latest_Tag_Commit_Description__c": "Package Version Created",
-            "Latest_Tag_Commit_Hash__c": "8023c559c1d7716455893f16ed31ec3b300050c6",
-            "Latest_Tag_Version_Name__c": "1.0",
-            "Package_Name__c": "Visitor Management Demo Scenario",
-            "POC_Email__c": "dlarrimore@slaesforce.com",
-            "POC_Name__c": "David Larrimore",
-            "SFDX_Package_Enabled_Flag__c": true,
-            "SFDX_Package_Name__c": "Visitor Management Demo Scenario",
-            "Source_Install_Type_Flag__c": true,
-            "Package_Install_Type_Flag__c": false,
-            "Subscriber_Package_Id__c": "0333h000000AY9lAAG",
-            "Title__c": "GPBU Visitor Management"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef3"
+                "referenceId": "Demo_Component__cRef5"
             },
             "Installation_Type__c": "Package",
-            "Last_Fetched__c": "2020-09-19T04:49:35.000+0000",
+            "Last_Fetched__c": "2020-10-01T00:00:33.000+0000",
             "Latest_Package_Version__c": "1.0.0-1",
             "Latest_Package_Version_Name__c": "AllPages",
             "Latest_Subscriber_Package_Version_Id__c": "04t1K000002J0KKQA0",
@@ -67,10 +86,12 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef4"
+                "referenceId": "Demo_Component__cRef6"
             },
             "Github_Repository_URL__c": "https://github.com/davidlarrimore/richTextInputFSC",
-            "Last_Fetched__c": "2020-09-18T20:48:26.000+0000",
+            "Install_Date__c": "2020-09-29T13:18:01.000+0000",
+            "Installation_Type__c": "Source",
+            "Last_Fetched__c": "2020-09-29T14:48:12.000+0000",
             "Latest_Commit_DateTime__c": "2020-08-27T19:26:30.000+0000",
             "Latest_Commit_Description__c": "adding orgInit.sh",
             "Latest_Commit_Hash__c": "ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
@@ -88,7 +109,7 @@
             "SFDX_Package_Enabled_Flag__c": true,
             "SFDX_Package_Name__c": "richTextAreaFSC",
             "Source_Install_Type_Flag__c": true,
-            "Package_Install_Type_Flag__c": false,
+            "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333h000000AYQGAA4",
             "Title__c": "richTextAreaFSC"
         }

@@ -1,4 +1,4 @@
-public with sharing class QueuePlatformEventHelper
+public with sharing class QueuePlatformAsyncEventHelper
 {
     public static final String STAGE_QUEUED = 'Queued';
     public static final String STAGE_PROCESSING = 'Processing';

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Demo_Component_Title__c</fullName>
+    <fullName>Insert_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Demo Component Was Inserted</description>
     <externalId>false</externalId>
     <isFilteringDisabled>false</isFilteringDisabled>
     <isNameField>false</isNameField>
     <isSortingDisabled>false</isSortingDisabled>
-    <label>Demo Component Title</label>
-    <length>55</length>
-    <required>false</required>
-    <type>Text</type>
-    <unique>false</unique>
+    <label>Insert Flag</label>
+    <type>Checkbox</type>
 </CustomField>

@@ -1,8 +1,8 @@
 public class QueueUpdateComponentFromPackageVersion implements Queueable, Database.AllowsCallouts {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-      QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Update Component Package Info', 
-      QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromPackageVersion.class.getName()
+      QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Update Component Package Info', 
+      QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromPackageVersion.class.getName()
   };
 
   public Map<String,String> GetJobInfo() {
@@ -18,7 +18,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   }
 
   public void SetJobStage(String value) {
-      this.jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+      this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
   }   
 
   /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
@@ -27,18 +27,18 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
 
   /*************CONSTRUCTORS*************/      
   public QueueUpdateComponentFromPackageVersion(String parentJobId, Id demoComponentId, String subscriberPackageVersionId) {
-    this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-    this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
-    QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
+    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
+    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
+    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
     this.demoComponentId = demoComponentId;
     this.subscriberPackageVersionId = subscriberPackageVersionId;
   }
 
   public QueueUpdateComponentFromPackageVersion(Id demoComponentId, String subscriberPackageVersionId) {
-    this.SetJobInfo(QueuePlatformEventHelper.FIELD_JOB_ID, QueuePlatformEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformEventHelper.STAGE_QUEUED); 
-    QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
+    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
+    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
     this.demoComponentId = demoComponentId;
     this.subscriberPackageVersionId = subscriberPackageVersionId;
   }
@@ -47,8 +47,8 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   public void execute(QueueableContext context) {
       /*************STANDARD EXECUTE STARTER*************/
       System.debug('Running ' + QueueUpdateComponentFromPackageVersion.class.getName() );
-      this.SetJobStage(QueuePlatformEventHelper.STAGE_PROCESSING);
-      QueuePlatformEventHelper.publishPlatformEvent(this.GetJobInfo());
+      this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
+      QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
 
     doLater(this.jobInfo, this.demoComponentId, subscriberPackageVersionId);
   }
@@ -96,7 +96,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
       }
     }
 
-        jobInfo.put(QueuePlatformEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformEventHelper.STAGE_COMPLETED);
-        QueuePlatformEventHelper.publishPlatformEvent(jobInfo);   
+        jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
   }
 }
