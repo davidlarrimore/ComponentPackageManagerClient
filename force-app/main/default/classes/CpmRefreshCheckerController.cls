@@ -6,7 +6,7 @@ public with sharing class CpmRefreshCheckerController {
         System.debug('Demo Component ID ' + demoComponentId);
         System.debug('Forced Refresh is ' + forcedRefresh);
 
-
+        //TODO: CHECK TO SEE IF COMPONENT IS INSTALLED AND REFRESH
         List<Demo_Component__c> demoComponent = [SELECT Id, Last_Fetched__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
         DateTime now = datetime.now();
         DateTime yesterday = now.addDays(-1);

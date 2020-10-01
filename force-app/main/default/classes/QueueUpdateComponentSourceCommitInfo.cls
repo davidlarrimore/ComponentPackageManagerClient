@@ -77,7 +77,7 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
                 if(demoComponent.Installed__c){
                     System.debug('Checking to see if update is available');
                     System.debug('Source_Installed_Commit_Hash__c: ' + demoComponent.Source_Installed_Commit_Hash__c + ', githubCommit.sha: ' + githubCommit.sha);
-                    if(demoComponent.Installed_Version_Tracking_Method__c == 'Github_Commit' && demoComponent.Source_Installed_Commit_Hash__c != githubCommit.sha){
+                    if(demoComponent.Installed_Version_Tracking_Method__c == 'Github_Commit' && demoComponent.Source_Installed_Commit_Hash__c != null && demoComponent.Source_Installed_Commit_Hash__c != githubCommit.sha){
                         
                         System.debug('Update Available');
                         demoComponent.Update_Available__c = true;
