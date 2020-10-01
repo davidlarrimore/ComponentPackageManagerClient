@@ -1,7 +1,7 @@
   public class QueueGetInstalledPackages implements Queueable, Database.AllowsCallouts {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-      QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueGetInstalledPackages', 
+      QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Checking for installed Salesforce Packages', 
       QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
   };
 
@@ -56,11 +56,7 @@
     List<String> recordsToProcess = new List<String>();
     List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();
     if (metadataInstalledPackageResponseRecords != null) {
-      system.debug(
-        'Found ' +
-        metadataInstalledPackageResponseRecords.size() +
-        ' Installed Packages. Processing...'
-      );
+      system.debug('Found ' + metadataInstalledPackageResponseRecords.size() + ' Installed Packages. Processing...');
       for (MetadataInstalledPackageResponseRecord metadataInstalledPackageResponseRecord : metadataInstalledPackageResponseRecords) {
         recordsToProcess.add(metadataInstalledPackageResponseRecord.subscriberPackageVersion.id);
       }

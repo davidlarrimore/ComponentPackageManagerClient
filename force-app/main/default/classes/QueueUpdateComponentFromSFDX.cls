@@ -1,7 +1,7 @@
 public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentFromSFDX', 
+        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Update Component SFDX Info', 
         QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromSFDX.class.getName()
     };
 
@@ -112,13 +112,15 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                     QueuePlatformEventHelper.publishPlatformEvent(jobInfo);                  
 
                     if(triggerPackageUpdate){
-                        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(new List<String>{githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()}, new Map<String,String>()); 
+                        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()); 
                         System.enqueueJob(queueUpdateComponentFromPackageVersionJob);            
                         
                     }
 
                 }else{
-                    System.debug('sfdx-project.json not found');  
+                    System.debug('sfdx-project.json not found');
+                    demoComponent.SFDX_Package_Enabled_Flag__c = false;  
+                    update demoComponent;
                 }
     
         

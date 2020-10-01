@@ -1,3 +1,11 @@
 <template>
-    <c-cpm-async-job-monitor></c-cpm-async-job-monitor>
+    <lightning-card title="Component Refresh Status" icon-name="custom:custom19">
+        <div class="slds-var-m-around_medium">
+            Last Refresh was: {demoComponentlastFethedDateText}
+        </div>
+        <div slot="footer">
+            <lightning-button variant="destructive" label="Force Refresh" title="Force Refresh"
+                onclick={handleButtonClick} icon-name="utility:merge" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-card>
 </template>

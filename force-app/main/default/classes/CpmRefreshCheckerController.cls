@@ -1,13 +1,21 @@
 public with sharing class CpmRefreshCheckerController {
 
     @AuraEnabled
-    public static void runApex(String demoComponentId){ 
+    public static void runApex(String demoComponentId, boolean forcedRefresh){ 
         System.debug('Running CMPRefreshCheckerController.runApex');
+        System.debug('Demo Component ID ' + demoComponentId);
+        System.debug('Forced Refresh is ' + forcedRefresh);
 
-        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+
+        List<Demo_Component__c> demoComponent = [SELECT Id, Last_Fetched__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+        DateTime now = datetime.now();
+        DateTime yesterday = now.addDays(-1);
         if(demoComponent.size() > 0){
-            VersionHelper.RefreshComponent(demoComponentId);
+            System.debug('Found Demo Component!');
+            if(demoComponent[0].Last_Fetched__c < yesterday || demoComponent[0].Last_Fetched__c == null || forcedRefresh){
+                System.debug('Running Refresh!');
+                VersionHelper.RefreshComponent(demoComponentId);                   
+            }
         }
-
     }
 }

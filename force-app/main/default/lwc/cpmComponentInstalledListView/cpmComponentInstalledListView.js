@@ -13,17 +13,18 @@ export default class CpmComponentAvailableListView extends LightningElement {
       typeAttributes: { rowActions: actions, menuAlignment: "left" }
     },
     {
-      fieldName: "Name",
-      label: "Name"
-    },
+      fieldName: "Install_Date__c",
+      label: "Install Date",
+      type: "date-local"
+    }, 
     {
       fieldName: "Title__c",
       label: "Title"
     },
     {
-      fieldName: "Installed_Version__c",
-      label: "Installed Version"
-    },
+      fieldName: "Installation_Type__c",
+      label: "Installed Type"
+    },   
     {
       fieldName: "Update_Available__c",
       label: "Update Available",

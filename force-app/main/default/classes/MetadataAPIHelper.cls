@@ -37,7 +37,6 @@
         return null;
     }
 
-
     public static MetadataSubscriberPackageVersion getSubscriberPackageVersion(String SubscriberPackageVersionId){
         system.debug('Running getSubscriberPackageVersion');
 
@@ -138,11 +137,28 @@
 
     }
 
-    public static String getSubscriberPackageVersionQueryUrl(String subscriberPackageVersionId){
+    public static String getPackageInstallRequestQueryUrl(){    
+        system.debug('Running getPackageInstallRequestQueryUrl');       
+        return MetadataAPIHelper.getBaseMetadataAPIURL() + MetadataAPIHelper.getPackageInstallRequestQuery();   
+    }
+
+    public static String getPackageInstallRequestQueryUrl(String SubscriberPackageVersionKey){    
+        system.debug('Running getPackageInstallRequestQueryUrl');       
+        return MetadataAPIHelper.getBaseMetadataAPIURL() + MetadataAPIHelper.getPackageInstallRequestQuery() + EncodingUtil.urlEncode(' WHERE Id=\''+SubscriberPackageVersionKey + '\'', 'UTF-8');   
+    }
+
+    //SELECT ID,SubscriberPackageVersionKey, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest+WHERE+SubscriberPackageVersionKey='04t1K000002J0KK'
+    public static String getPackageInstallRequestQuery(){
+        system.debug('Running getPackageInstallRequestQuery');
+        return EncodingUtil.urlEncode('SELECT Id, Status, Errors, LastModifiedDate, SubscriberPackageVersionKey, PackageInstallSource FROM PackageInstallRequest', 'UTF-8');
+    }    
+
+    public static String getSubscriberPackageVersionQueryUrl(String subscriberPackageVersionId){    
         system.debug('Running getSubscriberPackageVersionQueryUrl');       
         return MetadataAPIHelper.getBaseMetadataAPIURL() + MetadataAPIHelper.getSubscriberPackageVersionQuery() + EncodingUtil.urlEncode(' WHERE Id=\''+subscriberPackageVersionId + '\'', 'UTF-8');   
     }
 
+    //SELECT ID,SubscriberPackageVersionKey, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest+WHERE+SubscriberPackageVersionKey='04t1K000002J0KK'
     public static String getSubscriberPackageVersionQuery(){
         system.debug('Running getSubscriberPackageVersionQuery');
         return EncodingUtil.urlEncode('SELECT Id, Dependencies, SubscriberPackageId, Name, Description, PublisherName, MajorVersion, MinorVersion, PatchVersion, BuildNumber FROM SubscriberPackageVersion', 'UTF-8');

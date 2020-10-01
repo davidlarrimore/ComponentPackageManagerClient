@@ -1,7 +1,7 @@
 public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentSourceTagInfo', 
+        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Update Component Source Tag Info', 
         QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentSourceTagInfo.class.getName()
     };
 

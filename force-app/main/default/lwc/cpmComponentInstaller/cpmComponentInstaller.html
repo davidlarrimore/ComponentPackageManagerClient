@@ -1,24 +1,23 @@
 <template>
   <template if:false={componentInstalledFlag}>
-    <c-cpm-component-installer-dependencies demo-component={wired_demoComponent} demo-component-id={recordId}>
+    <c-cpm-component-installer-dependencies demo-component={demoComponent}>
     </c-cpm-component-installer-dependencies>
   </template>
-  <template if:true={getComponentInstalledFlag}>
+  <template if:true={componentInstalledFlag}>
     <template if:true={canUpdatePackageFlag}>
-      <lightning-card title="Component Update Available" icon-name="custom:custom19">
+      <lightning-card title="Component Installer" icon-name="standard:product_consumed">
         <template if:true={componentSourceInstallTypeFlag}> </template>
         <template if:true={componentPackageInstallTypeFlag}>
           <div class="slds-var-m-around_medium">
-            <a class="slds-button slds-button_brand" target="_blank" href={componentPackageInstallUrl}>Update package
-              now</a>
+            <a class="slds-button slds-button_brand" target="_blank" href={componentPackageInstallUrl}>Update package now</a>
           </div>
         </template>
       </lightning-card>
     </template>
-    <template if:true={canUpdatePackageFlag}>
-      <lightning-card title="Component Installed" icon-name="custom:custom19">
+    <template if:false={canUpdatePackageFlag}>
+      <lightning-card title="Component Installer" icon-name="standard:product_consumed">
           <div class="slds-var-m-around_medium">
-            Component is Already Installed and up to date. Have a nice day!
+            Component is Already installed and up-to-date. Have a nice day!
           </div>
       </lightning-card>
     </template>

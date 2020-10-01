@@ -1,7 +1,7 @@
 public class QueueUpdateComponentFromGithubUser implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'QueueUpdateComponentFromGithubUser', 
+        QueuePlatformEventHelper.FIELD_JOB_NAME =>  'Update Component POC Info', 
         QueuePlatformEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromGithubUser.class.getName()
     };
 

@@ -14,13 +14,13 @@ import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Demo_Component__c.Instal
 import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
 
 export default class CpmComponentInstallerDependencies extends LightningElement {
+  @api recordId; 
   @api demoComponent;
-  @api demoComponentId;
   @track error;
   @track demoComponentDependencies = [];
-  @track dependenciesMetFlag;
+  @track dependenciesMetFlag = true;
 
-  @wire(dependentPackages, {searchKey: "$demoComponentId"})
+  @wire(dependentPackages, {searchKey: "$recordId"})
   wiredPackageDependencies({ error, data }) {
     if (data) {
       console.log('wiredPackageDependencies SUCCESS');
@@ -30,6 +30,7 @@ export default class CpmComponentInstallerDependencies extends LightningElement 
 
       this.demoComponentDependencies = data;
       this.dependenciesMetFlag = true;
+
       for (let i = 0; i < this.demoComponentDependencies.length; i++) {
         if (this.demoComponentDependencies[i].Installed__c === false) {
           console.log(

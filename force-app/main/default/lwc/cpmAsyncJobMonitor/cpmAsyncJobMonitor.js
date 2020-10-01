@@ -36,7 +36,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       if (job.markedForRemoval === false){
         if(job.Current_Job_Stage__c === 'Completed'){
           job.markedForRemoval = true;
-          console.log(`${job.AsyncApexJob_Name__c} is completed and now marked for removal, will remove next round.`);
+          console.log(`${job.Job_Name__c} is completed and now marked for removal, will remove next round.`);
         }
         newJobTracker.push(job);
       }
