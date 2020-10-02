@@ -8,6 +8,20 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   isUnsubscribeDisabled = !this.isSubscribeDisabled;
   subscription = {};
 
+  cols = [
+    {
+        type: 'text',
+        fieldName: 'Job_Name__c',
+        label: 'Job Name',
+    },
+    {
+        type: 'text',
+        label: 'Status',
+        cellAttributes: { iconName: { fieldName: 'iconName' }, iconPosition: 'right'},
+        initialWidth:75
+    },
+  ];
+
   @track jobTracker = [];
 
 
@@ -19,6 +33,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   connectedCallback() {
+    console.log(`cmpAsynchJobMonitor Callback`);
     this.registerErrorListener();
     this.handleSubscribe();
     // eslint-disable-next-line @lwc/lwc/no-async-operation
@@ -51,12 +66,9 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   doProcessPlatformEventCPMAsync(payload) {
-    console.log("Processing CPM Async Event Payload");
+    console.log(`Processing CPM Async Event Payload ${payload.Job_Id__c}`);
     if (undefined !== payload.Job_Id__c) {
       console.log(`Current list of CPM Async Events (CPM_Async_Event__e) = ${this.jobTracker.length}`);
-
-      let newJobTracker = [];
-      let newJobFlag = true;
       let newJob = payload;
       newJob.icon = {};
       newJob.events = [];
@@ -69,33 +81,39 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }];
 
       newJob.markedForRemoval = false;
+
       switch (newJob.Current_Job_Stage__c) {
         case "Completed":
           newJob.icon.name = "action:approval";
+          newJob.iconName = "action:approval";
           newJob.icon.altText = "Completed";
           newJob.icon.title = "Completed";
           newJob.icon.variant = "success";
           break;
         case "Queued":
           newJob.icon.name = "action:refresh";
+          newJob.iconName = "action:refresh";
           newJob.icon.altText = "Queued";
           newJob.icon.title = "Queued";
           newJob.icon.variant = "inverse";
           break;
         case "Processing":
           newJob.icon.name = "action:defer";
+          newJob.iconName = "action:defer";
           newJob.icon.altText = "Processing";
           newJob.icon.title = "Processing";
           newJob.icon.variant = "warning";
           break;
         case "Failed":
           newJob.icon.name = "action:close";
+          newJob.iconName = "action:close";
           newJob.icon.altText = "Failed";
           newJob.icon.title = "Failed";
           newJob.icon.variant = "error";
           break;
         default:
           newJob.icon.name = "action:refresh";
+          newJob.iconName = "action:refresh";
           newJob.icon.altText = "Other";
           newJob.icon.title = "Other";
           newJob.icon.variant = "inverse";
@@ -103,35 +121,158 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }
       console.log(`Successfully updated icons for ${newJob.Current_Job_Stage__c}`);
 
-
-      
       for (let i = 0; i < this.jobTracker.length; i++) {
         if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
-          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
-          newJobFlag = false;
+          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating Events...`);
           newJob.events = this.jobTracker[i].events;
-          newJob.events.push(newJobEvent);
 
-          newJobTracker.push(newJob);
+          if (this.jobTracker[i]._children) {
+            newJob._children = this.jobTracker[i]._children;
+          }
 
-        } else {
-          newJobTracker.push(this.jobTracker[i]);
         }
       }
-      
-      console.log(`newJobFlag is ${newJobFlag}`);
-      if (newJobFlag) {
-        console.log(`Adding New CPM Async Event (CPM_Async_Event__e), ${newJob.Job_Id__c}`);
-        newJob.events.push(newJobEvent);
-        newJobTracker.push(newJob);
-      }
 
-      this.jobTracker = newJobTracker;
+      newJob.events.push(newJobEvent);
+      this.doPushJob(newJob);
+
     }else{
       console.log('TODO: Will need to figure out a way for Job info to propogate, in child jobs');
     }
     console.log("Completed doProcessPlatformEventCPMAsync()");
   }
+
+  doPushJob(newJob){
+    console.log(`Pushing Job`);
+    //Processing Child Jobs
+    if (newJob.Job_Parent_Id__c != null) {
+      console.log(`This is a Child Job, adding to child`);
+      let newJobTracker = this.jobTracker;
+      for (let i = 0; i < newJobTracker.length; i++) {
+        if (newJobTracker[i].Job_Id__c === newJob.Job_Parent_Id__c) {
+          if (newJobTracker[i]._children) {
+            console.log(`Parent job had existing Children, Upserting`);
+            let newChildArray = [];
+            let newJobFlag = true;
+              for (let j = 0; j < newJobTracker[i]._children.length; j++) {
+                if (newJobTracker[i]._children[j].Job_Id__c === newJob.Job_Id__c) {
+                  console.log(`Found the existing Child Job`);
+                  newJobFlag = false;
+                  newChildArray.push(newJob);
+                }else{
+                  newChildArray.push(newJobTracker[i]._children[j]);
+                }
+              }
+              if(newJobFlag){
+                console.log(`This was a newly reported child job for this parent Job, adding`);
+                newChildArray.push(newJob);
+              }
+              newJobTracker[i]._children = newChildArray;
+          }else{
+            console.log(`Parent Job had no children...Congratulations, you are now a father...`);
+            newJobTracker[i]._children = [];
+            newJobTracker[i]._children.push(newJob);
+          }
+        }
+      }
+      this.jobTracker = newJobTracker;
+    }else{
+      console.log(`This is not a child Job`);
+      let newJobFlag = true;
+      let newJobTracker = [];
+      for (let i = 0; i < this.jobTracker.length; i++) {
+        if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
+          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
+          newJobFlag = false;
+          newJob.events = this.jobTracker[i].events;
+
+          newJobTracker.push(newJob);
+        }else{
+          newJobTracker.push(this.jobTracker[i]);
+        }
+      }
+      if(newJobFlag){
+        newJobTracker.push(newJob);
+      }
+      this.jobTracker = newJobTracker;
+    }
+    console.log(`Completed Pushing Job ${this.jobTracker}`);
+  }
+
+
+  doGetParentStatus(newJob){
+    //LOGIC TO SEE IF CHILD JOBS EXISTS, IF SO, WE UPDATE STAGE TO REFLECT TOTAL STATUS
+    if(newJob._children){
+      for (let j = 0; j < newJob._children.length; j++) {
+        let runningJobFlag = false;
+        let jobFailedFlag = false;
+        //If any child jobs are less than completed, we mark as processing
+        if (this.getJobStageNumber(newJob._children[j].Current_Job_Stage__c) < 3){
+          newJob.Current_Job_Stage__c = "Processing";
+          runningJobFlag = true;
+        }else{
+          if(newJob.Current_Job_Stage__c === "Failed"){
+              jobFailedFlag = true;
+          }
+        }
+        if(!runningJobFlag){
+          if(jobFailedFlag){
+            newJob.Current_Job_Stage__c = "Completed with Errors";
+          }else{
+            newJob.Current_Job_Stage__c = "Completed";
+          }
+        }
+      }
+      
+      switch (newJob.Current_Job_Stage__c) {
+        case "Completed":
+          newJob.icon.name = "action:approval";
+          newJob.iconName = "action:approval";
+          newJob.icon.altText = "Completed";
+          newJob.icon.title = "Completed";
+          newJob.icon.variant = "success";
+          break;
+          case "Completed with Errors":
+            newJob.icon.name = "action:reject";
+            newJob.iconName = "action:reject";
+            newJob.icon.altText = "Completed with Errors";
+            newJob.icon.title = "Completed with Errors";
+            newJob.icon.variant = "warning";
+            break;                
+        case "Queued":
+          newJob.icon.name = "action:refresh";
+          newJob.iconName = "action:refresh";
+          newJob.icon.altText = "Queued";
+          newJob.icon.title = "Queued";
+          newJob.icon.variant = "inverse";
+          break;
+        case "Processing":
+          newJob.icon.name = "action:defer";
+          newJob.iconName = "action:defer";
+          newJob.icon.altText = "Processing";
+          newJob.icon.title = "Processing";
+          newJob.icon.variant = "warning";
+          break;
+        case "Failed":
+          newJob.icon.name = "action:close";
+          newJob.iconName = "action:close";
+          newJob.icon.altText = "Failed";
+          newJob.icon.title = "Failed";
+          newJob.icon.variant = "error";
+          break;
+        default:
+          newJob.icon.name = "action:refresh";
+          newJob.iconName = "action:refresh";
+          newJob.icon.altText = "Other";
+          newJob.icon.title = "Other";
+          newJob.icon.variant = "inverse";
+          break;
+      }
+      console.log(`Since there are child Jobs, we have updated icons`);
+
+    }
+  }
+
 
   doToast(payload) {
     console.log("Publishing Toast");
@@ -147,6 +288,33 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       console.log(`Toast error: ${err}`);
     }
   }
+
+  getJobStageNumber(jobStage){
+
+    let retval = 1;
+    switch (jobStage) {
+      case "Completed":
+        retval = 3;
+        break;
+      case "Queued":
+        retval = 1;
+        break;
+      case "Processing":
+        retval = 2;
+        break;
+      case "Failed":
+        retval = 3;
+        break;
+      default:
+        retval = 1;
+        break;
+    }
+    return retval;
+  }
+
+
+
+
 
   // Handles subscribe button click
   handleSubscribe() {

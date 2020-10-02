@@ -33,7 +33,7 @@
       system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
     }
 
-    public QueueGetInstalledPackages(ID parentJobId) {
+    public QueueGetInstalledPackages(String parentJobId) {
       this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
       this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
       this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  

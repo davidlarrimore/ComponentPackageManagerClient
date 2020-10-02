@@ -102,26 +102,26 @@ public with sharing class VersionHelper {
         System.debug('Running VersionHelper.RefreshComponent');
 
         String jobId = QueuePlatformAsyncEventHelper.generateId();
+
         Map<String,String> jobInfo = new Map<String,String>{
             QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Refresh Demo Component Info', 
             QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => VersionHelper.class.getName(),
             QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
             QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
         };
+        
         QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
 
 
         //FIRST THING WE DO IS CHECK TO SEE IF PACKAGES WERE ALREADY INSTALLED
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages(jobId);
         List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
         if (existingJobs.size() == 0){
             System.debug('Running queueGetInstalledPackagesJob');
             System.enqueueJob(queueGetInstalledPackagesJob);
         }
 
-        VersionHelper.getinstalledXTAGs();
-
-
+        VersionHelper.getinstalledXTAGs(jobId);
 
 
         List<Demo_Component__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, Source_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
@@ -131,16 +131,16 @@ public with sharing class VersionHelper {
             QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobId, demoComponentId); 
             existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentFromSFDXJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
             if (existingJobs.size() == 0){
-                jobId = System.enqueueJob(queueUpdateComponentFromSFDXJob);
+                System.enqueueJob(queueUpdateComponentFromSFDXJob);
             }
 
 
             if(demoComponent.Source_Install_Type_Flag__c){
                 QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobId, demoComponentId, new Map<String,String>{});   
-                jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+                System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
                 
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobId, demoComponentId); 
-                jobId = System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+                System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
             }
             demoComponent.Last_Fetched__c = datetime.now();
             update demoComponent;
@@ -150,7 +150,7 @@ public with sharing class VersionHelper {
     }    
     
 
-    public static void getinstalledXTAGs(){
+    public static void getinstalledXTAGs(String parentJobId){
         String jobId = QueuePlatformAsyncEventHelper.generateId();
 
         Map<String,String> jobInfo = new Map<String,String>{
@@ -159,6 +159,11 @@ public with sharing class VersionHelper {
             QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
             QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
         };
+
+        if(String.isBlank(parentJobId)
+        ){
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);
+        }
 
         QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
 
@@ -196,6 +201,11 @@ public with sharing class VersionHelper {
        try {
 
             XTagFile xTagFile = (XTagFile)System.JSON.deserialize(xTagJSON, XTagFile.class);
+            Boolean hasParentJob = false;
+
+            if(jobInfo.containsKey(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID)){
+                hasParentJob = true;
+            }
 
             List<Demo_Component__c> demoComponentSearch = [SELECT Id, Name, Github_Repository_URL__c, Title__c, Update_Available__c, Install_Date__c, Installed__c, Source_Installed_Commit_Hash__c, Source_Installed_Tag_Hash__c FROM Demo_Component__c WHERE Github_Repository_URL__c = :xTagFile.githubRepositoryUrl LIMIT 1];       
             if(demoComponentSearch.size() > 0){
@@ -225,7 +235,7 @@ public with sharing class VersionHelper {
                       QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
                     });
                         
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 //Newer version was installed
@@ -244,7 +254,7 @@ public with sharing class VersionHelper {
                       QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
                     });  
 
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 }else{

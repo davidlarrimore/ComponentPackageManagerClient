@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Installed_Version__c</fullName>
     <externalId>false</externalId>
-    <formula>CASE(Installed_Version_Tracking_Method__c,&quot;SFDX Project&quot;,SFDX_Installed_Package_Version_Name__c,&quot;Github Commit&quot;,Source_Installed_Commit_Hash__c,&quot;Github Tag&quot;,Source_Installed_Tag_Hash__c,IF(Installed__c=False,&quot;&quot;,IF (ISPICKVAL(Installation_Type__c,&quot;Package&quot;),  Package_Installed_Version_Number__c,&quot;N/A&quot;)))</formula>
+    <formula>CASE(Installed_Version_Tracking_Method__c,&quot;SFDX Project&quot;,Package_Installed_Version_Number__c,&quot;Github Commit&quot;,Source_Installed_Commit_Hash__c,&quot;Github Tag&quot;,Source_Installed_Tag_Hash__c,IF(Installed__c=False,&quot;&quot;,IF (ISPICKVAL(Installation_Type__c,&quot;Package&quot;),  Package_Installed_Version_Number__c,&quot;N/A&quot;)))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Installed Version</label>
     <required>false</required>

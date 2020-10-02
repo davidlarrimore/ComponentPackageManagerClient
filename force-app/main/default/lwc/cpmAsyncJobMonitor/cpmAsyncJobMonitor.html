@@ -1,28 +1,12 @@
 <template>
   <lightning-card title="Async Job Monitor" icon-name="standard:shift">
     <template if:true={hasJobs}>
-      <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-        <thead>
-          <tr class="slds-line-height_reset slds-truncate">
-            <th class="" scope="col">
-              <div class="slds-truncate" title="Status">Job Name</div>
-            </th>
-            <th class="" scope="col">
-              <div class="slds-truncate" title="Status">Status</div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <template for:each={jobTracker} for:item="rec" for:index="idx">
-            <tr class="slds-hint-parent slds-truncate" key={rec.Job_Id__c}>
-              <td class="slds-truncate slds-cell-wrap" data-label="JobName">{rec.Job_Name__c}</td>
-              <td class="slds-truncate" data-label="Status">
-                <lightning-helptext icon-name={rec.icon.name} icon-variant="brand" content={rec.icon.title}></lightning-helptext>
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
+      <lightning-tree-grid
+        columns={cols}
+        data={jobTracker}
+        key-field="Job_Id__c"
+        hide-checkbox-column
+      ></lightning-tree-grid>
     </template>
     <template if:false={hasJobs}>
       <div class="slds-illustration slds-illustration_small" aria-hidden="true">

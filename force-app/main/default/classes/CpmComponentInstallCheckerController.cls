@@ -12,7 +12,7 @@ public with sharing class CpmComponentInstallCheckerController {
             System.enqueueJob(queueGetInstalledPackagesJob);
         }
 
-        VersionHelper.getinstalledXTAGs();
+        VersionHelper.getinstalledXTAGs(null);
 
 
     }
