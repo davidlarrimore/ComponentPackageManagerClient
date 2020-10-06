@@ -82,43 +82,9 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
       newJob.markedForRemoval = false;
 
-      switch (newJob.Current_Job_Stage__c) {
-        case "Completed":
-          newJob.icon.name = "action:approval";
-          newJob.iconName = "action:approval";
-          newJob.icon.altText = "Completed";
-          newJob.icon.title = "Completed";
-          newJob.icon.variant = "success";
-          break;
-        case "Queued":
-          newJob.icon.name = "action:refresh";
-          newJob.iconName = "action:refresh";
-          newJob.icon.altText = "Queued";
-          newJob.icon.title = "Queued";
-          newJob.icon.variant = "inverse";
-          break;
-        case "Processing":
-          newJob.icon.name = "action:defer";
-          newJob.iconName = "action:defer";
-          newJob.icon.altText = "Processing";
-          newJob.icon.title = "Processing";
-          newJob.icon.variant = "warning";
-          break;
-        case "Failed":
-          newJob.icon.name = "action:close";
-          newJob.iconName = "action:close";
-          newJob.icon.altText = "Failed";
-          newJob.icon.title = "Failed";
-          newJob.icon.variant = "error";
-          break;
-        default:
-          newJob.icon.name = "action:refresh";
-          newJob.iconName = "action:refresh";
-          newJob.icon.altText = "Other";
-          newJob.icon.title = "Other";
-          newJob.icon.variant = "inverse";
-          break;
-      }
+
+      newJob.iconName = this.doGetIconName(newJob.Current_Job_Stage__c);
+
       console.log(`Successfully updated icons for ${newJob.Current_Job_Stage__c}`);
 
       for (let i = 0; i < this.jobTracker.length; i++) {
@@ -153,17 +119,17 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           if (newJobTracker[i]._children) {
             console.log(`Parent job had existing Children, Upserting`);
             let newChildArray = [];
-            let newJobFlag = true;
+            let newChildJobFlag = true;
               for (let j = 0; j < newJobTracker[i]._children.length; j++) {
                 if (newJobTracker[i]._children[j].Job_Id__c === newJob.Job_Id__c) {
                   console.log(`Found the existing Child Job`);
-                  newJobFlag = false;
+                  newChildJobFlag = false;
                   newChildArray.push(newJob);
                 }else{
                   newChildArray.push(newJobTracker[i]._children[j]);
                 }
               }
-              if(newJobFlag){
+              if(newChildJobFlag){
                 console.log(`This was a newly reported child job for this parent Job, adding`);
                 newChildArray.push(newJob);
               }
@@ -173,6 +139,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
             newJobTracker[i]._children = [];
             newJobTracker[i]._children.push(newJob);
           }
+          newJobTracker[i] = this.doGetParentStatus(newJobTracker[i]);
         }
       }
       this.jobTracker = newJobTracker;
@@ -185,7 +152,10 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
           newJobFlag = false;
           newJob.events = this.jobTracker[i].events;
-
+          if(this.jobTracker[i]._children){
+            newJob._children = this.jobTracker[i]._children;
+          }
+          newJob = this.doGetParentStatus(newJob);
           newJobTracker.push(newJob);
         }else{
           newJobTracker.push(this.jobTracker[i]);
@@ -196,82 +166,69 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }
       this.jobTracker = newJobTracker;
     }
-    console.log(`Completed Pushing Job ${this.jobTracker}`);
+    console.log(`Completed Pushing Job ${newJob.Job_Id__c}`);
   }
 
 
-  doGetParentStatus(newJob){
-    //LOGIC TO SEE IF CHILD JOBS EXISTS, IF SO, WE UPDATE STAGE TO REFLECT TOTAL STATUS
-    if(newJob._children){
-      for (let j = 0; j < newJob._children.length; j++) {
+  doGetParentStatus(parentJob){
+    //LOGIC TO SEE IF CHILD JOBS EXISTS, IF SO, WE UPDATE STAGE TO REFLECT OVERALL STATUS
+    if(parentJob._children){
+      for (let i = 0; i < parentJob._children.length; i++) {
         let runningJobFlag = false;
         let jobFailedFlag = false;
         //If any child jobs are less than completed, we mark as processing
-        if (this.getJobStageNumber(newJob._children[j].Current_Job_Stage__c) < 3){
-          newJob.Current_Job_Stage__c = "Processing";
+        if (this.getJobStageNumber(parentJob._children[i].Current_Job_Stage__c) < 3){
+          console.log(`Child Jobs are not done, setting parent status to "processing"`);
+          parentJob.Current_Job_Stage__c = "Processing";
           runningJobFlag = true;
-        }else{
-          if(newJob.Current_Job_Stage__c === "Failed"){
-              jobFailedFlag = true;
-          }
+        }else if(parentJob._children[i].Current_Job_Stage__c === "Failed"){
+          jobFailedFlag = true;
         }
+
         if(!runningJobFlag){
           if(jobFailedFlag){
-            newJob.Current_Job_Stage__c = "Completed with Errors";
+            parentJob.Current_Job_Stage__c = "Completed with Errors";
           }else{
-            newJob.Current_Job_Stage__c = "Completed";
+            console.log(`All child jobs are done, setting to "Completed"`);
+            parentJob.Current_Job_Stage__c = "Completed";
           }
         }
       }
-      
-      switch (newJob.Current_Job_Stage__c) {
-        case "Completed":
-          newJob.icon.name = "action:approval";
-          newJob.iconName = "action:approval";
-          newJob.icon.altText = "Completed";
-          newJob.icon.title = "Completed";
-          newJob.icon.variant = "success";
-          break;
-          case "Completed with Errors":
-            newJob.icon.name = "action:reject";
-            newJob.iconName = "action:reject";
-            newJob.icon.altText = "Completed with Errors";
-            newJob.icon.title = "Completed with Errors";
-            newJob.icon.variant = "warning";
-            break;                
-        case "Queued":
-          newJob.icon.name = "action:refresh";
-          newJob.iconName = "action:refresh";
-          newJob.icon.altText = "Queued";
-          newJob.icon.title = "Queued";
-          newJob.icon.variant = "inverse";
-          break;
-        case "Processing":
-          newJob.icon.name = "action:defer";
-          newJob.iconName = "action:defer";
-          newJob.icon.altText = "Processing";
-          newJob.icon.title = "Processing";
-          newJob.icon.variant = "warning";
-          break;
-        case "Failed":
-          newJob.icon.name = "action:close";
-          newJob.iconName = "action:close";
-          newJob.icon.altText = "Failed";
-          newJob.icon.title = "Failed";
-          newJob.icon.variant = "error";
-          break;
-        default:
-          newJob.icon.name = "action:refresh";
-          newJob.iconName = "action:refresh";
-          newJob.icon.altText = "Other";
-          newJob.icon.title = "Other";
-          newJob.icon.variant = "inverse";
-          break;
-      }
-      console.log(`Since there are child Jobs, we have updated icons`);
 
     }
+    parentJob.iconName = this.doGetIconName(parentJob.Current_Job_Stage__c);
+    return parentJob;
   }
+
+
+
+ doGetIconName(Current_Job_Stage__c){
+  let iconName = `action:refresh`;
+
+  switch (Current_Job_Stage__c) {
+    case "Completed":
+      iconName = "action:approval";
+      break;
+    case "Queued":
+      iconName = "action:refresh";
+      break;
+    case "Processing":
+      iconName = "action:defer";
+      break;
+    case "Failed":
+      iconName = "action:close";
+      break;
+    case "Completed with Errors":
+      iconName = "action:close";
+      break;
+    default:
+      iconName = "action:refresh";
+      break;
+  }
+
+    return iconName;
+ }
+
 
 
   doToast(payload) {
