@@ -64,9 +64,6 @@ public with sharing class VersionHelper {
               System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob);   
             }
 
-            QueueUpdateComponentFromGithubUser queueUpdateComponentFromGithubUserJob = new QueueUpdateComponentFromGithubUser(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
-            System.enqueueJob(queueUpdateComponentFromGithubUserJob);
-
             QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
             System.enqueueJob(queueUpdateComponentFromSFDXJob);
             
@@ -75,6 +72,9 @@ public with sharing class VersionHelper {
 
             QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
             System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+            
+            QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+            System.enqueueJob(queueUpdateComponentFromGithubRepoJob);
             
             jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
             QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
@@ -141,6 +141,9 @@ public with sharing class VersionHelper {
                 
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobId, demoComponentId); 
                 System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+
+                QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+                System.enqueueJob(queueUpdateComponentFromGithubRepoJob);            
             }
             demoComponent.Last_Fetched__c = datetime.now();
             update demoComponent;

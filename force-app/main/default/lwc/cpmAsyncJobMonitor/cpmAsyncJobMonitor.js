@@ -172,10 +172,10 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
   doGetParentStatus(parentJob){
     //LOGIC TO SEE IF CHILD JOBS EXISTS, IF SO, WE UPDATE STAGE TO REFLECT OVERALL STATUS
+    let jobFailedFlag = false;
     if(parentJob._children){
       for (let i = 0; i < parentJob._children.length; i++) {
         let runningJobFlag = false;
-        let jobFailedFlag = false;
         //If any child jobs are less than completed, we mark as processing
         if (this.getJobStageNumber(parentJob._children[i].Current_Job_Stage__c) < 3){
           console.log(`Child Jobs are not done, setting parent status to "processing"`);
@@ -185,14 +185,14 @@ export default class cmpAsynchJobMonitor extends LightningElement {
           jobFailedFlag = true;
         }
 
-        if(!runningJobFlag){
-          if(jobFailedFlag){
-            parentJob.Current_Job_Stage__c = "Completed with Errors";
-          }else{
+        if(jobFailedFlag){
+          parentJob.Current_Job_Stage__c = "Failed";
+        }else if(!runningJobFlag){
             console.log(`All child jobs are done, setting to "Completed"`);
             parentJob.Current_Job_Stage__c = "Completed";
-          }
         }
+
+
       }
 
     }
@@ -233,9 +233,15 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
   doToast(payload) {
     console.log("Publishing Toast");
+    let mode = 'pester';
+
+    if(payload.Event_Level__c === "error"){
+      mode = 'sticky';
+    }
+
     try {
       const evt = new ShowToastEvent({
-        mode: "pester",
+        mode: mode,
         title: payload.Event_Status_Title__c,
         message: payload.Event_Status_Message__c,
         variant: payload.Event_Level__c

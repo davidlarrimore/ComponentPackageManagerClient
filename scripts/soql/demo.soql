@@ -1,7 +1,6 @@
 SELECT Admin_Permission_Set__c, 
        Description__c, 
        Github_Repository_URL__c,
-       Install_Date__c,
        Install_Key__c, 
        Installation_Type__c,
        Last_Fetched__c,

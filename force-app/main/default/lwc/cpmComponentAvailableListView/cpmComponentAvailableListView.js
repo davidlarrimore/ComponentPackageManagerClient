@@ -25,10 +25,6 @@ export default class CpmComponentAvailableListView extends LightningElement {
       fieldName: "Description__c",
       label: "Description",
       type: "richText"
-    },
-    {
-      fieldName: "POC_Email__c",
-      label: "POC E-Mail"
     }
   ];
 }
