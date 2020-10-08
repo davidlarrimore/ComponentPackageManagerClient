@@ -9,10 +9,6 @@ export default class CpmComponentAvailableListView extends LightningElement {
 
   cols = [
     {
-      type: "action",
-      typeAttributes: { rowActions: actions, menuAlignment: "left" }
-    },
-    {
       fieldName: "Install_Date__c",
       label: "Install Date",
       type: "date-local"
@@ -29,6 +25,10 @@ export default class CpmComponentAvailableListView extends LightningElement {
       fieldName: "Update_Available__c",
       label: "Update Available",
       type: "boolean"
+    },
+    {
+      type: "action",
+      typeAttributes: { rowActions: actions, menuAlignment: "right" }
     }
   ];
 }

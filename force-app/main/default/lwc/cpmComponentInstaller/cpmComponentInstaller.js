@@ -4,6 +4,7 @@ import {
   getFieldDisplayValue
 } from "lightning/uiRecordApi";
 import PACKAGE_NAME_FIELD from "@salesforce/schema/Demo_Component__c.Package_Name__c";
+import DEMO_COMPONENT_ID_FIELD from "@salesforce/schema/Demo_Component__c.Id";
 import INSTALLED_FIELD from "@salesforce/schema/Demo_Component__c.Installed__c";
 import SOURCE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Source_Install_Type_Flag__c";
 import PACKAGE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Package_Install_Type_Flag__c";
@@ -13,7 +14,6 @@ import UPDATE_AVAILABLE_FIELD from "@salesforce/schema/Demo_Component__c.Update_
 
 
 export default class CpmComponentInstaller extends LightningElement {
-  @api recordId;
   @api demoComponent;
   @track error;
   @track selectedItemValue = "closed";
@@ -23,6 +23,13 @@ export default class CpmComponentInstaller extends LightningElement {
     return this._getDisplayValue(
       this.demoComponent.data,
       PACKAGE_NAME_FIELD
+    );
+  }
+
+  get componentPackageId() {
+    return this._getDisplayValue(
+      this.demoComponent.data,
+      DEMO_COMPONENT_ID_FIELD
     );
   }
 

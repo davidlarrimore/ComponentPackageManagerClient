@@ -91,7 +91,17 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
         demoComponent.Latest_Package_Version_Name__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.name;
         update demoComponent;
 
-        //TODO:FIX DEPENDENCIES
+
+        if(null != metadataInstalledPackageResponseRecord.subscriberPackageVersion.dependencies){
+          if(metadataInstalledPackageResponseRecord.subscriberPackageVersion.dependencies.ids.size() > 0){
+            List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
+            for(Map<String,String> dependency: metadataInstalledPackageResponseRecord.subscriberPackageVersion.dependencies.ids){
+              dependentPackageSubscriberPackageVersionIds.add(dependency.get('subscriberPackageVersionId'));
+            }
+            QueueProcessDependentPackages queueProcessDependentPackagesJob = new QueueProcessDependentPackages(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, dependentPackageSubscriberPackageVersionIds); 
+            System.enqueueJob(queueProcessDependentPackagesJob);
+          }
+        }
 
       }
     }

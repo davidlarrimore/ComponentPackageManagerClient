@@ -8,7 +8,9 @@ public class MetadataSubscriberPackageVersion {
     public Integer buildNumber;   
 
     public String publisherName;
-    public String subscriberPackageId;    
+    public String subscriberPackageId;  
+    public MetadataSubscriberPackageDependencies dependencies;  
+    
     //public Map<String,String> dependencies; //TODO:FIX.....    
 
     /* Example Dependencies JSON

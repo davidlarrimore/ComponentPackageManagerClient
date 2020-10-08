@@ -46,14 +46,14 @@
     /*************STANDARD EXECUTE STARTER*************/
     this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
     QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been is now processing');  
+    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
 
     doLater(this.jobInfo);
   }
 
   @future(callout=true)
   private static void doLater(Map<String, String> jobInfo) {
-    System.debug('Running VersionHelper.getInstalledSalesforcePackages');
+    System.debug('Running QueueGetInstalledPackages.doLater');
     
     List<String> recordsToProcess = new List<String>();
     List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();

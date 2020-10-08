@@ -1,43 +1,45 @@
 <template>
-    <template if:false={componentInstalledFlag}>
-        <lightning-card title="Install this Component" icon-name="standard:logging">
-            <template if:true={dependenciesMetFlag}>
-                <template if:true={componentSourceInstallTypeFlag}>
-                    <div class="slds-card__body slds-card__body_inner">
-                        <div class="slds-card slds-card_boundary">
-                            <lightning-card title="Source Install">
-                                <div slot="actions"><a class="slds-button slds-button_text-destructive" target="_blank" href={componentSourceInstallUrl}>Install</a></div>
-                                <div slot="footer">
-                                    <div class="slds-text-align_left">
-                                        Install Source Code Metadata to your org. You will not be able to uninstall the package, but you can make changes to any code.
+    <template if:true={demoComponentId}>
+        <template if:false={componentInstalledFlag}>
+            <lightning-card title="Install this Component" icon-name="standard:logging">
+                <template if:true={dependenciesMetFlag}>
+                    <template if:true={componentSourceInstallTypeFlag}>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-card slds-card_boundary">
+                                <lightning-card title="Source Install">
+                                    <div slot="actions"><a class="slds-button slds-button_text-destructive" target="_blank" href={componentSourceInstallUrl}>Install</a></div>
+                                    <div slot="footer">
+                                        <div class="slds-text-align_left">
+                                            Install Source Code Metadata to your org. You will not be able to uninstall the package, but you can make changes to any code.
+                                        </div>
                                     </div>
-                                </div>
-                            </lightning-card>
-                        </div>
-                    </div>
-                </template>
-                <template if:true={componentPackageInstallTypeFlag}>
-                    <div class="slds-card__body slds-card__body_inner">
-                        <div class="slds-card slds-card_boundary">
-                            <lightning-card title="Package Install">
-                                <div slot="actions"><a class="slds-button slds-button_neutral" target="_blank" href={componentPackageInstallUrl}>Install</a></div>
-                                <div slot="footer">
-                                    <div class="slds-text-align_left">Install Component as a Salesforce Package. You can update this package, but unless it is an unmanaged or unlocked package, you cannot make changes.</div>
-                                </div>
-                            </lightning-card>
+                                </lightning-card>
                             </div>
-                    </div>
-                </template>            
-            </template>
-            <template if:false={dependenciesMetFlag}>
-                <div class="slds-card__body slds-card__body_inner">
-                    In order to install {componentPackageTitle}, you must first install the following dependent component(s):
-                </div>
-                <template for:each={demoComponentDependencies} for:item="demoComponentDependency">
-                    <c-cpm-component-installer-dependency demo-component={demoComponentDependency} key={demoComponentDependency.Id}>
-                    </c-cpm-component-installer-dependency>
+                        </div>
+                    </template>
+                    <template if:true={componentPackageInstallTypeFlag}>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <div class="slds-card slds-card_boundary">
+                                <lightning-card title="Package Install">
+                                    <div slot="actions"><a class="slds-button slds-button_neutral" target="_blank" href={componentPackageInstallUrl}>Install</a></div>
+                                    <div slot="footer">
+                                        <div class="slds-text-align_left">Install Component as a Salesforce Package. You can update this package, but unless it is an unmanaged or unlocked package, you cannot make changes.</div>
+                                    </div>
+                                </lightning-card>
+                                </div>
+                        </div>
+                    </template>            
                 </template>
-            </template>
-        </lightning-card>
+                <template if:false={dependenciesMetFlag}>
+                    <div class="slds-card__body slds-card__body_inner">
+                        In order to install {componentPackageTitle}, you must first install the following dependent component(s):
+                    </div>
+                    <template for:each={demoComponentDependencies} for:item="demoComponentDependency">
+                        <c-cpm-component-installer-dependency demo-component={demoComponentDependency} key={demoComponentDependency.Id}>
+                        </c-cpm-component-installer-dependency>
+                    </template>
+                </template>
+            </lightning-card>
+        </template>
     </template>
 </template>

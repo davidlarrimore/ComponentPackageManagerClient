@@ -10,10 +10,6 @@ export default class CpmComponentAvailableListView extends LightningElement {
 
   cols = [
     {
-      type: "action",
-      typeAttributes: { rowActions: actions, menuAlignment: "left" }
-    },
-    {
       fieldName: "Name",
       label: "Name"
     },
@@ -25,6 +21,10 @@ export default class CpmComponentAvailableListView extends LightningElement {
       fieldName: "Description__c",
       label: "Description",
       type: "richText"
-    }
+    },
+    {
+      type: "action",
+      typeAttributes: { rowActions: actions, menuAlignment: "right" }
+    }    
   ];
 }

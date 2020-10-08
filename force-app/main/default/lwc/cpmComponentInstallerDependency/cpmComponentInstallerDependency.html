@@ -1,38 +1,33 @@
 <template>
   <template if:false={demoComponent.Installed__c}>
     <div class="slds-card__body slds-card__body_inner">
-      <article class="slds-card slds-card_boundary">
-        <div class="slds-card__header slds-grid">
-          <header class="slds-media slds-media_center slds-has-flexi-truncate">
-            <div class="slds-media__figure">
-              <span class="slds-icon_container slds-icon-custom-custom57" title="Demo Component">
-                <svg class="slds-icon slds-icon_small" aria-hidden="true">
-                  <use xlink:href="/apexpages/slds/latest/assets/icons/custom-sprite/svg/symbols.svg#custom57"></use>
-                </svg>
-                <span class="slds-assistive-text">{demoComponent.Title__c}</span>
-              </span>
+      <div class="slds-card slds-card_boundary">
+          <lightning-card>
+            <h4 slot="title">
+              <a href={componentLightningURL} class="slds-card__header-link slds-truncate" title={demoComponent.Title__c}>{demoComponent.Title__c}</a>
+            </h4>
+            <div slot="actions">
+              <lightning-button-group>
+                <template if:true={demoComponent.Source_Install_Type_Flag__c}>
+                  <a class="slds-button slds-button_neutral" href={demoComponent.Source_Install_Url__c}>Install as Source</a>
+                </template>
+                <template if:true={demoComponent.Package_Install_Type_Flag__c}>
+                  <a class="slds-button slds-button_neutral" href={demoComponent.Package_Install_Url__c}>Install as Package</a>
+                </template>
+              </lightning-button-group>
             </div>
-            <div class="slds-media__body">
-              <h2 class="slds-card__header-title">
-                <a href={componentLightningURL} class="slds-card__header-link slds-truncate"
-                  title={demoComponent.Title__c}>
-                  <span>{demoComponent.Title__c}</span>
-                </a>
-              </h2>
+            <div slot="footer">
+                <div class="slds-text-align_left">
+                  <template if:true={demoComponent.Description__c}>
+                    {demoComponent.Description__c}
+                  </template>
+                  <template if:false={demoComponent.Description__c}>
+                    No Description Provided
+                  </template>
+                </div>
             </div>
-            <div class="slds-var-p-around_small lgc-bg">
-              <lightning-button-menu alternative-text="Show menu">
-                <lightning-menu-item value="Install as Source" target="_blank"
-                  href={demoComponent.Source_Install_Url__c} label="Install as Source"
-                  if:true={demoComponent.Source_Install_Type_Flag__c}></lightning-menu-item>
-                <lightning-menu-item value="Install as Package" target="_blank"
-                  href={demoComponent.Package_Install_Url__c} label="Install as Package"
-                  if:true={demoComponent.Package_Install_Type_Flag__c}></lightning-menu-item>
-              </lightning-button-menu>
-            </div>
-          </header>
-        </div>
-      </article>
+        </lightning-card>
+      </div>
     </div>
   </template>
 </template>

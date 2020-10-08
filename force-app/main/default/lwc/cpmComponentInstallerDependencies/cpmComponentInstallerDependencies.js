@@ -14,14 +14,15 @@ import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Demo_Component__c.Instal
 import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
 
 export default class CpmComponentInstallerDependencies extends LightningElement {
-  @api recordId; 
   @api demoComponent;
+  @api demoComponentId;
   @track error;
   @track demoComponentDependencies = [];
   @track dependenciesMetFlag = true;
 
-  @wire(dependentPackages, {searchKey: "$recordId"})
+  @wire(dependentPackages, {demoComponentId: '$demoComponentId'})
   wiredPackageDependencies({ error, data }) {
+    console.log(`Running wiredPackageDependencies. Demo Component ID: ${this.demoComponentId}`);
     if (data) {
       console.log('wiredPackageDependencies SUCCESS');
       console.log(`Data = ${console.log(JSON.stringify(data))}`);
