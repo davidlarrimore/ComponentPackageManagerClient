@@ -1,4 +1,4 @@
-  public class QueueGetInstalledPackages implements Queueable, Database.AllowsCallouts {
+public class QueueGetInstalledPackages implements Queueable, Database.AllowsCallouts {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
       QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Salesforce Packages', 

@@ -4,5 +4,5 @@
     <isExposed>false</isExposed>
     <targets>
         <target>lightning__RecordPage</target>
-    </targets>       
+    </targets>
 </LightningComponentBundle>

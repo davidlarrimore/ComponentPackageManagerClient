@@ -145,4 +145,4 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
         }
     }
 
-}    
+}

@@ -1,4 +1,3 @@
-
 public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{

@@ -1,4 +1,3 @@
-
 /* EXAMPLE TOOLING API CALLS
  *
  * Package Install Requests: /services/data/v48.0/tooling/query/?q=SELECT+Id+,CreatedDate+,SubscriberPackageVersionKey,+PackageInstallSource+FROM+PackageInstallRequest
