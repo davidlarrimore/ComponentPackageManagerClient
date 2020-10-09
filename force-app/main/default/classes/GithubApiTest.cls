@@ -1,7 +1,10 @@
 @isTest
 public with sharing class GithubApiTest {
-    public static final String githubApiRepoURL = 'https://github.com/davidlarrimore/richTextInputFSC';
+    public static final String githubApiRepoURL = 'https://api.github.com/repos/davidlarrimore/richTextInputFSC';
     public static final String githubApiUserURL = 'https://api.github.com/users/davidlarrimore';
+    public static final String githubApiCommitsURL = 'https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits';
+    public static final String githubApiCommitURL = 'https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81';
+    public static final String githubApiCommitHash = 'ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81';
 
 
     @testSetup 
@@ -44,4 +47,43 @@ public with sharing class GithubApiTest {
         System.assertEquals('richTextInputFSC', githubRepo.name);
     }
 
+
+    static testmethod void testGithubCommitsAPI() {
+        Test.setMock(HttpCalloutMock.class, new GithubApiGetCommitsCalloutMock()); 
+        GithubRepoCommit githubCommit = new GithubRepoCommit();
+        //List<GithubRepoCommit> getGithubCommits
+        Test.startTest();        
+        githubCommit = GithubAPIHelper.getGithubCommits(githubApiCommitsURL);
+        Test.stopTest(); 
+        
+        System.assertEquals('richTextInputFSC', githubCommit.name);
+    
+    }    
+
+    static testmethod void testGithubCommitAPI() {
+        Test.setMock(HttpCalloutMock.class, new GithubApiGetCommitsCalloutMock()); 
+        GithubRepoCommit githubCommit = new GithubRepoCommit();
+        //List<GithubRepoCommit> getGithubCommits
+        Test.startTest();        
+        githubCommit = GithubAPIHelper.getGithubCommit(githubApiCommitURL);
+        Test.stopTest(); 
+        
+        System.assertEquals('adding orgInit.sh', githubCommit.commitInfo.message);
+    }    
+
+
+    static testmethod void testGithubSpecificCommitAPI() {
+        Test.setMock(HttpCalloutMock.class, new GithubApiGetCommitsCalloutMock()); 
+        GithubRepoCommit githubCommit = new GithubRepoCommit();
+        //List<GithubRepoCommit> getGithubCommits
+        Test.startTest();        
+        githubCommit = GithubAPIHelper.getGithubCommit(githubApiRepoURL, new Map<String,String>{'commitHash' => githubApiCommitHash});
+        Test.stopTest(); 
+        
+        System.assertEquals('adding orgInit.sh', githubRepo.commitInfo.message);
+
+    }    
+
 }
+
+
