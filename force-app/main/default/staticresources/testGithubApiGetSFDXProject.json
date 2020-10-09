@@ -1,0 +1,21 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true,
+            "package": "richTextAreaFSC",
+            "versionDescription": "Finally Version 2!!!!",
+            "versionName": "ver 0.3",
+            "versionNumber": "0.3.0.NEXT"
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "47.0",
+    "packageAliases": {
+        "richTextAreaFSC": "0Ho3h000000KzLMCA0",
+        "richTextAreaFSC@0.1.0-1": "04t3h000004bdsNAAQ",
+        "richTextAreaFSC@0.2.0-1": "04t3h000004bdxnAAA",
+        "richTextAreaFSC@0.3.0-1": "04t3h000004bdyCAAQ"
+    }
+}

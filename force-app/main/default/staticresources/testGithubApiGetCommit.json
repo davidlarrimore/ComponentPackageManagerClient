@@ -1,34 +1,98 @@
 {
     "sha": "ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
     "node_id": "MDY6Q29tbWl0MjkwMDAxNjA1OmJhOTljYTJmZmRkMGUyNTU5NmJlNGUxZmE5Y2JjMThiYjJmNTdmODE=",
-    "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
+    "commit": {
+        "author": {
+            "name": "David Larrimore",
+            "email": "davidlarrimore@gmail.com",
+            "date": "2020-08-27T19:26:30Z"
+        },
+        "committer": {
+            "name": "David Larrimore",
+            "email": "davidlarrimore@gmail.com",
+            "date": "2020-08-27T19:26:30Z"
+        },
+        "message": "adding orgInit.sh",
+        "tree": {
+            "sha": "dac9ec2ad297fe8a46cdc625132ffdc319509ab2",
+            "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/trees/dac9ec2ad297fe8a46cdc625132ffdc319509ab2"
+        },
+        "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
+        "comment_count": 0,
+        "verification": {
+            "verified": false,
+            "reason": "unsigned",
+            "signature": null,
+            "payload": null
+        }
+    },
+    "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
     "html_url": "https://github.com/davidlarrimore/richTextInputFSC/commit/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
+    "comments_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81/comments",
     "author": {
-        "name": "David Larrimore",
-        "email": "davidlarrimore@gmail.com",
-        "date": "2020-08-27T19:26:30Z"
+        "login": "davidlarrimore",
+        "id": 5623372,
+        "node_id": "MDQ6VXNlcjU2MjMzNzI=",
+        "avatar_url": "https://avatars2.githubusercontent.com/u/5623372?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/davidlarrimore",
+        "html_url": "https://github.com/davidlarrimore",
+        "followers_url": "https://api.github.com/users/davidlarrimore/followers",
+        "following_url": "https://api.github.com/users/davidlarrimore/following{/other_user}",
+        "gists_url": "https://api.github.com/users/davidlarrimore/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/davidlarrimore/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/davidlarrimore/subscriptions",
+        "organizations_url": "https://api.github.com/users/davidlarrimore/orgs",
+        "repos_url": "https://api.github.com/users/davidlarrimore/repos",
+        "events_url": "https://api.github.com/users/davidlarrimore/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/davidlarrimore/received_events",
+        "type": "User",
+        "site_admin": false
     },
     "committer": {
-        "name": "David Larrimore",
-        "email": "davidlarrimore@gmail.com",
-        "date": "2020-08-27T19:26:30Z"
+        "login": "davidlarrimore",
+        "id": 5623372,
+        "node_id": "MDQ6VXNlcjU2MjMzNzI=",
+        "avatar_url": "https://avatars2.githubusercontent.com/u/5623372?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/davidlarrimore",
+        "html_url": "https://github.com/davidlarrimore",
+        "followers_url": "https://api.github.com/users/davidlarrimore/followers",
+        "following_url": "https://api.github.com/users/davidlarrimore/following{/other_user}",
+        "gists_url": "https://api.github.com/users/davidlarrimore/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/davidlarrimore/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/davidlarrimore/subscriptions",
+        "organizations_url": "https://api.github.com/users/davidlarrimore/orgs",
+        "repos_url": "https://api.github.com/users/davidlarrimore/repos",
+        "events_url": "https://api.github.com/users/davidlarrimore/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/davidlarrimore/received_events",
+        "type": "User",
+        "site_admin": false
     },
-    "tree": {
-        "sha": "dac9ec2ad297fe8a46cdc625132ffdc319509ab2",
-        "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/trees/dac9ec2ad297fe8a46cdc625132ffdc319509ab2"
-    },
-    "message": "adding orgInit.sh",
     "parents": [
         {
             "sha": "9b2c00890c43dc00cc5b058e3317cc0aa14c8856",
-            "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/git/commits/9b2c00890c43dc00cc5b058e3317cc0aa14c8856",
+            "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits/9b2c00890c43dc00cc5b058e3317cc0aa14c8856",
             "html_url": "https://github.com/davidlarrimore/richTextInputFSC/commit/9b2c00890c43dc00cc5b058e3317cc0aa14c8856"
         }
     ],
-    "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "signature": null,
-        "payload": null
-    }
+    "stats": {
+        "total": 3,
+        "additions": 3,
+        "deletions": 0
+    },
+    "files": [
+        {
+            "sha": "a6ee090276e7774c863d6626f7071f26ba569128",
+            "filename": "orgInit.sh",
+            "status": "added",
+            "additions": 3,
+            "deletions": 0,
+            "changes": 3,
+            "blob_url": "https://github.com/davidlarrimore/richTextInputFSC/blob/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81/orgInit.sh",
+            "raw_url": "https://github.com/davidlarrimore/richTextInputFSC/raw/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81/orgInit.sh",
+            "contents_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/contents/orgInit.sh?ref=ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
+            "patch": "@@ -0,0 +1,3 @@\n+sfdx shane:org:create -f config/project-scratch-def.json -s -d 1\n+sfdx force:source:push\n+sfdx force:org:open\n\\ No newline at end of file"
+        }
+    ]
 }

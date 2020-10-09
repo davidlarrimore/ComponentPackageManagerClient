@@ -42,7 +42,7 @@ public with sharing class GithubAPIHelper {
         }
 
         if(githubUrl.indexOf('www.github.com') > 0){
-            rawGithubUrl = githubUrl.replace('www.github', 'api.github.com/repos');
+            rawGithubUrl = githubUrl.replace('www.github.com', 'api.github.com/repos');
         }else{
             rawGithubUrl = githubUrl.replace('github.com', 'api.github.com/repos');
         }
@@ -66,13 +66,14 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"package":', '"packageName":');
             JSONResponse = JSONResponse.replace('"default":', '"defaultDirectory":');
             
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             return (GithubSFDXProjectDotJSON)System.JSON.deserialize(JSONResponse, GithubSFDXProjectDotJSON.class);
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
     }
 
+    /*
     public static GithubComponentConfigDotJSON getGithubComponentConfigDotJSON(String githubUrl){
         system.debug('Running getGithubComponentConfigDotJSON against URL:' + githubUrl);
         String newGithubUrl = GithubAPIHelper.convertToRawGithubUrl(githubUrl, 'component-config.json');
@@ -86,7 +87,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"package":', '"packageName":');
             JSONResponse = JSONResponse.replace('"default":', '"defaultDirectory":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             return (GithubComponentConfigDotJSON)System.JSON.deserialize(JSONResponse, GithubComponentConfigDotJSON.class);
         }
         system.debug('There was an issue with the doRestRequestJSON');
@@ -117,6 +118,8 @@ public with sharing class GithubAPIHelper {
             throw e;
         }      
     }
+    */
+
 
    /* 
     * Get Latest Master Commit
@@ -143,7 +146,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"commit":', '"commitInfo":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             GithubRepoCommit githubCommit = (GithubRepoCommit)System.JSON.deserialize(JSONResponse, GithubRepoCommit.class);
             if(githubCommit != null){
                 githubCommit.latestCommitFlag = true;
@@ -183,7 +186,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"commit":', '"commitInfo":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             List<GithubRepoCommit> githubCommits = (List<GithubRepoCommit>)System.JSON.deserialize(JSONResponse, List<GithubRepoCommit>.class);
 
             DateTime NewestCommitDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
@@ -229,12 +232,12 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"commit":', '"commitInfo":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
-            List<GithubRepoCommit> githubCommits = (List<GithubRepoCommit>)System.JSON.deserialize(JSONResponse, List<GithubRepoCommit>.class);
+            //system.debug('Processing JSON: ' + JSONResponse);
+            GithubRepoCommit githubCommit = (GithubRepoCommit)System.JSON.deserialize(JSONResponse, GithubRepoCommit.class);
 
-            if(githubCommits != null){
-                system.debug(githubCommits[0]);
-                return githubCommits[0];
+            if(githubCommit != null){
+                system.debug(githubCommit);
+                return githubCommit;
             }
             return null;
         }
@@ -257,7 +260,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"commit":', '"githubCommit":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             List<GithubRepoTag> githubTags = (List<GithubRepoTag>)System.JSON.deserialize(JSONResponse, List<GithubRepoTag>.class);
 
             if(githubTags != null && githubTags.size() > 0){
@@ -321,7 +324,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"owner":', '"githubRepoOwner":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             GithubRepository githubRepository = (GithubRepository)System.JSON.deserialize(JSONResponse, GithubRepository.class);
 
             DateTime NewestCommitDateTime = DateTime.newInstance(1901, 1, 1, 1, 1, 0);
@@ -350,7 +353,7 @@ public with sharing class GithubAPIHelper {
             JSONResponse = JSONResponse.replace('"owner":', '"githubRepoOwner":');
             JSONResponse = JSONResponse.replace('"date":', '"commitDate":');
 
-            system.debug('Processing JSON: ' + JSONResponse);
+            //system.debug('Processing JSON: ' + JSONResponse);
             GithubUser githubUser = (GithubUser)System.JSON.deserialize(JSONResponse, GithubUser.class);
 
             if(githubUser != null){

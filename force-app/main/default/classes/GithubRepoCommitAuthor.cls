@@ -3,6 +3,7 @@ public class GithubRepoCommitAuthor {
     public String id;
     public String url;
     public String type;
+    public String name;
        
     public GithubRepoCommitAuthor() {
 

@@ -9,5 +9,8 @@
 	}],
 	"namespace": "",
 	"sfdcLoginUrl": "https://login.salesforce.com",
-	"sourceApiVersion": "48.0"
+	"sourceApiVersion": "48.0",
+	"packageAliases": {
+		"gPBU Component Package Manager": "0Ho3h000000k9sWCAQ"
+	}
 }

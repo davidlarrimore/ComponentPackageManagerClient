@@ -53,8 +53,8 @@ public class GithubSFDXProjectDotJSON {
 
     public String getLatestVersionText(){
         system.debug('Running GithubSFDXProjectDotJSON.getLatestVersionText');       
-        String highestVersionText = '1.0.0-1';
-        Integer highestVersionNumber = 10000010;
+        String highestVersionText = '0.0.0-1';
+        Integer highestVersionNumber = 10;
 
         for (String packageAlias: this.packageAliases.keySet()){   
             if(packageAlias.indexOf('@') > 0){
