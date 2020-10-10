@@ -1,0 +1,489 @@
+{
+  "size": 16,
+  "totalSize": 16,
+  "done": true,
+  "queryLocator": null,
+  "entityTypeName": "InstalledSubscriberPackage",
+  "records": [
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000YIXjCAO"
+      },
+      "Id": "0A3f4000000YIXjCAO",
+      "SubscriberPackageId": "0331I000000Z2yGQAS",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331I000000Z2yGQAS"
+        },
+        "NamespacePrefix": null,
+        "Id": "0331I000000Z2yGQAS",
+        "Name": "User Badges, Skills and Contributions - Lightning",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1I000002PgJlQAK"
+        },
+        "Id": "04t1I000002PgJlQAK",
+        "Name": "version 1.0",
+        "MajorVersion": 1,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f40000015m4mCAA"
+      },
+      "Id": "0A3f40000015m4mCAA",
+      "SubscriberPackageId": "0331I000000ht7hQAA",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331I000000ht7hQAA"
+        },
+        "NamespacePrefix": "fpro",
+        "Id": "0331I000000ht7hQAA",
+        "Name": "FieldPro",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1I000003cwgzQAA"
+        },
+        "Id": "04t1I000003cwgzQAA",
+        "Name": "July 2020",
+        "MajorVersion": 1,
+        "MinorVersion": 25,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000UeCICA0"
+      },
+      "Id": "0A3f4000000UeCICA0",
+      "SubscriberPackageId": "0331K000000oduuQAA",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331K000000oduuQAA"
+        },
+        "NamespacePrefix": null,
+        "Id": "0331K000000oduuQAA",
+        "Name": "horizontalRule",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1K000002J0KKQA0"
+        },
+        "Id": "04t1K000002J0KKQA0",
+        "Name": "AllPages",
+        "MajorVersion": 1,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000US3SCAW"
+      },
+      "Id": "0A3f4000000US3SCAW",
+      "SubscriberPackageId": "0331a0000009kg4AAA",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331a0000009kg4AAA"
+        },
+        "NamespacePrefix": "relateiq",
+        "Id": "0331a0000009kg4AAA",
+        "Name": "SalesforceIQ Inbox",
+        "Description": "SalesforceIQ Inbox"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1a000000AWcDAAW"
+        },
+        "Id": "04t1a000000AWcDAAW",
+        "Name": "SalesforceIQ Inbox",
+        "MajorVersion": 2,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 2
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f40000015mQwCAI"
+      },
+      "Id": "0A3f40000015mQwCAI",
+      "SubscriberPackageId": "0332E000000GTe7QAG",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0332E000000GTe7QAG"
+        },
+        "NamespacePrefix": null,
+        "Id": "0332E000000GTe7QAG",
+        "Name": "Demo Cleanup",
+        "Description": "This package contains code and metadata for the Salesforce Demo Cleanup Lightning component"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t2E000003oc9rQAA"
+        },
+        "Id": "04t2E000003oc9rQAA",
+        "Name": "Version 1.1.5",
+        "MajorVersion": 1,
+        "MinorVersion": 1,
+        "PatchVersion": 5,
+        "BuildNumber": 0
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f40000004auzCAA"
+      },
+      "Id": "0A3f40000004auzCAA",
+      "SubscriberPackageId": "03330000000wDAbAAM",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/03330000000wDAbAAM"
+        },
+        "NamespacePrefix": "sf_com_apps",
+        "Id": "03330000000wDAbAAM",
+        "Name": "Salesforce Connected Apps",
+        "Description": "This package contains Connected Applications for all the officially supported Salesforce client applications such as Touch, Salesforce for Outlook, Salesforce Mobile Dashboards, and more!"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t30000001DUvrAAG"
+        },
+        "Id": "04t30000001DUvrAAG",
+        "Name": "Winter '16",
+        "MajorVersion": 1,
+        "MinorVersion": 7,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f40000004ajfCAA"
+      },
+      "Id": "0A3f40000004ajfCAA",
+      "SubscriberPackageId": "03330000001Ig8MAAS",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/03330000001Ig8MAAS"
+        },
+        "NamespacePrefix": "sf_chttr_apps",
+        "Id": "03330000001Ig8MAAS",
+        "Name": "Salesforce and Chatter Apps",
+        "Description": "This package contains Connected Applications for the officially supported Salesforce apps for iOS and Android and Chatter applications on your desktop!"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t3A000001AJf2QAG"
+        },
+        "Id": "04t3A000001AJf2QAG",
+        "Name": "Summer 2019",
+        "MajorVersion": 1,
+        "MinorVersion": 19,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000v03XCAQ"
+      },
+      "Id": "0A3f4000000v03XCAQ",
+      "SubscriberPackageId": "0335A000000wp8RQAQ",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0335A000000wp8RQAQ"
+        },
+        "NamespacePrefix": null,
+        "Id": "0335A000000wp8RQAQ",
+        "Name": "Earnings and Leave",
+        "Description": "Packaging Earnings and Leave to move it to the Master HR org"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t5A000000ooEwQAI"
+        },
+        "Id": "04t5A000000ooEwQAI",
+        "Name": "Initial transfer",
+        "MajorVersion": 1,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000001BRk3CAG"
+      },
+      "Id": "0A3f4000001BRk3CAG",
+      "SubscriberPackageId": "0336g000000B3E2AAK",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0336g000000B3E2AAK"
+        },
+        "NamespacePrefix": null,
+        "Id": "0336g000000B3E2AAK",
+        "Name": "GPS Service Catalog",
+        "Description": "App that provides service catalogs for employees, managers, and HR that dynamically links users to flows, external links, internal links, and knowledge articles."
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t6g0000087mtAAAQ"
+        },
+        "Id": "04t6g0000087mtAAAQ",
+        "Name": "Test Package Mar 30 2020",
+        "MajorVersion": 1,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000UeCmCAK"
+      },
+      "Id": "0A3f4000000UeCmCAK",
+      "SubscriberPackageId": "0337F000000LZ7OQAW",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0337F000000LZ7OQAW"
+        },
+        "NamespacePrefix": null,
+        "Id": "0337F000000LZ7OQAW",
+        "Name": "Lightning Flow Progress Path / Indicator",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t7F000003mpRwQAI"
+        },
+        "Id": "04t7F000003mpRwQAI",
+        "Name": "version 1.0",
+        "MajorVersion": 1,
+        "MinorVersion": 0,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000XytaCAC"
+      },
+      "Id": "0A3f4000000XytaCAC",
+      "SubscriberPackageId": "0337F000000LbWZQA0",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0337F000000LbWZQA0"
+        },
+        "NamespacePrefix": null,
+        "Id": "0337F000000LbWZQA0",
+        "Name": "My Launcher Lightning Component",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t7F000004LDTGQA4"
+        },
+        "Id": "04t7F000004LDTGQA4",
+        "Name": "version 1.3",
+        "MajorVersion": 1,
+        "MinorVersion": 3,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f40000015l1NCAQ"
+      },
+      "Id": "0A3f40000015l1NCAQ",
+      "SubscriberPackageId": "033A0000000PB5YIAW",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/033A0000000PB5YIAW"
+        },
+        "NamespacePrefix": "dsfs",
+        "Id": "033A0000000PB5YIAW",
+        "Name": "DocuSign eSignature for Salesforce",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t2K000000ScyJQAS"
+        },
+        "Id": "04t2K000000ScyJQAS",
+        "Name": "7.7.2",
+        "MajorVersion": 7,
+        "MinorVersion": 7,
+        "PatchVersion": 2,
+        "BuildNumber": 3
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000v00YCAQ"
+      },
+      "Id": "0A3f4000000v00YCAQ",
+      "SubscriberPackageId": "033B00000000JKoIAM",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/033B00000000JKoIAM"
+        },
+        "NamespacePrefix": "cloudx_cms",
+        "Id": "033B00000000JKoIAM",
+        "Name": "Lightning Banner Carousel & Slider",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04tB0000000Y9x8IAC"
+        },
+        "Id": "04tB0000000Y9x8IAC",
+        "Name": "Lightning Banner, Carousel & Slider",
+        "MajorVersion": 1,
+        "MinorVersion": 22,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000Y7YMCA0"
+      },
+      "Id": "0A3f4000000Y7YMCA0",
+      "SubscriberPackageId": "033C00000006vcLIAQ",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/033C00000006vcLIAQ"
+        },
+        "NamespacePrefix": null,
+        "Id": "033C00000006vcLIAQ",
+        "Name": "DemoLaunch",
+        "Description": null
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04tC0000000u20nIAA"
+        },
+        "Id": "04tC0000000u20nIAA",
+        "Name": "Summer 16",
+        "MajorVersion": 2,
+        "MinorVersion": 3,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000Y5ToCAK"
+      },
+      "Id": "0A3f4000000Y5ToCAK",
+      "SubscriberPackageId": "033F0000000K8xoIAC",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/033F0000000K8xoIAC"
+        },
+        "NamespacePrefix": null,
+        "Id": "033F0000000K8xoIAC",
+        "Name": "OrgHierarchy",
+        "Description": "Org Chart on User Profile Page"
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04tF0000000WiETIA0"
+        },
+        "Id": "04tF0000000WiETIA0",
+        "Name": "1.1.1",
+        "MajorVersion": 1,
+        "MinorVersion": 2,
+        "PatchVersion": 0,
+        "BuildNumber": 1
+      }
+    },
+    {
+      "attributes": {
+        "type": "InstalledSubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/InstalledSubscriberPackage/0A3f4000000YFbqCAG"
+      },
+      "Id": "0A3f4000000YFbqCAG",
+      "SubscriberPackageId": "033o0000000HiSwAAK",
+      "SubscriberPackage": {
+        "attributes": {
+          "type": "SubscriberPackage",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/033o0000000HiSwAAK"
+        },
+        "NamespacePrefix": "LiveText",
+        "Id": "033o0000000HiSwAAK",
+        "Name": "LiveMessage for Salesforce",
+        "Description": "LiveMessage is the conversational messaging solution for Salesforce that enables consumers to connect with your business using their preferred messaging app. LiveMessage reduces call volume, increases agent productivity and improves customer satisfaction."
+      },
+      "SubscriberPackageVersion": {
+        "attributes": {
+          "type": "SubscriberPackageVersion",
+          "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1J000000GedRQAS"
+        },
+        "Id": "04t1J000000GedRQAS",
+        "Name": "LiveMessage V4.27",
+        "MajorVersion": 4,
+        "MinorVersion": 27,
+        "PatchVersion": 0,
+        "BuildNumber": 12
+      }
+    }
+  ]
+}

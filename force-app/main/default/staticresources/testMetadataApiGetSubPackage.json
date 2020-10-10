@@ -1,0 +1,20 @@
+{
+  "size": 1,
+  "totalSize": 1,
+  "done": true,
+  "queryLocator": null,
+  "entityTypeName": "SubscriberPackage",
+  "records": [
+    {
+      "attributes": {
+        "type": "SubscriberPackage",
+        "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0333h000000AY9lAAG"
+      },
+      "Id": "0333h000000AY9lAAG",
+      "Name": "Visitor Management Demo Scenario",
+      "NamespacePrefix": null,
+      "IsPackageValid": true,
+      "Description": null
+    }
+  ]
+}

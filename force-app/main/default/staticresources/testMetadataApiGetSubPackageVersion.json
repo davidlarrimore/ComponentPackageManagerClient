@@ -1,0 +1,34 @@
+{
+  "size": 1,
+  "totalSize": 1,
+  "done": true,
+  "queryLocator": null,
+  "entityTypeName": "SubscriberPackageVersion",
+  "records": [
+    {
+      "attributes": {
+        "type": "SubscriberPackageVersion",
+        "url": "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t3h000004bdPAAAY"
+      },
+      "Id": "04t3h000004bdPAAAY",
+      "Dependencies": {
+        "ids": [
+          {
+            "subscriberPackageVersionId": "04t1K000002J0KKQA0"
+          },
+          {
+            "subscriberPackageVersionId": "04t1t0000034vZjAAI"
+          }
+        ]
+      },
+      "SubscriberPackageId": "0333h000000AY9lAAG",
+      "Name": "ver 0.1",
+      "Description": null,
+      "PublisherName": "Salesforce",
+      "MajorVersion": 0,
+      "MinorVersion": 1,
+      "PatchVersion": 1,
+      "BuildNumber": 1
+    }
+  ]
+}

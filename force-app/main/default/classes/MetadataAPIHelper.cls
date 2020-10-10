@@ -8,10 +8,6 @@
 
  public with sharing class MetadataAPIHelper {
 
-    public MetadataAPIHelper() {
-
-    }
-
     public static List<MetadataInstalledPackageResponseRecord> getInstalledPackages(){
         system.debug('Running getInstalledPackages');
 
@@ -109,6 +105,7 @@
         return JSONResponse;
     }
    
+    /*
     //string query='SELECT+Id+FROM+InstalledSubscriberPackage';
     public static Map<String,Object> getMetadataQueryAPI(String query){
         system.debug('Running getMetadataQueryAPI');
@@ -117,7 +114,8 @@
         String Url = SFdomainUrl+'/services/data/v49.0/tooling/query/?q='+query;
         return (Map<String,Object>) APIHelper.doRestRequest(url, true);
     }
-
+    */
+    
     //string query='SELECT+Id+FROM+InstalledSubscriberPackage';
     public static String getBaseMetadataAPIURL(){
         system.debug('Running getBaseMetadataAPIURL');
@@ -172,21 +170,4 @@
         system.debug('Running getSubscriberPackageQuery');
         return EncodingUtil.urlEncode('SELECT Id, Name, NamespacePrefix, IsPackageValid, Description FROM SubscriberPackage', 'UTF-8');
     }    
-
-    public static String getSubscriberPackageVersionNumber(MetadataSubscriberPackageVersion subscriberPackageVersion){
-        system.debug('Running getSubscriberPackageVersionNumber');       
-        String version = '';
-        version += SubscriberPackageVersion.majorVersion != null ? String.valueOf(SubscriberPackageVersion.majorVersion)  : '0';
-        version += '.';
-        version += SubscriberPackageVersion.minorVersion != null ? String.valueOf(SubscriberPackageVersion.minorVersion) : '0';
-        version += '.';
-        version += SubscriberPackageVersion.patchVersion != null ? String.valueOf(SubscriberPackageVersion.patchVersion) : '0';               
-        version += '-';
-        version += SubscriberPackageVersion.buildNumber != null ? String.valueOf(SubscriberPackageVersion.buildNumber) : '0';   
-        
-        system.debug('Version: ' + version);    
-        return version;
-    }
-
-
 }

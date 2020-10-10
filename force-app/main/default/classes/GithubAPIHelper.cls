@@ -20,8 +20,7 @@ public with sharing class GithubAPIHelper {
 
         if(rawGithubUrl.contains('master')){
             system.debug('Url Contains Master, Assuming this is a subdirectory of a project');
-            rawGithubUrl = rawGithubUrl.replace('/tree', '');
-            newGithubUrl = rawGithubUrl + '/' + contentName;
+            newGithubUrl = rawGithubUrl.replace('/tree', '') + '/' + contentName;
         }else{
             newGithubUrl = rawGithubUrl + '/master/' + contentName;
         }

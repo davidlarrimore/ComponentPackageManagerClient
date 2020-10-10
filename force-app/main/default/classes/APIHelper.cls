@@ -1,8 +1,5 @@
 public with sharing class APIHelper {
-    public APIHelper() {
-
-    }
-
+    /*
     public static Map<String,Object> doRestRequest(String url, Boolean auth){
         system.debug('Running doRestRequest');
         system.debug('URL is ' + url);
@@ -36,7 +33,7 @@ public with sharing class APIHelper {
             throw e;
         }  
     }
-
+    */
 
     public static String doRestRequestJSON(String url, Boolean auth){
         system.debug('Running doRestRequestJSON');
