@@ -30,12 +30,14 @@ public with sharing class MetadataApiTest {
         Test.startTest();        
             metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();
         Test.stopTest(); 
-        
+
+        System.assertNotEquals(null, metadataInstalledPackageResponse);
+
         metadataInstalledPackageResponseRecord = metadataInstalledPackageResponseRecords[0];
         subscriberpackage = metadataInstalledPackageResponseRecord.subscriberpackage;
         subscriberPackageVersion = metadataInstalledPackageResponseRecord.subscriberPackageVersion;
 
-        System.assertEquals(null, metadataInstalledPackageResponse.size);
+        
         System.assertEquals(16, metadataInstalledPackageResponseRecords.size());
         System.assertEquals('0331I000000Z2yGQAS', metadataInstalledPackageResponseRecord.subscriberPackageId);
         System.assertEquals('version 1.0', subscriberPackageVersion.name);

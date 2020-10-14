@@ -23,7 +23,6 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
-    Map<String,String> options = new Map<String,String>();   
 
     /*************CONSTRUCTORS*************/    
     public QueueUpdateComponentSourceTagInfo(String parentJobId, Id demoComponentId) {
@@ -39,7 +38,7 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
         this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED);    
         QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());      
         this.demoComponentId = demoComponentId;
-    }
+    }    
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
@@ -48,13 +47,13 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
         QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
 
         System.debug('Processing QueueUpdateComponentSourceCommitInfo');   
-        doLater(this.jobInfo, this.demoComponentId, this.options);
+        doLater(this.jobInfo, this.demoComponentId);
 
     }
 
 
     @future(callout=true)
-    private static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
+    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         Boolean triggerPackageUpdate = false;
         List<GithubRepoTag> githubTags = new List<GithubRepoTag>();
 

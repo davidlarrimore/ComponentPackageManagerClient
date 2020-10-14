@@ -74,13 +74,14 @@ public with sharing class APIHelper {
         }  
     }
 
+    /*
     public static void mDebugUntruncated(String sMsg) {
         for (Integer i = 0; i < sMsg.length(); i=i+300) {
             Integer iEffectiveEnd = (i+300 > (sMsg.length()-1) ? sMsg.length()-1 : i+300);
             System.debug(sMsg.substring(i,iEffectiveEnd));
         }
     }
-
+    */
 
 
 }

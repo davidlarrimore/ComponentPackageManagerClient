@@ -101,7 +101,7 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               demoComponent.Installation_Type__c = 'Package';
 
               if(demoComponent.SFDX_Package_Enabled_Flag__c){
-                demoComponent.Installed_Version_Tracking_Method__c = 'SFDX Project';    
+                demoComponent.Installed_Version_Tracking_Method__c = 'SFDX_Project';    
                 //TODO:UPDATE SFDX INSTALLED INFO        
               }else{
                 demoComponent.Installed_Version_Tracking_Method__c = 'None';                  

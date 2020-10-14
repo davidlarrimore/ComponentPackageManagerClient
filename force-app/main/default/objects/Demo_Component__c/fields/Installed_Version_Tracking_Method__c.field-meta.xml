@@ -17,12 +17,12 @@
                 <label>Github Commit</label>
             </value>
             <value>
-                <fullName>Github Tag</fullName>
+                <fullName>Github_Tag</fullName>
                 <default>false</default>
                 <label>Github Tag</label>
             </value>
             <value>
-                <fullName>SFDX Project</fullName>
+                <fullName>SFDX_Project</fullName>
                 <default>false</default>
                 <label>SFDX Project</label>
             </value>

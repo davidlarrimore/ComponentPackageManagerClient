@@ -56,7 +56,7 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
     }
 
     @future(callout=true)
-    private static void doLater(Map<String, String> jobInfo, Id demoComponentId, String commitHash) {
+    public static void doLater(Map<String, String> jobInfo, String demoComponentId, String commitHash) {
         Boolean triggerPackageUpdate = false;
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
         GithubRepoCommit githubCommit = new GithubRepoCommit();

@@ -23,24 +23,22 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
-    Map<String,String> options = new Map<String,String>();   
+    String commitHash;
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateComponentSourceCommitInfo(String parentJobId, Id demoComponentId, Map<String,String> options) {
+    public QueueUpdateComponentSourceCommitInfo(String parentJobId, Id demoComponentId) {
         this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());  
         this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
         this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
         QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());        
         this.demoComponentId = demoComponentId;
-        this.options = options;  
     }
 
-    public QueueUpdateComponentSourceCommitInfo(Id demoComponentId, Map<String,String> options) {
+    public QueueUpdateComponentSourceCommitInfo(Id demoComponentId) {
         this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());  
         this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED);   
         QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());   
         this.demoComponentId = demoComponentId;
-        this.options = options;  
     }
 
 
@@ -51,12 +49,12 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
         QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
         
         System.debug('Processing QueueUpdateComponentSourceCommitInfo');   
-        doLater(this.jobInfo, this.demoComponentId, this.options);
+        doLater(this.jobInfo, this.demoComponentId);
 
     }
 
     @future(callout=true)
-    private static void doLater(Map<String, String> jobInfo, Id demoComponentId, Map<String,String> options) {
+    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         Boolean triggerPackageUpdate = false;
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
         GithubRepoCommit githubCommit = new GithubRepoCommit();

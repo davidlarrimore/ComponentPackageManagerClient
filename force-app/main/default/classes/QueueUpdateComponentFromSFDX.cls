@@ -98,7 +98,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                                 triggerPackageUpdate = true;
                                 if(demoComponent.Installed__c){
                                     System.debug('Checking to see if update is available');
-                                    if(demoComponent.Installed_Version_Tracking_Method__c == 'SFDX Project'){
+                                    if(demoComponent.Installed_Version_Tracking_Method__c == 'SFDX_Project'){
                                         System.debug('Update Available');
                                         demoComponent.Update_Available__c = true;
                                     }

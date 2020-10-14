@@ -11,7 +11,7 @@ public with sharing class GithubApiTest {
             Package_Install_Type_Flag__c=true,
             Title__c = 'richTextAreaFSC',
             Last_Fetched__c = datetime.now(),
-            Latest_Commit_Hash__c = 'ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81',
+            Latest_Commit_Hash__c = ApiCalloutMock.GITHUB_CURRENT_COMMIT_HASH,
             Latest_Commit_DateTime__c = (DateTime)Json.deserialize('2020-08-27T19:26:30.000Z', DateTime.class)
         ));
 
@@ -136,7 +136,7 @@ public with sharing class GithubApiTest {
 
 
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_API_COMMIT_HASH_URL);
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_API_CURRENT_COMMIT_HASH_URL);
         Test.stopTest(); 
 
         author = githubCommit.author;
@@ -153,7 +153,7 @@ public with sharing class GithubApiTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
         GithubRepoCommit githubCommit = new GithubRepoCommit();
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_REPO_URL, new Map<String,String>{'commitHash' => ApiCalloutMock.GITHUB_COMMIT_HASH});
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_REPO_URL, new Map<String,String>{'commitHash' => ApiCalloutMock.GITHUB_CURRENT_COMMIT_HASH});
         Test.stopTest(); 
         
         System.assertEquals('adding orgInit.sh', githubCommit.commitInfo.message);

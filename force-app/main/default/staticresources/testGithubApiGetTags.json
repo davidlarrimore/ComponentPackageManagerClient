@@ -1,0 +1,22 @@
+[
+    {
+        "name": "3.0",
+        "zipball_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/zipball/3.0",
+        "tarball_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/tarball/3.0",
+        "commit": {
+            "sha": "ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81",
+            "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits/ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81"
+        },
+        "node_id": "MDM6UmVmMjkwMDAxNjA1OnJlZnMvdGFncy8zLjA="
+    },
+    {
+        "name": "2.0",
+        "zipball_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/zipball/2.0",
+        "tarball_url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/tarball/2.0",
+        "commit": {
+            "sha": "2f79555d13074b531c6e8e3983ca1851da13f411",
+            "url": "https://api.github.com/repos/davidlarrimore/richTextInputFSC/commits/2f79555d13074b531c6e8e3983ca1851da13f411"
+        },
+        "node_id": "MDM6UmVmMjkwMDAxNjA1OnJlZnMvdGFncy8zLjA="
+    }    
+]
