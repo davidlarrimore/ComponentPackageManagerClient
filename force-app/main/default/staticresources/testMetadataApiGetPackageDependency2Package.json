@@ -7,11 +7,11 @@
   "records" : [ {
     "attributes" : {
       "type" : "SubscriberPackage",
-      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0333h000000AY9lAAG"
+      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331t000000c4w5AAA"
     },
-    "Id" : "0333h000000AY9lAAG",
-    "Name" : "Visitor Management Demo Scenario",
-    "NamespacePrefix" : null,
+    "Id" : "0331t000000c4w5AAA",
+    "Name" : "DynamicHeaderFooter",
+    "NamespacePrefix" : "dhfpi",
     "IsPackageValid" : true,
     "Description" : null
   } ]

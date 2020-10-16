@@ -1,0 +1,23 @@
+{
+  "size" : 1,
+  "totalSize" : 1,
+  "done" : true,
+  "queryLocator" : null,
+  "entityTypeName" : "SubscriberPackageVersion",
+  "records" : [ {
+    "attributes" : {
+      "type" : "SubscriberPackageVersion",
+      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1t0000034vZjAAI"
+    },
+    "Id" : "04t1t0000034vZjAAI",
+    "Dependencies" : null,
+    "SubscriberPackageId" : "0331t000000c4w5AAA",
+    "Name" : "Spring 2020",
+    "Description" : null,
+    "PublisherName" : null,
+    "MajorVersion" : 2,
+    "MinorVersion" : 61,
+    "PatchVersion" : 0,
+    "BuildNumber" : 1
+  } ]
+}

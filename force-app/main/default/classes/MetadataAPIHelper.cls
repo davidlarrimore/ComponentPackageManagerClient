@@ -14,8 +14,6 @@
         //get JSON String
         String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getInstalledPackagesQueryUrl(), true);
 
-        system.debug('JSON Response: ' + JSONResponse);
-
         if(JSONResponse != null){
             //Changing Reserved words
             JSONResponse = fixJSONVariableNames(JSONResponse);
@@ -37,8 +35,6 @@
 
         //get JSON String
         String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getSubscriberPackageVersionQueryUrl(SubscriberPackageVersionId), true);
-
-        system.debug('JSON Response: ' + JSONResponse);
 
         if(JSONResponse != null){
             //Changing Reserved words
@@ -63,8 +59,6 @@
         //get JSON String
         String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getSubscriberPackageQueryUrl(SubscriberPackageId), true);
 
-        system.debug('JSON Response: ' + JSONResponse);
-
         if(JSONResponse != null){
             //Changing Reserved words
             JSONResponse = fixJSONVariableNames(JSONResponse);
@@ -82,7 +76,7 @@
     }
 
 
- 
+    //Because there are a lot of reserved words and case sensitivity issues, we swap all those out.
     public static String fixJSONVariableNames(String JSONResponse){
         system.debug('Running fixJSONVariableNames');
 
@@ -99,8 +93,6 @@
         JSONResponse = JSONResponse.replace('"SubscriberPackageVersion":', '"subscriberPackageVersion":'); 
         JSONResponse = JSONResponse.replace('"SubscriberPackageId":', '"subscriberPackageId":');   
         JSONResponse = JSONResponse.replace('"IsPackageValid":', '"isPackageValid":'); 
-
-        system.debug('Updated JSONResponse: ' + JSONResponse);
 
         return JSONResponse;
     }

@@ -19,7 +19,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){   
             if(packageAlias.indexOf('@') > 0){  
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
 
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -38,7 +38,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){
             if(packageAlias.indexOf('@') > 0){  
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
 
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -59,7 +59,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){   
             if(packageAlias.indexOf('@') > 0){
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
     
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -77,35 +77,8 @@ public class GithubSFDXProjectDotJSON {
         return alias.substring(alias.indexOf('@')+1, alias.length());
     }    
 
-    public Integer getVersionNumberFromText(String versionNumberAsText){     
-        
-        String newString = versionNumberAsText;
-        String versionPart=  '';
-
-        Integer majorVersion = 0;
-        Integer minorVersion = 0;
-        Integer patchVersion = 0;
-        Integer buildNumber = 0;
-
-        versionPart = newString.substring(0,newString.indexOf('.'));
-        newString = newString.substring(versionPart.length()+1,newString.length());
-        majorVersion = Integer.valueOf(versionPart + '000000');
-
-        versionPart = newString.substring(0,newString.indexOf('.'));
-        newString = newString.substring(versionPart.length()+1,newString.length());
-        minorVersion = Integer.valueOf(versionPart + '0000');
-
-        versionPart = newString.substring(0,newString.indexOf('-'));
-        newString = newString.substring(versionPart.length()+1,newString.length());
-        patchVersion = Integer.valueOf(versionPart + '00');
-
-        buildNumber = Integer.valueOf(newString);
-
-        return majorVersion + minorVersion + patchVersion + buildNumber;
-    }
-
     public Integer getLatestVersionNumber(){
-        return getVersionNumberFromText(getLatestVersionText());
+        return VersionHelper.getVersionNumberFromText(getLatestVersionText());
     }
 
 

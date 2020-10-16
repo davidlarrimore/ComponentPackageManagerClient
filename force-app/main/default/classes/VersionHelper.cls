@@ -67,7 +67,7 @@ public with sharing class VersionHelper {
             QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
             System.enqueueJob(queueUpdateComponentFromSFDXJob);
             
-            QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, new Map<String,String>{});   
+            QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);   
             System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
 
             QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
@@ -136,7 +136,7 @@ public with sharing class VersionHelper {
 
 
             if(demoComponent.Source_Install_Type_Flag__c){
-                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobId, demoComponentId, new Map<String,String>{});   
+                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobId, demoComponentId);   
                 System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
                 
                 QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobId, demoComponentId); 
@@ -291,5 +291,38 @@ public with sharing class VersionHelper {
             QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});                
         }  
     }
+
+
+    public static String getVersionNumberFromAlias(String alias){     
+        return alias.substring(alias.indexOf('@')+1, alias.length());
+    }    
+
+
+    public static Integer getVersionNumberFromText(String versionNumberAsText){     
+        
+        String newString = versionNumberAsText;
+        String versionPart=  '';
+
+        Integer majorVersion = 0;
+        Integer minorVersion = 0;
+        Integer patchVersion = 0;
+        Integer buildNumber = 0;
+
+        versionPart = newString.substring(0,newString.indexOf('.'));
+        newString = newString.substring(versionPart.length()+1,newString.length());
+        majorVersion = Integer.valueOf(versionPart + '000000');
+
+        versionPart = newString.substring(0,newString.indexOf('.'));
+        newString = newString.substring(versionPart.length()+1,newString.length());
+        minorVersion = Integer.valueOf(versionPart + '0000');
+
+        versionPart = newString.substring(0,newString.indexOf('-'));
+        newString = newString.substring(versionPart.length()+1,newString.length());
+        patchVersion = Integer.valueOf(versionPart + '00');
+
+        buildNumber = Integer.valueOf(newString);
+
+        return majorVersion + minorVersion + patchVersion + buildNumber;
+    }    
 
 }

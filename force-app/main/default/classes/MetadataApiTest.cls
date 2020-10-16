@@ -62,7 +62,7 @@ public with sharing class MetadataApiTest {
         MetadataSubscriberPackageDependencies dependencies = new MetadataSubscriberPackageDependencies();
         List<Map<String,String>> ids = new List<Map<String,String>>();
         Test.startTest();        
-            subscriberPackageVersion = MetadataAPIHelper.getSubscriberPackageVersion(ApiCalloutMock.SUBSCRIBER_PACKAGE_VERSION_ID);
+            subscriberPackageVersion = MetadataAPIHelper.getSubscriberPackageVersion(ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
         dependencies = subscriberPackageVersion.dependencies;
@@ -71,8 +71,10 @@ public with sharing class MetadataApiTest {
         System.assertEquals(null, metadataSubscriberPackageVersionResponse.size);
         System.assertEquals('0333h000000AY9lAAG', subscriberPackageVersion.subscriberPackageId);
         System.assertEquals('04t1K000002J0KKQA0', ids[0].get('subscriberPackageVersionId'));
-        System.assertEquals(10101, subscriberPackageVersion.getSubscriberPackageVersionNumber());
-        System.assertEquals('0.1.1-1', subscriberPackageVersion.getSubscriberPackageVersionNumberText());                    
+        System.assertEquals(0, subscriberPackageVersion.majorVersion);
+        System.assertEquals(1, subscriberPackageVersion.minorVersion);
+        System.assertEquals(1, subscriberPackageVersion.buildNumber);
+        System.assertEquals(1, subscriberPackageVersion.patchVersion);                       
     }  
 
     static testmethod void testGetSubscriberPackageVersion404() {
@@ -80,7 +82,7 @@ public with sharing class MetadataApiTest {
         MetadataSubscriberPackageVersion subscriberPackageVersion = new MetadataSubscriberPackageVersion();
         
         Test.startTest();        
-            subscriberPackageVersion = MetadataAPIHelper.getSubscriberPackageVersion(ApiCalloutMock.SUBSCRIBER_PACKAGE_VERSION_ID);
+            subscriberPackageVersion = MetadataAPIHelper.getSubscriberPackageVersion(ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
         System.assertEquals(null, subscriberPackageVersion);                   

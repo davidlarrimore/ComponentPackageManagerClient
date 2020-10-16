@@ -1,0 +1,23 @@
+{
+  "size" : 1,
+  "totalSize" : 1,
+  "done" : true,
+  "queryLocator" : null,
+  "entityTypeName" : "SubscriberPackageVersion",
+  "records" : [ {
+    "attributes" : {
+      "type" : "SubscriberPackageVersion",
+      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackageVersion/04t1K000002J0KKQA0"
+    },
+    "Id" : "04t1K000002J0KKQA0",
+    "Dependencies" : null,
+    "SubscriberPackageId" : "0331K000000oduuQAA",
+    "Name" : "AllPages",
+    "Description" : null,
+    "PublisherName" : null,
+    "MajorVersion" : 1,
+    "MinorVersion" : 0,
+    "PatchVersion" : 0,
+    "BuildNumber" : 1
+  } ]
+}

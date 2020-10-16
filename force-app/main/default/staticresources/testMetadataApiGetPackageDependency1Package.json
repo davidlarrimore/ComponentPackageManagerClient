@@ -7,10 +7,10 @@
   "records" : [ {
     "attributes" : {
       "type" : "SubscriberPackage",
-      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0333h000000AY9lAAG"
+      "url" : "/services/data/v49.0/tooling/sobjects/SubscriberPackage/0331K000000oduuQAA"
     },
-    "Id" : "0333h000000AY9lAAG",
-    "Name" : "Visitor Management Demo Scenario",
+    "Id" : "0331K000000oduuQAA",
+    "Name" : "horizontalRule",
     "NamespacePrefix" : null,
     "IsPackageValid" : true,
     "Description" : null

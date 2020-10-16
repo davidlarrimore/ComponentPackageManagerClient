@@ -59,9 +59,7 @@ public with sharing class APIHelper {
 
             if (response.getStatusCode() == 200) {
                 // Deserialize the JSON string into collections of primitive data types.
-                system.debug('Success!');
-                system.debug('Response: ');
-                //APIHelper.mDebugUntruncated(response.getBody());
+                system.debug('doRestRequestJSON was a Success!');
                 return response.getBody();
             }else{
                 system.debug('Request failed. Status Code: ' + response.getStatusCode());

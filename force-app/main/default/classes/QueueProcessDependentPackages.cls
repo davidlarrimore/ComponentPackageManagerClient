@@ -105,6 +105,9 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                 Subscriber_Package_Id__c = :metadataInstalledPackageResponseRecord.subscriberPackage.Id
                 LIMIT 1
             ];
+            
+            MetadataSubscriberPackageVersion subscriberPackageVersion = metadataInstalledPackageResponseRecord.subscriberPackageVersion;
+            MetadataSubscriberPackage subscriberpackage = metadataInstalledPackageResponseRecord.subscriberpackage;
 
             //TODO:GET INSTALL DATE FROM METADATA API.....
 
@@ -113,19 +116,19 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
 
                 System.debug('No Demo Component found for ' + metadataInstalledPackageResponseRecord.subscriberPackage.name + ' installed package, creating a new one...');
                 demoComponent.Package_Install_Type_Flag__c = true;
-                demoComponent.Title__c = metadataInstalledPackageResponseRecord.subscriberPackage.name;
-                demoComponent.Description__c = metadataInstalledPackageResponseRecord.subscriberPackage.description;
-                demoComponent.Package_Installed_Subscriber_Version_Id__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.id;
-                demoComponent.Package_Installed_Version_Name__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.name;
-                demoComponent.Package_Installed_Version_Number__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+                demoComponent.Title__c = subscriberPackage.name;
+                demoComponent.Description__c = subscriberPackage.description;
+                demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
+                demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
+                demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
                 demoComponent.Installation_Type__c = 'Package';
                 demoComponent.Installed_Version_Tracking_Method__c = 'None';
 
-                demoComponent.Subscriber_Package_Id__c = metadataInstalledPackageResponseRecord.subscriberPackage.id;
-                demoComponent.Package_Name__c = metadataInstalledPackageResponseRecord.subscriberPackage.name;
-                demoComponent.Latest_Subscriber_Package_Version_Id__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.id;
-                demoComponent.Latest_Package_Version__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumberText();
-                demoComponent.Latest_Package_Version_Name__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.name;
+                demoComponent.Subscriber_Package_Id__c = subscriberPackage.id;
+                demoComponent.Package_Name__c = subscriberPackage.name;
+                demoComponent.Latest_Subscriber_Package_Version_Id__c = subscriberPackageVersion.id;
+                demoComponent.Latest_Package_Version__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+                demoComponent.Latest_Package_Version_Name__c = subscriberPackageVersion.name;
                 demoComponent.Last_Fetched__c = Datetime.Now();
 
                 insert demoComponent;
