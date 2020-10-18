@@ -12,7 +12,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
 
         Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.GITHUB_REPO_URL,
+            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -48,7 +48,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
 
         Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.GITHUB_REPO_URL,
+            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -77,7 +77,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
 
         Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.GITHUB_REPO_URL,
+            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,

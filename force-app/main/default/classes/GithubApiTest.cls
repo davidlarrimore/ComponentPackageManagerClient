@@ -5,13 +5,13 @@ public with sharing class GithubApiTest {
     static void setup() {
         List<Demo_Component__c> demoComponents = new List<Demo_Component__c>();
         demoComponents.add(new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.GITHUB_REPO_URL,
+            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
             Title__c = 'richTextAreaFSC',
             Last_Fetched__c = datetime.now(),
-            Latest_Commit_Hash__c = ApiCalloutMock.GITHUB_CURRENT_COMMIT_HASH,
+            Latest_Commit_Hash__c = ApiCalloutMock.RTA_GITHUB_CURRENT_COMMIT_HASH,
             Latest_Commit_DateTime__c = (DateTime)Json.deserialize('2020-08-27T19:26:30.000Z', DateTime.class)
         ));
 
@@ -46,7 +46,7 @@ public with sharing class GithubApiTest {
         GithubRepoOwner githubRepoOwner = new GithubRepoOwner();
 
         Test.startTest();        
-            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.GITHUB_REPO_URL);
+            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
         githubRepoOwner = githubRepo.githubRepoOwner;
@@ -62,7 +62,7 @@ public with sharing class GithubApiTest {
         GithubRepository githubRepo = new GithubRepository();
 
         Test.startTest();        
-            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.GITHUB_REPO_URL);
+            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
         System.assertEquals(null, githubRepo);
@@ -74,7 +74,7 @@ public with sharing class GithubApiTest {
         GithubRepository githubRepo = new GithubRepository();
 
         Test.startTest();        
-            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.GITHUB_REPO_URL_WWWW);
+            githubRepo = GithubAPIHelper.getGithubRepo(ApiCalloutMock.RTA_GITHUB_REPO_URL_WWWW);
         Test.stopTest(); 
         
         System.assertEquals('richTextInputFSC', githubRepo.name);
@@ -86,7 +86,7 @@ public with sharing class GithubApiTest {
         List<GithubRepoCommit> githubCommits = new List<GithubRepoCommit>();
         
         Test.startTest();        
-        githubCommits = GithubAPIHelper.getGithubCommits(ApiCalloutMock.GITHUB_REPO_URL);
+        githubCommits = GithubAPIHelper.getGithubCommits(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
         System.assertEquals(6, githubCommits.size());
@@ -98,7 +98,7 @@ public with sharing class GithubApiTest {
         List<GithubRepoCommit> githubCommits = new List<GithubRepoCommit>();
 
         Test.startTest();        
-        githubCommits = GithubAPIHelper.getGithubCommits(ApiCalloutMock.GITHUB_REPO_URL);
+        githubCommits = GithubAPIHelper.getGithubCommits(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
         System.assertEquals(null, githubCommits);
@@ -115,7 +115,7 @@ public with sharing class GithubApiTest {
 
 
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_REPO_URL, new Map<String,String>());
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.RTA_GITHUB_REPO_URL, new Map<String,String>());
         Test.stopTest(); 
 
         author = githubCommit.author;
@@ -136,7 +136,7 @@ public with sharing class GithubApiTest {
 
 
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_API_CURRENT_COMMIT_HASH_URL);
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.RTA_GITHUB_API_CURRENT_COMMIT_HASH_URL);
         Test.stopTest(); 
 
         author = githubCommit.author;
@@ -153,7 +153,7 @@ public with sharing class GithubApiTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
         GithubRepoCommit githubCommit = new GithubRepoCommit();
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_REPO_URL, new Map<String,String>{'commitHash' => ApiCalloutMock.GITHUB_CURRENT_COMMIT_HASH});
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.RTA_GITHUB_REPO_URL, new Map<String,String>{'commitHash' => ApiCalloutMock.RTA_GITHUB_CURRENT_COMMIT_HASH});
         Test.stopTest(); 
         
         System.assertEquals('adding orgInit.sh', githubCommit.commitInfo.message);
@@ -165,7 +165,7 @@ public with sharing class GithubApiTest {
         Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock()); 
         GithubRepoCommit githubCommit = new GithubRepoCommit();
         Test.startTest();        
-        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.GITHUB_API_COMMIT_MASTER_URL);
+        githubCommit = GithubAPIHelper.getGithubCommit(ApiCalloutMock.RTA_GITHUB_API_COMMIT_MASTER_URL);
         Test.stopTest(); 
         
         System.assertEquals(null, githubCommit);
@@ -179,7 +179,7 @@ public with sharing class GithubApiTest {
         GithubPackageDirectory packageDirectory = new GithubPackageDirectory();
 
         Test.startTest();        
-        githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(ApiCalloutMock.GITHUB_REPO_URL);
+        githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
 
@@ -199,7 +199,7 @@ public with sharing class GithubApiTest {
         Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock()); 
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
         Test.startTest();        
-        githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(ApiCalloutMock.GITHUB_REPO_URL);
+        githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
         
         System.assertEquals(null, githubSFDXProjectDotJSON);
@@ -213,7 +213,7 @@ public with sharing class GithubApiTest {
         GithubRepoTag githubRepoTag = new GithubRepoTag();
 
         Test.startTest();        
-            githubRepoTags = GithubAPIHelper.getGithubTags(ApiCalloutMock.GITHUB_REPO_URL);
+            githubRepoTags = GithubAPIHelper.getGithubTags(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
 
         githubRepoTag = githubRepoTags[0];
@@ -225,7 +225,7 @@ public with sharing class GithubApiTest {
         List<GithubRepoTag> githubRepoTags = new List<GithubRepoTag>();
 
         Test.startTest();        
-            githubRepoTags = GithubAPIHelper.getGithubTags(ApiCalloutMock.GITHUB_REPO_URL);
+            githubRepoTags = GithubAPIHelper.getGithubTags(ApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
 
         System.assertEquals(null, githubRepoTags);

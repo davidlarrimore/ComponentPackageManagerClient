@@ -7,7 +7,7 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
     static void setup() {
         List<Demo_Component__c> demoComponents = new List<Demo_Component__c>();
         demoComponents.add(new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.GITHUB_REPO_URL,
+            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -24,7 +24,7 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
         Demo_Component__C demoComponent = new Demo_Component__C();
         
-        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.GITHUB_REPO_URL LIMIT 1];
+        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
         QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(demoComponent.Id);
         
         Test.startTest();        
@@ -46,7 +46,7 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
         Demo_Component__C demoComponent = new Demo_Component__C();
         
-        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.GITHUB_REPO_URL LIMIT 1];
+        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
         String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
 
         QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(ParentJobId, demoComponent.Id);

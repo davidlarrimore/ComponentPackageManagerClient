@@ -1,0 +1,28 @@
+{
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true,
+            "package": "Visitor Management Demo Scenario",
+            "versionName": "ver 1.0",
+            "versionNumber": "0.1.1.NEXT",
+            "dependencies": [
+                {
+                    "package": "04t1K000002J0KKQA0"
+                },
+                {
+                    "package": "04t1t0000034vZjAAI"
+                }
+            ]
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "48.0",
+    "packageAliases": {
+        "Visitor Management Demo Scenario": "0Ho3h000000KzKiCAK",
+        "Visitor Management Demo Scenario@0.1.0-1": "04t3h000004bdNOAAY",
+        "Visitor Management Demo Scenario@0.1.0-3": "04t3h000004bdP5AAI",
+        "Visitor Management Demo Scenario@0.1.1-1": "04t3h000004bdPAAAY"
+    }
+}

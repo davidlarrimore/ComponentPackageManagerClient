@@ -299,7 +299,8 @@ public with sharing class VersionHelper {
 
 
     public static Integer getVersionNumberFromText(String versionNumberAsText){     
-        
+        System.debug('Running VersionHelper.getVersionNumberFromText');
+        System.debug('Processing: ' + versionNumberAsText);
         String newString = versionNumberAsText;
         String versionPart=  '';
 
@@ -319,10 +320,12 @@ public with sharing class VersionHelper {
         versionPart = newString.substring(0,newString.indexOf('-'));
         newString = newString.substring(versionPart.length()+1,newString.length());
         patchVersion = Integer.valueOf(versionPart + '00');
-
         buildNumber = Integer.valueOf(newString);
+        
+        Integer intval = majorVersion + minorVersion + patchVersion + buildNumber;
 
-        return majorVersion + minorVersion + patchVersion + buildNumber;
+        System.debug('Returning: ' + intval);
+        return intval;
     }    
 
 }

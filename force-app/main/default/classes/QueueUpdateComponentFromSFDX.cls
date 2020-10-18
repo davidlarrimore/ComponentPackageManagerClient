@@ -51,7 +51,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     }
 
     @future(callout=true)
-    private static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
+    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         String newJobId;
         Boolean triggerPackageUpdate = false;
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
@@ -140,7 +140,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                 QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
             }
         }else{
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
             QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
         }
     }

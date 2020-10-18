@@ -3,9 +3,6 @@ global class ApiError404CalloutMock implements HttpCalloutMock {
 
     // Implement this interface method
     global HTTPResponse respond(HTTPRequest request) {
-
-        StaticResource staticResource = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'testGithubApiGetSFDXProject' LIMIT 1];
-
         // Create a fake response
         HttpResponse response = new HttpResponse();
         response.setHeader('Content-Type', 'application/json');
