@@ -52,7 +52,8 @@ public class QueueUpdateComponentFromGithubRepo implements Queueable, Database.A
     }
   
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, String demoComponentId) {
+    @TestVisible 
+    private static void doLater(Map<String, String> jobInfo, String demoComponentId) {
       System.debug('Running QueueUpdateComponentFromGithubRepo.execute');
       GithubRepository githubRepository = new GithubRepository();
       GithubUser githubUser = new GithubUser();

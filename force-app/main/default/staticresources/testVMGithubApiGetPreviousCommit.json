@@ -1,0 +1,34 @@
+{
+    "sha": "45c2f3050e81b06636ffddff3974f1a6a8c99cff",
+    "node_id": "MDY6Q29tbWl0MjgyMTE1MTk2OjQ1YzJmMzA1MGU4MWIwNjYzNmZmZGRmZjM5NzRmMWE2YThjOTljZmY=",
+    "url": "https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/git/commits/45c2f3050e81b06636ffddff3974f1a6a8c99cff",
+    "html_url": "https://github.com/davidlarrimore/gpbu-visitor-management/commit/45c2f3050e81b06636ffddff3974f1a6a8c99cff",
+    "author": {
+        "name": "David Larrimore",
+        "email": "davidlarrimore@gmail.com",
+        "date": "2020-08-11T12:30:09Z"
+    },
+    "committer": {
+        "name": "David Larrimore",
+        "email": "davidlarrimore@gmail.com",
+        "date": "2020-08-11T12:30:09Z"
+    },
+    "tree": {
+        "sha": "d43a5600c93b62ee3ac206f2aab31ff0bf55e2f8",
+        "url": "https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/git/trees/d43a5600c93b62ee3ac206f2aab31ff0bf55e2f8"
+    },
+    "message": "Updated Demo Config.json",
+    "parents": [
+        {
+            "sha": "19a718a12997f5e049219603f7a269d80d72f578",
+            "url": "https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/git/commits/19a718a12997f5e049219603f7a269d80d72f578",
+            "html_url": "https://github.com/davidlarrimore/gpbu-visitor-management/commit/19a718a12997f5e049219603f7a269d80d72f578"
+        }
+    ],
+    "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null
+    }
+}

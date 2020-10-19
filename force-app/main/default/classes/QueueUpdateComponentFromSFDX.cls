@@ -51,7 +51,8 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     }
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
+    @TestVisible 
+    private static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         String newJobId;
         Boolean triggerPackageUpdate = false;
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();

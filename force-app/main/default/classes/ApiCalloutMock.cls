@@ -18,10 +18,15 @@ global class ApiCalloutMock implements HttpCalloutMock {
  
 
     //Visitor Management GITHUB API Endpoints
+    public static final String VM_GITHUB_CURRENT_COMMIT_HASH = '9ef094d1e494d5f7444642c173b749f86e218eea';
+    public static final String VM_GITHUB_API_CURRENT_COMMIT_HASH_URL = 'https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits/' + VM_GITHUB_CURRENT_COMMIT_HASH;
+    public static final String VM_GITHUB_PREVIOUS_COMMIT_HASH = '45c2f3050e81b06636ffddff3974f1a6a8c99cff';
+    public static final String VM_GITHUB_API_PREVIOUS_COMMIT_HASH_URL = 'https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits/' + VM_GITHUB_PREVIOUS_COMMIT_HASH;
     public static final String VM_GITHUB_REPO_URL = 'https://github.com/davidlarrimore/gpbu-visitor-management'; 
     public static final String VM_GITHUB_API_REPO_URL = 'https://api.github.com/repos/davidlarrimore/gpbu-visitor-management'; 
     public static final String VM_GITHUB_API_COMMIT_MASTER_URL = 'https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits/master';
     public static final String VM_GITHUB_RAW_SFDX_PROJECT_URL = 'https://raw.githubusercontent.com/davidlarrimore/gpbu-visitor-management/master/sfdx-project.json';
+
 
     //These URL's are a little more tricky with all the Encoding, so we just use the same functions to get the Endpoint URL
     public static final String METADATA_API_GET_INSTALLED_PACKAGES = MetadataAPIHelper.getInstalledPackagesQueryUrl();
@@ -57,6 +62,8 @@ global class ApiCalloutMock implements HttpCalloutMock {
         RTA_GITHUB_API_TAGS_URL => 'testRTAGithubApiGetTags',
         VM_GITHUB_API_REPO_URL => 'testVMGithubApiGetRepo',
         VM_GITHUB_API_COMMIT_MASTER_URL => 'testVMGithubApiGetMasterCommit',
+        VM_GITHUB_API_CURRENT_COMMIT_HASH_URL => 'testVMGithubApiGetCurrentCommit',
+        VM_GITHUB_API_PREVIOUS_COMMIT_HASH_URL => 'testVMGithubApiGetPreviousCommit',        
         VM_GITHUB_RAW_SFDX_PROJECT_URL => 'testVMGithubApiGetSFDXProject',
         METADATA_API_GET_INSTALLED_PACKAGES => 'testMetadataApiGetInstalledPackages',
         METADATA_API_GET_PREVIOUS_SUB_PACKAGE_VERSION => 'testMetadataApiGetPreviousSubPackageVersion',

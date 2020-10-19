@@ -50,7 +50,7 @@ public with sharing class VersionHelper {
                 demoComponent.Install_Date__c = xTagFile.installDateTime;
                 demoComponent.Installation_Type__c = 'Source';
                 demoComponent.Installed_Version_Tracking_Method__c = 'Github_Commit';   
-                
+                demoComponent.Source_Installed_Commit_Hash__c = xTagFile.commitHash;
                 
             }                              
  
@@ -167,11 +167,16 @@ public with sharing class VersionHelper {
         ){
             jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);
         }
-
         QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
-
+        List<StaticResource> staticResources = new List<StaticResource>();
         try {
-            List<StaticResource> staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
+            //Added to allow for Testing
+            if(Test.isRunningTest()){
+                staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'testTagFile%'];
+            }else{
+                staticResources = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE 'XTAG%'];
+            }
+
             List<XTagFile> xTagFiles = new List<XTagFile>();
 
             if(staticResources.size() > 0){
@@ -200,7 +205,8 @@ public with sharing class VersionHelper {
     }
 
     
-   private static void processXTag(Map<String, String> jobInfo, String xTagJSON){
+    @TestVisible 
+    private static void processXTag(Map<String, String> jobInfo, String xTagJSON){
        try {
 
             XTagFile xTagFile = (XTagFile)System.JSON.deserialize(xTagJSON, XTagFile.class);
@@ -224,6 +230,7 @@ public with sharing class VersionHelper {
                     demoComponent.Installation_Type__c = 'Source';
                     demoComponent.Installed_Version_Tracking_Method__c = 'Github_Commit';  
                     demoComponent.Update_Available__c = false;
+                    demoComponent.Source_Installed_Commit_Hash__c = xTagFile.commitHash;
 
                     update demoComponent;  
 
@@ -248,7 +255,8 @@ public with sharing class VersionHelper {
                     demoComponent.Installation_Type__c = 'Source';
                     demoComponent.Installed_Version_Tracking_Method__c = 'Github_Commit';   
                     demoComponent.Update_Available__c = false;
-                    
+                    demoComponent.Source_Installed_Commit_Hash__c = xTagFile.commitHash;
+
                     update demoComponent;  
 
                     QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
@@ -272,7 +280,6 @@ public with sharing class VersionHelper {
                     QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
                     QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
                     QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS});  
-
 
                 VersionHelper.AddGithubComponent(xTagFile.githubRepositoryUrl, new map<String,String>{'xTagFile'=>xTagJSON});
             }

@@ -9,8 +9,10 @@ public class XTagFile {
     public String commitTagName;
     public Boolean demoComponentAlreadyExistsFlag;
     public Boolean demoComponentAlreadyInstalledFlag;
+
     public XTagFile() {
         this.demoComponentAlreadyExistsFlag = false;
         this.demoComponentAlreadyInstalledFlag = false;
     }
+    
 }

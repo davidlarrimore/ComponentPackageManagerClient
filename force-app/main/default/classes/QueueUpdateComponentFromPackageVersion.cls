@@ -54,7 +54,8 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   }
 
   @future(callout=true)
-  public static void doLater(Map<String, String> jobInfo,Id demoComponentId, String subscriberPackageVersionId) {
+  @TestVisible 
+  private static void doLater(Map<String, String> jobInfo,Id demoComponentId, String subscriberPackageVersionId) {
     List<Demo_Component__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, Installed__c, Latest_Package_Version__c, Package_Installed_Version_Number__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];  
     if (demoComponentLookup.size() > 0) {
       System.debug('Successfully found Demo Component');

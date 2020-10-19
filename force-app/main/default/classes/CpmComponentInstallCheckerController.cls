@@ -1,7 +1,7 @@
 public with sharing class CpmComponentInstallCheckerController {
     
     @AuraEnabled
-    public static void runApex(String searchKey){ 
+    public static void runApex(){ 
         System.debug('Running CPMInstallCheckerController.runApex');
         List<AsyncApexJob> existingJobs;
 
@@ -13,7 +13,5 @@ public with sharing class CpmComponentInstallCheckerController {
         }
 
         VersionHelper.getinstalledXTAGs(null);
-
-
     }
 }

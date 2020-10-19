@@ -43,21 +43,5 @@ public with sharing class QueueComponentUpdateEventHelper {
             Insert_Flag__c = insertFlag,
             Update_Flag__c = updateFlag,
             Demo_Component_JSON__c = eventInfo.containsKey(FIELD_DEMO_COMPONENT_JSON) ? eventInfo.get(FIELD_DEMO_COMPONENT_JSON) : ''));
-    }
-
-    public static String generateId() {
-
-        Integer len = 16;
-        Blob blobKey = crypto.generateAesKey(128);
-        String key = EncodingUtil.convertToHex(blobKey);
-        return key.substring(0,len);
-
-        /*
-        Integer s_num = 1;
-            String result = String.valueOf(s_num++);
-            return CPM_Async_Event__e.SObjectType.getDescribe().getKeyPrefix() + 
-                '0'.repeat(12-result.length()) + result;
-        */
-    }
-    
+    } 
 }

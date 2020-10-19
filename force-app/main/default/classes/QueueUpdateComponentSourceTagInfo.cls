@@ -53,7 +53,8 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
 
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
+    @TestVisible 
+    private static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         Boolean triggerPackageUpdate = false;
         List<GithubRepoTag> githubTags = new List<GithubRepoTag>();
 

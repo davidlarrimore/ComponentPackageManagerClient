@@ -52,6 +52,7 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
   }
 
   @future(callout=true)
+  @TestVisible 
   private static void doLater(Map<String, String> jobInfo) {
     System.debug('Running QueueGetInstalledPackages.doLater');
     
@@ -89,7 +90,6 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
             demoComponent = demoComponentLookup[0];
             System.debug('Found the Demo_Component__c that matches the MetadataInstalledPackageResponseRecord...Proessing');
 
-            System.debug('Found the Demo_Component__c that matches the MetadataInstalledPackageResponseRecord...Proessing');
             existsFlag = true;
             if(!demoComponent.Installed__c){
               System.debug('Demo Component was not installed previously, marking as installed');
@@ -114,6 +114,7 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
 
               update demoComponent;
 
+              jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
               QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
                 QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
                 QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
@@ -134,7 +135,7 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
               update demoComponent;
 
-
+              jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
               QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
                 QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
                 QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component "' + demoComponent.Title__c +'" has been updated.',
@@ -148,6 +149,9 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               });
             }else{
               System.debug('Everything matches up, we dont need to do anything');
+
+              jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
+              QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);     
             }
 
           }else{
@@ -172,7 +176,7 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
 
             insert demoComponent;
 
-
+            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
             QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
               QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
               QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found Installed Demo Component , "' + demoComponent.Title__c +'" that was not in my list of Demo Components. Added.',
@@ -183,8 +187,6 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
               QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
             });
-
-
 
           }
         }

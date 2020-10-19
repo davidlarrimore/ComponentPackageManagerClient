@@ -54,7 +54,8 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
     }
 
     @future(callout=true)
-    public static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
+    @TestVisible 
+    private static void doLater(Map<String, String> jobInfo, Id demoComponentId) {
         Boolean triggerPackageUpdate = false;
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
         GithubRepoCommit githubCommit = new GithubRepoCommit();
