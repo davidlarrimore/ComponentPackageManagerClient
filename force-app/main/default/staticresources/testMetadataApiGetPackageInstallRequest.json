@@ -1,0 +1,44 @@
+{
+  "size" : 3,
+  "totalSize" : 3,
+  "done" : true,
+  "queryLocator" : null,
+  "entityTypeName" : "PackageInstallRequest",
+  "records" : [ {
+    "attributes" : {
+      "type" : "PackageInstallRequest",
+      "url" : "/services/data/v49.0/tooling/sobjects/PackageInstallRequest/0Hf3F0000009X3MSAU"
+    },
+    "Id" : "0Hf3F0000009X3MSAU",
+    "UpgradeType" : "mixed-mode",
+    "SubscriberPackageVersionKey" : "04t1Q0000016Ygj",
+    "ProfileMappings" : null,
+    "Status" : "ERROR",
+    "LastModifiedDate" : "2020-10-19T16:02:29.000+0000",
+    "PackageInstallSource" : null
+  }, {
+    "attributes" : {
+      "type" : "PackageInstallRequest",
+      "url" : "/services/data/v49.0/tooling/sobjects/PackageInstallRequest/0Hf3F0000009X4YSAU"
+    },
+    "Id" : "0Hf3F0000009X4YSAU",
+    "UpgradeType" : "mixed-mode",
+    "SubscriberPackageVersionKey" : "04t2E000003oc9r",
+    "ProfileMappings" : null,
+    "Status" : "SUCCESS",
+    "LastModifiedDate" : "2020-10-19T17:39:42.000+0000",
+    "PackageInstallSource" : null
+  }, {
+    "attributes" : {
+      "type" : "PackageInstallRequest",
+      "url" : "/services/data/v49.0/tooling/sobjects/PackageInstallRequest/0Hf3F0000009X3uSAE"
+    },
+    "Id" : "0Hf3F0000009X3uSAE",
+    "UpgradeType" : "mixed-mode",
+    "SubscriberPackageVersionKey" : "04t3h000004bdyC",
+    "ProfileMappings" : null,
+    "Status" : "SUCCESS",
+    "LastModifiedDate" : "2020-10-19T16:19:19.000+0000",
+    "PackageInstallSource" : null
+  } ]
+}

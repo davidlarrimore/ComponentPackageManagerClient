@@ -95,6 +95,7 @@ public with sharing class QueueGetInstalledPackagesTest {
             Installed_Version_Tracking_Method__c = 'None',
             Package_Installed_Version_Number__c = '0.1.0-3',
             Installed__c = true,
+            Install_Date__c = PREVIOUS_PACKAGE_VERSION_INSTALL_DATETIME,
             Last_Fetched__c = datetime.now(),
             Update_Available__c = false
         );
@@ -110,12 +111,10 @@ public with sharing class QueueGetInstalledPackagesTest {
         QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
 
-
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Demo_Component__c where Id = :demoComponentId LIMIT 1];
-
+        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Install_Date__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Demo_Component__c where Id = :demoComponentId LIMIT 1];
         
         System.assertEquals('04t2E000003oc9rQAA', updatedDemoComponent.Package_Installed_Subscriber_Version_Id__c);
-
+        System.assert(true, updatedDemoComponent.Install_Date__c > PREVIOUS_PACKAGE_VERSION_INSTALL_DATETIME);
     }    
    
 }

@@ -43,7 +43,26 @@ public with sharing class MetadataApiTest {
         System.assertEquals('version 1.0', subscriberPackageVersion.name);
         System.assertEquals('User Badges, Skills and Contributions - Lightning', subscriberpackage.name);
     }  
-    
+
+    static testmethod void testGetInstallRequests() {
+        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        MetadataPackageInstallRequest metadataPackageInstallRequest = new MetadataPackageInstallRequest();
+        List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = new List<MetadataPackageInstallRequestRecord>();
+        MetadataPackageInstallRequestRecord metadataPackageInstallRequestRecord = new MetadataPackageInstallRequestRecord();
+
+        Test.startTest();        
+        metadataPackageInstallRequestRecords = MetadataAPIHelper.getInstallRequests();
+        Test.stopTest(); 
+
+        System.assertNotEquals(null, metadataPackageInstallRequest);
+
+        metadataPackageInstallRequestRecord = metadataPackageInstallRequestRecords[0];
+        
+        System.assertEquals(2, metadataPackageInstallRequestRecords.size());
+        System.assertEquals('04t2E000003oc9r', metadataPackageInstallRequestRecord.SubscriberPackageVersionKey);
+    }  
+
+
     static testmethod void testGetInstalledPackages404() {
         Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock()); 
         List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = new List<MetadataInstalledPackageResponseRecord>();

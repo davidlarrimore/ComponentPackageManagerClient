@@ -1,6 +1,6 @@
 /* EXAMPLE TOOLING API CALLS
  *
- * Package Install Requests: /services/data/v48.0/tooling/query/?q=SELECT+Id+,CreatedDate+,SubscriberPackageVersionKey,+PackageInstallSource+FROM+PackageInstallRequest
+ * Package Install Requests: /services/data/v49.0/tooling/query?q=SELECT+ID,+UpgradeType,+SubscriberPackageVersionKey,+ProfileMappings,+Status,+LastModifiedDate,+PackageInstallSource+FROM+PackageInstallRequest
  * 
  * 
  * 
@@ -17,7 +17,7 @@
         if(JSONResponse != null){
             //Changing Reserved words
             JSONResponse = fixJSONVariableNames(JSONResponse);
-            MetadataInstalledPackageResponse metadataInstalledPackageResponse = (MetadataInstalledPackageResponse)System.JSON.deserialize(JSONResponse, metadataInstalledPackageResponse.class);
+            MetadataInstalledPackageResponse metadataInstalledPackageResponse = (MetadataInstalledPackageResponse)System.JSON.deserialize(JSONResponse, MetadataInstalledPackageResponse.class);
             system.debug('Found ' +  metadataInstalledPackageResponse.records.size() + ' SubscriberPackages');
             
             for(MetadataInstalledPackageResponseRecord record: metadataInstalledPackageResponse.records){
@@ -25,6 +25,32 @@
             }
 
             return metadataInstalledPackageResponse.records;
+        }
+        system.debug('There was an issue with the doRestRequestJSON');
+        return null;
+    }
+
+    public static List<MetadataPackageInstallRequestRecord> getInstallRequests(){
+        system.debug('Running getInstallRequests');
+
+        //get JSON String
+        String JSONResponse = APIHelper.doRestRequestJSON(MetadataAPIHelper.getPackageInstallRequestQueryUrl(), true);
+
+        if(JSONResponse != null){
+            //Changing Reserved words
+            JSONResponse = fixJSONVariableNames(JSONResponse);
+            MetadataPackageInstallRequest metadataPackageInstallRequest = (MetadataPackageInstallRequest)System.JSON.deserialize(JSONResponse, MetadataPackageInstallRequest.class);
+            system.debug('Found ' +  metadataPackageInstallRequest.records.size() + ' SubscriberPackages');
+            
+            List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = new List<MetadataPackageInstallRequestRecord>();
+            for(MetadataPackageInstallRequestRecord record: metadataPackageInstallRequest.records){
+                if(record.Status.toUpperCase() == 'SUCCESS'){
+                    metadataPackageInstallRequestRecords.add(record);
+                }
+                system.debug('MetadataPackageInstallRequestRecord: ' + record);
+            }
+
+            return metadataPackageInstallRequestRecords;
         }
         system.debug('There was an issue with the doRestRequestJSON');
         return null;
@@ -139,7 +165,7 @@
     //SELECT ID,SubscriberPackageVersionKey, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest+WHERE+SubscriberPackageVersionKey='04t1K000002J0KK'
     public static String getPackageInstallRequestQuery(){
         system.debug('Running getPackageInstallRequestQuery');
-        return EncodingUtil.urlEncode('SELECT Id, Status, Errors, LastModifiedDate, SubscriberPackageVersionKey, PackageInstallSource FROM PackageInstallRequest', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, UpgradeType, SubscriberPackageVersionKey, ProfileMappings, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest', 'UTF-8');
     }    
 
     public static String getSubscriberPackageVersionQueryUrl(String subscriberPackageVersionId){    

@@ -3,6 +3,7 @@ public class MetadataInstalledPackageResponseRecord {
     public String subscriberPackageId;
     public MetadataSubscriberPackage subscriberpackage;
     public MetadataSubscriberPackageVersion subscriberPackageVersion;
+    public MetadataPackageInstallRequestRecord packageInstallRequest;
 
     public MetadataInstalledPackageResponseRecord() {
 

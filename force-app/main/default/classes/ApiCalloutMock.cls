@@ -27,9 +27,9 @@ global class ApiCalloutMock implements HttpCalloutMock {
     public static final String VM_GITHUB_API_COMMIT_MASTER_URL = 'https://api.github.com/repos/davidlarrimore/gpbu-visitor-management/commits/master';
     public static final String VM_GITHUB_RAW_SFDX_PROJECT_URL = 'https://raw.githubusercontent.com/davidlarrimore/gpbu-visitor-management/master/sfdx-project.json';
 
-
     //These URL's are a little more tricky with all the Encoding, so we just use the same functions to get the Endpoint URL
     public static final String METADATA_API_GET_INSTALLED_PACKAGES = MetadataAPIHelper.getInstalledPackagesQueryUrl();
+    public static final String METADATA_API_GET_INSTALL_REQUESTS = MetadataAPIHelper.getPackageInstallRequestQueryUrl();
 
     public static final String PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID = '04t3h000004bdP5AAI';
     public static final String METADATA_API_GET_PREVIOUS_SUB_PACKAGE_VERSION = MetadataAPIHelper.getSubscriberPackageVersionQueryUrl(PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID);    
@@ -66,6 +66,7 @@ global class ApiCalloutMock implements HttpCalloutMock {
         VM_GITHUB_API_PREVIOUS_COMMIT_HASH_URL => 'testVMGithubApiGetPreviousCommit',        
         VM_GITHUB_RAW_SFDX_PROJECT_URL => 'testVMGithubApiGetSFDXProject',
         METADATA_API_GET_INSTALLED_PACKAGES => 'testMetadataApiGetInstalledPackages',
+        METADATA_API_GET_INSTALL_REQUESTS => 'testMetadataApiGetPackageInstallRequest',
         METADATA_API_GET_PREVIOUS_SUB_PACKAGE_VERSION => 'testMetadataApiGetPreviousSubPackageVersion',
         METADATA_API_GET_CURRENT_SUB_PACKAGE_VERSION => 'testMetadataApiGetCurrentSubPackageVersion',
         METADATA_API_GET_SUB_PACKAGE => 'testMetadataApiGetSubPackage',
@@ -80,7 +81,6 @@ global class ApiCalloutMock implements HttpCalloutMock {
         System.debug('REQUESTED MOCK ENDPOINT: ' + request.getEndpoint() + ', USING STATIC RESOURCE: ' + StaticResourceName);
 
         StaticResource staticResource = [SELECT Id, Name, Body, SystemModStamp FROM StaticResource WHERE Name LIKE :StaticResourceName LIMIT 1];
-
         
         // Create a fake response
         HttpResponse response = new HttpResponse();

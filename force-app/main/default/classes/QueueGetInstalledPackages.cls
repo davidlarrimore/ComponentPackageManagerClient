@@ -58,14 +58,25 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
     
     List<String> recordsToProcess = new List<String>();
     List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();
-    
+    List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = MetadataAPIHelper.getInstallRequests();
+
     if (metadataInstalledPackageResponseRecords != null && metadataInstalledPackageResponseRecords.size() > 0) {
       system.debug('Found ' + metadataInstalledPackageResponseRecords.size() + ' Installed Packages. Processing...');
       for (MetadataInstalledPackageResponseRecord metadataInstalledPackageResponseRecord : metadataInstalledPackageResponseRecords) {
         MetadataSubscriberPackageVersion subscriberPackageVersion = metadataInstalledPackageResponseRecord.subscriberPackageVersion;
         MetadataSubscriberPackage subscriberpackage = metadataInstalledPackageResponseRecord.subscriberPackage;
+        //Getting Pacakge Install Request Records for the Install Date
+        if (metadataPackageInstallRequestRecords != null) {
+          system.debug('Found ' + metadataPackageInstallRequestRecords.size() + ' Install Requests...');
+          for (MetadataPackageInstallRequestRecord metadataPackageInstallRequestRecord: metadataPackageInstallRequestRecords){
+            //system.debug('Trying to see if Package Version ID: ' + metadataInstalledPackageResponseRecord.subscriberPackageVersion.Id + ' Is the same as the SubscriberPackageVersionKey:' + metadataPackageInstallRequestRecord.SubscriberPackageVersionKey);
+            if(metadataInstalledPackageResponseRecord.subscriberPackageVersion.Id.contains(metadataPackageInstallRequestRecord.SubscriberPackageVersionKey)){
+              system.debug('Found the Install Request that matches the Demo Package');
+              metadataInstalledPackageResponseRecord.packageInstallRequest = metadataPackageInstallRequestRecord;
+            }
+          }
+        }
 
-        
         Demo_Component__c demoComponent = new Demo_Component__c();
         List<Demo_Component__c> demoComponentLookup = [
           SELECT
@@ -105,6 +116,11 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
               demoComponent.Installation_Type__c = 'Package';
 
+              if(null != metadataInstalledPackageResponseRecord.packageInstallRequest){
+                demoComponent.Install_date__c =  metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate;
+              }
+
+
               if(demoComponent.SFDX_Package_Enabled_Flag__c){
                 demoComponent.Installed_Version_Tracking_Method__c = 'SFDX_Project';    
                 //TODO:UPDATE SFDX INSTALLED INFO        
@@ -133,6 +149,11 @@ public class QueueGetInstalledPackages implements Queueable, Database.AllowsCall
               demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
               demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
               demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+
+              if(null != metadataInstalledPackageResponseRecord.packageInstallRequest){
+                demoComponent.Install_date__c =  metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate;
+              }
+              
               update demoComponent;
 
               jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
