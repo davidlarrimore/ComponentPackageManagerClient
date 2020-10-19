@@ -1,13 +1,19 @@
 {
-	"packageDirectories": [{
-		"path": "force-app",
-		"package": "gPBU Component Package Manager",
-		"versionName": "v0.1",
-		"versionDescription": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
-		"versionNumber": "0.1.0.NEXT",
-		"default": true
-	}],
-	"namespace": "",
-	"sfdcLoginUrl": "https://login.salesforce.com",
-	"sourceApiVersion": "48.0"
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "package": "Demo Component Package Manager",
+            "versionName": "v0.1",
+            "versionDescription": "Demo Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
+            "versionNumber": "0.1.0.NEXT",
+            "default": true
+        }
+    ],
+    "namespace": "gpbu_dkl",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "48.0",
+    "packageAliases": {
+        "Demo Component Package Manager": "0Ho3h000000KzMyCAK",
+        "Demo Component Package Manager@0.1.0-1": "04t3h000004bfHKAAY"
+    }
 }
