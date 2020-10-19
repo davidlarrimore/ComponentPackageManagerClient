@@ -1,7 +1,7 @@
 
 #No Longer Needed
 #echo "*** Creating Managed Package ..."
-sfdx force:package:create --name "Demo Component Package Manager" --packagetype Managed --path "force-app"
+sfdx force:package:create --name "Demo Component Package Manager" --packagetype Unlocked --path "force-app"
 #sfdx force:package1:version:create --packageid 033xx00000007oi --name ”Spring 17” --description ”Spring 17 Release” --version 3.2 --managedreleased
 
 echo "*** Export Data..."
