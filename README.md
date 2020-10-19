@@ -1,33 +1,41 @@
-# Default Objects:
-Required on all objects
-Record Type Name
-External Id (Primary Key)
-External Lookup Id (Foreign Key)
+# Salesforce SE Demo Component Manager
 
+*AKA Steam for Salesforce*
 
+![Main App Screenshot](/readme-extras/mainappscreenshot.png)
 
-# Converting Org scenarios to Packages general flow
- - Add required custom fields / Custom Settings (See above)
- - Create Change Set
- - Authorize org in sfdx (User standard Name)
- - Create Scratch Org
- - Run ConvertScript
- - Review errors and make changes
- - Rinse repeat till errors are gone.
- - commit checkpoint
+Ok, lets be real, this is nowhere near as incredible as [Steam](https://store.steampowered.com/), BUT! It does try and solve some core issues that Salesforce Solution Engineers Deal with.
 
- - Create data SOQL queries
- - Config SDFMU export.json
- - get successful SFDMU run
- - push data to scratch org
- - TODO: Create script to convert files to JSON and add data to static resources
- - commit checkpoint
+- Allows you to auto-discover what is installed on your org.
+- Gives you a single interface to install small demo components from code to Salesforce AppExchange apps.
+- Tracks and notifies you when Updates are available (SFDX Projects Only)
+- Allows you to add new components to your org from a source code repository (Currently Github Only).
+- Provides the capabilities for Post-Install Activies to be performed (Coming Soon!)
 
- - Configure as necessary
- - update SFDMU as necessary
- - Test Test Test
- - Commit checkpoint
+*NOTE: This Package depends upon a [Deploy to SFDX Project Fork](https://github.com/davidlarrimore/deploy-to-sfdx) that manages the installation of source code to the org*
 
- - Package
- - commit checkpoint
- - tag/release
+## Installation
+
+Since this is meant to be package manager, it is currently only available as a "Managed Pacakge". Simply log into your org, and replace everything after lighting.force.com with '/packagingSetupUI/ipLanding.app?apvId={TO BE REPLACED}'.
+
+## Post Install Tasks
+
+Until the Post-Install Activities feature is implemented, the "Demo_Component_Manager" Permission set must be added to your administrative users.
+
+## Navigating the App
+
+### Main App Page
+
+![Main App Screenshot](/readme-extras/mainappscreenshot.png)
+
+The Main App Page allows you to navigate the available components, installed components, and add new components.
+
+### Component Page
+
+![Main App Screenshot](/readme-extras/componentpagescreenshot.png)
+
+The Component Page allows you to install the package, see any dependencies, and other package information.
+
+## Want to Contribute
+
+If you want to contribute to this project, please feel free to fork, or contact [davidlarrimore@gmail.com](mailto:davidlarrimore@gmail.com)
