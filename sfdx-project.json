@@ -2,10 +2,10 @@
     "packageDirectories": [
         {
             "path": "force-app",
-            "package": "Demo Component Package Manager",
+            "package": "Component Package Manager",
             "versionName": "Beta",
-            "versionDescription": "Demo Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
-            "versionNumber": "0.2.0.NEXT",
+            "versionDescription": "Beta",
+            "versionNumber": "0.1.0.NEXT",
             "default": true
         }
     ],
@@ -13,7 +13,7 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "48.0",
     "packageAliases": {
-        "Demo Component Package Manager": "0Ho3h000000KzN3CAK",
-        "Demo Component Package Manager@0.2.0-1": "04t3h000004bfHeAAI"
+        "Component Package Manager": "0Ho3h000000KzN8CAK",
+        "Component Package Manager@0.1.0-1": "04t3h000004bfI3AAI"
     }
 }
