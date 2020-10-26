@@ -58,8 +58,8 @@ public with sharing class MetadataApiTest {
 
         metadataPackageInstallRequestRecord = metadataPackageInstallRequestRecords[0];
         
-        System.assertEquals(2, metadataPackageInstallRequestRecords.size());
-        System.assertEquals('04t2E000003oc9r', metadataPackageInstallRequestRecord.SubscriberPackageVersionKey);
+        System.assertEquals(3, metadataPackageInstallRequestRecords.size());
+        System.assertEquals('04t1Q0000016Ygj', metadataPackageInstallRequestRecord.SubscriberPackageVersionKey);
     }  
 
 

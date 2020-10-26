@@ -1,7 +1,5 @@
 /* EXAMPLE TOOLING API CALLS
  *
- * Package Install Requests: /services/data/v49.0/tooling/query?q=SELECT+ID,+UpgradeType,+SubscriberPackageVersionKey,+ProfileMappings,+Status,+LastModifiedDate,+PackageInstallSource+FROM+PackageInstallRequest
- * 
  * 
  * 
  */
@@ -21,7 +19,7 @@
             system.debug('Found ' +  metadataInstalledPackageResponse.records.size() + ' SubscriberPackages');
             
             for(MetadataInstalledPackageResponseRecord record: metadataInstalledPackageResponse.records){
-                system.debug('MetadataResponseRecord: ' + record);
+                //system.debug('MetadataResponseRecord: ' + record);
             }
 
             return metadataInstalledPackageResponse.records;
@@ -42,14 +40,20 @@
             MetadataPackageInstallRequest metadataPackageInstallRequest = (MetadataPackageInstallRequest)System.JSON.deserialize(JSONResponse, MetadataPackageInstallRequest.class);
             system.debug('Found ' +  metadataPackageInstallRequest.records.size() + ' SubscriberPackages');
             
+            //We may get multiple records back for each subscriber, so we want the latest install date.
             List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = new List<MetadataPackageInstallRequestRecord>();
             for(MetadataPackageInstallRequestRecord record: metadataPackageInstallRequest.records){
-                if(record.Status.toUpperCase() == 'SUCCESS'){
+                boolean existingRecord = false;
+                for(Integer j = 0; j < metadataPackageInstallRequestRecords.size(); j++){
+                    if(record.SubscriberPackageVersionKey == metadataPackageInstallRequestRecords[j].SubscriberPackageVersionKey && record.LastModifiedDate > metadataPackageInstallRequestRecords[j].LastModifiedDate){
+                        existingRecord = true;
+                        metadataPackageInstallRequestRecords[j] = record;
+                    }
+                }  
+                if(!existingRecord){
                     metadataPackageInstallRequestRecords.add(record);
-                }
-                system.debug('MetadataPackageInstallRequestRecord: ' + record);
+                }                             
             }
-
             return metadataPackageInstallRequestRecords;
         }
         system.debug('There was an issue with the doRestRequestJSON');
@@ -148,7 +152,7 @@
 
     public static String getInstalledPackagesQuery(){
         system.debug('Running getInstalledPackagesQuery');
-        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description, SubscriberPackageVersion.Id, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage ORDER BY SubscriberPackageId', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description, SubscriberPackageVersion.Id, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage WHERE SubscriberPackageVersion.Id != Null ORDER BY SubscriberPackageId', 'UTF-8');
 
     }
 
@@ -165,7 +169,7 @@
     //SELECT ID,SubscriberPackageVersionKey, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest+WHERE+SubscriberPackageVersionKey='04t1K000002J0KK'
     public static String getPackageInstallRequestQuery(){
         system.debug('Running getPackageInstallRequestQuery');
-        return EncodingUtil.urlEncode('SELECT Id, UpgradeType, SubscriberPackageVersionKey, ProfileMappings, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, UpgradeType, SubscriberPackageVersionKey, LastModifiedDate FROM PackageInstallRequest ORDER BY SubscriberPackageVersionKey ASC, LastModifiedDate DESC', 'UTF-8');
     }    
 
     public static String getSubscriberPackageVersionQueryUrl(String subscriberPackageVersionId){    

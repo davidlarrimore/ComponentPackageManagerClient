@@ -19,4 +19,4 @@ echo "*** Promoting Latest Managed Package ..."
 sfdx force:package:version:promote -p $(sfdx force:package:version:list -p 'Component Package Manager' -o CreatedDate --concise | tail -1 | awk '{print $3}')
 
 #echo "*** Pushing Package to Package Manager Org ..."
-#sfdx force:package:install --package $(sfdx force:package:version:list -p 'Component Package Manager' -o CreatedDate --concise | tail -1 | awk '{print $3}') --targetusername PackageManagerTesting --apexcompile package
+sfdx force:package:install --package $(sfdx force:package:version:list -p 'Component Package Manager' -o CreatedDate --concise | tail -1 | awk '{print $3}') --targetusername PackageManagerTesting --apexcompile package

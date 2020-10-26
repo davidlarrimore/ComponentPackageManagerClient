@@ -5,7 +5,7 @@
             "package": "Component Package Manager",
             "versionName": "Beta",
             "versionDescription": "Beta",
-            "versionNumber": "0.2.0.NEXT",
+            "versionNumber": "0.4.0.NEXT",
             "default": true
         }
     ],
@@ -16,6 +16,7 @@
         "Component Package Manager": "0Ho3h000000KzN8CAK",
         "Component Package Manager@0.1.0-1": "04t3h000004bfI3AAI",
         "Component Package Manager@0.1.0-2": "04t3h000004bfI8AAI",
-        "Component Package Manager@0.2.0-1": "04t3h000004bfIDAAY"
+        "Component Package Manager@0.2.0-1": "04t3h000004bfIDAAY",
+        "Component Package Manager@0.3.0-1": "04t3h000004bfO7AAI"
     }
 }
