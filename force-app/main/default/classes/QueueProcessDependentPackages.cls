@@ -50,7 +50,7 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
     /*************STANDARD EXECUTE STARTER*************/
     this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
     QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been is now processing');  
+    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
 
     doLater(this.jobInfo, this.parentDemoComponentId, this.dependentPackageVersionIds);
     }
@@ -159,8 +159,15 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                         Dependent_Component__c = demoComponent.Id,
                         Demo_Component__c = parentDemoComponent.Id
                     );
+                    parentDemoComponent.Dependencies_Met__c = false;
+                    update parentDemoComponent;
                 }else{
-                    System.debug('Existing Component Dependency ' + dependentComponentLookup[0].Id + ' Found, Ignoring.');
+                    System.debug('Existing Component Dependency ' + dependentComponentLookup[0].Id + ' Found');
+                    if(!dependentComponentLookup[0].Installed__c){
+                        System.debug('Demo Component is not installed, thereforce depedendencies on parent dependent is not met');
+                        parentDemoComponent.Dependencies_Met__c = false;
+                        update parentDemoComponent;
+                    }
                 }
             }
 

@@ -1,51 +1,73 @@
 <template>
 	<lightning-card title="Available Demo Components" icon-name="custom:custom57">
+		<template if:false={demoComponents}>
+            <lightning-spinner alternative-text="Loading">
+            </lightning-spinner>
+        </template>
 		<template if:true={demoComponents}>
-			<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
-				<thead>
-				<tr class="slds-line-height_reset">
-					<th class="" scope="col">
-						<div class="slds-truncate" title="Title">Tile</div>
-					</th>
-					<th class="" scope="col">
-						<div class="slds-truncate" title="Description">Description</div>
-					</th>
-				</tr>
-				</thead>
-			</table>
-			<div class="slds-scrollable_y" style="height:20em;">
-				<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-table_header-hidden">
-					<thead class="slds-assistive-text">
+			<template if:true={hasRows}>
+				<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+					<thead>
 					<tr class="slds-line-height_reset">
 						<th class="" scope="col">
-							<div class="slds-truncate slds-cell-fixed" title="Title">Tile</div>
+							<div class="slds-truncate" title="Title">Tile</div>
 						</th>
 						<th class="" scope="col">
 							<div class="slds-truncate" title="Description">Description</div>
 						</th>
+						<th class="" scope="col">
+							<div class="slds-truncate" title="Actions">Actions</div>
+						</th>						
 					</tr>
 					</thead>
-					<tbody>
-						<template for:each={demoComponents} for:item="demoComponent">
-							<tr key={demoComponent.Id} class="slds-hint-parent">
-								<th data-label="Title"  class="slds-cell-wrap" scope="row">
-									<div class="slds-cell-wrap" title={demoComponent.Title__c}>
-										<lightning-formatted-url value={demoComponent.Record_Url} tooltip={demoComponent.Title__c} label={demoComponent.Title__c} target="_blank" ></lightning-formatted-url>
-									</div>
-								</th>
-								<td data-label="Description" class="slds-cell-wrap" scope="row">
-									<div class="slds-truncate"><lightning-formatted-text value={demoComponent.Description__c}></lightning-formatted-text></div>
-								</td>
-							</tr>
-						</template>
-					</tbody>
 				</table>
-			</div>
-		</template>	
-		<template if:false={demoComponents}>
+				<div class="slds-scrollable_y" style="height:20em;">
+					<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_header-hidden slds-table_fixed-layout">
+						<thead class="slds-assistive-text">
+						<tr class="slds-line-height_reset">
+							<th class="" scope="col">
+								<div class="slds-truncate" title="Title">Tile</div>
+							</th>
+							<th class="" scope="col">
+								<div class="slds-truncate" title="Description">Description</div>
+							</th>
+							<th class="" scope="col">
+								<div class="slds-truncate" title="Actions">Actions</div>
+							</th>						
+						</tr>
+						</thead>
+						<tbody>
+							<template for:each={demoComponents} for:item="demoComponent">
+								<tr key={demoComponent.Id} class="slds-hint-parent">
+									<th data-label="Title" class="slds-cell-wrap" scope="row">
+										<div class="slds-cell-wrap">
+											<lightning-formatted-url key={demoComponent.Id} value={demoComponent.Record_Url} tooltip={demoComponent.Title__c} label={demoComponent.Title__c} target="_blank" ></lightning-formatted-url>
+										</div>
+									</th>
+									<td data-label="Description" class="slds-cell-wrap" scope="row">{demoComponent.Description_Short}</td>
+									<td data-label="Actions" class="slds-text-align_left" scope="row">
+										<div class="slds-button-group" role="group">
+											<template if:true={demoComponent.Dependencies_Met__c}>
+												<a class="slds-button slds-button_neutral" if:true={demoComponent.Package_Install_Type_Flag__c} href={demoComponent.Package_Install_Url__c} target="_blank">Install Pkg</a>
+												<a class="slds-button slds-button_neutral" if:true={demoComponent.Source_Install_Type_Flag__c} href={demoComponent.Source_Install_Url__c} target="_blank">Install Src</a>
+											</template>
+											<template if:false={demoComponent.Dependencies_Met__c}>
+												<lightning-badge label="Dependencies not met"></lightning-badge>
+											</template>										
+										</div>							
+									</td>								
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+			</template>	
+		</template>
+		<template if:false={hasRows}>
 			<div class="slds-illustration slds-illustration_small" aria-hidden="true">
 				<img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="" />
 			</div>
 		</template>
+		<div slot="footer">&nbsp;</div>
 	</lightning-card>
 </template>

@@ -3,7 +3,6 @@ import { subscribe, unsubscribe, onError } from "lightning/empApi";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
-import componentInstallChecker from "@salesforce/apex/CpmComponentInstallCheckerController.runApex";
 
 export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
@@ -14,7 +13,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
   connectedCallback() {
     this.doDemoComponentRefresh();
-    this.doComponentInstallChecker();
     this.handleSubscribe();
     this.registerErrorListener();
   }
@@ -28,6 +26,15 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
         for (let i = 0; i < dataloop.length; i++) {
           dataloop[i].Record_Url = '/'+dataloop[i].Id;
+          if(undefined !== dataloop[i].Description__c){ 
+            let newDescription = dataloop[i].Description__c;
+              if(newDescription.length > 60){ 
+                dataloop[i].Description_Short = newDescription.substring(0, 60) + '...';
+              }else{
+                dataloop[i].Description_Short = newDescription;
+              }
+        
+          }
         }
 
         this.availableDemoComponents = dataloop;
@@ -66,16 +73,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
       });
   }
 
-  doComponentInstallChecker() {
-    componentInstallChecker()
-    .then((data) => {
-      console.log(`wiredcomponentInstallChecker Response: ${data}`);
-      this.error = undefined;
-    })
-    .catch((error) => {
-      this.error = error;
-    });
-  }
 
   get getIDs() {
     return this.record;

@@ -35,6 +35,9 @@ export default class CmpAddGithubComponent extends LightningElement {
           "error"
         );
       });
+      console.log(`Resetting form`);
+      this.template.querySelector("lightning-input[data-target-id=githubURL]").value = '';
+      this.githubURL = '';
   }
 
   onGithubURLChange(event) {

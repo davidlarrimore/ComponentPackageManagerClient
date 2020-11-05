@@ -169,6 +169,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Demo_Component__c.Dependencies_Met__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Demo_Component__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -285,6 +290,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Demo_Component__c.Latest_Tag_Version_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Demo_Component__c.Number_of_Dependencies__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

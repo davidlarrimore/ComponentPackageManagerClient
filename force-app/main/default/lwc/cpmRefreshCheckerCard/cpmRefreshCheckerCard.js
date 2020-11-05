@@ -61,7 +61,7 @@ export default class CpmRefreshCheckerCard extends LightningElement {
 
     get demoComponentlastFethedDateText() {
       const inputDate = new Date(this.demoComponentlastFethedDate);
-      const today = new Date()
+      const today = new Date();
       if(this.demoComponentlastFethedDate){
         if(inputDate.getDate() === today.getDate() && inputDate.getMonth() === today.getMonth() && inputDate.getFullYear() === today.getFullYear()){
             return 'Today';

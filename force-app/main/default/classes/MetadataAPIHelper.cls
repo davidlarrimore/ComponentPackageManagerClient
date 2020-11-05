@@ -189,6 +189,6 @@
 
     public static String getSubscriberPackageQuery(){
         system.debug('Running getSubscriberPackageQuery');
-        return EncodingUtil.urlEncode('SELECT Id, Name, IsPackageValid, NamespacePrefix, IsPackageValid, Description FROM SubscriberPackage', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, Name, IsPackageValid, NamespacePrefix, Description FROM SubscriberPackage', 'UTF-8');
     }    
 }

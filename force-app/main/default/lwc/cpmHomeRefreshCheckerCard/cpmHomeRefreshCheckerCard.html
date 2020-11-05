@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Component Library Refresh Status" icon-name="standard:loop">
+        <template if:false={demoComponentManagerSettings}>
+            <lightning-spinner alternative-text="Loading">
+            </lightning-spinner>
+        </template>
+        <template if:true={demoComponentManagerSettings}>
+            <div class="slds-var-m-around_medium">
+                Last Refresh was: {lastLibraryRefreshDate}
+            </div>
+        </template>
+        <div slot="footer">
+            <lightning-button variant="destructive" label="Force Refresh" title="Force Refresh"
+                onclick={handleButtonClick} icon-name="utility:merge" class="slds-var-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-card>
+</template>

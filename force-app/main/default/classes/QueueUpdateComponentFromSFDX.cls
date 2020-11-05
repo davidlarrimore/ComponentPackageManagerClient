@@ -73,6 +73,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                                     demoComponent.Package_Install_Type_Flag__c = true;
                                     demoComponent.SFDX_Package_Enabled_Flag__c = true;
                                     demoComponent.Title__c = thisPackageDirectory.packageName;
+                                    //TODO: ENABLE MERGING WHEN A COMPONENT DOESN'T HAVE A GITHUB PROJECT, BUT YOU ADD IT
                                     demoComponent.SFDX_Package_Name__c = thisPackageDirectory.packageName;
                                     demoComponent.Latest_SFDX_Package_Version_Name__c = thisPackageDirectory.versionName;
                                     demoComponent.Latest_SFDX_Package_Version_Description__c = thisPackageDirectory.versionDescription;

@@ -1,7 +1,7 @@
 <template>
     <lightning-card title="Add Github based SFDX Package" icon-name="standard:merge">
         <form class="slds-form_stacked slds-p-around_medium">
-            <lightning-input type="url" onchange={onGithubURLChange} name="githubURL" label="Github Repository Url" class="validateMe"
+            <lightning-input type="url" onchange={onGithubURLChange} name="githubURL" data-target-id="githubURL" label="Github Repository Url" class="validateMe"
                 required onblur={onBlur} message-when-value-missing="Please input a URL"></lightning-input>
         </form>
         <p slot="footer" class="slds-text-align_right">

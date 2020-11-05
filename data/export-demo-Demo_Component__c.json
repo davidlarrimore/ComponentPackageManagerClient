@@ -20,7 +20,8 @@
             "SFDX_Package_Enabled_Flag__c": false,
             "Source_Install_Type_Flag__c": true,
             "Package_Install_Type_Flag__c": false,
-            "Title__c": "lightningwebchartjs"
+            "Title__c": "lightningwebchartjs",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -38,7 +39,8 @@
             "SFDX_Package_Enabled_Flag__c": false,
             "Source_Install_Type_Flag__c": true,
             "Package_Install_Type_Flag__c": false,
-            "Title__c": "ExcelUpload"
+            "Title__c": "ExcelUpload",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -56,7 +58,8 @@
             "SFDX_Package_Enabled_Flag__c": false,
             "Source_Install_Type_Flag__c": true,
             "Package_Install_Type_Flag__c": false,
-            "Title__c": "ApprovalHistoryLWC"
+            "Title__c": "ApprovalHistoryLWC",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -86,7 +89,8 @@
             "Source_Install_Type_Flag__c": true,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333h000000AYQGAA4",
-            "Title__c": "richTextAreaFSC"
+            "Title__c": "richTextAreaFSC",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -102,7 +106,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03315000000G0JXAA0",
-            "Title__c": "LTNG_KnowledgeFiltered"
+            "Title__c": "LTNG_KnowledgeFiltered",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -119,7 +124,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03315000000UgqUAAS",
-            "Title__c": "Document Upload Homepage Component"
+            "Title__c": "Document Upload Homepage Component",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -135,7 +141,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330b000000gj0SAAQ",
-            "Title__c": "Einstein Builder Mega 4.0"
+            "Title__c": "Einstein Builder Mega 4.0",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -151,7 +158,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330M000001ExoUQAS",
-            "Title__c": "FSL"
+            "Title__c": "FSL",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -168,7 +176,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330H000000XsU5QAK",
-            "Title__c": "B2B Commerce Dashboard"
+            "Title__c": "B2B Commerce Dashboard",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -184,7 +193,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330N0000001uqaQAA",
-            "Title__c": "SalesforceRewind"
+            "Title__c": "SalesforceRewind",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -200,7 +210,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330O000000Xtp7QAC",
-            "Title__c": "LightningWorkOrderKnowledge"
+            "Title__c": "LightningWorkOrderKnowledge",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -216,7 +227,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330Y0000001dTjQAI",
-            "Title__c": "Live Agent Case Creation Workaround"
+            "Title__c": "Live Agent Case Creation Workaround",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -233,7 +245,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330b00000058llAAA",
-            "Title__c": "Service Agent Script"
+            "Title__c": "Service Agent Script",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -249,7 +262,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330b0000009s7hAAA",
-            "Title__c": "Einstein Playground"
+            "Title__c": "Einstein Playground",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -265,7 +279,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0330b000000I0cAAAS",
-            "Title__c": "CloseCreditFlow"
+            "Title__c": "CloseCreditFlow",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -282,7 +297,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B00000005PmHIAU",
-            "Title__c": "NavigateToSObject"
+            "Title__c": "NavigateToSObject",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -298,7 +314,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B000000060kwIAA",
-            "Title__c": "Contact Highlight"
+            "Title__c": "Contact Highlight",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -330,7 +347,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B00000004YDEIA2",
-            "Title__c": "FSLVisionPilot"
+            "Title__c": "FSLVisionPilot",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -346,7 +364,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B0000000EoCoIAK",
-            "Title__c": "Lightning Live Agent 1.1"
+            "Title__c": "Lightning Live Agent 1.1",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -362,7 +381,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331H000000gKeJQAU",
-            "Title__c": "Einstein Discovery Prediction"
+            "Title__c": "Einstein Discovery Prediction",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -379,7 +399,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331I000000RFLlQAO",
-            "Title__c": "Agent OmniChannel Status"
+            "Title__c": "Agent OmniChannel Status",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -395,7 +416,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331I000000ZYqaQAG",
-            "Title__c": "Platform_Event_Toolkit"
+            "Title__c": "Platform_Event_Toolkit",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -411,7 +433,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331I000000hvH2QAI",
-            "Title__c": "Work Accept/Reject Package"
+            "Title__c": "Work Accept/Reject Package",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -428,7 +451,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331I000000m4NLQAY",
-            "Title__c": "Lightning Flow Sample Pack (Unmanaged)"
+            "Title__c": "Lightning Flow Sample Pack (Unmanaged)",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -444,7 +468,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331N000000JuiQQAS",
-            "Title__c": "NBA Flows"
+            "Title__c": "NBA Flows",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -460,7 +485,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U0000005ISiQAM",
-            "Title__c": "Lightning Mass Delete"
+            "Title__c": "Lightning Mass Delete",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -477,7 +503,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000ACHJQA4",
-            "Title__c": "B2B Product Wizard"
+            "Title__c": "B2B Product Wizard",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -493,7 +520,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000Aw31QAC",
-            "Title__c": "B2B Order Form"
+            "Title__c": "B2B Order Form",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -509,7 +537,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000AwCUQA0",
-            "Title__c": "B2B Quick Theme SDO"
+            "Title__c": "B2B Quick Theme SDO",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -525,7 +554,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000N9GOQA0",
-            "Title__c": "Social Intelligence Module"
+            "Title__c": "Social Intelligence Module",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -542,7 +572,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000QhDlQAK",
-            "Title__c": "MDPSBulkActionPkg"
+            "Title__c": "MDPSBulkActionPkg",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -558,7 +589,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000aJGJQA2",
-            "Title__c": "Custom Notifications - Process Builders & Custom Notification Object"
+            "Title__c": "Custom Notifications - Process Builders & Custom Notification Object",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -574,7 +606,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B0000000HFo2IAG",
-            "Title__c": "FSL Snap-In Flows"
+            "Title__c": "FSL Snap-In Flows",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -590,7 +623,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B0000000IjnkIAC",
-            "Title__c": "Contact Custom Fields for NBA/Builder Demo"
+            "Title__c": "Contact Custom Fields for NBA/Builder Demo",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -606,7 +640,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B0000000Pa4pIAC",
-            "Title__c": "Field Service Last Mile"
+            "Title__c": "Field Service Last Mile",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -623,7 +658,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000ckI6QAI",
-            "Title__c": "Einstein Analytics for Salesforce CPQ"
+            "Title__c": "Einstein Analytics for Salesforce CPQ",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -640,7 +676,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331U000000ieKCQAY",
-            "Title__c": "B2B Product Media Admin"
+            "Title__c": "B2B Product Media Admin",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -657,7 +694,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331a0000009kg4AAA",
-            "Title__c": "SalesforceIQ Inbox"
+            "Title__c": "SalesforceIQ Inbox",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -674,7 +712,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331r000000Lx54AAC",
-            "Title__c": "Mass Edit Related Lists"
+            "Title__c": "Mass Edit Related Lists",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -690,7 +729,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0331v000000MMPJAA4",
-            "Title__c": "ThreeColumnFoldableLightningLayout"
+            "Title__c": "ThreeColumnFoldableLightningLayout",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -707,7 +747,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033280000006PzfAAE",
-            "Title__c": "Salesforce Billing"
+            "Title__c": "Salesforce Billing",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -741,7 +782,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03328000000MRV1AAO",
-            "Title__c": "Lightning Lead Inbox (Community)"
+            "Title__c": "Lightning Lead Inbox (Community)",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -773,7 +815,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033300000000h9lAAA",
-            "Title__c": "ideas gold standard 2"
+            "Title__c": "ideas gold standard 2",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -789,7 +832,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033300000009EBOAA2",
-            "Title__c": "snapshot analytics"
+            "Title__c": "snapshot analytics",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -805,7 +849,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03328000000QGmzAAG",
-            "Title__c": "Highlight Panel Please!"
+            "Title__c": "Highlight Panel Please!",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -822,7 +867,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0332E000000HZrFQAW",
-            "Title__c": "b2bmaIntegration"
+            "Title__c": "b2bmaIntegration",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -839,7 +885,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0332E000000Lx5sQAC",
-            "Title__c": "Automatic Dashboard from ED Story"
+            "Title__c": "Automatic Dashboard from ED Story",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -856,7 +903,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000000LJrQAAW",
-            "Title__c": "Knowledge Analytics Dashboard"
+            "Title__c": "Knowledge Analytics Dashboard",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -872,7 +920,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000000R4xgAAC",
-            "Title__c": "PKB SITE SETUP"
+            "Title__c": "PKB SITE SETUP",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -888,7 +937,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000000mEuqAAE",
-            "Title__c": "SDO Toolbox"
+            "Title__c": "SDO Toolbox",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -905,7 +955,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000000wDAbAAM",
-            "Title__c": "Salesforce Connected Apps"
+            "Title__c": "Salesforce Connected Apps",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -922,7 +973,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033300000019wKkAAI",
-            "Title__c": "Laptop Troubleshooting"
+            "Title__c": "Laptop Troubleshooting",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -938,7 +990,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033F0000000NMeGIAW",
-            "Title__c": "Quick Search"
+            "Title__c": "Quick Search",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -955,7 +1008,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033B0000000cEfrIAE",
-            "Title__c": "Conversational Next Best Action"
+            "Title__c": "Conversational Next Best Action",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -972,7 +1026,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033E0000000DbPxIAK",
-            "Title__c": "Advanced Approvals"
+            "Title__c": "Advanced Approvals",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -988,7 +1043,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033T000000004OqIAI",
-            "Title__c": "TOM open source"
+            "Title__c": "TOM open source",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1005,7 +1061,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033d0000000QEv5AAG",
-            "Title__c": "B2B Commerce"
+            "Title__c": "B2B Commerce",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1021,7 +1078,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f2000000DyyuAAC",
-            "Title__c": "Customer 360 Demo Component Pack"
+            "Title__c": "Customer 360 Demo Component Pack",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1038,7 +1096,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f2000000Vpl2AAC",
-            "Title__c": "FSL Rule Analyzer"
+            "Title__c": "FSL Rule Analyzer",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1054,7 +1113,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f40000000LbaAAE",
-            "Title__c": "Lightning Demo CTI"
+            "Title__c": "Lightning Demo CTI",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1070,7 +1130,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f40000005H40AAE",
-            "Title__c": "Einstein Mind Control Center"
+            "Title__c": "Einstein Mind Control Center",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1086,7 +1147,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000JPizAAG",
-            "Title__c": "LS Demo Reset"
+            "Title__c": "LS Demo Reset",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1103,7 +1165,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000QvBRAA0",
-            "Title__c": "Marketing Cloud Tour"
+            "Title__c": "Marketing Cloud Tour",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1120,7 +1183,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000cjRvAAI",
-            "Title__c": "Field Service Dashboard V2"
+            "Title__c": "Field Service Dashboard V2",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1136,7 +1200,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000gvtSAAQ",
-            "Title__c": "Omni Supervisor"
+            "Title__c": "Omni Supervisor",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1152,7 +1217,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000kcfhAAA",
-            "Title__c": "Activity Scorecard Component"
+            "Title__c": "Activity Scorecard Component",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1168,7 +1234,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033f4000000mgIFAAY",
-            "Title__c": "WorkTypeAnalysisFlow"
+            "Title__c": "WorkTypeAnalysisFlow",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1184,7 +1251,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033i0000000QSSLAA4",
-            "Title__c": "SocialCustomerService"
+            "Title__c": "SocialCustomerService",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1200,7 +1268,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033i0000000gAHOAA2",
-            "Title__c": "Quip"
+            "Title__c": "Quip",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1216,7 +1285,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033j0000000L5ofAAC",
-            "Title__c": "QLabs Org Identifier"
+            "Title__c": "QLabs Org Identifier",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1233,7 +1303,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033j0000001QaYnAAK",
-            "Title__c": "Lightning Twitter Timeline"
+            "Title__c": "Lightning Twitter Timeline",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1250,7 +1321,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033o0000000C3XUAA0",
-            "Title__c": "service.api"
+            "Title__c": "service.api",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1267,7 +1339,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033o0000000FJJUAA4",
-            "Title__c": "Salesforce Communities Management (for Communities with Chatter)"
+            "Title__c": "Salesforce Communities Management (for Communities with Chatter)",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1283,7 +1356,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000001Elz4AAC",
-            "Title__c": "Demo Brander"
+            "Title__c": "Demo Brander",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1300,7 +1374,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03330000001Ig8MAAS",
-            "Title__c": "Salesforce and Chatter Apps"
+            "Title__c": "Salesforce and Chatter Apps",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1317,7 +1392,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033360000000nYIAAY",
-            "Title__c": "Insights for Ideas"
+            "Title__c": "Insights for Ideas",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1333,7 +1409,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03336000000543ZAAQ",
-            "Title__c": "App Cloud Harbor Cruise Demo"
+            "Title__c": "App Cloud Harbor Cruise Demo",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1350,7 +1427,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03336000000AhAWAA0",
-            "Title__c": "Lead Pass and Deal Registration"
+            "Title__c": "Lead Pass and Deal Registration",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1384,7 +1462,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03336000000GVxjAAG",
-            "Title__c": "SalesforceIQ Cloud"
+            "Title__c": "SalesforceIQ Cloud",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1401,7 +1480,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03336000000GxnpAAC",
-            "Title__c": "Salesforce Field Service App Package"
+            "Title__c": "Salesforce Field Service App Package",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1417,7 +1497,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03336000000gI8mAAE",
-            "Title__c": "Snap-ins Quick Setup"
+            "Title__c": "Snap-ins Quick Setup",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1433,7 +1514,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033370000009ZWJAA2",
-            "Title__c": "Knowledgeable Users Lightning Component"
+            "Title__c": "Knowledgeable Users Lightning Component",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1449,7 +1531,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333c000000BEpWAAW",
-            "Title__c": "SDO updates"
+            "Title__c": "SDO updates",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1461,11 +1544,13 @@
             "Latest_Package_Version_Name__c": "Beta",
             "Latest_Subscriber_Package_Version_Id__c": "04t3h000004bfO7AAI",
             "Package_Name__c": "Component Package Manager",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
+            "Github_Repository_URL__c": "https://github.com/davidlarrimore/gpbu-component-package-manager",
+            "SFDX_Package_Enabled_Flag__c": true,
+            "Source_Install_Type_Flag__c": true,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333h000000AZMRAA4",
-            "Title__c": "Component Package Manager"
+            "Title__c": "Component Package Manager",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1481,7 +1566,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333h000000QVqXAAW",
-            "Title__c": "Change Tab Label"
+            "Title__c": "Change Tab Label",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1497,7 +1583,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333h000000TprpAAC",
-            "Title__c": "CMS Content Type Creator"
+            "Title__c": "CMS Content Type Creator",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1514,7 +1601,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333i0000005Mt9AAE",
-            "Title__c": "Chronos - Example Einstein Bot for Lightning Scheduler"
+            "Title__c": "Chronos - Example Einstein Bot for Lightning Scheduler",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1530,7 +1618,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333i000000HBrQAAW",
-            "Title__c": "Case Timer"
+            "Title__c": "Case Timer",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1547,7 +1636,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333i000000cBFTAA2",
-            "Title__c": "Salesforce CMS Utils: Unmanaged"
+            "Title__c": "Salesforce CMS Utils: Unmanaged",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1563,7 +1653,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333k000000KkrQAAS",
-            "Title__c": "Data Mask"
+            "Title__c": "Data Mask",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1579,7 +1670,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333k000000bw8kAAA",
-            "Title__c": "sustain_app"
+            "Title__c": "sustain_app",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1596,7 +1688,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333k000000kRPvAAM",
-            "Title__c": "Applicants"
+            "Title__c": "Applicants",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1612,7 +1705,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333t0000009pD3AAI",
-            "Title__c": "B2B Order Grid"
+            "Title__c": "B2B Order Grid",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1628,7 +1722,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0333t000000dcHvAAI",
-            "Title__c": "Community Personalization Flow"
+            "Title__c": "Community Personalization Flow",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1644,7 +1739,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033400000008lMWAAY",
-            "Title__c": "Pardot"
+            "Title__c": "Pardot",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1661,7 +1757,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334100000074WpAAI",
-            "Title__c": "AuthorizeDotnet for Salesforce Billing"
+            "Title__c": "AuthorizeDotnet for Salesforce Billing",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1678,7 +1775,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03341000000cnFfAAI",
-            "Title__c": "Quip Connected App"
+            "Title__c": "Quip Connected App",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1694,7 +1792,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03341000000gkYsAAI",
-            "Title__c": "IDV3"
+            "Title__c": "IDV3",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1726,7 +1825,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03346000000L8dGAAS",
-            "Title__c": "EngageReports"
+            "Title__c": "EngageReports",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1743,23 +1843,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334P000000Ih9fQAC",
-            "Title__c": "Rider"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef114"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "2.15.3-1",
-            "Latest_Package_Version_Name__c": "Summer 20",
-            "Latest_Subscriber_Package_Version_Id__c": "04t4P000002KlftQAC",
-            "Package_Name__c": "Salesforce Maps",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "0334P000000VQV7QAO",
-            "Title__c": "Salesforce Maps"
+            "Title__c": "Rider",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1776,7 +1861,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334P000000Va8aQAC",
-            "Title__c": "Tracker"
+            "Title__c": "Tracker",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1792,7 +1878,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334P000000d02xQAA",
-            "Title__c": "XDO Automation"
+            "Title__c": "XDO Automation",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1808,7 +1895,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334R0000015avDQAQ",
-            "Title__c": "Quip Setup Starter"
+            "Title__c": "Quip Setup Starter",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1824,7 +1912,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334T0000008wq1QAA",
-            "Title__c": "Location Mover"
+            "Title__c": "Location Mover",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1841,7 +1930,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0334W000000EpxCQAS",
-            "Title__c": "LB2B Toolbox"
+            "Title__c": "LB2B Toolbox",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1858,7 +1948,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033500000008iHgAAI",
-            "Title__c": "Org Customizer"
+            "Title__c": "Org Customizer",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1875,7 +1966,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03350000000CqckAAC",
-            "Title__c": "Deal Registration"
+            "Title__c": "Deal Registration",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1892,7 +1984,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03350000000CvB5AAK",
-            "Title__c": "Partner Account Management"
+            "Title__c": "Partner Account Management",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1909,7 +2002,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033580000005KwHAAU",
-            "Title__c": "DEAssetHierarchy"
+            "Title__c": "DEAssetHierarchy",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1925,7 +2019,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03358000000PiYNAA0",
-            "Title__c": "ChatterGroupTiles"
+            "Title__c": "ChatterGroupTiles",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1947,22 +2042,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef126"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "2.1.0-1",
-            "Latest_Package_Version_Name__c": "Winter 18",
-            "Latest_Subscriber_Package_Version_Id__c": "04t58000000Sg8AAAS",
-            "Package_Name__c": "PardotEngagementHistoryDemo",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03358000000QBBDAA4",
-            "Title__c": "PardotEngagementHistoryDemo"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef127"
             },
             "Description__c": "The Article Body app has components that allow for displaying the rich text content of both lightning and classic knowledge articles, instead of the standard page layout display that shows more fields than potentially needed. \nThe Lightning Knowledge component provides querying options by recordId, urlName, or articleNumber. Both the Lightning and Classic Knowledge components provide options to show/hide/style the Title, Article Number, and Total Number of Views, as well as showing / hiding voting capabilities for authenticated users is also possible.",
@@ -1975,7 +2054,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0335w0000001hXBAAY",
-            "Title__c": "Knowledge Article Body Content"
+            "Title__c": "Knowledge Article Body Content",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -1992,7 +2072,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0335w000000EfskAAC",
-            "Title__c": "Tableau Viz Lightning Web Component"
+            "Title__c": "Tableau Viz Lightning Web Component",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2008,7 +2089,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0335w000000R9QFAA0",
-            "Title__c": "chatpoputils"
+            "Title__c": "chatpoputils",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2024,7 +2106,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0335w000000dWvQAAU",
-            "Title__c": "Qinsight"
+            "Title__c": "Qinsight",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2040,7 +2123,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033610000002PMIAA2",
-            "Title__c": "MyTopicsComponent"
+            "Title__c": "MyTopicsComponent",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2056,7 +2140,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03361000000AkZ2AAK",
-            "Title__c": "Idea Component (Lightning)"
+            "Title__c": "Idea Component (Lightning)",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2073,7 +2158,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A0000002GrzQAE",
-            "Title__c": "Article Quality Index Lightning Managed"
+            "Title__c": "Article Quality Index Lightning Managed",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2089,7 +2175,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A0000004OD4QAM",
-            "Title__c": "SCS Connected App"
+            "Title__c": "SCS Connected App",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2105,7 +2192,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A000000AwJ4QAK",
-            "Title__c": "q2cdemosetup"
+            "Title__c": "q2cdemosetup",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2121,7 +2209,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A000000DvfZQAS",
-            "Title__c": "RMA Flow for SDO"
+            "Title__c": "RMA Flow for SDO",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2137,7 +2226,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A000000H3PxQAK",
-            "Title__c": "Live Agent Component"
+            "Title__c": "Live Agent Component",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2153,7 +2243,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A000000UnNvQAK",
-            "Title__c": "Image Capture Flow SDO"
+            "Title__c": "Image Capture Flow SDO",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2169,7 +2260,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336A000000clETQAY",
-            "Title__c": "Platform Events Launcher"
+            "Title__c": "Platform Events Launcher",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2185,7 +2277,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336F000000B2yLQAS",
-            "Title__c": "Article Feedback"
+            "Title__c": "Article Feedback",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2201,7 +2294,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336g0000002VejAAE",
-            "Title__c": "Flow Datagrid Pack"
+            "Title__c": "Flow Datagrid Pack",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2218,7 +2312,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336g000000JYq7AAG",
-            "Title__c": "B2B LE Video Player"
+            "Title__c": "B2B LE Video Player",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2235,24 +2330,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336g000000JZ3iAAG",
-            "Title__c": "B2B LE Mood Board"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef145"
-            },
-            "Description__c": "B2B LE Cart Upload Lightning Component",
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "1.1.2-1",
-            "Latest_Package_Version_Name__c": "Initial version",
-            "Latest_Subscriber_Package_Version_Id__c": "04t6g0000083hyDAAQ",
-            "Package_Name__c": "B2B LE Cart Upload",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "0336g000000JZ93AAG",
-            "Title__c": "B2B LE Cart Upload"
+            "Title__c": "B2B LE Mood Board",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2285,7 +2364,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0336g000000gHGBAA2",
-            "Title__c": "LSKnowledgeInboundSDO"
+            "Title__c": "LSKnowledgeInboundSDO",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2301,7 +2381,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03370000000DJ76AAG",
-            "Title__c": "Salesforce Ideas Analytics"
+            "Title__c": "Salesforce Ideas Analytics",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2334,7 +2415,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0337F000000LMUoQAO",
-            "Title__c": "Ono Community Theme"
+            "Title__c": "Ono Community Theme",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2351,7 +2433,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033A0000000L5eYIAS",
-            "Title__c": "Opportunity Push Counter"
+            "Title__c": "Opportunity Push Counter",
+            "Dependencies_Met__c": true 
         },
         {
             "attributes": {
@@ -2368,7 +2451,8 @@
             "Source_Install_Type_Flag__c": false,
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033A0000000PgEfIAK",
-            "Title__c": "Salesforce CPQ"
+            "Title__c": "Salesforce CPQ",
+            "Dependencies_Met__c": true 
         }
     ]
 }
