@@ -91,10 +91,12 @@ private static void doLater(Map<String, String> jobInfo) {
           existsFlag = true;
           if(!demoComponent.Installed__c){
             System.debug('Demo Component was not installed previously, marking as installed');
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS});   
+            /*
+             * QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+             * QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+             * QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
+             * QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS}); 
+             */  
 
             demoComponent.Installed__c = true;
             demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
@@ -138,8 +140,8 @@ private static void doLater(Map<String, String> jobInfo) {
             demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
             demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
             demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
-
-            if(null != metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate){
+			
+            if(null != metadataInstalledPackageResponseRecord.packageInstallRequest){
               demoComponent.Install_date__c =  metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate;
             }
             
@@ -158,10 +160,7 @@ private static void doLater(Map<String, String> jobInfo) {
               QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
             });
           }else{
-            System.debug('Everything matches up, we dont need to do anything');
-
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);     
+            System.debug('Everything matches up, we dont need to do anything');   
           }
 
         }else{
