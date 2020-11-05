@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label>Package Manager</label>
     <applicationVisibilities>
         <application>Demo_Component_Library</application>
         <visible>true</visible>
@@ -235,6 +234,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Demo_Component__c.Latest_Package_Version_Deprecated_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Demo_Component__c.Latest_Package_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -404,7 +408,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-
+    <label>Package Manager</label>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>

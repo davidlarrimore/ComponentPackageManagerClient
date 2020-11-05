@@ -1,5 +1,51 @@
 <template>
 	<lightning-card title="Available Demo Components" icon-name="custom:custom57">
-		<c-cpm-component-list-view-data-table pk-field="Id" column-config={cols} row-data={demoComponents}></c-cpm-component-list-view-data-table>
+		<template if:true={demoComponents}>
+			<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+				<thead>
+				<tr class="slds-line-height_reset">
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Title">Tile</div>
+					</th>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Description">Description</div>
+					</th>
+				</tr>
+				</thead>
+			</table>
+			<div class="slds-scrollable_y" style="height:20em;">
+				<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout slds-table_header-hidden">
+					<thead class="slds-assistive-text">
+					<tr class="slds-line-height_reset">
+						<th class="" scope="col">
+							<div class="slds-truncate slds-cell-fixed" title="Title">Tile</div>
+						</th>
+						<th class="" scope="col">
+							<div class="slds-truncate" title="Description">Description</div>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+						<template for:each={demoComponents} for:item="demoComponent">
+							<tr key={demoComponent.Id} class="slds-hint-parent">
+								<th data-label="Title"  class="slds-cell-wrap" scope="row">
+									<div class="slds-cell-wrap" title={demoComponent.Title__c}>
+										<lightning-formatted-url value={demoComponent.Record_Url} tooltip={demoComponent.Title__c} label={demoComponent.Title__c} target="_blank" ></lightning-formatted-url>
+									</div>
+								</th>
+								<td data-label="Description" class="slds-cell-wrap" scope="row">
+									<div class="slds-truncate"><lightning-formatted-text value={demoComponent.Description__c}></lightning-formatted-text></div>
+								</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+		</template>	
+		<template if:false={demoComponents}>
+			<div class="slds-illustration slds-illustration_small" aria-hidden="true">
+				<img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="" />
+			</div>
+		</template>
 	</lightning-card>
 </template>

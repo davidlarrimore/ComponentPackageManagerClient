@@ -96,11 +96,12 @@ private static void doLater(Map<String, String> jobInfo) {
             QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
             QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS});   
 
-
             demoComponent.Installed__c = true;
             demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
             demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
             demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+            demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
+
             demoComponent.Installation_Type__c = 'Package';
 
             if(null != metadataInstalledPackageResponseRecord.packageInstallRequest){
@@ -136,6 +137,7 @@ private static void doLater(Map<String, String> jobInfo) {
             demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
             demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
             demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+            demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
 
             if(null != metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate){
               demoComponent.Install_date__c =  metadataInstalledPackageResponseRecord.packageInstallRequest.LastModifiedDate;
@@ -172,6 +174,8 @@ private static void doLater(Map<String, String> jobInfo) {
           demoComponent.Package_Installed_Subscriber_Version_Id__c = subscriberPackageVersion.id;
           demoComponent.Package_Installed_Version_Name__c = subscriberPackageVersion.name;
           demoComponent.Package_Installed_Version_Number__c = subscriberPackageVersion.getSubscriberPackageVersionNumberText();
+          demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
+
           demoComponent.Installation_Type__c = 'Package';
           demoComponent.Installed_Version_Tracking_Method__c = 'None';
 

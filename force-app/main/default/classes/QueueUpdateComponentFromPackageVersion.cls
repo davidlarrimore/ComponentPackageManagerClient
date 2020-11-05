@@ -91,6 +91,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
         demoComponent.Latest_Subscriber_Package_Version_Id__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.id;
         demoComponent.Latest_Package_Version__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumberText();
         demoComponent.Latest_Package_Version_Name__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.name;
+        demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
 
         if(demoComponent.Installed__c ){
           if(metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumber() > VersionHelper.getVersionNumberFromText(demoComponent.Package_Installed_Version_Number__c)){

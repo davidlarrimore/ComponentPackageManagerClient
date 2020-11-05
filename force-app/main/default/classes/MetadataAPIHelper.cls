@@ -152,8 +152,7 @@
 
     public static String getInstalledPackagesQuery(){
         system.debug('Running getInstalledPackagesQuery');
-        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description, SubscriberPackageVersion.Id, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage WHERE SubscriberPackageVersion.Id != Null ORDER BY SubscriberPackageId', 'UTF-8');
-
+        return EncodingUtil.urlEncode('SELECT Id, SubscriberPackageId, SubscriberPackage.NamespacePrefix, SubscriberPackage.Id, SubscriberPackage.Name, SubscriberPackage.Description, SubscriberPackageVersion.Id, SubscriberPackageVersion.IsDeprecated, SubscriberPackageVersion.Name, SubscriberPackageVersion.MajorVersion, SubscriberPackageVersion.MinorVersion, SubscriberPackageVersion.PatchVersion, SubscriberPackageVersion.BuildNumber FROM InstalledSubscriberPackage WHERE SubscriberPackageVersion.Id != Null ORDER BY SubscriberPackageId', 'UTF-8');
     }
 
     public static String getPackageInstallRequestQueryUrl(){    
@@ -180,7 +179,7 @@
     //SELECT ID,SubscriberPackageVersionKey, Status, LastModifiedDate, PackageInstallSource FROM PackageInstallRequest+WHERE+SubscriberPackageVersionKey='04t1K000002J0KK'
     public static String getSubscriberPackageVersionQuery(){
         system.debug('Running getSubscriberPackageVersionQuery');
-        return EncodingUtil.urlEncode('SELECT Id, Dependencies, SubscriberPackageId, Name, Description, PublisherName, MajorVersion, MinorVersion, PatchVersion, BuildNumber FROM SubscriberPackageVersion', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, Dependencies, SubscriberPackageId, Name, Description, PublisherName, MajorVersion, IsDeprecated, MinorVersion, PatchVersion, BuildNumber FROM SubscriberPackageVersion', 'UTF-8');
     }    
 
     public static String getSubscriberPackageQueryUrl(String subscriberPackageId){
@@ -190,6 +189,6 @@
 
     public static String getSubscriberPackageQuery(){
         system.debug('Running getSubscriberPackageQuery');
-        return EncodingUtil.urlEncode('SELECT Id, Name, NamespacePrefix, IsPackageValid, Description FROM SubscriberPackage', 'UTF-8');
+        return EncodingUtil.urlEncode('SELECT Id, Name, IsPackageValid, NamespacePrefix, IsPackageValid, Description FROM SubscriberPackage', 'UTF-8');
     }    
 }

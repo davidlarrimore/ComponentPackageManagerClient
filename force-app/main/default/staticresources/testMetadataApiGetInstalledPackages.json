@@ -32,7 +32,8 @@
         "MajorVersion": 1,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -62,7 +63,8 @@
         "MajorVersion": 1,
         "MinorVersion": 25,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -92,7 +94,8 @@
         "MajorVersion": 1,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -122,7 +125,8 @@
         "MajorVersion": 2,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 2
+        "BuildNumber": 2,
+        "IsDeprecated": false
       }
     },
     {
@@ -152,7 +156,8 @@
         "MajorVersion": 1,
         "MinorVersion": 1,
         "PatchVersion": 5,
-        "BuildNumber": 0
+        "BuildNumber": 0,
+        "IsDeprecated": false
       }
     },
     {
@@ -182,7 +187,8 @@
         "MajorVersion": 1,
         "MinorVersion": 7,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -212,7 +218,8 @@
         "MajorVersion": 1,
         "MinorVersion": 19,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -242,7 +249,8 @@
         "MajorVersion": 1,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -272,7 +280,8 @@
         "MajorVersion": 1,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -302,7 +311,8 @@
         "MajorVersion": 1,
         "MinorVersion": 0,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -332,7 +342,8 @@
         "MajorVersion": 1,
         "MinorVersion": 3,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -362,7 +373,8 @@
         "MajorVersion": 7,
         "MinorVersion": 7,
         "PatchVersion": 2,
-        "BuildNumber": 3
+        "BuildNumber": 3,
+        "IsDeprecated": false
       }
     },
     {
@@ -392,7 +404,8 @@
         "MajorVersion": 1,
         "MinorVersion": 22,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -422,7 +435,8 @@
         "MajorVersion": 2,
         "MinorVersion": 3,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -452,7 +466,8 @@
         "MajorVersion": 1,
         "MinorVersion": 2,
         "PatchVersion": 0,
-        "BuildNumber": 1
+        "BuildNumber": 1,
+        "IsDeprecated": false
       }
     },
     {
@@ -482,7 +497,8 @@
         "MajorVersion": 4,
         "MinorVersion": 27,
         "PatchVersion": 0,
-        "BuildNumber": 12
+        "BuildNumber": 12,
+        "IsDeprecated": false
       }
     }
   ]

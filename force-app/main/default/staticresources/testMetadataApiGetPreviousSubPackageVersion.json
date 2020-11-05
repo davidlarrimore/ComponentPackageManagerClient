@@ -28,7 +28,8 @@
       "MajorVersion": 0,
       "MinorVersion": 1,
       "PatchVersion": 0,
-      "BuildNumber": 3
+      "BuildNumber": 3,
+      "IsDeprecated": false
     }
   ]
 }

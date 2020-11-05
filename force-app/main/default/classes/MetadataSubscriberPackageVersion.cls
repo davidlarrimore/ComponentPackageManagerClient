@@ -6,6 +6,7 @@ public class MetadataSubscriberPackageVersion {
     public Integer minorVersion;
     public Integer patchVersion;
     public Integer buildNumber;   
+    public Boolean IsDeprecated;
 
     public String publisherName;
     public String subscriberPackageId;  

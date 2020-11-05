@@ -26,3 +26,4 @@ SELECT Admin_Permission_Set__c,
        Subscriber_Package_Id__c,
        Title__c
   FROM Demo_Component__c
+ WHERE Latest_Package_Version_Deprecated_Flag__c = false

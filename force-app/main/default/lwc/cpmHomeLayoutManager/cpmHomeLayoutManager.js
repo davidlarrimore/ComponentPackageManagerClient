@@ -24,7 +24,13 @@ export default class CmpHomeLayoutManager extends LightningElement {
       .then((data) => {
         console.log("CmpHomeLayoutManager.APXAvailableDemoComponents SUCCESS");
         console.log(`Found ${data.length} availableDemoComponents`);
-        this.availableDemoComponents = data;
+        let dataloop = data;
+
+        for (let i = 0; i < dataloop.length; i++) {
+          dataloop[i].Record_Url = '/'+dataloop[i].Id;
+        }
+
+        this.availableDemoComponents = dataloop;
         this.error = undefined;
       })
       .catch((error) => {
@@ -40,7 +46,14 @@ export default class CmpHomeLayoutManager extends LightningElement {
       .then((data) => {
         console.log("CmpHomeLayoutManager.APXInstalledDemoComponents SUCCESS");
         console.log(`Found ${data.length} availableDemoComponents`);
-        this.installedDemoComponents = data;
+
+        let dataloop = data;
+
+        for (let i = 0; i < dataloop.length; i++) {
+          dataloop[i].Record_Url = '/'+dataloop[i].Id;
+        }
+
+        this.installedDemoComponents = dataloop;
         this.error = undefined;
       })
       .catch((error) => {

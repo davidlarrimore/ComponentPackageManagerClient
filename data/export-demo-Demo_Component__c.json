@@ -729,22 +729,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef44"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "1.11.0-1",
-            "Latest_Package_Version_Name__c": "Winter'16",
-            "Latest_Subscriber_Package_Version_Id__c": "04t28000000NU9UAAW",
-            "Package_Name__c": "Slick CTI",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03328000000MGsWAAW",
-            "Title__c": "Slick CTI"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef45"
             },
             "Description__c": "Lightning Lead Inbox (Community)",
@@ -758,22 +742,6 @@
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "03328000000MRV1AAO",
             "Title__c": "Lightning Lead Inbox (Community)"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef46"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "1.7.0-1",
-            "Latest_Package_Version_Name__c": "Launch Flow Modal",
-            "Latest_Subscriber_Package_Version_Id__c": "04t2E000003obYmQAI",
-            "Package_Name__c": "Launch Flow Modal",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "0332E000000U76DQAS",
-            "Title__c": "Launch Flow Modal"
         },
         {
             "attributes": {
@@ -826,36 +794,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef50"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "1.0.0-1",
-            "Latest_Subscriber_Package_Version_Id__c": "04t30000000HRk7AAG",
-            "Package_Name__c": "Sales Executive Dashboard Alpha",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03330000000GpAbAAK",
-            "Title__c": "Sales Executive Dashboard Alpha"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef51"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "1.0.0-1",
-            "Latest_Subscriber_Package_Version_Id__c": "04t30000000HVGzAAO",
-            "Package_Name__c": "Adoption Dashboards 3.1",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03330000000GshqAAC",
-            "Title__c": "Adoption Dashboards 3.1"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef52"
             },
             "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
@@ -902,21 +840,6 @@
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0332E000000Lx5sQAC",
             "Title__c": "Automatic Dashboard from ED Story"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef55"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:50.000+0000",
-            "Latest_Package_Version__c": "1.0.0-1",
-            "Latest_Subscriber_Package_Version_Id__c": "04t30000000HrJBAA0",
-            "Package_Name__c": "Channel Plans 1.0",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03330000000HEleAAG",
-            "Title__c": "Channel Plans 1.0"
         },
         {
             "attributes": {
@@ -1185,22 +1108,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef72"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "1.0.0-1",
-            "Latest_Package_Version_Name__c": "Time Series Forecasting Objects",
-            "Latest_Subscriber_Package_Version_Id__c": "04tf4000002uFPyAAM",
-            "Package_Name__c": "Time Series Objects",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "033f4000000R7yAAAS",
-            "Title__c": "Time Series Objects"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef73"
             },
             "Description__c": "Dashboards for Field Service",
@@ -1266,22 +1173,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef77"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "228.0.0-4",
-            "Latest_Package_Version_Name__c": "Marketing Cloud 228",
-            "Latest_Subscriber_Package_Version_Id__c": "04t0H000000xV20QAE",
-            "Package_Name__c": "Marketing Cloud",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "033i0000000LVMYAA4",
-            "Title__c": "Marketing Cloud"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef78"
             },
             "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
@@ -1310,23 +1201,6 @@
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "033i0000000gAHOAA2",
             "Title__c": "Quip"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef80"
-            },
-            "Description__c": "Select News Channel dropdown menu to change news channels. Allows you to set up multiple News Channels. News articles can be assigned to more than one channel.",
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "2.0.0-1",
-            "Latest_Package_Version_Name__c": "Spring 2016",
-            "Latest_Subscriber_Package_Version_Id__c": "04ti0000000gYgTAAU",
-            "Package_Name__c": "Recent News",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "033i0000000oWUzAAM",
-            "Title__c": "Recent News"
         },
         {
             "attributes": {
@@ -2332,23 +2206,6 @@
         {
             "attributes": {
                 "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef142"
-            },
-            "Description__c": "Social Sharing for your community pages! Circle/Square social icons, various layout options, and works in any region in your community!",
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "1.0.0-1",
-            "Latest_Package_Version_Name__c": "Social Sharing",
-            "Latest_Subscriber_Package_Version_Id__c": "04t6g000003prAnAAI",
-            "Package_Name__c": "Social Sharing",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "0336g0000005TEyAAM",
-            "Title__c": "Social Sharing"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
                 "referenceId": "Demo_Component__cRef143"
             },
             "Description__c": "B2B LE Video player for YouTube and static resources",
@@ -2478,39 +2335,6 @@
             "Package_Install_Type_Flag__c": true,
             "Subscriber_Package_Id__c": "0337F000000LMUoQAO",
             "Title__c": "Ono Community Theme"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef151"
-            },
-            "Description__c": "Welcome to the salesforce demo CTI Call Control! Installation Instructions available in the ReadMe document.",
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "1.2.0-1",
-            "Latest_Package_Version_Name__c": "Spring 2012",
-            "Latest_Subscriber_Package_Version_Id__c": "04t80000000cbVKAAY",
-            "Package_Name__c": "OpenCTIDemoCallControl",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "03380000000FONdAAO",
-            "Title__c": "OpenCTIDemoCallControl"
-        },
-        {
-            "attributes": {
-                "type": "Demo_Component__c",
-                "referenceId": "Demo_Component__cRef152"
-            },
-            "Last_Fetched__c": "2020-10-26T00:34:51.000+0000",
-            "Latest_Package_Version__c": "1.51.0-1",
-            "Latest_Package_Version_Name__c": "August 5, 2011",
-            "Latest_Subscriber_Package_Version_Id__c": "04tA0000000RrpFIAS",
-            "Package_Name__c": "Milestones PM (Unmanaged, EE, UE, DE)",
-            "SFDX_Package_Enabled_Flag__c": false,
-            "Source_Install_Type_Flag__c": false,
-            "Package_Install_Type_Flag__c": true,
-            "Subscriber_Package_Id__c": "033A0000000HTwiIAG",
-            "Title__c": "Milestones PM (Unmanaged, EE, UE, DE)"
         },
         {
             "attributes": {
