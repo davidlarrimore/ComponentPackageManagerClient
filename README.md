@@ -16,7 +16,7 @@ Ok, lets be real, this is nowhere near as incredible as [Steam](https://store.st
 
 ## Installation
 
-Since this is meant to be package manager, it is recommended that you install the Unlocked Package. Simply log into your org, and replace everything after lighting.force.com with '/packagingSetupUI/ipLanding.app?apvId=04t3h000004bfIDAAY'.
+[CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3h000004RbzyAAC) (v0.6.0-1)
 
 ## Post Install Tasks
 
