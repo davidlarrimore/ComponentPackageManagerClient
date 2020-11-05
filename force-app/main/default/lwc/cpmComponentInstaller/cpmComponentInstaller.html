@@ -7,7 +7,11 @@
     <template if:true={componentInstalledFlag}>
       <template if:true={canUpdatePackageFlag}>
         <lightning-card title="Component Installer" icon-name="standard:product_consumed">
-          <template if:true={componentSourceInstallTypeFlag}> </template>
+          <template if:true={componentSourceInstallTypeFlag}>
+            <div class="slds-var-m-around_medium">
+              <a class="slds-button slds-button_brand" target="_blank" href={componentSourceInstallUrl}>Update source now</a>
+            </div>
+          </template>
           <template if:true={componentPackageInstallTypeFlag}>
             <div class="slds-var-m-around_medium">
               <a class="slds-button slds-button_brand" target="_blank" href={componentPackageInstallUrl}>Update package now</a>
