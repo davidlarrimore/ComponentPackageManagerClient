@@ -9,4 +9,17 @@ export default class CpmComponentAvailableListView extends LightningElement {
     }
     return false;
   }
+
+  updateSearch(event) {
+    this.progressValue = event.target.value;
+    // Creates the event with the data.
+    const selectedEvent = new CustomEvent("calvsearchstring", {
+      detail: this.progressValue
+    });
+
+    // Dispatches the event.
+    this.dispatchEvent(selectedEvent);
+  }
+
+
 }

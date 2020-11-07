@@ -1,11 +1,12 @@
 import { LightningElement, track } from "lwc";
-import { subscribe, unsubscribe, onError } from "lightning/empApi";
+import { subscribe, onError } from "lightning/empApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class cmpAsynchJobMonitor extends LightningElement {
   channelName = "/event/CPM_Async_Event__e";
-  isSubscribeDisabled = false;
-  isUnsubscribeDisabled = !this.isSubscribeDisabled;
+  isSubscribed = false;
+  isSubscriptionError = false;
+  isSubscriptionRequested = true;
   subscription = {};
 
   cols = [
@@ -18,12 +19,11 @@ export default class cmpAsynchJobMonitor extends LightningElement {
         type: 'text',
         label: 'Status',
         cellAttributes: { iconName: { fieldName: 'iconName' }, iconPosition: 'right'},
-        initialWidth:75
+        initialWidth:80
     },
   ];
 
   @track jobTracker = [];
-
 
   get hasJobs(){
     if(this.jobTracker.length > 0){
@@ -57,12 +57,6 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }
     }
     this.jobTracker = newJobTracker;
-  }
-
-
-  // Tracks changes to channelName text field
-  handleChannelName(event) {
-    this.channelName = event.target.value;
   }
 
   doProcessPlatformEventCPMAsync(payload) {
@@ -276,10 +270,11 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
 
+  // Tracks changes to channelName text field
+  handleChannelName(event) {
+    this.channelName = event.target.value;
+  }
 
-
-
-  // Handles subscribe button click
   handleSubscribe() {
     // Callback invoked whenever a new event message is received
     const messageCallback = function (response) {
@@ -294,39 +289,29 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       // Response contains the payload of the new message received
     }.bind(this);
 
-    // Invoke subscribe method of empApi. Pass reference to messageCallback
     subscribe(this.channelName, -1, messageCallback).then((response) => {
       // Response contains the subscription information on subscribe call
-      console.log(
-        "Subscription request sent to: ",
-        JSON.stringify(response.channel)
-      );
+      console.log(`Subscription request Response: ${JSON.stringify(response)}`);
+      console.log(`Subscription request sent to: ${JSON.stringify(response.channel)}`);
+      this.isSubscriptionRequested = false;
+      this.isSubscribed = true;
       this.subscription = response;
-      this.toggleSubscribeButton(true);
     });
-  }
-
-  // Handles unsubscribe button click
-  handleUnsubscribe() {
-    this.toggleSubscribeButton(false);
-
-    // Invoke unsubscribe method of empApi
-    unsubscribe(this.subscription, (response) => {
-      console.log("unsubscribe() response: ", JSON.stringify(response));
-      // Response is true for successful unsubscribe
-    });
-  }
-
-  toggleSubscribeButton(enableSubscribe) {
-    this.isSubscribeDisabled = enableSubscribe;
-    this.isUnsubscribeDisabled = !enableSubscribe;
   }
 
   registerErrorListener() {
-    // Invoke onError empApi method
     onError((error) => {
       console.log("Received error from server: ", JSON.stringify(error));
-      // Error contains the server-side error
+      this.isSubscriptionRequested = false;
+      this.isSubscribed = false;
+      this.isSubscriptionError = true;
+      const evt = new ShowToastEvent({
+        mode: 'pester',
+        title: `Async Monitor Error: Failed to connect to Platform Events`,
+        message: `Error: ${JSON.stringify(error)}`,
+        variant: 'error'
+      });
+      this.dispatchEvent(evt);
     });
   }
 }

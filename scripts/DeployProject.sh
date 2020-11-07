@@ -6,7 +6,7 @@ echo "*** Run Test Cases W\Coverage ..."
 sfdx force:apex:test:run -c -u MyComponents -r human
 
 echo "*** Export Data..."
-#sfdx force:data:tree:export -q ./scripts/soql/demo.soql -x export-demo -d ./data/
+#sfdx force:data:tree:import -f ./data/export-demo-Demo_Component__c.json -u MyComponents
 
 #No Longer Needed
 #echo "*** Creating Managed Package ..."

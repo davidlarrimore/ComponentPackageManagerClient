@@ -1,5 +1,16 @@
 <template>
   <lightning-card title="Async Job Monitor" icon-name="standard:shift">
+    <div slot="actions">  
+      <template if:true={isSubscriptionRequested}>
+        <lightning-dynamic-icon type="ellie"  alternative-text="Platform Event Channel Requested"> </lightning-dynamic-icon>
+      </template>  
+      <template if:true={isSubscribed}>
+        <lightning-badge label="Subscribed" icon-name="action:approval" icon-position="end"></lightning-badge>
+      </template>  
+      <template if:true={isSubscriptionError}>
+        <lightning-badge label="Failed" icon-name="action:close" icon-position="end"></lightning-badge>
+      </template>        
+    </div>
     <template if:true={hasJobs}>
       <lightning-tree-grid
         columns={cols}

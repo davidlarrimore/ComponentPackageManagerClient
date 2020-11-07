@@ -4,7 +4,7 @@
             "path": "force-app",
             "package": "Component Package Manager",
             "versionName": "Beta",
-            "versionDescription": "Beta",
+            "versionDescription": "Added Search Bar to Component Lists",
             "versionNumber": "0.7.0.NEXT",
             "default": true
         }
@@ -20,6 +20,7 @@
         "Component Package Manager@0.3.0-1": "04t3h000004bfO7AAI",
         "Component Package Manager@0.4.0-1": "04t3h000004RbzoAAC",
         "Component Package Manager@0.5.0-1": "04t3h000004RbztAAC",
-        "Component Package Manager@0.6.0-1": "04t3h000004RbzyAAC"
+        "Component Package Manager@0.6.0-1": "04t3h000004RbzyAAC",
+        "Component Package Manager@0.7.0-1": "04t3h000004Rc0cAAC"
     }
 }

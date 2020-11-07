@@ -1,4 +1,4 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track, wire } from "lwc";
 import { subscribe, unsubscribe, onError } from "lightning/empApi";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
@@ -8,17 +8,84 @@ export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
   installedDemoComponents;
   channelName = "/event/CPM_Component_Update__e";
+  @track calvSearchstring = '';
+  @track cinstSearchstring = '';
 
   @track error;
 
   connectedCallback() {
-    this.doDemoComponentRefresh();
     this.handleSubscribe();
     this.registerErrorListener();
   }
 
+
+  @wire(APXAvailableDemoComponents, {searchString: '$calvSearchstring'})
+  wiredAPXAvailableDemoComponents({ error, data }) {
+      if (data) {
+        console.log("CmpHomeLayoutManager.wiredAPXAvailableDemoComponents SUCCESS");
+        console.log(`Found ${data.length} availableDemoComponents`);
+        let dataloop = [];
+        for (let i = 0; i < data.length; i++) {
+          let tempRecord = Object.assign({}, data[i]);
+          tempRecord.Record_Url = '/'+data[i].Id;
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
+              if(newDescription.length > 60){ 
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
+              }else{
+                tempRecord.Description_Short = newDescription;
+              }
+        
+          }
+          dataloop.push(tempRecord);
+        }
+
+        this.availableDemoComponents = dataloop;
+        this.error = undefined;
+      } else if (error) {
+          this.error = error;
+          console.log(`CmpHomeLayoutManager.wiredAPXAvailableDemoComponents ERROR: ${JSON.stringify(error)}`);
+          this.serviceItems = undefined;
+      }
+  }
+
+
+  @wire(APXInstalledDemoComponents, {searchString: '$cinstSearchstring'})
+  wiredAPXInstalledDemoComponents({ error, data }) {
+      if (data) {
+        console.log("CmpHomeLayoutManager.wiredAPXAvailableDemoComponents SUCCESS");
+        console.log(`Found ${data.length} installedDemoComponents`);
+        let dataloop = [];
+        for (let i = 0; i < data.length; i++) {
+          let tempRecord = Object.assign({}, data[i]);
+          tempRecord.Record_Url = '/'+data[i].Id;
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
+              if(newDescription.length > 60){ 
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
+              }else{
+                tempRecord.Description_Short = newDescription;
+              }
+        
+          }
+          dataloop.push(tempRecord);
+        }
+
+        this.installedDemoComponents = dataloop;
+        this.error = undefined;
+      } else if (error) {
+          this.error = error;
+          console.log(`CmpHomeLayoutManager.APXInstalledDemoComponents ERROR: ${JSON.stringify(error)}`);
+          this.serviceItems = undefined;
+      }
+  }
+
+
+
+
+  
   doDemoComponentRefresh() {
-    APXAvailableDemoComponents({ recordIds: this.jobIds })
+    APXAvailableDemoComponents()
       .then((data) => {
         console.log("CmpHomeLayoutManager.APXAvailableDemoComponents SUCCESS");
         console.log(`Found ${data.length} availableDemoComponents`);
@@ -49,7 +116,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
         );
       });
 
-    APXInstalledDemoComponents({ recordIds: this.jobIds })
+    APXInstalledDemoComponents({ searchString: null })
       .then((data) => {
         console.log("CmpHomeLayoutManager.APXInstalledDemoComponents SUCCESS");
         console.log(`Found ${data.length} availableDemoComponents`);
@@ -125,7 +192,10 @@ export default class CmpHomeLayoutManager extends LightningElement {
   }
 
 
-
+  hanldeCalvSearchstring(event) {
+    this.calvSearchstring = event.detail;
+    console.log(`hanldeCalvSearchstring: ${this.calvSearchstring}`);
+  }
 
 
 

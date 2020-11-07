@@ -13,6 +13,7 @@ public with sharing class CpmComponentControllerTest {
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=false,
+            Installed__c = false,
             Title__c = 'Visitor Management Demo Scenario',
             Last_Fetched__c = datetime.now(),
             Latest_Commit_Hash__c = ApiCalloutMock.VM_GITHUB_CURRENT_COMMIT_HASH, //Old Commit
@@ -43,13 +44,13 @@ public with sharing class CpmComponentControllerTest {
     }
 
     static testmethod void testGetInstalledComponents() {
-        List<Demo_Component__C> demoComponents = CpmComponentController.getInstalledComponents();
+        List<Demo_Component__C> demoComponents = CpmComponentController.getInstalledComponents(null);
         System.assertEquals(1, demoComponents.size());
         System.assertEquals('richTextInputFSC', demoComponents[0].Title__c);
     }
 
     static testmethod void testGetAvailableComponents() {
-        List<Demo_Component__C> demoComponents = CpmComponentController.getAvailableComponents();
+        List<Demo_Component__C> demoComponents = CpmComponentController.getAvailableComponents(null);
         System.assertEquals(1, demoComponents.size());
         System.assertEquals('Visitor Management Demo Scenario', demoComponents[0].Title__c);
     }    

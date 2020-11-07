@@ -1,5 +1,8 @@
 <template>
 	<lightning-card title="Installed Demo Components" icon-name="custom:custom57">
+		<div slot="actions">
+			<lightning-input type="search" label="Search" onchange={updateSearch}></lightning-input>
+		</div>
 		<template if:false={demoComponents}>
             <lightning-spinner alternative-text="Loading">
             </lightning-spinner>
