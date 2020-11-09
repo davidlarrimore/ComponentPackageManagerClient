@@ -1,0 +1,1 @@
+CustomSettingHelper.initializeAppSettings();

@@ -16,7 +16,7 @@ Ok, lets be real, this is nowhere near as incredible as [Steam](https://store.st
 
 ## Installation
 
-[CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3h000004Rc0wAAC) (v0.1.0-1)
+[CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3h000004Rc1GAAS) (v0.5.0-1)
 
 ## Post Install Tasks
 

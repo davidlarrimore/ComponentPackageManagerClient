@@ -17,7 +17,8 @@ echo "*** Creating data"
 sfdx force:data:tree:import -f ./data/export-demo-Demo_Component__c.json -u ComponentManagerScratch
 
 echo "*** Setting up debug mode..."
-sfdx force:apex:execute -f scripts/apex/DebugMode.apex
+sfdx force:apex:execute -f scripts/apex/setDebugMode.apex
+sfdx force:apex:execute -f scripts/apex/resetAppSettings.apex
 
-echo "*** Opening Org"
+echo "*** Setting up debug mode..."
 sfdx force:org:open
