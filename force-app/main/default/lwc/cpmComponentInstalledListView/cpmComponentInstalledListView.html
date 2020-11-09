@@ -17,12 +17,15 @@
 						</th>
 						<th class="slds-truncate" scope="col">
 							<div class="slds-truncate" title="Install Date">Install Date</div>
-						</th>					
+						</th>		
 						<th class="slds-truncate" scope="col">
-							<div class="slds-truncate" title="Installed Type">Installed Type</div>
+							<div class="slds-truncate" title="Version">Version</div>
+						</th>									
+						<th class="slds-truncate" scope="col">
+							<div class="slds-truncate" title="Installed Type">Type</div>
 						</th>	
 						<th class="slds-truncate" scope="col">
-							<div class="slds-truncate" title="Update Available">Update Available</div>
+							<div class="slds-truncate" title="Actions">Actions</div>
 						</th>						
 					</tr>
 					</thead>
@@ -32,10 +35,19 @@
 						<thead class="slds-assistive-text">
 						<tr class="slds-line-height_reset">
 							<th class="" scope="col">
-								<div class="slds-truncate slds-cell-fixed" title="Title">Tile</div>
+								<div class="slds-truncate slds-cell-fixed" title="Title">Title</div>
 							</th>
 							<th class="" scope="col">
-								<div class="slds-truncate" title="Description">Description</div>
+								<div class="slds-truncate slds-cell-fixed" title="Title">Install Date</div>
+							</th>
+							<th class="" scope="col">
+								<div class="slds-truncate slds-cell-fixed" title="Title">Version</div>
+							</th>							
+							<th class="" scope="col">
+								<div class="slds-truncate slds-cell-fixed" title="Title">Type</div>
+							</th>														
+							<th class="" scope="col">
+								<div class="slds-truncate" title="Actions">Actions</div>
 							</th>
 						</tr>
 						</thead>
@@ -52,14 +64,24 @@
 											<lightning-formatted-date-time value={demoComponent.Install_Date__c}></lightning-formatted-date-time>
 										</div>
 									</th>	
-									<td data-label="Installation Type" class="slds-cell-wrap" scope="row">
+									<td data-label="Version" class="slds-cell-wrap" scope="row">
+										<div class="slds-truncate">
+											<lightning-formatted-text value={demoComponent.Installed_Version__c}></lightning-formatted-text>
+										</div>
+									</td>	
+									<td data-label="Type" class="slds-cell-wrap" scope="row">
 										<div class="slds-truncate">
 											<lightning-formatted-text value={demoComponent.Installation_Type__c}></lightning-formatted-text>
 										</div>
-									</td>															
-									<td data-label="Description" class="slds-cell-wrap" scope="row">
+									</td>																								
+									<td data-label="Actions" class="" scope="row">
 										<div class="slds-truncate" if:true={demoComponent.Update_Available__c}>
-											<lightning-icon icon-name="action:approval" size="xx-small" alternative-text="Update Available" title="Update Available"></lightning-icon>
+											<template if:true={demoComponent.Is_Source_Installed_Type}>
+												  <a class="slds-button slds-button_success" target="_blank" href={componentSourceInstallUrl}>Update!</a>
+											  </template>
+											  <template if:true={demoComponent.Is_Package_Installed_Type}>
+												  <a class="slds-button slds-button_success" target="_blank" href={componentPackageInstallUrl}>Update!</a>
+											  </template>
 										</div>
 										<div class="slds-truncate" if:false={demoComponent.Update_Available__c}>
 											&nbsp;

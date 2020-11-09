@@ -1,5 +1,5 @@
 import { LightningElement, track, wire } from "lwc";
-import { subscribe, unsubscribe, onError } from "lightning/empApi";
+import { subscribe, onError } from "lightning/empApi";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
@@ -7,7 +7,10 @@ import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.
 export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
   installedDemoComponents;
+
   channelName = "/event/CPM_Component_Update__e";
+  subscription = {};
+  
   @track calvSearchstring = '';
   @track cinstSearchstring = '';
 
@@ -17,7 +20,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
     this.handleSubscribe();
     this.registerErrorListener();
   }
-
 
   @wire(APXAvailableDemoComponents, {searchString: '$calvSearchstring'})
   wiredAPXAvailableDemoComponents({ error, data }) {
@@ -59,6 +61,19 @@ export default class CmpHomeLayoutManager extends LightningElement {
         for (let i = 0; i < data.length; i++) {
           let tempRecord = Object.assign({}, data[i]);
           tempRecord.Record_Url = '/'+data[i].Id;
+
+          if(tempRecord.Installed__c && tempRecord.Installation_Type__c === 'Package'){
+            tempRecord.Is_Package_Installed_Type = true;
+          }else{
+            tempRecord.Is_Package_Installed_Type = false;
+          }
+
+          if(tempRecord.Installed__c && tempRecord.Installation_Type__c === 'Source'){
+            tempRecord.Is_Source_Installed_Type = true;
+          }else{
+            tempRecord.Is_Source_Installed_Type = false;
+          }
+
           if(undefined !== data[i].Description__c){ 
             let newDescription = data[i].Description__c;
               if(newDescription.length > 60){ 
@@ -125,6 +140,19 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
         for (let i = 0; i < dataloop.length; i++) {
           dataloop[i].Record_Url = '/'+dataloop[i].Id;
+
+          if(dataloop[i].Installed__c && dataloop[i].Installation_Type__c === 'Package'){
+            dataloop[i].Is_Package_Installed_Type = true;
+          }else{
+            dataloop[i].Is_Package_Installed_Type = false;
+          }
+
+          if(dataloop[i].Installed__c && dataloop[i].Installation_Type__c === 'Source'){
+            dataloop[i].Is_Source_Installed_Type = true;
+          }else{
+            dataloop[i].Is_Source_Installed_Type = false;
+          }
+
         }
 
         this.installedDemoComponents = dataloop;
@@ -149,7 +177,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
   handleSubscribe() {
     // Callback invoked whenever a new event message is received
     const messageCallback = function (response) {
-      console.log("New message received: ", JSON.stringify(response));
+      console.log("New Component Update message received: ", JSON.stringify(response));
       this.doDemoComponentRefresh();
 
       // Response contains the payload of the new message received
@@ -158,29 +186,10 @@ export default class CmpHomeLayoutManager extends LightningElement {
     // Invoke subscribe method of empApi. Pass reference to messageCallback
     subscribe(this.channelName, -1, messageCallback).then((response) => {
       // Response contains the subscription information on subscribe call
-      console.log(
-        "Subscription request sent to: ",
-        JSON.stringify(response.channel)
-      );
+      console.log("Subscription request sent to: ",JSON.stringify(response.channel));
       this.subscription = response;
       this.toggleSubscribeButton(true);
     });
-  }
-
-  // Handles unsubscribe button click
-  handleUnsubscribe() {
-    this.toggleSubscribeButton(false);
-
-    // Invoke unsubscribe method of empApi
-    unsubscribe(this.subscription, (response) => {
-      console.log("unsubscribe() response: ", JSON.stringify(response));
-      // Response is true for successful unsubscribe
-    });
-  }
-
-  toggleSubscribeButton(enableSubscribe) {
-    this.isSubscribeDisabled = enableSubscribe;
-    this.isUnsubscribeDisabled = !enableSubscribe;
   }
 
   registerErrorListener() {

@@ -48,6 +48,7 @@ public with sharing class CpmComponentController {
                        Installed__c, 
                        POC_Email__c, 
                        POC_Name__c, 
+                       Installed_Version__c,
                        Github_Repository_URL__c, 
                        Source_Install_Type_Flag__c, 
                        Source_Install_Url__c, 
@@ -132,6 +133,7 @@ public with sharing class CpmComponentController {
                        Date_Added__c  
                   FROM Demo_Component__c 
                  WHERE Installed__c = false
+                   AND Latest_Package_Version_Deprecated_Flag__c = false
                  ORDER BY Title__c ASC];
         }
 
@@ -166,7 +168,7 @@ public with sharing class CpmComponentController {
 
         List<Demo_Component__c> returnList = new List<Demo_Component__c>{};
         for (Demo_Component__c a : searchDemoComponents) {
-            if(!a.Installed__c){
+            if(!a.Installed__c && !a.Latest_Package_Version_Deprecated_Flag__c){
                 returnList.add(a);
             }
         }

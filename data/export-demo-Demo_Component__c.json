@@ -1305,7 +1305,8 @@
             "Subscriber_Package_Id__c": "033f4000000kcfhAAA",
             "Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "Title__c": "Activity Scorecard Component",
-            "Dependencies_Met__c": true 
+            "Dependencies_Met__c": true,
+            "Latest_Package_Version_Deprecated_Flag__c": true   
         },
         {
             "attributes": {

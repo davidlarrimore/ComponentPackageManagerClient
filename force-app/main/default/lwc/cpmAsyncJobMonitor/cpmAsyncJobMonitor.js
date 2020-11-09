@@ -278,7 +278,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   handleSubscribe() {
     // Callback invoked whenever a new event message is received
     const messageCallback = (response) => {
-      console.log(`New message received: ${JSON.stringify(response)}`);
+      console.log(`New Async Job message received: ${JSON.stringify(response)}`);
       this.doProcessPlatformEventCPMAsync(response.data.payload);
 
       if (response.data.payload.Send_Toast_Flag__c) {

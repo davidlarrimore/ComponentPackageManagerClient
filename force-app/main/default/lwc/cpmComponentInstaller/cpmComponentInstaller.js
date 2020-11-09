@@ -11,7 +11,7 @@ import PACKAGE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__
 import SOURCE_INSTALL_URL_FIELD from "@salesforce/schema/Demo_Component__c.Source_Install_Url__c";
 import PACKAGE_INSTALL_URL_FIELD from "@salesforce/schema/Demo_Component__c.Package_Install_Url__c";
 import UPDATE_AVAILABLE_FIELD from "@salesforce/schema/Demo_Component__c.Update_Available__c";
-
+import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Demo_Component__c.Installation_Type__c";
 
 export default class CpmComponentInstaller extends LightningElement {
   @api demoComponent;
@@ -72,7 +72,29 @@ export default class CpmComponentInstaller extends LightningElement {
       INSTALLED_FIELD
     );
   }
-  
+
+  get componentInstallationType() {
+    return this._getDisplayValue(
+      this.demoComponent.data,
+      INSTALLATION_TYPE_FIELD
+    );
+  }  
+
+ get isPackageInstallType(){
+   if (this.componentInstallationType === 'Package'){
+     return true;
+   }
+   return false;
+ }
+
+ get isSourceInstallType(){
+  if (this.componentInstallationType === 'Source'){
+    return true;
+  }
+  return false;
+}
+
+
   get canUpdatePackageFlag() {
     if (this.componentInstalledFlag && this.componentUpdateAvailableFlag) {
       return true;
