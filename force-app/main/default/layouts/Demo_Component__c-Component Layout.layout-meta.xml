@@ -24,6 +24,14 @@
                 <behavior>Edit</behavior>
                 <field>POC_Email__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Date_Added__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Recently_Updated_Flag__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -329,7 +337,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Last_Update_Date__c</field>
+                <field>Last_Modified_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>New_Component_Flag__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -377,7 +389,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1F000002rjlO</masterLabel>
+        <masterLabel>00h1g000001c53l</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>2</sizeY>
         <summaryLayoutItems>
@@ -408,6 +420,16 @@
         <summaryLayoutItems>
             <field>POC_Name__c</field>
             <posX>2</posX>
+            <posY>1</posY>
+        </summaryLayoutItems>
+        <summaryLayoutItems>
+            <field>Date_Added__c</field>
+            <posX>3</posX>
+            <posY>0</posY>
+        </summaryLayoutItems>
+        <summaryLayoutItems>
+            <field>Last_Modified_Date__c</field>
+            <posX>3</posX>
             <posY>1</posY>
         </summaryLayoutItems>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

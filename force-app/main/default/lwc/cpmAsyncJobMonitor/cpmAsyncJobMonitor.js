@@ -12,7 +12,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   cols = [
     {
         type: 'text',
-        fieldName: 'Job_Name__c',
+        fieldName: 'gpbu_dkl__Job_Name__c',
         label: 'Job Name',
     },
     {
@@ -49,9 +49,9 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     for (let i = 0; i < this.jobTracker.length; i++) {
       let job = this.jobTracker[i];
       if (job.markedForRemoval === false){
-        if(job.Current_Job_Stage__c === 'Completed'){
+        if(job.gpbu_dkl__Current_Job_Stage__c === 'Completed'){
           job.markedForRemoval = true;
-          console.log(`${job.Job_Name__c} is completed and now marked for removal, will remove next round.`);
+          console.log(`${job.gpbu_dkl__Job_Name__c} is completed and now marked for removal, will remove next round.`);
         }
         newJobTracker.push(job);
       }
@@ -60,29 +60,29 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   }
 
   doProcessPlatformEventCPMAsync(payload) {
-    console.log(`Processing CPM Async Event Payload ${payload.Job_Id__c}`);
-    if (undefined !== payload.Job_Id__c) {
+    console.log(`Processing CPM Async Event Payload ${payload.gpbu_dkl__Job_Id__c}`);
+    if (undefined !== payload.gpbu_dkl__Job_Id__c) {
       console.log(`Current list of CPM Async Events (CPM_Async_Event__e) = ${this.jobTracker.length}`);
       let newJob = payload;
       newJob.icon = {};
       newJob.events = [];
 
       let newJobEvent = [{
-        'Event_Status_Title__c': payload.Event_Status_Title__c,
-        'Event_Status_Message__c': payload.Event_Status_Message__c,
-        'Event_Level__c': payload.Event_Level__c,
-        'Current_Job_Stage__c': payload.Current_Job_Stage__c
+        'gpbu_dkl__Event_Status_Title__c': payload.gpbu_dkl__Event_Status_Title__c,
+        'gpbu_dkl__Event_Status_Message__c': payload.gpbu_dkl__Event_Status_Message__c,
+        'gpbu_dkl__Event_Level__c': payload.gpbu_dkl__Event_Level__c,
+        'gpbu_dkl__Current_Job_Stage__c': payload.gpbu_dkl__Current_Job_Stage__c
       }];
 
       newJob.markedForRemoval = false;
 
 
-      newJob.iconName = this.doGetIconName(newJob.Current_Job_Stage__c);
+      newJob.iconName = this.doGetIconName(newJob.gpbu_dkl__Current_Job_Stage__c);
 
-      console.log(`Successfully updated icons for ${newJob.Current_Job_Stage__c}`);
+      console.log(`Successfully updated icons for ${newJob.gpbu_dkl__Current_Job_Stage__c}`);
 
       for (let i = 0; i < this.jobTracker.length; i++) {
-        if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
+        if (this.jobTracker[i].gpbu_dkl__Job_Id__c === newJob.gpbu_dkl__Job_Id__c) {
           console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating Events...`);
           newJob.events = this.jobTracker[i].events;
 
@@ -105,17 +105,17 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   doPushJob(newJob){
     console.log(`Pushing Job`);
     //Processing Child Jobs
-    if (newJob.Job_Parent_Id__c != null) {
+    if (newJob.gpbu_dkl__Job_Parent_Id__c != null) {
       console.log(`This is a Child Job, adding to child`);
       let newJobTracker = this.jobTracker;
       for (let i = 0; i < newJobTracker.length; i++) {
-        if (newJobTracker[i].Job_Id__c === newJob.Job_Parent_Id__c) {
+        if (newJobTracker[i].gpbu_dkl__Job_Id__c === newJob.gpbu_dkl__Job_Parent_Id__c) {
           if (newJobTracker[i]._children) {
             console.log(`Parent job had existing Children, Upserting`);
             let newChildArray = [];
             let newChildJobFlag = true;
               for (let j = 0; j < newJobTracker[i]._children.length; j++) {
-                if (newJobTracker[i]._children[j].Job_Id__c === newJob.Job_Id__c) {
+                if (newJobTracker[i]._children[j].gpbu_dkl__Job_Id__c === newJob.gpbu_dkl__Job_Id__c) {
                   console.log(`Found the existing Child Job`);
                   newChildJobFlag = false;
                   newChildArray.push(newJob);
@@ -142,7 +142,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       let newJobFlag = true;
       let newJobTracker = [];
       for (let i = 0; i < this.jobTracker.length; i++) {
-        if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
+        if (this.jobTracker[i].gpbu_dkl__Job_Id__c === newJob.gpbu_dkl__Job_Id__c) {
           console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
           newJobFlag = false;
           newJob.events = this.jobTracker[i].events;
@@ -160,7 +160,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       }
       this.jobTracker = newJobTracker;
     }
-    console.log(`Completed Pushing Job ${newJob.Job_Id__c}`);
+    console.log(`Completed Pushing Job ${newJob.gpbu_dkl__Job_Id__c}`);
   }
 
 
@@ -171,35 +171,35 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       for (let i = 0; i < parentJob._children.length; i++) {
         let runningJobFlag = false;
         //If any child jobs are less than completed, we mark as processing
-        if (this.getJobStageNumber(parentJob._children[i].Current_Job_Stage__c) < 3){
+        if (this.getJobStageNumber(parentJob._children[i].gpbu_dkl__Current_Job_Stage__c) < 3){
           console.log(`Child Jobs are not done, setting parent status to "processing"`);
-          parentJob.Current_Job_Stage__c = "Processing";
+          parentJob.gpbu_dkl__Current_Job_Stage__c = "Processing";
           runningJobFlag = true;
-        }else if(parentJob._children[i].Current_Job_Stage__c === "Failed"){
+        }else if(parentJob._children[i].gpbu_dkl__Current_Job_Stage__c === "Failed"){
           jobFailedFlag = true;
         }
 
         if(jobFailedFlag){
-          parentJob.Current_Job_Stage__c = "Failed";
+          parentJob.gpbu_dkl__Current_Job_Stage__c = "Failed";
         }else if(!runningJobFlag){
             console.log(`All child jobs are done, setting to "Completed"`);
-            parentJob.Current_Job_Stage__c = "Completed";
+            parentJob.gpbu_dkl__Current_Job_Stage__c = "Completed";
         }
 
 
       }
 
     }
-    parentJob.iconName = this.doGetIconName(parentJob.Current_Job_Stage__c);
+    parentJob.iconName = this.doGetIconName(parentJob.gpbu_dkl__Current_Job_Stage__c);
     return parentJob;
   }
 
 
 
- doGetIconName(Current_Job_Stage__c){
+ doGetIconName(gpbu_dkl__Current_Job_Stage__c){
   let iconName = `action:refresh`;
 
-  switch (Current_Job_Stage__c) {
+  switch (gpbu_dkl__Current_Job_Stage__c) {
     case "Completed":
       iconName = "action:approval";
       break;
@@ -229,16 +229,16 @@ export default class cmpAsynchJobMonitor extends LightningElement {
     console.log("Publishing Toast");
     let mode = 'pester';
 
-    if(payload.Event_Level__c === "error"){
+    if(payload.gpbu_dkl__Event_Level__c === "error"){
       mode = 'sticky';
     }
 
     try {
       const evt = new ShowToastEvent({
         mode: mode,
-        title: payload.Event_Status_Title__c,
-        message: payload.Event_Status_Message__c,
-        variant: payload.Event_Level__c
+        title: payload.gpbu_dkl__Event_Status_Title__c,
+        message: payload.gpbu_dkl__Event_Status_Message__c,
+        variant: payload.gpbu_dkl__Event_Level__c
       });
       this.dispatchEvent(evt);
     } catch (err) {

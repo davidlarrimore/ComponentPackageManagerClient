@@ -169,6 +169,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Demo_Component__c.Date_Added__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Demo_Component__c.Dependencies_Met__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -294,6 +299,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Demo_Component__c.New_Component_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Demo_Component__c.Number_of_Dependencies__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -335,6 +345,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Demo_Component__c.Package_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Demo_Component__c.Recently_Updated_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

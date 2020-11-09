@@ -20,6 +20,7 @@
             "gpbu_dkl__SFDX_Package_Enabled_Flag__c": false,
             "gpbu_dkl__Source_Install_Type_Flag__c": true,
             "gpbu_dkl__Package_Install_Type_Flag__c": false,
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "lightningwebchartjs",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -39,6 +40,7 @@
             "gpbu_dkl__SFDX_Package_Enabled_Flag__c": false,
             "gpbu_dkl__Source_Install_Type_Flag__c": true,
             "gpbu_dkl__Package_Install_Type_Flag__c": false,
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "ExcelUpload",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -58,6 +60,7 @@
             "gpbu_dkl__SFDX_Package_Enabled_Flag__c": false,
             "gpbu_dkl__Source_Install_Type_Flag__c": true,
             "gpbu_dkl__Package_Install_Type_Flag__c": false,
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "ApprovalHistoryLWC",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -89,6 +92,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": true,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333h000000AYQGAA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "richTextAreaFSC",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -106,8 +110,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03315000000G0JXAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "LTNG_KnowledgeFiltered",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -124,8 +130,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03315000000UgqUAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Document Upload Homepage Component",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -141,8 +149,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330b000000gj0SAAQ",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Einstein Builder Mega 4.0",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -158,6 +168,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330M000001ExoUQAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "FSL",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -176,6 +187,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330H000000XsU5QAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Commerce Dashboard",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -193,6 +205,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330N0000001uqaQAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SalesforceRewind",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -210,6 +223,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330O000000Xtp7QAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "LightningWorkOrderKnowledge",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -227,6 +241,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330Y0000001dTjQAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Live Agent Case Creation Workaround",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -245,6 +260,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330b00000058llAAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Service Agent Script",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -262,6 +278,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330b0000009s7hAAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Einstein Playground",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -279,8 +296,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0330b000000I0cAAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "CloseCreditFlow",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -297,6 +316,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B00000005PmHIAU",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "NavigateToSObject",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -314,6 +334,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B000000060kwIAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Contact Highlight",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -331,6 +352,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B00000006Ar0IAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B EA Pack"
         },
         {
@@ -347,6 +369,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B00000004YDEIA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "FSLVisionPilot",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -364,6 +387,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B0000000EoCoIAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Live Agent 1.1",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -381,6 +405,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331H000000gKeJQAU",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Einstein Discovery Prediction",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -399,8 +424,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331I000000RFLlQAO",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Agent OmniChannel Status",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true   
         },
         {
             "attributes": {
@@ -416,6 +443,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331I000000ZYqaQAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Platform_Event_Toolkit",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -433,8 +461,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331I000000hvH2QAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Work Accept/Reject Package",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true    
         },
         {
             "attributes": {
@@ -451,6 +481,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331I000000m4NLQAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Flow Sample Pack (Unmanaged)",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -468,6 +499,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331N000000JuiQQAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "NBA Flows",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -485,6 +517,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U0000005ISiQAM",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Mass Delete",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -503,6 +536,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000ACHJQA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Product Wizard",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -520,6 +554,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000Aw31QAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Order Form",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -537,6 +572,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000AwCUQA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Quick Theme SDO",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -554,6 +590,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000N9GOQA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Social Intelligence Module",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -572,6 +609,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000QhDlQAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "MDPSBulkActionPkg",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -589,6 +627,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000aJGJQA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Custom Notifications - Process Builders & Custom Notification Object",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -606,8 +645,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B0000000HFo2IAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "FSL Snap-In Flows",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true    
         },
         {
             "attributes": {
@@ -623,6 +664,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B0000000IjnkIAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Contact Custom Fields for NBA/Builder Demo",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -640,6 +682,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B0000000Pa4pIAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Field Service Last Mile",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -658,8 +701,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000ckI6QAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Einstein Analytics for Salesforce CPQ",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true    
         },
         {
             "attributes": {
@@ -676,6 +721,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331U000000ieKCQAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Product Media Admin",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -694,6 +740,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331a0000009kg4AAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SalesforceIQ Inbox",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -712,6 +759,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331r000000Lx54AAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Mass Edit Related Lists",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -729,6 +777,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0331v000000MMPJAA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "ThreeColumnFoldableLightningLayout",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -747,6 +796,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033280000006PzfAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce Billing",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -765,7 +815,9 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03328000000LlM4AAK",
-            "gpbu_dkl__Title__c": "FaceBook SDO Social Sign On"
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
+            "gpbu_dkl__Title__c": "FaceBook SDO Social Sign On",
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true   
         },
         {
             "attributes": {
@@ -782,6 +834,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03328000000MRV1AAO",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Lead Inbox (Community)",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -799,6 +852,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0332v000000Gg2FAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Reply Recommendations"
         },
         {
@@ -815,8 +869,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033300000000h9lAAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "ideas gold standard 2",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true    
         },
         {
             "attributes": {
@@ -832,8 +888,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033300000009EBOAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "snapshot analytics",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true 
         },
         {
             "attributes": {
@@ -849,6 +907,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03328000000QGmzAAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Highlight Panel Please!",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -867,6 +926,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0332E000000HZrFQAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "b2bmaIntegration",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -885,6 +945,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0332E000000Lx5sQAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Automatic Dashboard from ED Story",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -903,8 +964,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000000LJrQAAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Knowledge Analytics Dashboard",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -920,6 +983,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000000R4xgAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "PKB SITE SETUP",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -937,8 +1001,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000000mEuqAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SDO Toolbox",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -955,6 +1021,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000000wDAbAAM",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce Connected Apps",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -973,8 +1040,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033300000019wKkAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Laptop Troubleshooting",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true 
         },
         {
             "attributes": {
@@ -990,6 +1059,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033F0000000NMeGIAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Quick Search",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1008,6 +1078,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033B0000000cEfrIAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Conversational Next Best Action",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1026,6 +1097,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033E0000000DbPxIAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Advanced Approvals",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1043,8 +1115,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033T000000004OqIAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "TOM open source",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1061,6 +1135,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033d0000000QEv5AAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Commerce",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1078,6 +1153,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f2000000DyyuAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Customer 360 Demo Component Pack",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1096,6 +1172,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f2000000Vpl2AAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "FSL Rule Analyzer",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1113,6 +1190,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f40000000LbaAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Demo CTI",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1130,8 +1208,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f40000005H40AAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Einstein Mind Control Center",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1147,8 +1227,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000JPizAAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "LS Demo Reset",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1165,6 +1247,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000QvBRAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Marketing Cloud Tour",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1183,8 +1266,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000cjRvAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Field Service Dashboard V2",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1200,6 +1285,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000gvtSAAQ",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Omni Supervisor",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1217,6 +1303,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000kcfhAAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Activity Scorecard Component",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1234,6 +1321,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033f4000000mgIFAAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "WorkTypeAnalysisFlow",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1251,6 +1339,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033i0000000QSSLAA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SocialCustomerService",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1268,6 +1357,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033i0000000gAHOAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Quip",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1285,6 +1375,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033j0000000L5ofAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "QLabs Org Identifier",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1303,8 +1394,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033j0000001QaYnAAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lightning Twitter Timeline",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1321,6 +1414,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033o0000000C3XUAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "service.api",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1339,6 +1433,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033o0000000FJJUAA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce Communities Management (for Communities with Chatter)",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1356,8 +1451,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000001Elz4AAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Demo Brander",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1374,6 +1471,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03330000001Ig8MAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce and Chatter Apps",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1392,6 +1490,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033360000000nYIAAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Insights for Ideas",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1409,8 +1508,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000543ZAAQ",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "App Cloud Harbor Cruise Demo",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1427,6 +1528,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000AhAWAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Lead Pass and Deal Registration",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1445,7 +1547,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000FlWRAA0",
-            "gpbu_dkl__Title__c": "Topics & Members: Search Results"
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
+            "gpbu_dkl__Title__c": "Topics & Members: Search Results",
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true 
         },
         {
             "attributes": {
@@ -1462,6 +1567,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000GVxjAAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SalesforceIQ Cloud",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1480,6 +1586,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000GxnpAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce Field Service App Package",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1497,6 +1604,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03336000000gI8mAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Snap-ins Quick Setup",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1514,6 +1622,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033370000009ZWJAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Knowledgeable Users Lightning Component",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1531,6 +1640,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333c000000BEpWAAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SDO updates",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1549,6 +1659,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": true,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333h000000AZMRAA4",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Component Package Manager",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1566,6 +1677,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333h000000QVqXAAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Change Tab Label",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1583,6 +1695,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333h000000TprpAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "CMS Content Type Creator",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1601,6 +1714,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333i0000005Mt9AAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Chronos - Example Einstein Bot for Lightning Scheduler",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1618,6 +1732,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333i000000HBrQAAW",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Case Timer",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1636,6 +1751,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333i000000cBFTAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce CMS Utils: Unmanaged",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1653,6 +1769,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333k000000KkrQAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Data Mask",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1670,6 +1787,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333k000000bw8kAAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "sustain_app",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1688,6 +1806,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333k000000kRPvAAM",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Applicants",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1705,6 +1824,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333t0000009pD3AAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B Order Grid",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1722,6 +1842,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0333t000000dcHvAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Community Personalization Flow",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1739,6 +1860,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033400000008lMWAAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Pardot",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1757,6 +1879,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334100000074WpAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "AuthorizeDotnet for Salesforce Billing",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1775,6 +1898,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03341000000cnFfAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Quip Connected App",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1792,8 +1916,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03341000000gkYsAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "IDV3",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -1809,6 +1935,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03341000000oUagAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "MCDistributedMarketing"
         },
         {
@@ -1825,6 +1952,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03346000000L8dGAAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "EngageReports",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1843,6 +1971,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334P000000Ih9fQAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Rider",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1861,6 +1990,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334P000000Va8aQAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Tracker",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1878,6 +2008,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334P000000d02xQAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "XDO Automation",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1895,6 +2026,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334R0000015avDQAQ",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Quip Setup Starter",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1912,6 +2044,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334T0000008wq1QAA",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Location Mover",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1930,6 +2063,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0334W000000EpxCQAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "LB2B Toolbox",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1948,6 +2082,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033500000008iHgAAI",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Org Customizer",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1966,6 +2101,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03350000000CqckAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Deal Registration",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -1984,6 +2120,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03350000000CvB5AAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Partner Account Management",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2002,8 +2139,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033580000005KwHAAU",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "DEAssetHierarchy",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2019,6 +2158,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03358000000PiYNAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "ChatterGroupTiles",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2037,6 +2177,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03358000000Q8xqAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Sales Insights"
         },
         {
@@ -2054,6 +2195,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0335w0000001hXBAAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Knowledge Article Body Content",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2072,6 +2214,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0335w000000EfskAAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Tableau Viz Lightning Web Component",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2089,6 +2232,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0335w000000R9QFAA0",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "chatpoputils",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2106,6 +2250,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0335w000000dWvQAAU",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Qinsight",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2123,8 +2268,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033610000002PMIAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "MyTopicsComponent",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2140,6 +2287,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03361000000AkZ2AAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Idea Component (Lightning)",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2158,6 +2306,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A0000002GrzQAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Article Quality Index Lightning Managed",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2175,6 +2324,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A0000004OD4QAM",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "SCS Connected App",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2192,6 +2342,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A000000AwJ4QAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "q2cdemosetup",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2209,8 +2360,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A000000DvfZQAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "RMA Flow for SDO",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2226,8 +2379,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A000000H3PxQAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Live Agent Component",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2243,8 +2398,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A000000UnNvQAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Image Capture Flow SDO",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2260,8 +2417,10 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336A000000clETQAY",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Platform Events Launcher",
-            "gpbu_dkl__Dependencies_Met__c": true 
+            "gpbu_dkl__Dependencies_Met__c": true,
+            "gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c": true  
         },
         {
             "attributes": {
@@ -2277,6 +2436,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336F000000B2yLQAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Article Feedback",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2294,6 +2454,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336g0000002VejAAE",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Flow Datagrid Pack",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2312,6 +2473,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336g000000JYq7AAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B LE Video Player",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2330,6 +2492,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336g000000JZ3iAAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "B2B LE Mood Board",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2348,6 +2511,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336g000000Ro32AAC",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "DE Dashboard"
         },
         {
@@ -2364,6 +2528,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0336g000000gHGBAA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "LSKnowledgeInboundSDO",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2381,6 +2546,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "03370000000DJ76AAG",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce Ideas Analytics",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2398,6 +2564,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0337F0000008YQSQA2",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "QLabs_Utilities"
         },
         {
@@ -2415,6 +2582,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "0337F000000LMUoQAO",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Ono Community Theme",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2433,6 +2601,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033A0000000L5eYIAS",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Opportunity Push Counter",
             "gpbu_dkl__Dependencies_Met__c": true 
         },
@@ -2451,6 +2620,7 @@
             "gpbu_dkl__Source_Install_Type_Flag__c": false,
             "gpbu_dkl__Package_Install_Type_Flag__c": true,
             "gpbu_dkl__Subscriber_Package_Id__c": "033A0000000PgEfIAK",
+            "gpbu_dkl__Date_Added__c": "2020-10-26T00:34:51.000+0000",
             "gpbu_dkl__Title__c": "Salesforce CPQ",
             "gpbu_dkl__Dependencies_Met__c": true 
         }

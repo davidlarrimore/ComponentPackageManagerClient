@@ -43,25 +43,25 @@
 							<template for:each={demoComponents} for:item="demoComponent">
 								<tr key={demoComponent.Id} class="slds-hint-parent">
 									<th data-label="Title"  class="slds-cell-wrap" scope="row">
-										<div class="slds-cell-wrap" title={demoComponent.Title__c}>
-											<lightning-formatted-url value={demoComponent.Record_Url} tooltip={demoComponent.Title__c} label={demoComponent.Title__c} target="_blank" ></lightning-formatted-url>
+										<div class="slds-cell-wrap" title={demoComponent.gpbu_dkl__Title__c}>
+											<lightning-formatted-url value={demoComponent.gpbu_dkl__Record_Url} tooltip={demoComponent.gpbu_dkl__Title__c} label={demoComponent.gpbu_dkl__Title__c} target="_blank" ></lightning-formatted-url>
 										</div>
 									</th>
 									<th data-label="Install Date"  class="slds-cell-wrap" scope="row">
 										<div class="slds-cell-wrap" title={demoComponent.Install_Date__c}>
-											<lightning-formatted-date-time value={demoComponent.Install_Date__c}></lightning-formatted-date-time>
+											<lightning-formatted-date-time value={demoComponent.gpbu_dkl__Install_Date__c}></lightning-formatted-date-time>
 										</div>
 									</th>	
 									<td data-label="Installation Type" class="slds-cell-wrap" scope="row">
 										<div class="slds-truncate">
-											<lightning-formatted-text value={demoComponent.Installation_Type__c}></lightning-formatted-text>
+											<lightning-formatted-text value={demoComponent.gpbu_dkl__Installation_Type__c}></lightning-formatted-text>
 										</div>
 									</td>															
 									<td data-label="Description" class="slds-cell-wrap" scope="row">
-										<div class="slds-truncate" if:true={demoComponent.Update_Available__c}>
+										<div class="slds-truncate" if:true={demoComponent.gpbu_dkl__Update_Available__c}>
 											<lightning-icon icon-name="action:approval" size="xx-small" alternative-text="Update Available" title="Update Available"></lightning-icon>
 										</div>
-										<div class="slds-truncate" if:false={demoComponent.Update_Available__c}>
+										<div class="slds-truncate" if:false={demoComponent.gpbu_dkl__Update_Available__c}>
 											&nbsp;
 										</div>									
 									</td>
@@ -77,7 +77,7 @@
 				<img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="" />
 			</div>
 		</template>
-		<div slot="footer">&nbsp;</div>
+		<div slot="footer">{numberOfRecords} Components</div>
 	</lightning-card>
 	
 </template>

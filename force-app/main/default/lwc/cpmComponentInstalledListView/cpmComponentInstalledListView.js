@@ -3,6 +3,13 @@ import { LightningElement, api } from "lwc";
 export default class CpmComponentAvailableListView extends LightningElement {
   @api demoComponents;
 
+  get numberOfRecords(){
+    if(undefined !== this.demoComponents){
+      return this.demoComponents.length;
+    }
+    return 0;
+  }
+
   get hasRows(){
     if(this.demoComponents && this.demoComponents.length > 0){
       return true;

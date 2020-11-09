@@ -21,7 +21,11 @@ public with sharing class CpmComponentController {
                        Package_Install_Type_Flag__c, 
                        Package_Install_Url__c, 
                        Latest_Package_Version_Deprecated_Flag__c, 
-                       SFDX_Package_Enabled_Flag__c 
+                       SFDX_Package_Enabled_Flag__c,
+                       Last_Modified_Date__c,
+                       New_Component_Flag__c,
+                       Date_Added__c,
+                       Recently_Updated_Flag__c 
                   FROM Demo_Component__c
                 ];
     }    
@@ -50,13 +54,18 @@ public with sharing class CpmComponentController {
                        Package_Install_Type_Flag__c, 
                        Package_Install_Url__c, 
                        Latest_Package_Version_Deprecated_Flag__c, 
-                       SFDX_Package_Enabled_Flag__c 
+                       SFDX_Package_Enabled_Flag__c,
+                       Last_Modified_Date__c,
+                       New_Component_Flag__c,
+                       Recently_Updated_Flag__c,
+                       Date_Added__c  
                   FROM Demo_Component__c 
-                 WHERE Installed__c = true];
+                 WHERE Installed__c = true
+                 ORDER BY Title__c ASC];
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING gpbu_dkl__Demo_Component__c(
             Id, 
             Title__c, 
             Name, 
@@ -76,7 +85,11 @@ public with sharing class CpmComponentController {
             Package_Install_Type_Flag__c, 
             Package_Install_Url__c, 
             Latest_Package_Version_Deprecated_Flag__c, 
-            SFDX_Package_Enabled_Flag__c)
+            SFDX_Package_Enabled_Flag__c,
+            Last_Modified_Date__c,
+            New_Component_Flag__c,
+            Recently_Updated_Flag__c,
+            Date_Added__c )
         ];
         Demo_Component__c[] searchDemoComponents = (Demo_Component__c[])searchList[0];
 
@@ -112,13 +125,18 @@ public with sharing class CpmComponentController {
                        Package_Install_Type_Flag__c, 
                        Package_Install_Url__c, 
                        Latest_Package_Version_Deprecated_Flag__c, 
-                       SFDX_Package_Enabled_Flag__c 
+                       SFDX_Package_Enabled_Flag__c,
+                       Last_Modified_Date__c,
+                       New_Component_Flag__c,
+                       Recently_Updated_Flag__c,
+                       Date_Added__c  
                   FROM Demo_Component__c 
-                 WHERE Installed__c = false];
+                 WHERE Installed__c = false
+                 ORDER BY Title__c ASC];
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING gpbu_dkl__Demo_Component__c(
             Id, 
             Title__c, 
             Name, 
@@ -137,8 +155,12 @@ public with sharing class CpmComponentController {
             Source_Install_Url__c, 
             Package_Install_Type_Flag__c, 
             Package_Install_Url__c, 
+            Date_Added__c,
             Latest_Package_Version_Deprecated_Flag__c, 
-            SFDX_Package_Enabled_Flag__c)
+            SFDX_Package_Enabled_Flag__c,
+            Last_Modified_Date__c,
+            New_Component_Flag__c,
+            Recently_Updated_Flag__c )
         ];
         Demo_Component__c[] searchDemoComponents = (Demo_Component__c[])searchList[0];
 
