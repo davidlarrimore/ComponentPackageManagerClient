@@ -1,5 +1,6 @@
 import { LightningElement, track, wire } from "lwc";
 import { subscribe, onError } from "lightning/empApi";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
@@ -10,6 +11,9 @@ export default class CmpHomeLayoutManager extends LightningElement {
   installedDemoComponents;
 
   channelName = "/event/CPM_Component_Update__e";
+  isSubscribed = false;
+  isSubscriptionError = false;
+  isSubscriptionRequested = true;
   subscription = {};
 
   @track demoComponentManagerSettings;
@@ -19,9 +23,9 @@ export default class CmpHomeLayoutManager extends LightningElement {
   @track error;
 
   connectedCallback() {
-    this.handleSubscribe();
-    this.registerErrorListener();
     this.doGetAppSettings();
+    this.registerErrorListener();
+    this.handleSubscribe();
   }
 
   doGetAppSettings() {
@@ -189,29 +193,36 @@ export default class CmpHomeLayoutManager extends LightningElement {
   // Handles subscribe button click
   handleSubscribe() {
     // Callback invoked whenever a new event message is received
-    const messageCallback = function (response) {
-      console.log("New Component Update message received: ", JSON.stringify(response));
+    const messageCallback = (response) => {
+      console.log("New Component Update message received: ", JSON.stringify(response.data.payload));
       this.doDemoComponentRefresh();
+    }
 
-      // Response contains the payload of the new message received
-    }.bind(this);
-
-    // Invoke subscribe method of empApi. Pass reference to messageCallback
     subscribe(this.channelName, -1, messageCallback).then((response) => {
       // Response contains the subscription information on subscribe call
-      console.log("Subscription request sent to: ",JSON.stringify(response.channel));
+      console.log(`Subscription request sent to: ${JSON.stringify(response.channel)}`);
+      console.log(`Subscription request Response: ${JSON.stringify(response)}`);
       this.subscription = response;
+      this.isSubscriptionRequested = false;
+      this.isSubscribed = true;
     });
   }
 
   registerErrorListener() {
-    // Invoke onError empApi method
     onError((error) => {
       console.log("Received error from server: ", JSON.stringify(error));
-      // Error contains the server-side error
+      this.isSubscriptionRequested = false;
+      this.isSubscribed = false;
+      this.isSubscriptionError = true;
+      const evt = new ShowToastEvent({
+        mode: 'pester',
+        title: `Async Monitor Error: Failed to connect to Component Update Events`,
+        message: `Error: ${JSON.stringify(error)}`,
+        variant: 'error'
+      });
+      this.dispatchEvent(evt);
     });
   }
-
 
   handleCalvSearchstring(event) {
     this.calvSearchstring = event.detail;

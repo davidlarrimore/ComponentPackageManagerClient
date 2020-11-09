@@ -4,8 +4,8 @@
             "path": "force-app",
             "package": "SF Component Package Manager",
             "versionName": "Beta",
-            "versionDescription": "Reinforced Custom Settings",
-            "versionNumber": "0.5.0.NEXT",
+            "versionDescription": "Updated Github Add and Search",
+            "versionNumber": "0.6.0.NEXT",
             "default": true
         }
     ],
