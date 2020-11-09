@@ -4,8 +4,8 @@
             "path": "force-app",
             "package": "SF Component Package Manager",
             "versionName": "Beta",
-            "versionDescription": "Testing Async Monitor",
-            "versionNumber": "0.2.0.NEXT",
+            "versionDescription": "Updated Update Logic",
+            "versionNumber": "0.3.0.NEXT",
             "default": true
         }
     ],
@@ -14,6 +14,7 @@
     "packageAliases": {
         "SF Component Package Manager": "0Ho3h000000blYkCAI",
         "SF Component Package Manager@0.1.0-1": "04t3h000004Rc0wAAC",
-        "SF Component Package Manager@0.2.0-1": "04t3h000004Rc11AAC"
+        "SF Component Package Manager@0.2.0-1": "04t3h000004Rc11AAC",
+        "SF Component Package Manager@0.3.0-1": "04t3h000004Rc16AAC"
     }
 }
