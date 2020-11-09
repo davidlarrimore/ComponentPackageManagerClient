@@ -3,6 +3,7 @@ import { subscribe, onError } from "lightning/empApi";
 
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
+import appSettings from "@salesforce/apex/CpmComponentInstallCheckerController.getAppSettings";
 
 export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
@@ -10,7 +11,8 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
   channelName = "/event/CPM_Component_Update__e";
   subscription = {};
-  
+
+  @track demoComponentManagerSettings;
   @track calvSearchstring = '';
   @track cinstSearchstring = '';
 
@@ -19,7 +21,21 @@ export default class CmpHomeLayoutManager extends LightningElement {
   connectedCallback() {
     this.handleSubscribe();
     this.registerErrorListener();
+    this.doGetAppSettings();
   }
+
+  doGetAppSettings() {
+    appSettings()
+    .then((data) => {
+      console.log(`CpmHomeRefreshCheckerCard.doGetAppSettings Completed Successfully`);
+      this.demoComponentManagerSettings = data;
+      this.error = undefined;
+    })
+    .catch((error) => {
+      this.error = error;
+    });
+  }
+
 
   @wire(APXAvailableDemoComponents, {searchString: '$calvSearchstring'})
   wiredAPXAvailableDemoComponents({ error, data }) {
@@ -96,9 +112,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
   }
 
 
-
-
-  
   doDemoComponentRefresh() {
     APXAvailableDemoComponents()
       .then((data) => {
@@ -188,7 +201,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
       // Response contains the subscription information on subscribe call
       console.log("Subscription request sent to: ",JSON.stringify(response.channel));
       this.subscription = response;
-      this.toggleSubscribeButton(true);
     });
   }
 
@@ -201,18 +213,20 @@ export default class CmpHomeLayoutManager extends LightningElement {
   }
 
 
-  hanldeCalvSearchstring(event) {
+  handleCalvSearchstring(event) {
     this.calvSearchstring = event.detail;
     console.log(`hanldeCalvSearchstring: ${this.calvSearchstring}`);
   }
 
 
-  hanldeCinstSearchstring(event) {
+  handleCinstSearchstring(event) {
     this.cinstSearchstring = event.detail;
     console.log(`hanldeCinstSearchstring: ${this.cinstSearchstring}`);
   }
 
-
-
+  handleComponentRefreshRequest(event){
+    console.log(`handleComponentRefreshRequest: ${event.detail}`);
+    this.doGetAppSettings();
+  }
 
 }

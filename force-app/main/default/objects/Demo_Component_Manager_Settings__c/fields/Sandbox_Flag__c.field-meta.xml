@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sandbox_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Denotes if the current environment is a sandbox</description>
+    <externalId>false</externalId>
+    <label>Sandbox Flag</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

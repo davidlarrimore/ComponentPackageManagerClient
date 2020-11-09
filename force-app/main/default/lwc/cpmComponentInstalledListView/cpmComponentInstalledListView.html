@@ -56,6 +56,12 @@
 								<tr key={demoComponent.Id} class="slds-hint-parent">
 									<th data-label="Title"  class="slds-cell-wrap" scope="row">
 										<div class="slds-cell-wrap" title={demoComponent.Title__c}>
+											<template if:true={demoComponent.New_Component_Flag__c}>
+												<lightning-icon icon-name="utility:add" size="xx-small" alternative-text="New!" variant="success" title="New!"></lightning-icon>&nbsp;
+											</template>												
+											<template if:true={demoComponent.Recently_Updated_Flag__c}>
+												<lightning-icon icon-name="utility:change_record_type" size="xx-small" alternative-text="Updated!" variant="success" title="Updated!"></lightning-icon>&nbsp;
+											</template>
 											<lightning-formatted-url value={demoComponent.Record_Url} tooltip={demoComponent.Title__c} label={demoComponent.Title__c} target="_blank" ></lightning-formatted-url>
 										</div>
 									</th>

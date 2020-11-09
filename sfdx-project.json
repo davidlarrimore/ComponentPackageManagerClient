@@ -4,8 +4,8 @@
             "path": "force-app",
             "package": "SF Component Package Manager",
             "versionName": "Beta",
-            "versionDescription": "Updated Update Logic",
-            "versionNumber": "0.3.0.NEXT",
+            "versionDescription": "Added Support for Quick Deploy",
+            "versionNumber": "0.4.0.NEXT",
             "default": true
         }
     ],

@@ -40,12 +40,11 @@ public with sharing class CpmComponentInstallCheckerController {
     public static Demo_Component_Manager_Settings__c getAppSettings(){ 
         System.debug('Running CPMInstallCheckerController.getAppSettings');
         Demo_Component_Manager_Settings__c appSetting = new Demo_Component_Manager_Settings__c();
-        List<Demo_Component_Manager_Settings__c> appSettings = [SELECT Id, Last_Library_Refresh_Date__c, Initial_Config_Flag__c FROM Demo_Component_Manager_Settings__c];
+        List<Demo_Component_Manager_Settings__c> appSettings = [SELECT Id, Last_Library_Refresh_Date__c, Initial_Config_Flag__c, Sandbox_Flag__c FROM Demo_Component_Manager_Settings__c];
 
         if(appSettings.size() == 0){
             System.debug('Initializing appSettings');
-            Demo_Component_Manager_Settings__c newAppSetting = new Demo_Component_Manager_Settings__c();
-            insert newAppSetting;
+            insert appSetting;
         }else{
             appSetting = appSettings[0];
         }

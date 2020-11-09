@@ -6,17 +6,14 @@ import {
 } from "lightning/uiRecordApi";
 
 import componentInstallChecker from "@salesforce/apex/CpmComponentInstallCheckerController.runApex";
-import appSettings from "@salesforce/apex/CpmComponentInstallCheckerController.getAppSettings";
-
 
 export default class CpmHomeRefreshCheckerCard extends LightningElement {
   @api demoComponent;
   @track error;
-  @track demoComponentManagerSettings;
+  @api demoComponentManagerSettings;
 
   connectedCallback() {
     console.log("Running doRefreshComponent");
-    this.doGetAppSettings();
     this.doComponentInstallChecker(false);
   }
 
@@ -24,19 +21,14 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
     console.log(`Forcing Component Refresh`);
     //this.doRefreshComponent(true);
     this.doComponentInstallChecker(true);
-    this.doGetAppSettings();
-  }
 
-  doGetAppSettings() {
-    appSettings()
-    .then((data) => {
-      console.log(`CpmHomeRefreshCheckerCard.doGetAppSettings Completed Successfully`);
-      this.demoComponentManagerSettings = data;
-      this.error = undefined;
-    })
-    .catch((error) => {
-      this.error = error;
+    const selectedEvent = new CustomEvent("componentsettingrefresh", {
+      detail: {"runComponentRefresh": true}
     });
+  
+    // Dispatches the event.
+    this.dispatchEvent(selectedEvent);
+
   }
 
 
