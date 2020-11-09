@@ -44,6 +44,12 @@ public with sharing class CpmComponentInstallCheckerController {
 
         if(appSettings.size() == 0){
             System.debug('Initializing appSettings');
+            Organization organization = [SELECT IsSandbox FROM Organization LIMIT 1];
+            if(organization.IsSandbox){
+                appSetting.Sandbox_Flag__c = false;
+            }else{
+                appSetting.Sandbox_Flag__c = true; 
+            }   
             insert appSetting;
         }else{
             appSetting = appSettings[0];
