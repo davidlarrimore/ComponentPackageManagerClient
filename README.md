@@ -18,6 +18,8 @@ Ok, lets be real, this is nowhere near as incredible as [Steam](https://store.st
 
 [CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3h000004Rc1GAAS) (v0.5.0-1)
 
+*NOTE: Make sure you select "Compile only the Apex in the package" under Advanced options*
+
 ## Post Install Tasks
 
 Until the Post-Install Activities feature is implemented, the "Demo_Component_Manager" Permission set must be added to your administrative users.
