@@ -63,12 +63,12 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
 
   get lastLibraryRefreshDate() {
     if(undefined !== this.demoComponentManagerSettings){ 
-      const inputDate = new Date(this.demoComponentManagerSettings.gpbu_dkl__Last_Library_Refresh_Date__c);
+      const inputDate = new Date(this.demoComponentManagerSettings.Last_Library_Refresh_Date__c);
       const today = new Date();
       if(inputDate.getDate() === today.getDate() && inputDate.getMonth() === today.getMonth() && inputDate.getFullYear() === today.getFullYear()){
           return 'Today';
       }
-      return this.demoComponentManagerSettings.gpbu_dkl__Last_Library_Refresh_Date__c;
+      return this.demoComponentManagerSettings.Last_Library_Refresh_Date__c;
     }
     return '';
   }    

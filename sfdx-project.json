@@ -2,26 +2,16 @@
     "packageDirectories": [
         {
             "path": "force-app",
-            "package": "Component Package Manager",
-            "versionName": "Beta",
-            "versionDescription": "Title__c is no longer unique required",
-            "versionNumber": "0.8.0.NEXT",
+            "package": "SF Component Package Manager",
+            "versionName": "ver 0.1",
+            "versionNumber": "0.1.0.NEXT",
             "default": true
         }
     ],
-    "namespace": "gpbu_dkl",
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "48.0",
     "packageAliases": {
-        "Component Package Manager": "0Ho3h000000blYfCAI",
-        "Component Package Manager@0.1.0-1": "04t3h000004bfI3AAI",
-        "Component Package Manager@0.1.0-2": "04t3h000004bfI8AAI",
-        "Component Package Manager@0.2.0-1": "04t3h000004bfIDAAY",
-        "Component Package Manager@0.3.0-1": "04t3h000004bfO7AAI",
-        "Component Package Manager@0.4.0-1": "04t3h000004RbzoAAC",
-        "Component Package Manager@0.5.0-1": "04t3h000004RbztAAC",
-        "Component Package Manager@0.6.0-1": "04t3h000004RbzyAAC",
-        "Component Package Manager@0.7.0-1": "04t3h000004Rc0cAAC",
-        "Component Package Manager@0.8.0-1": "04t3h000004Rc0hAAC"
+        "SF Component Package Manager": "0Ho3h000000blYkCAI",
+        "SF Component Package Manager@0.1.0-1": "04t3h000004Rc0wAAC"
     }
 }

@@ -27,13 +27,13 @@ export default class CmpHomeLayoutManager extends LightningElement {
         let dataloop = [];
         for (let i = 0; i < data.length; i++) {
           let tempRecord = Object.assign({}, data[i]);
-          tempRecord.gpbu_dkl__Record_Url = '/'+data[i].Id;
-          if(undefined !== data[i].gpbu_dkl__Description__c){ 
-            let newDescription = data[i].gpbu_dkl__Description__c;
+          tempRecord.Record_Url = '/'+data[i].Id;
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
               if(newDescription.length > 60){ 
-                tempRecord.gpbu_dkl__Description_Short = newDescription.substring(0, 60) + '...';
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
               }else{
-                tempRecord.gpbu_dkl__Description_Short = newDescription;
+                tempRecord.Description_Short = newDescription;
               }
         
           }
@@ -58,13 +58,13 @@ export default class CmpHomeLayoutManager extends LightningElement {
         let dataloop = [];
         for (let i = 0; i < data.length; i++) {
           let tempRecord = Object.assign({}, data[i]);
-          tempRecord.gpbu_dkl__Record_Url = '/'+data[i].Id;
-          if(undefined !== data[i].gpbu_dkl__Description__c){ 
-            let newDescription = data[i].gpbu_dkl__Description__c;
+          tempRecord.Record_Url = '/'+data[i].Id;
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
               if(newDescription.length > 60){ 
-                tempRecord.gpbu_dkl__Description_Short = newDescription.substring(0, 60) + '...';
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
               }else{
-                tempRecord.gpbu_dkl__Description_Short = newDescription;
+                tempRecord.Description_Short = newDescription;
               }
         
           }
@@ -92,13 +92,13 @@ export default class CmpHomeLayoutManager extends LightningElement {
         let dataloop = data;
 
         for (let i = 0; i < dataloop.length; i++) {
-          dataloop[i].gpbu_dkl__Record_Url = '/'+dataloop[i].Id;
+          dataloop[i].Record_Url = '/'+dataloop[i].Id;
           if(undefined !== dataloop[i].Description__c){ 
-            let newDescription = dataloop[i].gpbu_dkl__Description__c;
+            let newDescription = dataloop[i].Description__c;
               if(newDescription.length > 60){ 
-                dataloop[i].gpbu_dkl__Description_Short = newDescription.substring(0, 60) + '...';
+                dataloop[i].Description_Short = newDescription.substring(0, 60) + '...';
               }else{
-                dataloop[i].gpbu_dkl__Description_Short = newDescription;
+                dataloop[i].Description_Short = newDescription;
               }
         
           }
@@ -124,7 +124,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
         let dataloop = data;
 
         for (let i = 0; i < dataloop.length; i++) {
-          dataloop[i].gpbu_dkl__Record_Url = '/'+dataloop[i].Id;
+          dataloop[i].Record_Url = '/'+dataloop[i].Id;
         }
 
         this.installedDemoComponents = dataloop;

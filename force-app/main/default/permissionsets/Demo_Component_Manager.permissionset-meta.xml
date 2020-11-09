@@ -224,7 +224,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Last_Update_Date__c</field>
+        <field>Demo_Component__c.Last_Modified_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

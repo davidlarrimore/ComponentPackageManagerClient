@@ -65,7 +65,7 @@ public with sharing class CpmComponentController {
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING gpbu_dkl__Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
             Id, 
             Title__c, 
             Name, 
@@ -136,7 +136,7 @@ public with sharing class CpmComponentController {
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING gpbu_dkl__Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
             Id, 
             Title__c, 
             Name, 
