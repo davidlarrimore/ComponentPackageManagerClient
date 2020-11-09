@@ -278,7 +278,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   handleSubscribe() {
     // Callback invoked whenever a new event message is received
     const messageCallback = function (response) {
-      console.log("New message received: ", JSON.stringify(response));
+      console.log(`New message received: ${JSON.stringify(response)}`);
       this.doProcessPlatformEventCPMAsync(response.data.payload);
 
       if (response.data.payload.Send_Toast_Flag__c) {
@@ -291,11 +291,11 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
     subscribe(this.channelName, -1, messageCallback).then((response) => {
       // Response contains the subscription information on subscribe call
-      console.log(`Subscription request Response: ${JSON.stringify(response)}`);
       console.log(`Subscription request sent to: ${JSON.stringify(response.channel)}`);
+      console.log(`Subscription request Response: ${JSON.stringify(response)}`);
+      this.subscription = response;
       this.isSubscriptionRequested = false;
       this.isSubscribed = true;
-      this.subscription = response;
     });
   }
 

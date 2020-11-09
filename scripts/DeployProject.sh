@@ -10,7 +10,7 @@ echo "*** Export Data..."
 
 #No Longer Needed
 #echo "*** Creating Managed Package ..."
-#sfdx force:package:create -n "Component Package Manager" -t Unlocked -r force-app --targetdevhubusername MyComponents
+#sfdx force:package:create -n "Component Package Manager" -t Managed -r force-app --targetdevhubusername MyComponents
 
 echo "*** Creating Managed Package Version..."
 sfdx force:package:version:create --package "Component Package Manager" -x --wait 10 --codecoverage  --definitionfile config/project-scratch-def.json

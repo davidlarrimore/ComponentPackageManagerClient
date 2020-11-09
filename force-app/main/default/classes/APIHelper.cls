@@ -37,7 +37,7 @@ public with sharing class APIHelper {
 
     public static String doRestRequestJSON(String url, Boolean auth){
         system.debug('Running doRestRequestJSON');
-        system.debug('URL is ' + url);
+        mDebugUntruncated('URL is ' + url);
 
         HttpRequest request = new HttpRequest();
         if(url.contains('github')){
@@ -46,7 +46,7 @@ public with sharing class APIHelper {
             request.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
             
         }
-        request.setTimeout(20000);
+        request.setTimeout(30000);
         request.setHeader('Content-Type', 'application/json');
 
         request.setEndpoint(url); 
@@ -72,14 +72,14 @@ public with sharing class APIHelper {
         }  
     }
 
-    /*
+    
     public static void mDebugUntruncated(String sMsg) {
         for (Integer i = 0; i < sMsg.length(); i=i+300) {
             Integer iEffectiveEnd = (i+300 > (sMsg.length()-1) ? sMsg.length()-1 : i+300);
             System.debug(sMsg.substring(i,iEffectiveEnd));
         }
     }
-    */
+    
 
 
 }

@@ -30,7 +30,7 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
   doGetAppSettings() {
     appSettings()
     .then((data) => {
-      console.log(`wiredcomponentInstallChecker Response: ${data}`);
+      console.log(`CpmHomeRefreshCheckerCard.doGetAppSettings Completed Successfully`);
       this.demoComponentManagerSettings = data;
       this.error = undefined;
     })
@@ -43,7 +43,7 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
   doComponentInstallChecker(forcedRefreshFlag) {
     componentInstallChecker({forcedRefresh: forcedRefreshFlag})
     .then((data) => {
-      console.log(`wiredcomponentInstallChecker Response: ${data}`);
+      console.log(`CpmHomeRefreshCheckerCard.wiredcomponentInstallChecker Completed Successfully. Data: ${data}`);
       this.error = undefined;
     })
     .catch((error) => {
