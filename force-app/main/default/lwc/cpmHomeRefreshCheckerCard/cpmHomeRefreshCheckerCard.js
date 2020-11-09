@@ -31,7 +31,6 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
 
   }
 
-
   doComponentInstallChecker(forcedRefreshFlag) {
     componentInstallChecker({forcedRefresh: forcedRefreshFlag})
     .then((data) => {
@@ -54,15 +53,17 @@ export default class CpmHomeRefreshCheckerCard extends LightningElement {
 
 
   get lastLibraryRefreshDate() {
-    if(undefined !== this.demoComponentManagerSettings){ 
-      const inputDate = new Date(this.demoComponentManagerSettings.Last_Library_Refresh_Date__c);
-      const today = new Date();
-      if(inputDate.getDate() === today.getDate() && inputDate.getMonth() === today.getMonth() && inputDate.getFullYear() === today.getFullYear()){
-          return 'Today';
+    if(undefined !== this.demoComponentManagerSettings.Last_Library_Refresh_Date__c){
+      if(undefined !== this.demoComponentManagerSettings){ 
+        const inputDate = new Date(this.demoComponentManagerSettings.Last_Library_Refresh_Date__c);
+        const today = new Date();
+        if(inputDate.getDate() === today.getDate() && inputDate.getMonth() === today.getMonth() && inputDate.getFullYear() === today.getFullYear()){
+            return 'Today';
+        }
+        return this.demoComponentManagerSettings.Last_Library_Refresh_Date__c;
       }
-      return this.demoComponentManagerSettings.Last_Library_Refresh_Date__c;
     }
-    return '';
+    return 'Never. Running now!';
   }    
 
 

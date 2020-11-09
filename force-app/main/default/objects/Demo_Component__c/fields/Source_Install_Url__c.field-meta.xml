@@ -3,7 +3,7 @@
     <fullName>Source_Install_Url__c</fullName>
     <externalId>false</externalId>
     <formula>IF(Source_Install_Type_Flag__c,
-  IF($Setup.Demo_Component_Manager_Settings__c.Sandbox_Flag__c, &apos;https://gpbu-deployer.herokuapp.com/byoo?template=&apos; + Github_Repository_URL__c + &apos;&amp;quickdeploy=true&amp;sandbox=true&apos;,&apos;https://gpbu-deployer.herokuapp.com/byoo?template=&apos; + Github_Repository_URL__c + &apos;&amp;quickdeploy=true&apos;), &apos;N/A&apos;)</formula>
+  IF($Setup.Demo_Component_Manager_Settings__c.Sandbox_Flag__c, $Setup.Demo_Component_Manager_Settings__c.App_Deployer_URL__c + &apos;?template=&apos; + Github_Repository_URL__c + &apos;&amp;quickdeploy=true&amp;sandbox=true&apos;,$Setup.Demo_Component_Manager_Settings__c.App_Deployer_URL__c+ &apos;?template=&apos; + Github_Repository_URL__c + &apos;&amp;quickdeploy=true&apos;), &apos;N/A&apos;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Source Install Url</label>
     <required>false</required>

@@ -1,10 +1,8 @@
-import { LightningElement, api, wire } from "lwc";
-import {
-  getRecord,
-  getFieldValue,
-  getFieldDisplayValue
-} from "lightning/uiRecordApi";
+import { LightningElement, api, wire, track } from "lwc";
+import {getRecord,getFieldValue,getFieldDisplayValue} from "lightning/uiRecordApi";
 import { subscribe, unsubscribe, onError } from "lightning/empApi";
+
+import appSettings from "@salesforce/apex/CpmComponentInstallCheckerController.getAppSettings";
 
 import ID_FIELD from "@salesforce/schema/Demo_Component__c.Id";
 import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
@@ -42,10 +40,12 @@ export default class CpmDemoComponentLayoutManager extends LightningElement {
     @api recordId;
     channelName = "/event/CPM_Component_Update__e";
 
+    @track demoComponentManagerSettings;
 
     connectedCallback() {
       this.registerErrorListener();
       this.handleSubscribe();
+      this.doGetAppSettings();
     }
   
 
@@ -55,6 +55,18 @@ export default class CpmDemoComponentLayoutManager extends LightningElement {
       })
       demoComponent;
 
+      doGetAppSettings() {
+        appSettings()
+        .then((data) => {
+          console.log(`CpmHomeRefreshCheckerCard.doGetAppSettings Completed Successfully`);
+          this.demoComponentManagerSettings = data;
+          this.error = undefined;
+        })
+        .catch((error) => {
+          this.error = error;
+        });
+      }
+    
 
       get demoComponentTitle() {
         return this._getDisplayValue(

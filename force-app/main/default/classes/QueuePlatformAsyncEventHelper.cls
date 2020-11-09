@@ -23,8 +23,6 @@ public with sharing class QueuePlatformAsyncEventHelper
     public static final String FIELD_JOB_PARENT_ID = 'Job_Parent_id__c';
     public static final String FIELD_SEND_TOAST_FLAG = 'Send_Toast_Flag__c';
 
-
-
 	@future (callout = true )
 	public static void publishAsyncPlatformEvent(Map<String,String> jobInfo)
 	{
