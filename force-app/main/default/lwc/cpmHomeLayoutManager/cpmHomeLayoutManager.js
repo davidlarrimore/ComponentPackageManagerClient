@@ -198,6 +198,12 @@ export default class CmpHomeLayoutManager extends LightningElement {
   }
 
 
+  hanldeCinstSearchstring(event) {
+    this.cinstSearchstring = event.detail;
+    console.log(`hanldeCinstSearchstring: ${this.cinstSearchstring}`);
+  }
+
+
 
 
 }
