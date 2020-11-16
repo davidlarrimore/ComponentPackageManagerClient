@@ -2,22 +2,15 @@
     "packageDirectories": [
         {
             "path": "force-app",
-            "package": "SF Component Package Manager",
+            "package": "Component Package Manager Client",
             "versionName": "Beta",
-            "versionDescription": "Updated Github Add and Search",
-            "versionNumber": "0.6.0.NEXT",
+            "versionDescription": "",
+            "versionNumber": "0.1.0.NEXT",
             "default": true
         }
     ],
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "48.0",
     "packageAliases": {
-        "SF Component Package Manager": "0Ho3h000000blYkCAI",
-        "SF Component Package Manager@0.1.0-1": "04t3h000004Rc0wAAC",
-        "SF Component Package Manager@0.2.0-1": "04t3h000004Rc11AAC",
-        "SF Component Package Manager@0.3.0-1": "04t3h000004Rc16AAC",
-        "SF Component Package Manager@0.4.0-1": "04t3h000004Rc1BAAS",
-        "SF Component Package Manager@0.5.0-1": "04t3h000004Rc1GAAS",
-        "SF Component Package Manager@0.6.0-1": "04t3h000004Rc1LAAS"
     }
 }

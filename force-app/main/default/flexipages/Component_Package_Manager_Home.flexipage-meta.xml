@@ -19,7 +19,7 @@
         <name>right</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Demo Component Manager Home</masterLabel>
+    <masterLabel>Component Package Manager Home</masterLabel>
     <template>
         <name>home:desktopTemplateHeaderThreeColumns</name>
     </template>

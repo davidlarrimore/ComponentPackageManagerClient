@@ -2,7 +2,7 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
         <actionName>Tab</actionName>
-        <content>Demo_Component_Manager_Home</content>
+        <content>Component_Package_Manager_Home</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -19,7 +19,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>true</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>true</isNavPersonalizationDisabled>
-    <label>Demo Component Library</label>
+    <label>Component Package Manager</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
     <tabs>Demo_Component__c</tabs>
