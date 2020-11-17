@@ -10,7 +10,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
   availableDemoComponents;
   installedDemoComponents;
 
-  channelName = "/event/Con_Component_Package_Update__e";
+  channelName = "/event/Cpm_Component_Package_Update__e";
   isSubscribed = false;
   isSubscriptionError = false;
   isSubscriptionRequested = true;
