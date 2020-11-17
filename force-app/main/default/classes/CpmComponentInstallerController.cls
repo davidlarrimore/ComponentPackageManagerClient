@@ -1,14 +1,14 @@
 public with sharing class CpmComponentInstallerController {
 
     @AuraEnabled(cacheable=true)
-    public static list<Demo_Component__c> getDependentPackages(String demoComponentId){
+    public static list<Cpm_Component_Package__c> getDependentPackages(String demoComponentId){
         System.debug('Running CpmComponentInstallerController.runApex');
-        List<Component_Dependency__c> packageDependencies = new List<Component_Dependency__c>([SELECT Dependent_Component__c FROM Component_Dependency__c WHERE Demo_Component__c = :demoComponentId ]);
+        List<Cpm_Component_Package_Dependency__c> packageDependencies = new List<Cpm_Component_Package_Dependency__c>([SELECT Dependent_Component_Package__c FROM Cpm_Component_Package_Dependency__c WHERE Cpm_Component_Package__c = :demoComponentId ]);
         Set<Id> Ids = new Set<Id>();
-        for(Component_Dependency__c packageDependency:packageDependencies){
-            Ids.add(packageDependency.Dependent_Component__c);
+        for(Cpm_Component_Package_Dependency__c packageDependency:packageDependencies){
+            Ids.add(packageDependency.Dependent_Component_Package__c);
         }   
-        List<Demo_Component__c> dependentPackages = new List<Demo_Component__c>([SELECT Id, Installed__c, Title__c, Source_Install_Type_Flag__c, Package_Install_Type_Flag__c, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Install_Key__c, Source_Install_Url__c, Subscriber_Package_Id__c, Latest_Package_Version_Deprecated_Flag__c, Package_Install_Url__c FROM Demo_Component__c WHERE Id in :Ids]);
+        List<Cpm_Component_Package__c> dependentPackages = new List<Cpm_Component_Package__c>([SELECT Id, Installed__c, Title__c, Source_Install_Type_Flag__c, Package_Install_Type_Flag__c, Github_Repository_URL__c, Latest_Subscriber_Package_Version_Id__c, Install_Key__c, Source_Install_Url__c, Subscriber_Package_Id__c, Latest_Package_Version_Deprecated_Flag__c, Package_Install_Url__c FROM Cpm_Component_Package__c WHERE Id in :Ids]);
         system.debug('found the following packages');
         system.debug(dependentPackages);
         return dependentPackages;

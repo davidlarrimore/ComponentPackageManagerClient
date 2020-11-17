@@ -5,9 +5,9 @@ import {
   getFieldDisplayValue
 } from "lightning/uiRecordApi";
 
-import ID_FIELD from "@salesforce/schema/Demo_Component__c.Id";
-import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
-import LAST_FETCHED_DATE_FIELD from "@salesforce/schema/Demo_Component__c.Last_Fetched__c";
+import ID_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Id";
+import TITLE_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Title__c";
+import LAST_FETCHED_DATE_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Last_Fetched__c";
 
 export default class CpmRefreshCheckerCard extends LightningElement {
   @api demoComponent;

@@ -60,10 +60,10 @@ public class QueueUpdateComponentSourceTagInfo implements Queueable, Database.Al
 
         try {
         System.debug('Running QueueUpdateComponentSourceTagInfo');  
-        List<Demo_Component__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Installed_Version_Tracking_Method__c, Installed__c, Update_Available__c, Source_Installed_Tag_Hash__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+        List<Cpm_Component_Package__c> demoComponent = [SELECT Id, Github_Repository_URL__c, Installed_Version_Tracking_Method__c, Installed__c, Update_Available__c, Source_Installed_Tag_Hash__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponent.size() > 0){
             System.debug('Processing ' + demoComponent[0].Github_Repository_URL__c);   
-            githubTags = GithubAPIHelper.getGithubTags(demoComponent[0].Github_Repository_URL__c);
+            githubTags = CpmGithubCpmAPIHelper.getGithubTags(demoComponent[0].Github_Repository_URL__c);
 
             if(githubTags != null && githubTags.size() > 0){
                 for(GithubRepoTag thisTag: githubTags){

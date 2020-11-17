@@ -1,7 +1,7 @@
 public with sharing class CpmComponentController {
 
     @AuraEnabled(cacheable=true)
-    public static list<Demo_Component__c> getDemoComponents(){
+    public static list<Cpm_Component_Package__c> getDemoComponents(){
         return [SELECT Id, 
                        Title__c, 
                        Name, 
@@ -26,7 +26,7 @@ public with sharing class CpmComponentController {
                        New_Component_Flag__c,
                        Date_Added__c,
                        Recently_Updated_Flag__c 
-                  FROM Demo_Component__c
+                  FROM Cpm_Component_Package__c
                 ];
     }    
 
@@ -34,7 +34,7 @@ public with sharing class CpmComponentController {
 
 
     @AuraEnabled(cacheable=true)
-    public static list<Demo_Component__c> getInstalledComponents(String searchString){
+    public static list<Cpm_Component_Package__c> getInstalledComponents(String searchString){
         if(searchString == null || searchString == '' || searchString.length() < 2){
             return [SELECT Id, 
                        Title__c, 
@@ -60,13 +60,13 @@ public with sharing class CpmComponentController {
                        New_Component_Flag__c,
                        Recently_Updated_Flag__c,
                        Date_Added__c  
-                  FROM Demo_Component__c 
+                  FROM Cpm_Component_Package__c 
                  WHERE Installed__c = true
                  ORDER BY Title__c ASC];
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Cpm_Component_Package__c(
             Id, 
             Title__c, 
             Name, 
@@ -92,10 +92,10 @@ public with sharing class CpmComponentController {
             Recently_Updated_Flag__c,
             Date_Added__c )
         ];
-        Demo_Component__c[] searchDemoComponents = (Demo_Component__c[])searchList[0];
+        Cpm_Component_Package__c[] searchDemoComponents = (Cpm_Component_Package__c[])searchList[0];
 
-        List<Demo_Component__c> returnList = new List<Demo_Component__c>{};
-        for (Demo_Component__c a : searchDemoComponents) {
+        List<Cpm_Component_Package__c> returnList = new List<Cpm_Component_Package__c>{};
+        for (Cpm_Component_Package__c a : searchDemoComponents) {
             if(a.Installed__c){
                 returnList.add(a);
             }
@@ -106,7 +106,7 @@ public with sharing class CpmComponentController {
 
 
     @AuraEnabled(cacheable=true)
-    public static list<Demo_Component__c> getAvailableComponents(String searchString){
+    public static list<Cpm_Component_Package__c> getAvailableComponents(String searchString){
         if(searchString == null || searchString == '' || searchString.length() < 2){
             return [SELECT Id, 
                        Title__c, 
@@ -131,14 +131,14 @@ public with sharing class CpmComponentController {
                        New_Component_Flag__c,
                        Recently_Updated_Flag__c,
                        Date_Added__c  
-                  FROM Demo_Component__c 
+                  FROM Cpm_Component_Package__c 
                  WHERE Installed__c = false
                    AND Latest_Package_Version_Deprecated_Flag__c = false
                  ORDER BY Title__c ASC];
         }
 
         
-        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Demo_Component__c(
+        List<List<sObject>> searchList = [FIND :searchString IN ALL FIELDS RETURNING Cpm_Component_Package__c(
             Id, 
             Title__c, 
             Name, 
@@ -164,10 +164,10 @@ public with sharing class CpmComponentController {
             New_Component_Flag__c,
             Recently_Updated_Flag__c )
         ];
-        Demo_Component__c[] searchDemoComponents = (Demo_Component__c[])searchList[0];
+        Cpm_Component_Package__c[] searchDemoComponents = (Cpm_Component_Package__c[])searchList[0];
 
-        List<Demo_Component__c> returnList = new List<Demo_Component__c>{};
-        for (Demo_Component__c a : searchDemoComponents) {
+        List<Cpm_Component_Package__c> returnList = new List<Cpm_Component_Package__c>{};
+        for (Cpm_Component_Package__c a : searchDemoComponents) {
             if(!a.Installed__c && !a.Latest_Package_Version_Deprecated_Flag__c){
                 returnList.add(a);
             }

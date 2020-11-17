@@ -1,8 +1,8 @@
 {
-  "name": "gPBU-Component-Package-Manager",
+  "name": "component-package-manager-client",
   "private": true,
   "version": "1.0.0",
-  "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
+  "description": "Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
   "scripts": {
     "lint": "npm run lint:lwc",
     "lint:lwc": "eslint force-app/main/default/lwc",

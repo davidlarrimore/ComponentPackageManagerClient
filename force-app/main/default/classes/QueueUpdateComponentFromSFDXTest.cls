@@ -6,10 +6,10 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
     }
     
     static testmethod void testJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -26,7 +26,7 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
         Test.stopTest(); 
         
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, SFDX_Package_Name__c, Latest_SFDX_Package_Alias__c FROM Demo_Component__c where Id =:demoComponent.Id LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, SFDX_Package_Name__c, Latest_SFDX_Package_Alias__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];
         AsyncApexJob jobInfo = [SELECT Id, Status, NumberOfErrors FROM AsyncApexJob WHERE Id = :jobId LIMIT 1];
 
         System.assertEquals('Visitor Management Demo Scenario', updatedDemoComponent.SFDX_Package_Name__c);
@@ -35,10 +35,10 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
     }
 
     static testmethod void testChildJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -63,10 +63,10 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
     }
 
     static testmethod void testNoSFDXProjectDotJSON() {
-        Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock());
+        Test.setMock(HttpCalloutMock.class, new CpmApiError404CalloutMock());
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -83,14 +83,14 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
         Test.stopTest(); 
         
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c where Id =:demoComponent.Id LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];
         System.assertEquals(false, updatedDemoComponent.SFDX_Package_Enabled_Flag__c);
     }
 
     static testmethod void testNotAnSFDXProject() {
-        Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock());
+        Test.setMock(HttpCalloutMock.class, new CpmApiError404CalloutMock());
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
             Github_Repository_URL__c = null,
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=true,
@@ -108,15 +108,15 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
         Test.stopTest(); 
         
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Title__c FROM Demo_Component__c where Id =:demoComponent.Id LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Title__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];
         System.assertEquals('TestTest', updatedDemoComponent.Title__c);
     }
 
     static testmethod void testNoDemoComponentFound() {
-        Test.setMock(HttpCalloutMock.class, new ApiError404CalloutMock());
+        Test.setMock(HttpCalloutMock.class, new CpmApiError404CalloutMock());
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -138,10 +138,10 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
     }
 
     static testmethod void testUpdate() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -169,7 +169,7 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
             QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c, Latest_SFDX_Package_Alias__c, Latest_Subscriber_Package_Version_Id__c FROM Demo_Component__c where Id =:demoComponent.Id LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Latest_SFDX_Package_Alias__c, Latest_Subscriber_Package_Version_Id__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];
         System.assertEquals(true, updatedDemoComponent.Update_Available__c);
         System.assertEquals('Visitor Management Demo Scenario@0.1.1-1', updatedDemoComponent.Latest_SFDX_Package_Alias__c);
         System.assertEquals('04t3h000004bdPAAAY', updatedDemoComponent.Latest_Subscriber_Package_Version_Id__c);        

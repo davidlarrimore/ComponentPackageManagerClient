@@ -61,11 +61,11 @@ public class QueueUpdateComponentSourceCommitInfo implements Queueable, Database
         GithubRepoCommit githubCommit = new GithubRepoCommit();
         try {
         System.debug('Running updateComponentSourceCommitInfo');  
-        List<Demo_Component__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+        List<Cpm_Component_Package__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponentSearch.size() > 0){
-            Demo_Component__c demoComponent = demoComponentSearch[0];
+            Cpm_Component_Package__c demoComponent = demoComponentSearch[0];
             System.debug('Processing ' + demoComponent.Github_Repository_URL__c);   
-            githubCommit = GithubAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>());
+            githubCommit = CpmGithubCpmAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>());
 
             if(githubCommit != null){
                 demoComponent.Latest_Commit_DateTime__c = githubCommit.commitInfo.committer.commitDate;

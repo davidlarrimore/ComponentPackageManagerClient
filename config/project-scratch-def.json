@@ -1,7 +1,7 @@
 {
-  "orgName": "GPBU Package Manager",
+  "orgName": "GPBU Package Manager Client",
   "edition": "Developer",
-  "description": "gPBU Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
+  "description": "Component Package Manager that can be installed on any Demo Org and used to add pre-packaged demo's, components, and data",
   "features": ["DebugApex","Workflow","API", "ConnectedAppToolingAPI", "PlatformConnect"],
   "settings": {
     "lightningExperienceSettings": {

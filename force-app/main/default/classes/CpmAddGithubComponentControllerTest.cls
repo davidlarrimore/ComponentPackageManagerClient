@@ -9,13 +9,13 @@ public with sharing class CpmAddGithubComponentControllerTest {
     }
     
     static testmethod void testrunApex() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
         Test.startTest();        
-        CpmAddGithubComponentController.runApex(ApiCalloutMock.RTA_GITHUB_REPO_URL);
+        CpmAddGithubComponentController.runApex(CpmApiCalloutMock.RTA_GITHUB_REPO_URL);
         Test.stopTest(); 
 
-        Demo_Component__C demoComponent = [SELECT Id, Title__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
+        Cpm_Component_Package__c demoComponent = [SELECT Id, Title__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
         
         System.assertEquals('richTextInputFSC', demoComponent.Title__c);
     }

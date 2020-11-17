@@ -61,21 +61,21 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
         system.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing doLater');  
 
         List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = new List<MetadataInstalledPackageResponseRecord>();
-        List<Demo_Component__c> parentDemoComponentLookup = [SELECT Id from Demo_Component__c WHERE Id = :parentDemoComponentId];
+        List<Cpm_Component_Package__c> parentDemoComponentLookup = [SELECT Id from Cpm_Component_Package__c WHERE Id = :parentDemoComponentId];
         //TODO: Add Logic to check to see if Parent Demo Component Exists....
         if(parentDemoComponentLookup.size() > 0){
 
-            Demo_Component__c parentDemoComponent = parentDemoComponentLookup[0];
+            Cpm_Component_Package__c parentDemoComponent = parentDemoComponentLookup[0];
 
             for(String dependentPackageVersionId: dependentPackageVersionIds){
                 MetadataInstalledPackageResponseRecord metadataInstalledPackageResponseRecord = new MetadataInstalledPackageResponseRecord();
                 MetadataSubscriberPackageVersion metadataSubscriberPackageVersion = new MetadataSubscriberPackageVersion();
                 MetadataSubscriberPackage metadataSubscriberPackage = new MetadataSubscriberPackage();
 
-                metadataSubscriberPackageVersion = MetadataAPIHelper.getSubscriberPackageVersion(dependentPackageVersionId);
+                metadataSubscriberPackageVersion = CpmMetadataAPIHelper.getSubscriberPackageVersion(dependentPackageVersionId);
                 if (metadataSubscriberPackageVersion != null) {
                     System.debug('Successfully found Subscriber Package Version Info from Tooling API');
-                    metadataSubscriberPackage = MetadataAPIHelper.getSubscriberPackage(metadataSubscriberPackageVersion.subscriberPackageId);
+                    metadataSubscriberPackage = CpmMetadataAPIHelper.getSubscriberPackage(metadataSubscriberPackageVersion.subscriberPackageId);
                     if (metadataSubscriberPackage != null) {
                         System.debug('Successfully found Subscriber Package Info from Tooling API');
                         metadataInstalledPackageResponseRecord.subscriberPackageId = dependentPackageVersionId;
@@ -92,8 +92,8 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
 
 
             for(MetadataInstalledPackageResponseRecord metadataInstalledPackageResponseRecord: metadataInstalledPackageResponseRecords){
-                Demo_Component__c demoComponent = new Demo_Component__c();
-                List<Demo_Component__c> demoComponentLookup = [
+                Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
+                List<Cpm_Component_Package__c> demoComponentLookup = [
                     SELECT
                     Id,
                     Latest_Subscriber_Package_Version_Id__c,
@@ -103,7 +103,7 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                     Subscriber_Package_Id__c,
                     Package_Install_Type_Flag__c,
                     SFDX_Package_Enabled_Flag__c
-                    FROM Demo_Component__c
+                    FROM Cpm_Component_Package__c
                     WHERE
                     Subscriber_Package_Id__c = :metadataInstalledPackageResponseRecord.subscriberPackage.Id
                     LIMIT 1
@@ -115,7 +115,7 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                 //TODO:GET INSTALL DATE FROM METADATA API.....
 
                 if(demoComponentLookup.size() == 0){
-                    System.debug('Demo_Component__c Did not previously exist, updating');
+                    System.debug('Cpm_Component_Package__c Did not previously exist, updating');
 
                     System.debug('No Demo Component found for ' + metadataInstalledPackageResponseRecord.subscriberPackage.name + ' installed package, creating a new one...');
                     demoComponent.Package_Install_Type_Flag__c = true;
@@ -152,12 +152,12 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                 }
 
                     //Look for existing demo component dependency...
-                List<Component_Dependency__c> dependentComponentLookup = [SELECT Id FROM Component_Dependency__c WHERE Demo_Component__c =:parentDemoComponent.Id AND Dependent_Component__c =:demoComponent.Id];
+                List<Cpm_Component_Package_Dependency__c> dependentComponentLookup = [SELECT Id FROM Cpm_Component_Package_Dependency__c WHERE Cpm_Component_Package__c =:parentDemoComponent.Id AND Dependent_Component_Package__c =:demoComponent.Id];
                 if(dependentComponentLookup.size() == 0){
                     System.debug('Component Dependency Not found, Creating New record');
-                    insert new Component_Dependency__c(
-                        Dependent_Component__c = demoComponent.Id,
-                        Demo_Component__c = parentDemoComponent.Id
+                    insert new Cpm_Component_Package_Dependency__c(
+                        Dependent_Component_Package__c = demoComponent.Id,
+                        Cpm_Component_Package__c = parentDemoComponent.Id
                     );
                     parentDemoComponent.Dependencies_Met__c = false;
                     update parentDemoComponent;

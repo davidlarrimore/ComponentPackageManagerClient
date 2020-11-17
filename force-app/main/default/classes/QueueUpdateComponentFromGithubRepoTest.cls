@@ -5,9 +5,9 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
 
     @testSetup 
     static void setup() {
-        List<Demo_Component__c> demoComponents = new List<Demo_Component__c>();
-        demoComponents.add(new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
+        List<Cpm_Component_Package__c> demoComponents = new List<Cpm_Component_Package__c>();
+        demoComponents.add(new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -21,10 +21,10 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
     }
     
     static testmethod void testJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
-        Demo_Component__C demoComponent = new Demo_Component__C();
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
         
-        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
+        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
         QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(demoComponent.Id);
         
         Test.startTest();        
@@ -33,7 +33,7 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         Test.stopTest(); 
         
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, POC_Name__c, Description__c FROM Demo_Component__c where Id =:demoComponent.Id LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, POC_Name__c, Description__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];
         AsyncApexJob jobInfo = [SELECT Id, Status, NumberOfErrors FROM AsyncApexJob WHERE Id = :jobId LIMIT 1];
 
         System.assertEquals('David Larrimore', updatedDemoComponent.POC_Name__c);
@@ -43,10 +43,10 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
     }
 
     static testmethod void testChildJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
-        Demo_Component__C demoComponent = new Demo_Component__C();
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
         
-        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Demo_Component__c where Github_Repository_URL__c =:ApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
+        demoComponent = [SELECT Id, Github_Repository_URL__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
         String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
 
         QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(ParentJobId, demoComponent.Id);

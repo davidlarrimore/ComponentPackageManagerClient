@@ -19,7 +19,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){   
             if(packageAlias.indexOf('@') > 0){  
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = CpmVersionHelper.getVersionNumberFromText(thisVersionText);
 
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -38,7 +38,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){
             if(packageAlias.indexOf('@') > 0){  
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = CpmVersionHelper.getVersionNumberFromText(thisVersionText);
 
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -59,7 +59,7 @@ public class GithubSFDXProjectDotJSON {
         for (String packageAlias: this.packageAliases.keySet()){   
             if(packageAlias.indexOf('@') > 0){
                 String thisVersionText = getVersionNumberFromAlias(packageAlias);
-                Integer thisVersionNumber = VersionHelper.getVersionNumberFromText(thisVersionText);
+                Integer thisVersionNumber = CpmVersionHelper.getVersionNumberFromText(thisVersionText);
     
                 if(thisVersionNumber > highestVersionNumber){
                     highestVersionNumber = thisVersionNumber;
@@ -78,7 +78,7 @@ public class GithubSFDXProjectDotJSON {
     }    
 
     public Integer getLatestVersionNumber(){
-        return VersionHelper.getVersionNumberFromText(getLatestVersionText());
+        return CpmVersionHelper.getVersionNumberFromText(getLatestVersionText());
     }
 
 

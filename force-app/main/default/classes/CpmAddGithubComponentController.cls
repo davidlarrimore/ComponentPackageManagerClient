@@ -5,7 +5,7 @@ public with sharing class CpmAddGithubComponentController {
         System.debug('CpmAddGithubComponentController.runApex');  
         System.debug('Processing ' + githubUrl);
 
-        VersionHelper.AddGithubComponent(githubUrl, new Map<String,String>());
+        CpmVersionHelper.AddGithubComponent(githubUrl, new Map<String,String>());
 
     }
 

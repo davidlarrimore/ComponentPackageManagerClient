@@ -9,7 +9,7 @@ public with sharing class QueueGetInstalledPackagesTest {
     }
     
     static testmethod void testJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
         QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
         
@@ -19,7 +19,7 @@ public with sharing class QueueGetInstalledPackagesTest {
         Test.stopTest(); 
         
         
-        List<Demo_Component__C> demoComponents = [SELECT Id FROM Demo_Component__c];
+        List<Cpm_Component_Package__c> demoComponents = [SELECT Id FROM Cpm_Component_Package__c];
         AsyncApexJob jobInfo = [SELECT Id, Status, NumberOfErrors FROM AsyncApexJob WHERE Id = :jobId LIMIT 1];
 
         System.assertEquals(16, demoComponents.size());
@@ -29,7 +29,7 @@ public with sharing class QueueGetInstalledPackagesTest {
 
 
     static testmethod void testChildJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
 
         String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
@@ -43,9 +43,9 @@ public with sharing class QueueGetInstalledPackagesTest {
     }
 
     static testmethod void testHasExistingJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
         
-        Demo_Component__c demoComponent = new Demo_Component__c(
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
             Github_Repository_URL__c = null,
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=false,
@@ -70,7 +70,7 @@ public with sharing class QueueGetInstalledPackagesTest {
         QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
  
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Demo_Component__c where Id = :demoComponentId LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Cpm_Component_Package__c where Id = :demoComponentId LIMIT 1];
        
 
         System.assertEquals(true, updatedDemoComponent.Installed__c);
@@ -78,9 +78,9 @@ public with sharing class QueueGetInstalledPackagesTest {
 
 
     static testmethod void testUpdatedComponentJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
         
-        Demo_Component__c demoComponent = new Demo_Component__c(
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
             Github_Repository_URL__c = null,
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=false,
@@ -91,7 +91,7 @@ public with sharing class QueueGetInstalledPackagesTest {
             Latest_Package_Version_Name__c = 'Version 1.0.',
             Latest_Package_Version__c = '1.0.5-1',
             Latest_Subscriber_Package_Version_Id__c = '04t2E000003oc9rQAA',
-            Package_Installed_Subscriber_Version_Id__c = ApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
+            Package_Installed_Subscriber_Version_Id__c = CpmApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
             Installed_Version_Tracking_Method__c = 'None',
             Package_Installed_Version_Number__c = '0.1.0-3',
             Installed__c = true,
@@ -111,7 +111,7 @@ public with sharing class QueueGetInstalledPackagesTest {
         QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
 
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Install_Date__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Demo_Component__c where Id = :demoComponentId LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Install_Date__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Cpm_Component_Package__c where Id = :demoComponentId LIMIT 1];
         
         System.assertEquals('04t2E000003oc9rQAA', updatedDemoComponent.Package_Installed_Subscriber_Version_Id__c);
         System.assert(true, updatedDemoComponent.Install_Date__c > PREVIOUS_PACKAGE_VERSION_INSTALL_DATETIME);

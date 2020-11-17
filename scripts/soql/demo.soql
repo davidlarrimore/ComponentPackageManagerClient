@@ -25,5 +25,5 @@ SELECT gpbu_dkl__Admin_Permission_Set__c,
        gpbu_dkl__Package_Install_Type_Flag__c,
        gpbu_dkl__Subscriber_Package_Id__c,
        gpbu_dkl__Title__c
-  FROM gpbu_dkl__Demo_Component__c
+  FROM gpbu_dkl__Cpm_Component_Package__c
  WHERE gpbu_dkl__Latest_Package_Version_Deprecated_Flag__c = false

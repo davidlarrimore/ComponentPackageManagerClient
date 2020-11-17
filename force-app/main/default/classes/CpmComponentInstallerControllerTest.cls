@@ -2,10 +2,10 @@
 public with sharing class CpmComponentInstallerControllerTest {
     @testSetup 
     static void setup() {
-        List<Demo_Component__c> demoComponents = new List<Demo_Component__c>();
+        List<Cpm_Component_Package__c> demoComponents = new List<Cpm_Component_Package__c>();
 
-        Demo_Component__c parentComponent =  new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.VM_GITHUB_REPO_URL,
+        Cpm_Component_Package__c parentComponent =  new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.VM_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -13,13 +13,13 @@ public with sharing class CpmComponentInstallerControllerTest {
             Package_Name__c = 'Visitor Management Demo Scenario',
             Latest_Package_Version_Name__c = '',
             Latest_Package_Version__c = '0.1.1-1',
-            Subscriber_Package_Id__c = ApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
-            Latest_Subscriber_Package_Version_Id__c = ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID,
+            Subscriber_Package_Id__c = CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
+            Latest_Subscriber_Package_Version_Id__c = CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID,
             Last_Fetched__c = datetime.now(),
             Update_Available__c = false
         );
 
-        Demo_Component__c dependentComponent1 =  new Demo_Component__c(
+        Cpm_Component_Package__c dependentComponent1 =  new Cpm_Component_Package__c(
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=false,
             Package_Install_Type_Flag__c=true,
@@ -33,7 +33,7 @@ public with sharing class CpmComponentInstallerControllerTest {
             Update_Available__c = false
         );
 
-        Demo_Component__c dependentComponent2 =  new Demo_Component__c(
+        Cpm_Component_Package__c dependentComponent2 =  new Cpm_Component_Package__c(
             SFDX_Package_Enabled_Flag__c=false,
             Source_Install_Type_Flag__c=false,
             Package_Install_Type_Flag__c=true,
@@ -56,17 +56,17 @@ public with sharing class CpmComponentInstallerControllerTest {
         demoComponents.add(dependentComponent2);
         insert demoComponents;
 
-        List<Component_Dependency__c> componentDependencies = new List<Component_Dependency__c>();
+        List<Cpm_Component_Package_Dependency__c> componentDependencies = new List<Cpm_Component_Package_Dependency__c>();
 
-        Component_Dependency__c componentDependency1 =  new Component_Dependency__c(
-            Demo_Component__c = parentComponent.Id,
-            Dependent_Component__c = dependentComponent1.Id
+        Cpm_Component_Package_Dependency__c componentDependency1 =  new Cpm_Component_Package_Dependency__c(
+            Cpm_Component_Package__c = parentComponent.Id,
+            Dependent_Component_Package__c = dependentComponent1.Id
         );  
         componentDependencies.add(componentDependency1);
 
-        Component_Dependency__c componentDependency2 =  new Component_Dependency__c(
-            Demo_Component__c = parentComponent.Id,
-            Dependent_Component__c = dependentComponent2.Id
+        Cpm_Component_Package_Dependency__c componentDependency2 =  new Cpm_Component_Package_Dependency__c(
+            Cpm_Component_Package__c = parentComponent.Id,
+            Dependent_Component_Package__c = dependentComponent2.Id
         ); 
         componentDependencies.add(componentDependency2);
 
@@ -75,10 +75,10 @@ public with sharing class CpmComponentInstallerControllerTest {
     
     static testmethod void testrunApex() {
 
-        Demo_Component__c updatedDemoComponent = [SELECT Id FROM Demo_Component__c where Subscriber_Package_Id__c =:ApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id FROM Cpm_Component_Package__c where Subscriber_Package_Id__c =:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
         
         Test.startTest();        
-        list<Demo_Component__c> dependentComponents = CpmComponentInstallerController.getDependentPackages(updatedDemoComponent.Id);
+        list<Cpm_Component_Package__c> dependentComponents = CpmComponentInstallerController.getDependentPackages(updatedDemoComponent.Id);
         Test.stopTest(); 
 
         System.assertEquals(2, dependentComponents.size()); 

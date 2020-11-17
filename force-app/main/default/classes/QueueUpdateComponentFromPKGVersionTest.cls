@@ -9,10 +9,10 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
     }
     
     static testmethod void testJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -20,7 +20,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
             Package_Name__c = 'Visitor Management Demo Scenario',
             Latest_Package_Version_Name__c = '',
             Latest_Package_Version__c = '0.1.1-1',
-            Subscriber_Package_Id__c = ApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
+            Subscriber_Package_Id__c = CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
             Latest_Subscriber_Package_Version_Id__c = '',
             Last_Fetched__c = datetime.now(),
             Update_Available__c = false
@@ -28,15 +28,15 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         insert demoComponent;
 
 
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
-        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Latest_Package_Version_Name__c FROM Demo_Component__c where Subscriber_Package_Id__c=:ApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Latest_Package_Version_Name__c FROM Cpm_Component_Package__c where Subscriber_Package_Id__c=:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
         AsyncApexJob jobInfo = [SELECT Id, Status, NumberOfErrors FROM AsyncApexJob WHERE Id = :jobId LIMIT 1];
 
         System.assertEquals('ver 1.0', updatedDemoComponent.Latest_Package_Version_Name__c);
@@ -45,10 +45,10 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
 
 
     static testmethod void testChildJob() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
@@ -56,7 +56,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
             Package_Name__c = 'Visitor Management Demo Scenario',
             Latest_Package_Version_Name__c = '',
             Latest_Package_Version__c = '0.1.1-1',
-            Subscriber_Package_Id__c = ApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
+            Subscriber_Package_Id__c = CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
             Latest_Subscriber_Package_Version_Id__c = '',
             Last_Fetched__c = datetime.now(),
             Update_Available__c = false
@@ -64,7 +64,7 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         insert demoComponent;
 
         String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(ParentJobId, demoComponent.Id, ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(ParentJobId, demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
@@ -74,20 +74,20 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
     }
 
     static testmethod void testJobUpdate() {
-        Test.setMock(HttpCalloutMock.class, new ApiCalloutMock()); 
+        Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        Demo_Component__c demoComponent = new Demo_Component__c(
-            Github_Repository_URL__c = ApiCalloutMock.RTA_GITHUB_REPO_URL,
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c(
+            Github_Repository_URL__c = CpmApiCalloutMock.RTA_GITHUB_REPO_URL,
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
             Title__c = 'Visitor Management Demo Scenario',
             Package_Name__c = 'Visitor Management Demo Scenario',
-            Subscriber_Package_Id__c = ApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
+            Subscriber_Package_Id__c = CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
             Latest_Package_Version_Name__c = 'ver 0.1',
             Latest_Package_Version__c = '0.1.0-3',
-            Latest_Subscriber_Package_Version_Id__c = ApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
-            Package_Installed_Subscriber_Version_Id__c = ApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
+            Latest_Subscriber_Package_Version_Id__c = CpmApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
+            Package_Installed_Subscriber_Version_Id__c = CpmApiCalloutMock.PREVIOUS_SUBSCRIBER_PACKAGE_VERSION_ID,
             Installed_Version_Tracking_Method__c = 'None',
             Package_Installed_Version_Number__c = '0.1.0-3',
             Installed__c = true,
@@ -97,14 +97,14 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         insert demoComponent;
 
 
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
-        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, ApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
-        Demo_Component__C updatedDemoComponent = [SELECT Id, Update_Available__c FROM Demo_Component__c where Subscriber_Package_Id__c=:ApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
+        Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c FROM Cpm_Component_Package__c where Subscriber_Package_Id__c=:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
         AsyncApexJob jobInfo = [SELECT Id, Status, NumberOfErrors FROM AsyncApexJob WHERE Id = :jobId LIMIT 1];
 
         System.assertEquals(true, updatedDemoComponent.Update_Available__c);

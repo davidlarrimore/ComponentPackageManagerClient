@@ -3,7 +3,7 @@ import { subscribe, onError } from "lightning/empApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class cmpAsynchJobMonitor extends LightningElement {
-  channelName = "/event/CPM_Async_Event__e";
+  channelName = "/event/Cpm_Async_Event__e";
   isSubscribed = false;
   isSubscriptionError = false;
   isSubscriptionRequested = true;
@@ -62,7 +62,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
   doProcessPlatformEventCPMAsync(payload) {
     console.log(`Processing CPM Async Event Payload ${payload.Job_Id__c}`);
     if (undefined !== payload.Job_Id__c) {
-      console.log(`Current list of CPM Async Events (CPM_Async_Event__e) = ${this.jobTracker.length}`);
+      console.log(`Current list of CPM Async Events (Cpm_Async_Event__e) = ${this.jobTracker.length}`);
       let newJob = payload;
       newJob.icon = {};
       newJob.events = [];
@@ -83,7 +83,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
 
       for (let i = 0; i < this.jobTracker.length; i++) {
         if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
-          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating Events...`);
+          console.log(`Found Existing CPM Async Event (Cpm_Async_Event__e), updating Events...`);
           newJob.events = this.jobTracker[i].events;
 
           if (this.jobTracker[i]._children) {
@@ -143,7 +143,7 @@ export default class cmpAsynchJobMonitor extends LightningElement {
       let newJobTracker = [];
       for (let i = 0; i < this.jobTracker.length; i++) {
         if (this.jobTracker[i].Job_Id__c === newJob.Job_Id__c) {
-          console.log(`Found Existing CPM Async Event (CPM_Async_Event__e), updating...`);
+          console.log(`Found Existing CPM Async Event (Cpm_Async_Event__e), updating...`);
           newJobFlag = false;
           newJob.events = this.jobTracker[i].events;
           if(this.jobTracker[i]._children){

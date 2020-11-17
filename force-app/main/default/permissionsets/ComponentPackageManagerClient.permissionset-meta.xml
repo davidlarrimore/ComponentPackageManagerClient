@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
-        <application>Component_Package_Manager</application>
+        <application>Component_Package_Manager_Client</application>
         <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
@@ -9,15 +9,15 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>APIHelper</apexClass>
+        <apexClass>CpmAPIHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ApiCalloutMock</apexClass>
+        <apexClass>CpmApiCalloutMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ApiError404CalloutMock</apexClass>
+        <apexClass>CpmApiError404CalloutMock</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -65,7 +65,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GithubAPIHelper</apexClass>
+        <apexClass>CpmGithubCpmAPIHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -117,7 +117,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MetadataAPIHelper</apexClass>
+        <apexClass>CpmMetadataAPIHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -233,11 +233,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VersionHelper</apexClass>
+        <apexClass>CpmVersionHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VersionHelperTest</apexClass>
+        <apexClass>CpmVersionHelperTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -246,282 +246,282 @@
     </classAccesses>
     <customSettingAccesses>
         <enabled>true</enabled>
-        <name>Demo_Component_Manager_Settings__c</name>
+        <name>Cpm_Client_Settings__c</name>
     </customSettingAccesses>
     <description>Permission Set to provide access to the Component Package Manager Client</description>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Component_Dependency__c.Installed__c</field>
+        <field>Cpm_Component_Package_Dependency__c.Installed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Admin_Permission_Set__c</field>
+        <field>Cpm_Component_Package__c.Admin_Permission_Set__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Date_Added__c</field>
+        <field>Cpm_Component_Package__c.Date_Added__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Dependencies_Met__c</field>
+        <field>Cpm_Component_Package__c.Dependencies_Met__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Description__c</field>
+        <field>Cpm_Component_Package__c.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Github_Repository_URL__c</field>
+        <field>Cpm_Component_Package__c.Github_Repository_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Install_Date__c</field>
+        <field>Cpm_Component_Package__c.Install_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Install_Key__c</field>
+        <field>Cpm_Component_Package__c.Install_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Installation_Type__c</field>
+        <field>Cpm_Component_Package__c.Installation_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Installed_Version_Tracking_Method__c</field>
+        <field>Cpm_Component_Package__c.Installed_Version_Tracking_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.Installed_Version__c</field>
+        <field>Cpm_Component_Package__c.Installed_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Installed__c</field>
+        <field>Cpm_Component_Package__c.Installed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Last_Fetched__c</field>
+        <field>Cpm_Component_Package__c.Last_Fetched__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Last_Modified_Date__c</field>
+        <field>Cpm_Component_Package__c.Last_Modified_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Commit_DateTime__c</field>
+        <field>Cpm_Component_Package__c.Latest_Commit_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Commit_Description__c</field>
+        <field>Cpm_Component_Package__c.Latest_Commit_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Commit_Hash__c</field>
+        <field>Cpm_Component_Package__c.Latest_Commit_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Package_Version_Deprecated_Flag__c</field>
+        <field>Cpm_Component_Package__c.Latest_Package_Version_Deprecated_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Package_Version_Name__c</field>
+        <field>Cpm_Component_Package__c.Latest_Package_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Package_Version__c</field>
+        <field>Cpm_Component_Package__c.Latest_Package_Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_SFDX_Package_Alias__c</field>
+        <field>Cpm_Component_Package__c.Latest_SFDX_Package_Alias__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_SFDX_Package_Version_Description__c</field>
+        <field>Cpm_Component_Package__c.Latest_SFDX_Package_Version_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_SFDX_Package_Version_Name__c</field>
+        <field>Cpm_Component_Package__c.Latest_SFDX_Package_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Subscriber_Package_Version_Id__c</field>
+        <field>Cpm_Component_Package__c.Latest_Subscriber_Package_Version_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Tag_Commit_DateTime__c</field>
+        <field>Cpm_Component_Package__c.Latest_Tag_Commit_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Tag_Commit_Description__c</field>
+        <field>Cpm_Component_Package__c.Latest_Tag_Commit_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Tag_Commit_Hash__c</field>
+        <field>Cpm_Component_Package__c.Latest_Tag_Commit_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Latest_Tag_Version_Name__c</field>
+        <field>Cpm_Component_Package__c.Latest_Tag_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.New_Component_Flag__c</field>
+        <field>Cpm_Component_Package__c.New_Component_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.Number_of_Dependencies__c</field>
+        <field>Cpm_Component_Package__c.Number_of_Dependencies__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.POC_Email__c</field>
+        <field>Cpm_Component_Package__c.POC_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.POC_Name__c</field>
+        <field>Cpm_Component_Package__c.POC_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Package_Install_Type_Flag__c</field>
+        <field>Cpm_Component_Package__c.Package_Install_Type_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.Package_Install_Url__c</field>
+        <field>Cpm_Component_Package__c.Package_Install_Url__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Package_Installed_Subscriber_Version_Id__c</field>
+        <field>Cpm_Component_Package__c.Package_Installed_Subscriber_Version_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Package_Installed_Version_Name__c</field>
+        <field>Cpm_Component_Package__c.Package_Installed_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Package_Installed_Version_Number__c</field>
+        <field>Cpm_Component_Package__c.Package_Installed_Version_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Package_Name__c</field>
+        <field>Cpm_Component_Package__c.Package_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.Recently_Updated_Flag__c</field>
+        <field>Cpm_Component_Package__c.Recently_Updated_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.SFDX_Installed_Package_Alias__c</field>
+        <field>Cpm_Component_Package__c.SFDX_Installed_Package_Alias__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.SFDX_Installed_Package_Version_Desc__c</field>
+        <field>Cpm_Component_Package__c.SFDX_Installed_Package_Version_Desc__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.SFDX_Installed_Package_Version_Name__c</field>
+        <field>Cpm_Component_Package__c.SFDX_Installed_Package_Version_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.SFDX_Package_Enabled_Flag__c</field>
+        <field>Cpm_Component_Package__c.SFDX_Package_Enabled_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.SFDX_Package_Name__c</field>
+        <field>Cpm_Component_Package__c.SFDX_Package_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Install_Type_Flag__c</field>
+        <field>Cpm_Component_Package__c.Source_Install_Type_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Demo_Component__c.Source_Install_Url__c</field>
+        <field>Cpm_Component_Package__c.Source_Install_Url__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Commit_DateTime__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Commit_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Commit_Description__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Commit_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Commit_Hash__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Commit_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Tag_DateTime__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Tag_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Tag_Description__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Tag_Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Tag_Hash__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Tag_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Source_Installed_Tag_Name__c</field>
+        <field>Cpm_Component_Package__c.Source_Installed_Tag_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Subscriber_Package_Id__c</field>
+        <field>Cpm_Component_Package__c.Subscriber_Package_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Demo_Component__c.Update_Available__c</field>
+        <field>Cpm_Component_Package__c.Update_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
@@ -532,7 +532,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>CPM_Async_Event__e</object>
+        <object>Cpm_Async_Event__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -541,7 +541,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>CPM_Component_Update__e</object>
+        <object>Cpm_Component_Update__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -550,7 +550,7 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Component_Dependency__c</object>
+        <object>Cpm_Component_Package_Dependency__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -559,11 +559,11 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Demo_Component__c</object>
+        <object>Cpm_Component_Package__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabSettings>
-        <tab>Demo_Component__c</tab>
+        <tab>Cpm_Component_Package__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

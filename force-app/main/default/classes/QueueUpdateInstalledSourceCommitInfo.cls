@@ -63,11 +63,11 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
         GithubRepoCommit githubCommit = new GithubRepoCommit();
         try {
             System.debug('Running updateComponentSourceCommitInfo');  
-            List<Demo_Component__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Install_Date__c, Title__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+            List<Cpm_Component_Package__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, SFDX_Package_Enabled_Flag__c, Install_Date__c, Title__c, Installed_Version_Tracking_Method__c, Source_Installed_Commit_Hash__c, Installed__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];
             if(demoComponentLookup.size() > 0){
-                Demo_Component__c demoComponent = demoComponentLookup[0];
+                Cpm_Component_Package__c demoComponent = demoComponentLookup[0];
                 System.debug('Processing ' + demoComponent.Github_Repository_URL__c);   
-                githubCommit = GithubAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>{'commitHash' => commitHash});
+                githubCommit = CpmGithubCpmAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>{'commitHash' => commitHash});
 
                 if(githubCommit != null){
                     demoComponent.Source_Installed_Commit_DateTime__c = githubCommit.commitInfo.committer.commitDate;

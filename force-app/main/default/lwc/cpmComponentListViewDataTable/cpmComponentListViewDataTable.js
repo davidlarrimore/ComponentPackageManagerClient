@@ -86,7 +86,7 @@ export default class CpmComponentAvailableListView extends NavigationMixin(
         type: 'standard__recordPage',
         attributes: {
             recordId: recordId,
-            objectApiName: 'Demo_Component__c', // objectApiName is optional
+            objectApiName: 'Cpm_Component_Package__c', // objectApiName is optional
             actionName: 'view'
         }
     }).then(generatedUrl => {

@@ -14,7 +14,7 @@ echo "*** Generating password for your user ..."
 sfdx force:user:password:generate --targetusername ComponentPackageManagerClientScratch
 
 echo "*** Creating data"
-sfdx force:data:tree:import -f ./data/export-demo-Demo_Component__c.json -u ComponentPackageManagerClientScratch
+sfdx force:data:tree:import -f ./data/export-demo-Cpm_Component_Package__c.json -u ComponentPackageManagerClientScratch
 
 echo "*** Setting up debug mode..."
 sfdx force:apex:execute -f scripts/apex/setDebugMode.apex

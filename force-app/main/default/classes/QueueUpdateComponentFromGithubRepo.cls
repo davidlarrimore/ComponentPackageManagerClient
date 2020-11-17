@@ -58,18 +58,18 @@ public class QueueUpdateComponentFromGithubRepo implements Queueable, Database.A
       GithubRepository githubRepository = new GithubRepository();
       GithubUser githubUser = new GithubUser();
 
-      List<Demo_Component__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, Title__c, POC_Name__c, POC_Email__c, Description__c, Installed__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+      List<Cpm_Component_Package__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, Title__c, POC_Name__c, POC_Email__c, Description__c, Installed__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];
       if(demoComponentLookup.size() > 0){
-        Demo_Component__c demoComponent = demoComponentLookup[0];
+        Cpm_Component_Package__c demoComponent = demoComponentLookup[0];
         try {
-            githubRepository = GithubAPIHelper.getGithubRepo(demoComponent.Github_Repository_URL__c);
+            githubRepository = CpmGithubCpmAPIHelper.getGithubRepo(demoComponent.Github_Repository_URL__c);
             
             if(githubRepository != null){
                 if(String.isBlank(demoComponent.Description__c)){
                     demoComponent.Description__c = githubRepository.description;  
                 }
 
-                githubUser = GithubAPIHelper.getGithubUser(githubRepository.githubRepoOwner.url);
+                githubUser = CpmGithubCpmAPIHelper.getGithubUser(githubRepository.githubRepoOwner.url);
                 if(githubUser != null){
                     if(String.isBlank(demoComponent.POC_Name__c)){
                         demoComponent.POC_Name__c = githubUser.name;  

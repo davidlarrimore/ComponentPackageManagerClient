@@ -57,12 +57,12 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
         Boolean triggerPackageUpdate = false;
         List<String> dependentPackageSubscriberPackageVersionIds = new List<String>();
         GithubSFDXProjectDotJSON githubSFDXProjectDotJSON = new GithubSFDXProjectDotJSON();
-        List<Demo_Component__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, Installed__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Id = :demoComponentId LIMIT 1];
+        List<Cpm_Component_Package__c> demoComponentSearch = [SELECT Id, Github_Repository_URL__c, Installed__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];
         if(demoComponentSearch.size() > 0){
-            Demo_Component__c demoComponent = demoComponentSearch[0];
+            Cpm_Component_Package__c demoComponent = demoComponentSearch[0];
             if(String.isNotEmpty(demoComponent.Github_Repository_URL__c)){
                 try {
-                    githubSFDXProjectDotJSON = GithubAPIHelper.getGithubSFDXProjectDotJSON(demoComponent.Github_Repository_URL__c);
+                    githubSFDXProjectDotJSON = CpmGithubCpmAPIHelper.getGithubSFDXProjectDotJSON(demoComponent.Github_Repository_URL__c);
 
                     if(null != githubSFDXProjectDotJSON){
                         if(githubSFDXProjectDotJSON.packageDirectories != null && githubSFDXProjectDotJSON.packageDirectories.size() > 0){

@@ -57,9 +57,9 @@ private static void doLater(Map<String, String> jobInfo) {
   System.debug('Running QueueGetInstalledPackages.doLater');
   
   List<String> recordsToProcess = new List<String>();
-  List<Demo_Component__c> demoComponents = new List<Demo_Component__c>();
-  List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = MetadataAPIHelper.getInstalledPackages();
-  List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = MetadataAPIHelper.getInstallRequests();
+  List<Cpm_Component_Package__c> demoComponents = new List<Cpm_Component_Package__c>();
+  List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = CpmMetadataAPIHelper.getInstalledPackages();
+  List<MetadataPackageInstallRequestRecord> metadataPackageInstallRequestRecords = CpmMetadataAPIHelper.getInstallRequests();
 
   if (metadataInstalledPackageResponseRecords != null && metadataInstalledPackageResponseRecords.size() > 0) {
     system.debug('Found ' + metadataInstalledPackageResponseRecords.size() + ' Installed Packages. Processing...');
@@ -80,13 +80,13 @@ private static void doLater(Map<String, String> jobInfo) {
           }
         }
 
-        Demo_Component__c demoComponent = new Demo_Component__c();
-        List<Demo_Component__c> demoComponentLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c, Title__c, Installed__c, Package_Installed_Subscriber_Version_Id__c, Subscriber_Package_Id__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Demo_Component__c WHERE Subscriber_Package_Id__c = :metadataInstalledPackageResponseRecord.subscriberPackage.Id LIMIT 1];
+        Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
+        List<Cpm_Component_Package__c> demoComponentLookup = [SELECT Id, Latest_Subscriber_Package_Version_Id__c, Title__c, Installed__c, Package_Installed_Subscriber_Version_Id__c, Subscriber_Package_Id__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Subscriber_Package_Id__c = :metadataInstalledPackageResponseRecord.subscriberPackage.Id LIMIT 1];
 
         Boolean existsFlag = false;
         if(demoComponentLookup.size() > 0){
           demoComponent = demoComponentLookup[0];
-          System.debug('Found the Demo_Component__c that matches the MetadataInstalledPackageResponseRecord...Proessing');
+          System.debug('Found the Cpm_Component_Package__c that matches the MetadataInstalledPackageResponseRecord...Proessing');
 
           existsFlag = true;
           if(!demoComponent.Installed__c){
@@ -193,7 +193,7 @@ private static void doLater(Map<String, String> jobInfo) {
       if(demoComponents.size() > 100){
         System.debug('Batch Upsert of ' + demoComponents.size() + ' demoComponents');
         upsert demoComponents;
-        demoComponents = new List<Demo_Component__c>();
+        demoComponents = new List<Cpm_Component_Package__c>();
       }
     }
     System.debug('Final Upserting of ' + demoComponents.size() + ' demoComponents');

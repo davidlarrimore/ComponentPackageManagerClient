@@ -1,6 +1,6 @@
 import { LightningElement } from "lwc";
 import addGithubComponent from "@salesforce/apex/CpmAddGithubComponentController.runApex";
-import Utils from "c/utils";
+import cpmUtils from "c/cpmUtils";
 
 export default class CmpAddGithubComponent extends LightningElement {
   githubURL;
@@ -28,7 +28,7 @@ export default class CmpAddGithubComponent extends LightningElement {
         );
         this.error = error;
 
-        Utils.showToast(
+        cpmUtils.showToast(
           this,
           "addGithubComponent Failed",
           `Error Message: ${this.error}`,

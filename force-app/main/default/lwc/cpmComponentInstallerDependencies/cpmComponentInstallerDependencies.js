@@ -1,17 +1,17 @@
 import { LightningElement, track, api, wire } from "lwc";
 import { getFieldValue, getFieldDisplayValue } from "lightning/uiRecordApi";
 import dependentPackages from "@salesforce/apex/CpmComponentInstallerController.getDependentPackages";
-import INSTALLED_FIELD from "@salesforce/schema/Demo_Component__c.Installed__c";
-import ID_FIELD from "@salesforce/schema/Demo_Component__c.Id";
-import SOURCE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Source_Install_Type_Flag__c";
-import PACKAGE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Demo_Component__c.Package_Install_Type_Flag__c";
-import GITHUB_REPOSITORY_FIELD from "@salesforce/schema/Demo_Component__c.Github_Repository_URL__c";
-import LATEST_SUBSCRIBER_VERSION_ID_FIELD from "@salesforce/schema/Demo_Component__c.Latest_Subscriber_Package_Version_Id__c";
-import SOURCE_INSTALL_URL_FIELD from "@salesforce/schema/Demo_Component__c.Source_Install_Url__c";
-import PACKAGE_INSTALL_URL_FIELD from "@salesforce/schema/Demo_Component__c.Package_Install_Url__c";
-import UPDATE_AVAILABLE_FIELD from "@salesforce/schema/Demo_Component__c.Update_Available__c";
-import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Demo_Component__c.Installation_Type__c";
-import TITLE_FIELD from "@salesforce/schema/Demo_Component__c.Title__c";
+import INSTALLED_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Installed__c";
+import ID_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Id";
+import SOURCE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Source_Install_Type_Flag__c";
+import PACKAGE_INSTALL_TYPE_FLAG_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Package_Install_Type_Flag__c";
+import GITHUB_REPOSITORY_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Github_Repository_URL__c";
+import LATEST_SUBSCRIBER_VERSION_ID_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Latest_Subscriber_Package_Version_Id__c";
+import SOURCE_INSTALL_URL_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Source_Install_Url__c";
+import PACKAGE_INSTALL_URL_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Package_Install_Url__c";
+import UPDATE_AVAILABLE_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Update_Available__c";
+import INSTALLATION_TYPE_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Installation_Type__c";
+import TITLE_FIELD from "@salesforce/schema/Cpm_Component_Package__c.Title__c";
 
 export default class CpmComponentInstallerDependencies extends LightningElement {
   @api demoComponent;

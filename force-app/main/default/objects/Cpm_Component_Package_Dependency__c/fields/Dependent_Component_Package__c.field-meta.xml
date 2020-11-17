@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dependent_Component_Package__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Dependent Component Package</label>
+    <referenceTo>Cpm_Component_Package__c</referenceTo>
+    <relationshipLabel>Component Packages Depending on This</relationshipLabel>
+    <relationshipName>Component_Packages_Depending_On</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

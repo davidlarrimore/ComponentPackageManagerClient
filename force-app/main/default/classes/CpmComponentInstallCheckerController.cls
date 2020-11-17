@@ -5,8 +5,8 @@ public with sharing class CpmComponentInstallCheckerController {
         System.debug('Running CPMInstallCheckerController.runApex');
         List<AsyncApexJob> existingJobs;
 
-        Demo_Component_Manager_Settings__c appSetting = new Demo_Component_Manager_Settings__c();
-        List<Demo_Component_Manager_Settings__c> appSettings = [SELECT Id, Last_Library_Refresh_Date__c FROM Demo_Component_Manager_Settings__c];
+        Cpm_Client_Settings__c appSetting = new Cpm_Client_Settings__c();
+        List<Cpm_Client_Settings__c> appSettings = [SELECT Id, Last_Library_Refresh_Date__c FROM Cpm_Client_Settings__c];
 
         if(appSettings.size() == 0){
             System.debug('Initializing appSettings');
@@ -30,15 +30,15 @@ public with sharing class CpmComponentInstallCheckerController {
                 System.debug('Running queueGetInstalledPackagesJob');
                 System.enqueueJob(queueGetInstalledPackagesJob);
             }
-            VersionHelper.getinstalledXTAGs(null);
+            CpmVersionHelper.getinstalledXTAGs(null);
         }else{
             System.debug('Not Running refresh');
         }
     }
 
     @AuraEnabled
-    public static Demo_Component_Manager_Settings__c getAppSettings(){ 
+    public static Cpm_Client_Settings__c getAppSettings(){ 
         System.debug('Running CPMInstallCheckerController.getAppSettings');
-        return CustomSettingHelper.getAppSettings();
+        return CpmCustomSettingHelper.getAppSettings();
     }    
 }

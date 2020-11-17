@@ -54,7 +54,7 @@ public with sharing class QueuePlatformAsyncEventHelper
             eventInfo = new Map<String,String>();
         }
 
-		EventBus.publish(new CPM_Async_Event__e(
+		EventBus.publish(new Cpm_Async_Event__e(
             Apex_Class_Name__c = jobInfo.get(FIELD_APEX_CLASS_NAME), 
             Job_Id__c = jobInfo.get(FIELD_JOB_ID), 
             Job_Parent_id__c = jobInfo.containsKey(FIELD_JOB_PARENT_ID) ? jobInfo.get(FIELD_JOB_PARENT_ID) : '', 
@@ -77,7 +77,7 @@ public with sharing class QueuePlatformAsyncEventHelper
         /*
         Integer s_num = 1;
            String result = String.valueOf(s_num++);
-           return CPM_Async_Event__e.SObjectType.getDescribe().getKeyPrefix() + 
+           return Cpm_Async_Event__e.SObjectType.getDescribe().getKeyPrefix() + 
               '0'.repeat(12-result.length()) + result;
         */
     }

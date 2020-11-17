@@ -2,7 +2,7 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <deploymentStatus>Deployed</deploymentStatus>
     <eventType>HighVolume</eventType>
-    <label>CPM Async Event</label>
-    <pluralLabel>CPM Async Events</pluralLabel>
+    <label>Component Package Manager Async Event</label>
+    <pluralLabel>Component Package Manager Async Events</pluralLabel>
     <publishBehavior>PublishImmediately</publishBehavior>
 </CustomObject>

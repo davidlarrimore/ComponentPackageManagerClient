@@ -1,15 +1,15 @@
-//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/gpbu-visitor-management', new map<String,String>{});
-//VersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/richTextInputFSC', new map<String,String>{});
-//VersionHelper.updateComponentSourceCommitInfo('a021F0000057Pe5QAE');
-//VersionHelper.updateComponentSourceTagInfo('a021F0000057Pe5QAE');
-//VersionHelper.getInstalledPackages();
-//MetadataAPIHelper.getInstalledPackages();
-//MetadataAPIHelper.getSubscriberPackage('0333h000000AYQGAA4');
-//MetadataAPIHelper.getSubscriberPackageVersion('04t3h000004bdsNAAQ');
+//CpmVersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/gpbu-visitor-management', new map<String,String>{});
+//CpmVersionHelper.getComponentFromGithubURL('https://github.com/davidlarrimore/richTextInputFSC', new map<String,String>{});
+//CpmVersionHelper.updateComponentSourceCommitInfo('a021F0000057Pe5QAE');
+//CpmVersionHelper.updateComponentSourceTagInfo('a021F0000057Pe5QAE');
+//CpmVersionHelper.getInstalledPackages();
+//CpmMetadataAPIHelper.getInstalledPackages();
+//CpmMetadataAPIHelper.getSubscriberPackage('0333h000000AYQGAA4');
+//CpmMetadataAPIHelper.getSubscriberPackageVersion('04t3h000004bdsNAAQ');
 
-//MetadataAPIHelper.createComponentFromPackage('04t3h000004bdsNAAQ', null);
+//CpmMetadataAPIHelper.createComponentFromPackage('04t3h000004bdsNAAQ', null);
 
 
-//VersionHelper.componentUpdateCheck('a02R000000VVckFIAT');
+//CpmVersionHelper.componentUpdateCheck('a02R000000VVckFIAT');
 
-VersionHelper.updateComponentFromXTag();
+CpmVersionHelper.updateComponentFromXTag();

@@ -1,4 +1,4 @@
-# Salesforce Component Package Manager
+# Salesforce Component Package Manager Client
 
 *AKA Steam for Salesforce*
 
