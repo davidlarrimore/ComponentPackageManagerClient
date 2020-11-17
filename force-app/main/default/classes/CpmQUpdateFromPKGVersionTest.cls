@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueUpdateComponentFromPKGVersionTest {
+public with sharing class CpmQUpdateFromPKGVersionTest {
     public static final DateTime CURRENT_PACKAGE_VERSION_INSTALL_DATETIME = (DateTime)Json.deserialize('2020-08-27T19:26:30.000Z', DateTime.class);
     public static final DateTime PREVIOUS_PACKAGE_VERSION_INSTALL_DATETIME = (DateTime)Json.deserialize('2019-08-27T19:26:30.000Z', DateTime.class);
 
@@ -28,11 +28,11 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         insert demoComponent;
 
 
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        CpmQUpdateFromPackageVersion CpmQUpdateFromPackageVersionJob = new CpmQUpdateFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
-        Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
-        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        Id jobId = System.enqueueJob(CpmQUpdateFromPackageVersionJob);
+        CpmQUpdateFromPackageVersion.doLater(CpmQUpdateFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
         
@@ -63,14 +63,14 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         );
         insert demoComponent;
 
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(ParentJobId, demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        String ParentJobId = CpmAsyncEventHelper.generateId();
+        CpmQUpdateFromPackageVersion CpmQUpdateFromPackageVersionJob = new CpmQUpdateFromPackageVersion(ParentJobId, demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
-        Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
+        Id jobId = System.enqueueJob(CpmQUpdateFromPackageVersionJob);
         Test.stopTest(); 
         
-        System.assertEquals(ParentJobId, queueUpdateComponentFromPackageVersionJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, CpmQUpdateFromPackageVersionJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
     static testmethod void testJobUpdate() {
@@ -97,11 +97,11 @@ public with sharing class QueueUpdateComponentFromPKGVersionTest {
         insert demoComponent;
 
 
-        QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        CpmQUpdateFromPackageVersion CpmQUpdateFromPackageVersionJob = new CpmQUpdateFromPackageVersion(demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         
         Test.startTest();        
-        Id jobId = System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
-        QueueUpdateComponentFromPackageVersion.doLater(queueUpdateComponentFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
+        Id jobId = System.enqueueJob(CpmQUpdateFromPackageVersionJob);
+        CpmQUpdateFromPackageVersion.doLater(CpmQUpdateFromPackageVersionJob.GetJobInfo(), demoComponent.Id, CpmApiCalloutMock.CURRENT_SUBSCRIBER_PACKAGE_VERSION_ID);
         Test.stopTest(); 
         
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c FROM Cpm_Component_Package__c where Subscriber_Package_Id__c=:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];

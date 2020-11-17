@@ -1,5 +1,5 @@
 @isTest
-public with sharing class CpmCustomSettingHelperTest {
+public with sharing class CpmClientCustomSettingHelperTest {
 
     @testSetup 
     static void setup() {
@@ -13,7 +13,7 @@ public with sharing class CpmCustomSettingHelperTest {
         insert appSetting;
 
         Test.startTest();        
-            Cpm_Client_Settings__c getAppSetting = CpmCustomSettingHelper.getAppSettings();
+            Cpm_Client_Settings__c getAppSetting = CpmClientCustomSettingHelper.getAppSettings();
         Test.stopTest(); 
 
         System.assertEquals(0, appSettings.size());    
@@ -24,7 +24,7 @@ public with sharing class CpmCustomSettingHelperTest {
         List<Cpm_Client_Settings__c> beforeTestAppSetting = [SELECT Id, Last_Library_Refresh_Date__c, Initial_Config_Flag__c, Sandbox_Flag__c FROM Cpm_Client_Settings__c]; 
        
         Test.startTest();        
-            Cpm_Client_Settings__c getAppSetting = CpmCustomSettingHelper.getAppSettings();
+            Cpm_Client_Settings__c getAppSetting = CpmClientCustomSettingHelper.getAppSettings();
         Test.stopTest(); 
   
         List<Cpm_Client_Settings__c> afterTestAppSetting = [SELECT Id, Last_Library_Refresh_Date__c, Initial_Config_Flag__c, Sandbox_Flag__c FROM Cpm_Client_Settings__c]; 

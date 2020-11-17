@@ -14,18 +14,18 @@ public with sharing class CpmVersionHelper {
     //If it can't find sfdx-project.json, it looks for /src/project.xml this means its a legacy aura project
 
     public static void AddGithubComponent(String githubUrl, Map<String,String> options){
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
 
         System.debug('CpmVersionHelper.AddGithubComponent.runApex');  
         System.debug('Processing ' + githubUrl);
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Add Demo Component from Github Repository', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Add Demo Component from Github Repository', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
+        CpmAsyncEventHelper.publishPlatformEvent(jobInfo);
 
         System.debug('Seeing if Package already exists');
         List<Cpm_Component_Package__c> existingPackageLookup = [SELECT Id, Source_Install_Type_Flag__c, Latest_Subscriber_Package_Version_Id__c, Package_Install_Type_Flag__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Github_Repository_URL__c = :githubUrl LIMIT 1];
@@ -60,39 +60,39 @@ public with sharing class CpmVersionHelper {
 
             if(options.containsKey('xTagFile')){
               XTagFile xTagFile = (XTagFile)System.JSON.deserialize(options.get('xTagFile'), XTagFile.class);
-              QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+              CpmQUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new CpmQUpdateInstalledSourceCommitInfo(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
               System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob);   
             }
 
-            QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
-            System.enqueueJob(queueUpdateComponentFromSFDXJob);
+            CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+            System.enqueueJob(CpmQUpdateFromSFDXJob);
             
-            QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);   
-            System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+            CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);   
+            System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
 
-            QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
-            System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+            CpmQUpdateSourceTagInfo CpmQUpdateSourceTagInfoJob = new CpmQUpdateSourceTagInfo(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id);    
+            System.enqueueJob(CpmQUpdateSourceTagInfoJob);
             
-            QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
-            System.enqueueJob(queueUpdateComponentFromGithubRepoJob);
+            CpmQUpdateFromGithubRepo CpmQUpdateFromGithubRepoJob = new CpmQUpdateFromGithubRepo(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+            System.enqueueJob(CpmQUpdateFromGithubRepoJob);
             
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Added new Demo Component "' + demoComponent.Title__c + '". performing Post Processing!',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Added new Demo Component "' + demoComponent.Title__c + '". performing Post Processing!',
+              CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
             });                
 
-            QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
-              QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
-              QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+            CpmComponentPackageUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+              CpmComponentPackageUpdateEventHelper.FIELD_UPDATE_FLAG => CpmComponentPackageUpdateEventHelper.FLAG_TRUE,
+              CpmComponentPackageUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
             });               
         }else{
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component already exists',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_INFO});               
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component already exists',
+              CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_INFO});               
         }
 
     }
@@ -101,21 +101,21 @@ public with sharing class CpmVersionHelper {
     public static void RefreshComponent(String demoComponentId){
         System.debug('Running CpmVersionHelper.RefreshComponent');
 
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Refresh Demo Component Info', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Refresh Demo Component Info', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
         
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
+        CpmAsyncEventHelper.publishPlatformEvent(jobInfo);
 
 
         //FIRST THING WE DO IS CHECK TO SEE IF PACKAGES WERE ALREADY INSTALLED
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages(jobId);
-        List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
+        CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages(jobId);
+        List<AsyncApexJob> existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
         if (existingJobs.size() == 0){
             System.debug('Running queueGetInstalledPackagesJob');
             System.enqueueJob(queueGetInstalledPackagesJob);
@@ -128,46 +128,46 @@ public with sharing class CpmVersionHelper {
         if(demoComponentSearch.size() > 0){
             Cpm_Component_Package__c demoComponent = demoComponentSearch[0];
 
-            QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(jobId, demoComponentId); 
-            existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueUpdateComponentFromSFDXJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
+            CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(jobId, demoComponentId); 
+            existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :CpmQUpdateFromSFDXJob.getJobInfo('Apex_Class_Name__c') LIMIT 1];
             if (existingJobs.size() == 0){
-                System.enqueueJob(queueUpdateComponentFromSFDXJob);
+                System.enqueueJob(CpmQUpdateFromSFDXJob);
             }
 
 
             if(demoComponent.Source_Install_Type_Flag__c){
-                QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(jobId, demoComponentId);   
-                System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+                CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(jobId, demoComponentId);   
+                System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
                 
-                QueueUpdateComponentSourceTagInfo queueUpdateComponentSourceTagInfoJob = new QueueUpdateComponentSourceTagInfo(jobId, demoComponentId); 
-                System.enqueueJob(queueUpdateComponentSourceTagInfoJob);
+                CpmQUpdateSourceTagInfo CpmQUpdateSourceTagInfoJob = new CpmQUpdateSourceTagInfo(jobId, demoComponentId); 
+                System.enqueueJob(CpmQUpdateSourceTagInfoJob);
 
-                QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
-                System.enqueueJob(queueUpdateComponentFromGithubRepoJob);            
+                CpmQUpdateFromGithubRepo CpmQUpdateFromGithubRepoJob = new CpmQUpdateFromGithubRepo(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id); 
+                System.enqueueJob(CpmQUpdateFromGithubRepoJob);            
             }
             demoComponent.Last_Fetched__c = datetime.now();
             update demoComponent;
         }
-        jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
+        jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+        CpmAsyncEventHelper.publishPlatformEvent(jobInfo);    
     }    
     
 
     public static void getinstalledXTAGs(String parentJobId){
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
 
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
 
         if(String.isBlank(parentJobId)
         ){
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);
+            jobInfo.put(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);
         }
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);
+        CpmAsyncEventHelper.publishPlatformEvent(jobInfo);
         List<StaticResource> staticResources = new List<StaticResource>();
         try {
             //Added to allow for Testing
@@ -192,15 +192,15 @@ public with sharing class CpmVersionHelper {
                 }
             }
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);    
             
         }catch (Exception e) {
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});                
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+            CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+            CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+            CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_ERROR});                
         }  
     }
 
@@ -212,7 +212,7 @@ public with sharing class CpmVersionHelper {
             XTagFile xTagFile = (XTagFile)System.JSON.deserialize(xTagJSON, XTagFile.class);
             Boolean hasParentJob = false;
 
-            if(jobInfo.containsKey(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID)){
+            if(jobInfo.containsKey(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID)){
                 hasParentJob = true;
             }
 
@@ -234,18 +234,18 @@ public with sharing class CpmVersionHelper {
 
                     update demoComponent;  
 
-                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component ' + demoComponent.Title__c + ' was installed. Updating',
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+                    CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                      CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                      CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component ' + demoComponent.Title__c + ' was installed. Updating',
+                      CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
                     });  
 
-                    QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
-                      QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
-                      QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+                    CpmComponentPackageUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+                      CpmComponentPackageUpdateEventHelper.FIELD_UPDATE_FLAG => CpmComponentPackageUpdateEventHelper.FLAG_TRUE,
+                      CpmComponentPackageUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
                     });
                         
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    CpmQUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new CpmQUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 //Newer version was installed
@@ -259,13 +259,13 @@ public with sharing class CpmVersionHelper {
 
                     update demoComponent;  
 
-                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'It looks like Demo Component ' + demoComponent.Title__c + ' was updated! Congratulations.',
-                      QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+                    CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                      CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                      CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'It looks like Demo Component ' + demoComponent.Title__c + ' was updated! Congratulations.',
+                      CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
                     });  
 
-                    QueueUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new QueueUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
+                    CpmQUpdateInstalledSourceCommitInfo queueUpdateInstalledSourceCommitInfoJob = new CpmQUpdateInstalledSourceCommitInfo(hasParentJob ? jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID) : jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID), demoComponent.Id, xTagFile.commitHash); 
                     System.enqueueJob(queueUpdateInstalledSourceCommitInfoJob); 
 
                 }else{
@@ -276,26 +276,26 @@ public with sharing class CpmVersionHelper {
 
                 System.debug('Repository ' + xTagFile.githubRepositoryUrl + ' Does not match an existing component, creating a new one');
 
-                QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS});  
+                CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                    CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                    CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Found newly installed component!',
+                    CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS});  
 
                 CpmVersionHelper.AddGithubComponent(xTagFile.githubRepositoryUrl, new map<String,String>{'xTagFile'=>xTagJSON});
             }
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);    
 
         }catch (Exception e) {
-            System.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());   
+            System.debug(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());   
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
 
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Failed Notification',
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-            QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});                
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+            CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Failed Notification',
+            CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+            CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_ERROR});                
         }  
     }
 

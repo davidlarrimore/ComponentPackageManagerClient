@@ -1,0 +1,9 @@
+{
+    "objects": [
+        {
+            "query": "SELECT Admin_Permission_Set__c,Description__c,Github_Repository_URL__c,Dependencies_Met__c,Install_Key__c,Latest_Commit_DateTime__c,Latest_Commit_Description__c,Latest_Commit_Hash__c,Latest_Package_Version__c,Latest_Package_Version_Name__c,Latest_SFDX_Package_Alias__c,Latest_SFDX_Package_Version_Description__c,Latest_SFDX_Package_Version_Name__c,Latest_Subscriber_Package_Version_Id__c,Latest_Tag_Commit_DateTime__c,Latest_Tag_Commit_Description__c,Latest_Tag_Commit_Hash__c,Latest_Tag_Version_Name__c,Package_Name__c,POC_Email__c,POC_Name__c,SFDX_Package_Enabled_Flag__c,SFDX_Package_Name__c,Source_Install_Type_Flag__c,Package_Install_Type_Flag__c,Subscriber_Package_Id__c,Title__c FROM Cpm_Component_Package__c WHERE Latest_Package_Version_Deprecated_Flag__c = false",
+            "operation": "Upsert",
+            "externalId": "Name"
+        }
+    ]
+}

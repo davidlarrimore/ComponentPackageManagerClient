@@ -10,8 +10,8 @@ sfdx force:user:permset:assign --permsetname ComponentPackageManagerClient
 echo "*** Generating password for your user ..."
 sfdx force:user:password:generate --targetusername ComponentPackageManagerClientScratch
 
-echo "*** Creating data"
-sfdx force:data:tree:import -f ./data/export-demo-Cpm_Component_Package__c.json -u ComponentPackageManagerClientScratch
+echo "*** Upserting data"
+sfdx sfdmu:run --sourceusername csvfile --targetusername ComponentPackageManagerClientScratch -p data
 
 echo "*** Setting up debug mode..."
 sfdx force:apex:execute -f scripts/apex/setDebugMode.apex

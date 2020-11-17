@@ -38,7 +38,7 @@ const fields = [
 
 export default class CpmDemoComponentLayoutManager extends LightningElement {
     @api recordId;
-    channelName = "/event/CPM_Component_Update__e";
+    channelName = "/event/Cpm_Component_Package_Update__e";
 
     @track demoComponentManagerSettings;
 
@@ -83,7 +83,7 @@ export default class CpmDemoComponentLayoutManager extends LightningElement {
 
 
     doProcessPlatformEvent(payload) {
-      console.log(`Processing CPM_Component_Update__e Event Payload: ${JSON.stringify(payload)}`);
+      console.log(`Processing Cpm_Component_Package_Update__e Event Payload: ${JSON.stringify(payload)}`);
     }
 
   // Handles subscribe button click

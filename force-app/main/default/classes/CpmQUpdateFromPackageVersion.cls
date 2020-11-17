@@ -1,8 +1,8 @@
-public class QueueUpdateComponentFromPackageVersion implements Queueable, Database.AllowsCallouts {
+public class CpmQUpdateFromPackageVersion implements Queueable, Database.AllowsCallouts {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-      QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Update Component Package Info', 
-      QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromPackageVersion.class.getName()
+      CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Update Component Package Info', 
+      CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmQUpdateFromPackageVersion.class.getName()
   };
 
   public Map<String,String> GetJobInfo() {
@@ -18,7 +18,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   }
 
   public void SetJobStage(String value) {
-      this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+      this.jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
   }   
 
   /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
@@ -26,19 +26,19 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   String subscriberPackageVersionId;
 
   /*************CONSTRUCTORS*************/      
-  public QueueUpdateComponentFromPackageVersion(String parentJobId, Id demoComponentId, String subscriberPackageVersionId) {
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+  public CpmQUpdateFromPackageVersion(String parentJobId, Id demoComponentId, String subscriberPackageVersionId) {
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+    this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);    
+    CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
     this.demoComponentId = demoComponentId;
     this.subscriberPackageVersionId = subscriberPackageVersionId;
   }
 
-  public QueueUpdateComponentFromPackageVersion(Id demoComponentId, String subscriberPackageVersionId) {
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+  public CpmQUpdateFromPackageVersion(Id demoComponentId, String subscriberPackageVersionId) {
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+    this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+    CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
     this.demoComponentId = demoComponentId;
     this.subscriberPackageVersionId = subscriberPackageVersionId;
   }
@@ -46,9 +46,9 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
   /*************EXECUTE METHOD*************/   
   public void execute(QueueableContext context) {
       /*************STANDARD EXECUTE STARTER*************/
-      System.debug('Running ' + QueueUpdateComponentFromPackageVersion.class.getName() );
-      this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
-      QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+      System.debug('Running ' + CpmQUpdateFromPackageVersion.class.getName() );
+      this.SetJobStage(CpmAsyncEventHelper.STAGE_PROCESSING);
+      CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
 
     doLater(this.jobInfo, this.demoComponentId, subscriberPackageVersionId);
   }
@@ -109,7 +109,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
             for(Map<String,String> dependency: metadataInstalledPackageResponseRecord.subscriberPackageVersion.dependencies.ids){
               dependentPackageSubscriberPackageVersionIds.add(dependency.get('subscriberPackageVersionId'));
             }
-            QueueProcessDependentPackages queueProcessDependentPackagesJob = new QueueProcessDependentPackages(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, dependentPackageSubscriberPackageVersionIds); 
+            CpmQProcessDependentPackages queueProcessDependentPackagesJob = new CpmQProcessDependentPackages(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, dependentPackageSubscriberPackageVersionIds); 
             System.enqueueJob(queueProcessDependentPackagesJob);
           }
         }
@@ -117,7 +117,7 @@ public class QueueUpdateComponentFromPackageVersion implements Queueable, Databa
       }
     }
 
-    jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
+    jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+    CpmAsyncEventHelper.publishPlatformEvent(jobInfo);   
   }
 }

@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueUpdateComponentSourceCommitInfoTest {
+public with sharing class CpmQUpdateSourceCommitInfoTest {
     public static final DateTime CURRENT_COMMIT_DATETIME = (DateTime)Json.deserialize('2020-08-27T19:26:30.000Z', DateTime.class);
     public static final DateTime PREVIOUS_COMMIT_DATETIME = (DateTime)Json.deserialize('2019-08-27T19:26:30.000Z', DateTime.class);
 
@@ -28,11 +28,11 @@ public with sharing class QueueUpdateComponentSourceCommitInfoTest {
 
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock());
 
-        QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(demoComponent.Id);
+        CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(demoComponent.Id);
 
         Test.startTest();
-        Id jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
-        QueueUpdateComponentSourceCommitInfo.doLater(queueUpdateComponentSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
+        Id jobId = System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
+        CpmQUpdateSourceCommitInfo.doLater(CpmQUpdateSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest();
 
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Commit_Hash__c, Update_Available__c, Source_installed_Commit_DateTime__c, Source_Installed_Commit_Hash__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
@@ -63,11 +63,11 @@ public with sharing class QueueUpdateComponentSourceCommitInfoTest {
 
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock());
 
-        QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(demoComponent.Id);
+        CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(demoComponent.Id);
 
         Test.startTest();
-        Id jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
-        QueueUpdateComponentSourceCommitInfo.doLater(queueUpdateComponentSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
+        Id jobId = System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
+        CpmQUpdateSourceCommitInfo.doLater(CpmQUpdateSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest();
 
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Commit_Hash__c, Update_Available__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
@@ -100,11 +100,11 @@ public with sharing class QueueUpdateComponentSourceCommitInfoTest {
 
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock());
 
-        QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(demoComponent.Id);
+        CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(demoComponent.Id);
 
         Test.startTest();
-        Id jobId = System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
-        QueueUpdateComponentSourceCommitInfo.doLater(queueUpdateComponentSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
+        Id jobId = System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
+        CpmQUpdateSourceCommitInfo.doLater(CpmQUpdateSourceCommitInfoJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest();
 
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Github_Repository_URL__c, Latest_Commit_Hash__c, Update_Available__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
@@ -133,15 +133,15 @@ public with sharing class QueueUpdateComponentSourceCommitInfoTest {
             Source_Installed_Commit_Hash__c = CpmApiCalloutMock.RTA_GITHUB_PREVIOUS_COMMIT_HASH
         );
         insert demoComponent;
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
+        String ParentJobId = CpmAsyncEventHelper.generateId();
 
-        QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(ParentJobId, demoComponent.Id);
+        CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(ParentJobId, demoComponent.Id);
 
         Test.startTest();
-            System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+            System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
         Test.stopTest();
 
-        System.assertEquals(ParentJobId, queueUpdateComponentSourceCommitInfoJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, CpmQUpdateSourceCommitInfoJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
     static testmethod void testNoJob() {
@@ -162,15 +162,15 @@ public with sharing class QueueUpdateComponentSourceCommitInfoTest {
             Source_Installed_Commit_Hash__c = CpmApiCalloutMock.RTA_GITHUB_PREVIOUS_COMMIT_HASH
         );
         insert demoComponent;
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
+        String ParentJobId = CpmAsyncEventHelper.generateId();
 
-        QueueUpdateComponentSourceCommitInfo queueUpdateComponentSourceCommitInfoJob = new QueueUpdateComponentSourceCommitInfo(demoComponent.Id);
+        CpmQUpdateSourceCommitInfo CpmQUpdateSourceCommitInfoJob = new CpmQUpdateSourceCommitInfo(demoComponent.Id);
 
         Test.startTest();
-            System.enqueueJob(queueUpdateComponentSourceCommitInfoJob);
+            System.enqueueJob(CpmQUpdateSourceCommitInfoJob);
         Test.stopTest();
 
-        System.assertNotEquals(null, queueUpdateComponentSourceCommitInfoJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID));
+        System.assertNotEquals(null, CpmQUpdateSourceCommitInfoJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID));
     }
 
 

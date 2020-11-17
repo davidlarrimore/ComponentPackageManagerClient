@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueGetInstalledPackagesTest {
+public with sharing class CpmQGetInstalledPackagesTest {
     public static final DateTime CURRENT_PACKAGE_VERSION_INSTALL_DATETIME = (DateTime)Json.deserialize('2020-08-27T19:26:30.000Z', DateTime.class);
     public static final DateTime PREVIOUS_PACKAGE_VERSION_INSTALL_DATETIME = (DateTime)Json.deserialize('2019-08-27T19:26:30.000Z', DateTime.class);
 
@@ -11,11 +11,11 @@ public with sharing class QueueGetInstalledPackagesTest {
     static testmethod void testJob() {
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages();
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueGetInstalledPackagesJob);
-        QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
+        CpmQGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
         
         
@@ -24,7 +24,7 @@ public with sharing class QueueGetInstalledPackagesTest {
 
         System.assertEquals(16, demoComponents.size());
         System.assertEquals(jobId, jobInfo.Id);
-        System.assertEquals(QueuePlatformAsyncEventHelper.STAGE_COMPLETED, queueGetInstalledPackagesJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE));
+        System.assertEquals(CpmAsyncEventHelper.STAGE_COMPLETED, queueGetInstalledPackagesJob.GetJobInfo(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE));
     }
 
 
@@ -32,14 +32,14 @@ public with sharing class QueueGetInstalledPackagesTest {
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock()); 
 
 
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages(ParentJobId);
+        String ParentJobId = CpmAsyncEventHelper.generateId();
+        CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages(ParentJobId);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueGetInstalledPackagesJob);
         Test.stopTest(); 
         
-        System.assertEquals(ParentJobId, queueGetInstalledPackagesJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, queueGetInstalledPackagesJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
     static testmethod void testHasExistingJob() {
@@ -63,11 +63,11 @@ public with sharing class QueueGetInstalledPackagesTest {
         insert demoComponent;
 
         Id demoComponentId = demoComponent.Id;
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages();
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueGetInstalledPackagesJob);
-        QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
+        CpmQGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
  
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Cpm_Component_Package__c where Id = :demoComponentId LIMIT 1];
@@ -104,11 +104,11 @@ public with sharing class QueueGetInstalledPackagesTest {
 
         Id demoComponentId = demoComponent.Id;
 
-        QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
+        CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages();
     
         Test.startTest();        
         Id jobId = System.enqueueJob(queueGetInstalledPackagesJob);
-        QueueGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
+        CpmQGetInstalledPackages.doLater(queueGetInstalledPackagesJob.GetJobInfo());
         Test.stopTest(); 
 
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Installed__c, Install_Date__c, Package_Installed_Version_Number__c, Package_Installed_Subscriber_Version_Id__c FROM Cpm_Component_Package__c where Id = :demoComponentId LIMIT 1];

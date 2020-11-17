@@ -1,16 +1,10 @@
 
-echo "*** Deploying Source to Org ..."
-sfdx force:source:deploy --targetusername PackageManagerHub --sourcepath force-app
-
 echo "*** Run Test Cases W\Coverage ..."
-sfdx force:apex:test:run -c -u PackageManagerHub -r human
-
-echo "*** Export Data..."
-#sfdx force:data:tree:import -f ./data/export-demo-Cpm_Component_Package__c.json -u PackageManagerHub
+sfdx force:apex:test:run -c -u CDOPackageManager -r human
 
 #No Longer Needed
 #echo "*** Creating Managed Package ..."
-#sfdx force:package:create -n "SF Component Package Manager" -t Unlocked --nonamespace -r force-app --targetdevhubusername PackageManagerHub
+#sfdx force:package:create -n "Component Package Manager Client" -t Unlocked --nonamespace -r force-app --targetdevhubusername CDOPackageManager
 
 echo "*** Creating Managed Package Version..."
 sfdx force:package:version:create --package "Component Package Manager Client" -x --wait 10 --codecoverage  --definitionfile config/project-scratch-def.json

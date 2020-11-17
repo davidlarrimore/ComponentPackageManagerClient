@@ -1,4 +1,4 @@
-public with sharing class CpmGithubCpmAPIHelper {
+public with sharing class CpmGithubAPIHelper {
 
 
     public static String convertToRawGithubUrl(String githubUrl, String contentName){
@@ -54,7 +54,7 @@ public with sharing class CpmGithubCpmAPIHelper {
 
     public static GithubSFDXProjectDotJSON getGithubSFDXProjectDotJSON(String githubUrl){
         system.debug('Running getGithubSFDXProjectDotJSON against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRawGithubUrl(githubUrl, 'sfdx-project.json');
+        String newGithubUrl = CpmGithubAPIHelper.convertToRawGithubUrl(githubUrl, 'sfdx-project.json');
         String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
   
         //get JSON String
@@ -72,54 +72,6 @@ public with sharing class CpmGithubCpmAPIHelper {
         return null;
     }
 
-    /*
-    public static GithubComponentConfigDotJSON getGithubComponentConfigDotJSON(String githubUrl){
-        system.debug('Running getGithubComponentConfigDotJSON against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRawGithubUrl(githubUrl, 'component-config.json');
-        String SFdomainUrl=URL.getSalesforceBaseUrl().toExternalForm();
-
-        //get JSON String
-        String JSONResponse = CpmAPIHelper.doRestRequestJSON(newGithubUrl, false);
-
-        if(JSONResponse != null){
-            //Changing Reserved words
-            JSONResponse = JSONResponse.replace('"package":', '"packageName":');
-            JSONResponse = JSONResponse.replace('"default":', '"defaultDirectory":');
-
-            //system.debug('Processing JSON: ' + JSONResponse);
-            return (GithubComponentConfigDotJSON)System.JSON.deserialize(JSONResponse, GithubComponentConfigDotJSON.class);
-        }
-        system.debug('There was an issue with the doRestRequestJSON');
-        return null;
-    }
-
-    //For older packages (PRE SFDX), we can try to grab the /src/package.xml
-    public static Dom.Document getGithubSFDXProjectDotXML(String githubUrl){
-        system.debug('Running getGithubSFDXProjectDotXML against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRawGithubUrl(githubUrl+'/src/', 'package.xml');
-
-        try{        
-            Http http = new Http();
-            HttpRequest request = new HttpRequest();
-
-            request.setEndpoint(newGithubUrl);
-            request.setMethod('GET');
-            HttpResponse response = http.send(request);
-            // If the request is successful, parse the JSON response.
-            if (response.getStatusCode() == 200) {
-                // Deserialize the JSON string into collections of primitive data types.
-                return response.getBodyDocument();
-            }else{
-                return null;
-            }
-        }catch(Exception e){
-            system.debug('Error Running API: ' + e);
-            throw e;
-        }      
-    }
-    */
-
-
    /* 
     * Get Latest Master Commit
     * Options:
@@ -128,7 +80,7 @@ public with sharing class CpmGithubCpmAPIHelper {
     */
     public static GithubRepoCommit getGithubCommit(String githubUrl, Map<String,String> options){
         system.debug('Running getLatestGithubCommit against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRepoApiGithubUrl(githubUrl);
+        String newGithubUrl = CpmGithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
         //get JSON String
         //TODO: Use the /master to grab the latest commit
@@ -174,7 +126,7 @@ public with sharing class CpmGithubCpmAPIHelper {
     */
     public static List<GithubRepoCommit> getGithubCommits(String githubUrl){
         system.debug('Running getGithubCommits against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRepoApiGithubUrl(githubUrl);
+        String newGithubUrl = CpmGithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
         //get JSON String
         //TODO: Use the /master to grab the latest commit
@@ -249,7 +201,7 @@ public with sharing class CpmGithubCpmAPIHelper {
 
     public static List<GithubRepoTag> getGithubTags(String githubUrl){
         system.debug('Running getGithubTags against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRepoApiGithubUrl(githubUrl);
+        String newGithubUrl = CpmGithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
         //get JSON String
         String JSONResponse = CpmAPIHelper.doRestRequestJSON(newGithubUrl + '/tags', false);
@@ -266,7 +218,7 @@ public with sharing class CpmGithubCpmAPIHelper {
                 system.debug(githubTags);
                 system.debug('Found Tags, grabbing commits');
 
-                List<GithubRepoCommit> githubCommits = CpmGithubCpmAPIHelper.getGithubCommits(githubUrl);
+                List<GithubRepoCommit> githubCommits = CpmGithubAPIHelper.getGithubCommits(githubUrl);
 
                 if(githubCommits != null && githubCommits.size() > 0){
                     system.debug(githubTags);
@@ -312,7 +264,7 @@ public with sharing class CpmGithubCpmAPIHelper {
 
     public static GithubRepository getGithubRepo(String githubUrl){
         system.debug('Running getGithubRepo against URL:' + githubUrl);
-        String newGithubUrl = CpmGithubCpmAPIHelper.convertToRepoApiGithubUrl(githubUrl);
+        String newGithubUrl = CpmGithubAPIHelper.convertToRepoApiGithubUrl(githubUrl);
 
         //get JSON String
         String JSONResponse = CpmAPIHelper.doRestRequestJSON(newGithubUrl, false);

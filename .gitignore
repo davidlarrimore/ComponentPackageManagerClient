@@ -33,3 +33,8 @@ Thumbs.db
 ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
+
+# Data Export Files
+data/logs
+data/source
+data/target

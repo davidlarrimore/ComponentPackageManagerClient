@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueUpdateComponentFromSFDXTest {
+public with sharing class CpmQUpdateFromSFDXTest {
 
     @testSetup 
     static void setup() {
@@ -18,11 +18,11 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
 
         insert demoComponent;
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponent.Id);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(demoComponent.Id);
         
         Test.startTest();        
-        Id jobId = System.enqueueJob(queueUpdateComponentFromSFDXJob);
-        QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponent.Id);
+        Id jobId = System.enqueueJob(CpmQUpdateFromSFDXJob);
+        CpmQUpdateFromSFDX.doLater(CpmQUpdateFromSFDXJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
         
@@ -51,15 +51,15 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
 
         insert demoComponent;
         
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
+        String ParentJobId = CpmAsyncEventHelper.generateId();
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(ParentJobId, demoComponent.Id);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(ParentJobId, demoComponent.Id);
         
         Test.startTest();        
-            System.enqueueJob(queueUpdateComponentFromSFDXJob);
+            System.enqueueJob(CpmQUpdateFromSFDXJob);
         Test.stopTest(); 
         
-        System.assertEquals(ParentJobId, queueUpdateComponentFromSFDXJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, CpmQUpdateFromSFDXJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
     static testmethod void testNoSFDXProjectDotJSON() {
@@ -75,11 +75,11 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
 
         insert demoComponent;
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponent.Id);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(demoComponent.Id);
         
         Test.startTest();        
-        System.enqueueJob(queueUpdateComponentFromSFDXJob);
-        QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponent.Id);
+        System.enqueueJob(CpmQUpdateFromSFDXJob);
+        CpmQUpdateFromSFDX.doLater(CpmQUpdateFromSFDXJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
         
@@ -100,11 +100,11 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
 
         insert demoComponent;
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponent.Id);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(demoComponent.Id);
         
         Test.startTest();        
-        System.enqueueJob(queueUpdateComponentFromSFDXJob);
-        QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponent.Id);
+        System.enqueueJob(CpmQUpdateFromSFDXJob);
+        CpmQUpdateFromSFDX.doLater(CpmQUpdateFromSFDXJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
         
@@ -127,14 +127,14 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
         Id demoComponentId = demoComponent.Id;
         delete demoComponent;
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponentId);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(demoComponentId);
         
         Test.startTest();        
-        System.enqueueJob(queueUpdateComponentFromSFDXJob);
-        QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponentId);
+        System.enqueueJob(CpmQUpdateFromSFDXJob);
+        CpmQUpdateFromSFDX.doLater(CpmQUpdateFromSFDXJob.GetJobInfo(), demoComponentId);
         Test.stopTest(); 
         
-        System.assertEquals(QueuePlatformAsyncEventHelper.STAGE_FAILED, queueUpdateComponentFromSFDXJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE));
+        System.assertEquals(CpmAsyncEventHelper.STAGE_FAILED, CpmQUpdateFromSFDXJob.GetJobInfo(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE));
     }
 
     static testmethod void testUpdate() {
@@ -162,11 +162,11 @@ public with sharing class QueueUpdateComponentFromSFDXTest {
 
         insert demoComponent;
 
-        QueueUpdateComponentFromSFDX queueUpdateComponentFromSFDXJob = new QueueUpdateComponentFromSFDX(demoComponent.Id);
+        CpmQUpdateFromSFDX CpmQUpdateFromSFDXJob = new CpmQUpdateFromSFDX(demoComponent.Id);
         
         Test.startTest();        
-            System.enqueueJob(queueUpdateComponentFromSFDXJob);
-            QueueUpdateComponentFromSFDX.doLater(queueUpdateComponentFromSFDXJob.GetJobInfo(), demoComponent.Id);
+            System.enqueueJob(CpmQUpdateFromSFDXJob);
+            CpmQUpdateFromSFDX.doLater(CpmQUpdateFromSFDXJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
         Cpm_Component_Package__c updatedDemoComponent = [SELECT Id, Update_Available__c, Latest_SFDX_Package_Alias__c, Latest_Subscriber_Package_Version_Id__c FROM Cpm_Component_Package__c where Id =:demoComponent.Id LIMIT 1];

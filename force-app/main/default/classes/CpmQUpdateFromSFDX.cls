@@ -1,8 +1,8 @@
-public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsCallouts  {
+public class CpmQUpdateFromSFDX implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Update Component SFDX Info', 
-        QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentFromSFDX.class.getName()
+        CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Update Component SFDX Info', 
+        CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmQUpdateFromSFDX.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -18,33 +18,33 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
     }
 
     public void SetJobStage(String value) {
-        this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+        this.jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
     }   
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
     Id demoComponentId = null;
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateComponentFromSFDX(String parentJobId, Id demoComponentId) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());   
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());       
+    public CpmQUpdateFromSFDX(String parentJobId, Id demoComponentId) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId());   
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());       
         this.demoComponentId = demoComponentId;     
     }
 
-    public QueueUpdateComponentFromSFDX(Id demoComponentId) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());   
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+    public CpmQUpdateFromSFDX(Id demoComponentId) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId());   
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
         this.demoComponentId = demoComponentId;
     }
 
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_PROCESSING);
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
 
         doLater(this.jobInfo, this.demoComponentId);
 
@@ -62,7 +62,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
             Cpm_Component_Package__c demoComponent = demoComponentSearch[0];
             if(String.isNotEmpty(demoComponent.Github_Repository_URL__c)){
                 try {
-                    githubSFDXProjectDotJSON = CpmGithubCpmAPIHelper.getGithubSFDXProjectDotJSON(demoComponent.Github_Repository_URL__c);
+                    githubSFDXProjectDotJSON = CpmGithubAPIHelper.getGithubSFDXProjectDotJSON(demoComponent.Github_Repository_URL__c);
 
                     if(null != githubSFDXProjectDotJSON){
                         if(githubSFDXProjectDotJSON.packageDirectories != null && githubSFDXProjectDotJSON.packageDirectories.size() > 0){
@@ -94,7 +94,7 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                             }
                             
                             if(demoComponent.SFDX_Package_Enabled_Flag__c && demoComponent.Latest_Subscriber_Package_Version_Id__c != githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()){
-                                System.debug('Package Versions are different, QueueUpdateComponentFromPackageVersion');
+                                System.debug('Package Versions are different, CpmQUpdateFromPackageVersion');
                                 demoComponent.Latest_SFDX_Package_Alias__c = githubSFDXProjectDotJSON.getLatestVersionAlias();
                                 demoComponent.Latest_Subscriber_Package_Version_Id__c = githubSFDXProjectDotJSON.getLatestVersionPackageVersionId();
                                 triggerPackageUpdate = true;
@@ -109,15 +109,15 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                             }
                         }
 
-                        jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-                        QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);                  
+                        jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+                        CpmAsyncEventHelper.publishPlatformEvent(jobInfo);                  
 
                         update demoComponent;
 
                         if(triggerPackageUpdate){
                 
-                            QueueUpdateComponentFromPackageVersion queueUpdateComponentFromPackageVersionJob = new QueueUpdateComponentFromPackageVersion(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()); 
-                            System.enqueueJob(queueUpdateComponentFromPackageVersionJob);
+                            CpmQUpdateFromPackageVersion CpmQUpdateFromPackageVersionJob = new CpmQUpdateFromPackageVersion(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_ID),demoComponent.Id, githubSFDXProjectDotJSON.getLatestVersionPackageVersionId()); 
+                            System.enqueueJob(CpmQUpdateFromPackageVersionJob);
                         }
 
                     }else{
@@ -126,24 +126,24 @@ public class QueueUpdateComponentFromSFDX implements Queueable, Database.AllowsC
                         update demoComponent;
                     }
         
-                    jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
+                    jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+                    CpmAsyncEventHelper.publishPlatformEvent(jobInfo);    
 
                 }catch (Exception e) {
-                    System.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());
-                    jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
-                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Fail Notification',
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-                    QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR});     
+                    System.debug(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());
+                    jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
+                    CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                    CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Fail Notification',
+                    CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+                    CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_ERROR});     
                 }   
             }else{
-                jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-                QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
+                jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+                CpmAsyncEventHelper.publishPlatformEvent(jobInfo);   
             }
         }else{
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);   
         }
     }
 

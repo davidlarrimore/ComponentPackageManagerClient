@@ -5,7 +5,7 @@
     <label>Component Package</label>
     <referenceTo>Cpm_Component_Package__c</referenceTo>
     <relationshipLabel>Component Package Dependencies</relationshipLabel>
-    <relationshipName>Component_Package_Dependencies</relationshipName>
+    <relationshipName>Cpm_Component_Package_Dependencies</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackHistory>false</trackHistory>

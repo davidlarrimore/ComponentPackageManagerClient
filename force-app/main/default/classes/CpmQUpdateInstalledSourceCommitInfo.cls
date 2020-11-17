@@ -1,8 +1,8 @@
-public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database.AllowsCallouts  {
+public class CpmQUpdateInstalledSourceCommitInfo implements Queueable, Database.AllowsCallouts  {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'QueueUpdateInstalledSourceCommitInfo', 
-        QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueUpdateComponentSourceCommitInfo.class.getName()
+        CpmAsyncEventHelper.FIELD_JOB_NAME =>  'CpmQUpdateInstalledSourceCommitInfo', 
+        CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmQUpdateSourceCommitInfo.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -18,7 +18,7 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
     }
 
     public void SetJobStage(String value) {
-        this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+        this.jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
     }   
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
@@ -26,19 +26,19 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
     String commitHash;   
 
     /*************CONSTRUCTORS*************/    
-    public QueueUpdateInstalledSourceCommitInfo(String parentJobId, Id demoComponentId, String commitHash) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());  
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());        
+    public CpmQUpdateInstalledSourceCommitInfo(String parentJobId, Id demoComponentId, String commitHash) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId());  
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());        
         this.demoComponentId = demoComponentId;
         this.commitHash = commitHash;  
     }
 
-    public QueueUpdateInstalledSourceCommitInfo(Id demoComponentId, String commitHash) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId());  
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED);   
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());   
+    public CpmQUpdateInstalledSourceCommitInfo(Id demoComponentId, String commitHash) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId());  
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED);   
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());   
         this.demoComponentId = demoComponentId;
         this.commitHash = commitHash;  
     }
@@ -47,10 +47,10 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
         /*************STANDARD EXECUTE STARTER*************/
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_PROCESSING);
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
         
-        System.debug('Processing QueueUpdateInstalledSourceCommitInfo');   
+        System.debug('Processing CpmQUpdateInstalledSourceCommitInfo');   
         doLater(this.jobInfo, this.demoComponentId, this.commitHash);
 
     }
@@ -67,7 +67,7 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
             if(demoComponentLookup.size() > 0){
                 Cpm_Component_Package__c demoComponent = demoComponentLookup[0];
                 System.debug('Processing ' + demoComponent.Github_Repository_URL__c);   
-                githubCommit = CpmGithubCpmAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>{'commitHash' => commitHash});
+                githubCommit = CpmGithubAPIHelper.getGithubCommit(demoComponent.Github_Repository_URL__c, new Map<String,String>{'commitHash' => commitHash});
 
                 if(githubCommit != null){
                     demoComponent.Source_Installed_Commit_DateTime__c = githubCommit.commitInfo.committer.commitDate;
@@ -82,16 +82,16 @@ public class QueueUpdateInstalledSourceCommitInfo implements Queueable, Database
                 System.debug('Could not find Component ' + demoComponentId);   
             }
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);    
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);    
 
         }catch (Exception e) {
-            System.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
-                QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
-                QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_ERROR
+            System.debug(jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage());
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Completion Notification',
+                CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => jobInfo.get(CpmAsyncEventHelper.FIELD_JOB_NAME) + ' Error: ' + e.getMessage(),
+                CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_ERROR
             });     
         }           
     }

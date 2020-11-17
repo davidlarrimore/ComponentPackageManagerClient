@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueProcessDependentPackagesTest {
+public with sharing class CpmQProcessDependentPackagesTest {
 
     @testSetup 
     static void setup() {
@@ -27,11 +27,11 @@ public with sharing class QueueProcessDependentPackagesTest {
         Cpm_Component_Package__c demoComponent = [SELECT Id FROM Cpm_Component_Package__c where Subscriber_Package_Id__c =:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
 
 
-        QueueProcessDependentPackages queueProcessDependentPackagesJob = new QueueProcessDependentPackages(String.valueOf(demoComponent.Id),dependentPackageVersionIds);
+        CpmQProcessDependentPackages queueProcessDependentPackagesJob = new CpmQProcessDependentPackages(String.valueOf(demoComponent.Id),dependentPackageVersionIds);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueProcessDependentPackagesJob);
-        QueueProcessDependentPackages.doLater(queueProcessDependentPackagesJob.GetJobInfo(), String.valueOf(demoComponent.Id), dependentPackageVersionIds);
+        CpmQProcessDependentPackages.doLater(queueProcessDependentPackagesJob.GetJobInfo(), String.valueOf(demoComponent.Id), dependentPackageVersionIds);
         Test.stopTest(); 
         
         List<Cpm_Component_Package__c> demoComponents = [SELECT Id FROM Cpm_Component_Package__c];
@@ -52,14 +52,14 @@ public with sharing class QueueProcessDependentPackagesTest {
 
         Cpm_Component_Package__c demoComponent = [SELECT Id FROM Cpm_Component_Package__c where Subscriber_Package_Id__c =:CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID LIMIT 1];
 
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
-        QueueProcessDependentPackages queueProcessDependentPackagesJob = new QueueProcessDependentPackages(ParentJobId, String.valueOf(demoComponent.Id), dependentPackageVersionIds);
+        String ParentJobId = CpmAsyncEventHelper.generateId();
+        CpmQProcessDependentPackages queueProcessDependentPackagesJob = new CpmQProcessDependentPackages(ParentJobId, String.valueOf(demoComponent.Id), dependentPackageVersionIds);
         
         Test.startTest();        
         Id jobId = System.enqueueJob(queueProcessDependentPackagesJob);
         Test.stopTest(); 
         
-        System.assertEquals(ParentJobId, queueProcessDependentPackagesJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, queueProcessDependentPackagesJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
 }

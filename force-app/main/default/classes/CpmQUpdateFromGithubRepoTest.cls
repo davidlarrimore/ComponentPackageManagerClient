@@ -1,5 +1,5 @@
 @isTest
-public with sharing class QueueUpdateComponentFromGithubRepoTest {
+public with sharing class CpmQUpdateFromGithubRepoTest {
     public static final String OLD_COMMIT = 'ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81';
     public static final String CURRENT_COMMIT = 'ba99ca2ffdd0e25596be4e1fa9cbc18bb2f57f81';
 
@@ -25,11 +25,11 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
         
         demoComponent = [SELECT Id, Github_Repository_URL__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
-        QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(demoComponent.Id);
+        CpmQUpdateFromGithubRepo CpmQUpdateFromGithubRepoJob = new CpmQUpdateFromGithubRepo(demoComponent.Id);
         
         Test.startTest();        
-        Id jobId = System.enqueueJob(queueUpdateComponentFromGithubRepoJob);
-        QueueUpdateComponentFromGithubRepo.doLater(queueUpdateComponentFromGithubRepoJob.GetJobInfo(), demoComponent.Id);
+        Id jobId = System.enqueueJob(CpmQUpdateFromGithubRepoJob);
+        CpmQUpdateFromGithubRepo.doLater(CpmQUpdateFromGithubRepoJob.GetJobInfo(), demoComponent.Id);
         Test.stopTest(); 
         
         
@@ -39,7 +39,7 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         System.assertEquals('David Larrimore', updatedDemoComponent.POC_Name__c);
         System.assertEquals(jobId, jobInfo.Id);
         System.assertNotEquals(null, updatedDemoComponent.Description__c);
-        System.assertNotEquals(null, queueUpdateComponentFromGithubRepoJob.GetJobInfo());
+        System.assertNotEquals(null, CpmQUpdateFromGithubRepoJob.GetJobInfo());
     }
 
     static testmethod void testChildJob() {
@@ -47,15 +47,15 @@ public with sharing class QueueUpdateComponentFromGithubRepoTest {
         Cpm_Component_Package__c demoComponent = new Cpm_Component_Package__c();
         
         demoComponent = [SELECT Id, Github_Repository_URL__c FROM Cpm_Component_Package__c where Github_Repository_URL__c =:CpmApiCalloutMock.RTA_GITHUB_REPO_URL LIMIT 1];
-        String ParentJobId = QueuePlatformAsyncEventHelper.generateId();
+        String ParentJobId = CpmAsyncEventHelper.generateId();
 
-        QueueUpdateComponentFromGithubRepo queueUpdateComponentFromGithubRepoJob = new QueueUpdateComponentFromGithubRepo(ParentJobId, demoComponent.Id);
+        CpmQUpdateFromGithubRepo CpmQUpdateFromGithubRepoJob = new CpmQUpdateFromGithubRepo(ParentJobId, demoComponent.Id);
         
         Test.startTest();        
-            System.enqueueJob(queueUpdateComponentFromGithubRepoJob);
+            System.enqueueJob(CpmQUpdateFromGithubRepoJob);
         Test.stopTest(); 
         
-        System.assertEquals(ParentJobId, queueUpdateComponentFromGithubRepoJob.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID));
+        System.assertEquals(ParentJobId, CpmQUpdateFromGithubRepoJob.GetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID));
     }
 
 }

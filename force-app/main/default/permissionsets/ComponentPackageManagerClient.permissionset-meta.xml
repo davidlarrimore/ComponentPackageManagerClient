@@ -65,11 +65,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CpmGithubCpmAPIHelper</apexClass>
+        <apexClass>CpmGithubAPIHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GithubApiTest</apexClass>
+        <apexClass>CpmGithubApiTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -121,7 +121,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MetadataApiTest</apexClass>
+        <apexClass>CpmMetadataApiTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -161,75 +161,75 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueComponentUpdateEventHelper</apexClass>
+        <apexClass>CpmComponentPackageUpdateEventHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueGetInstalledPackages</apexClass>
+        <apexClass>CpmQGetInstalledPackages</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueGetInstalledPackagesTest</apexClass>
+        <apexClass>CpmQGetInstalledPackagesTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueuePlatformAsyncEventHelper</apexClass>
+        <apexClass>CpmAsyncEventHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueProcessDependentPackages</apexClass>
+        <apexClass>CpmQProcessDependentPackages</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueProcessDependentPackagesTest</apexClass>
+        <apexClass>CpmQProcessDependentPackagesTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromGithubRepo</apexClass>
+        <apexClass>CpmQUpdateFromGithubRepo</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromGithubRepoTest</apexClass>
+        <apexClass>CpmQUpdateFromGithubRepoTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromPKGVersionTest</apexClass>
+        <apexClass>CpmQUpdateFromPKGVersionTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromPackageVersion</apexClass>
+        <apexClass>CpmQUpdateFromPackageVersion</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromSFDX</apexClass>
+        <apexClass>CpmQUpdateFromSFDX</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentFromSFDXTest</apexClass>
+        <apexClass>CpmQUpdateFromSFDXTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentSourceCommitInfo</apexClass>
+        <apexClass>CpmQUpdateSourceCommitInfo</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentSourceCommitInfoTest</apexClass>
+        <apexClass>CpmQUpdateSourceCommitInfoTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentSourceTagInfo</apexClass>
+        <apexClass>CpmQUpdateSourceTagInfo</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateComponentSourceTagInfoTest</apexClass>
+        <apexClass>CpmQUpdateSourceTagInfoTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateInstalledSourceCommitInfo</apexClass>
+        <apexClass>CpmQUpdateInstalledSourceCommitInfo</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QueueUpdateInstalledSourceCommitInfoTest</apexClass>
+        <apexClass>CpmQUpdateInstalledSourceCommitInfoTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -541,7 +541,7 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
-        <object>Cpm_Component_Update__e</object>
+        <object>Cpm_Component_Package_Update__e</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

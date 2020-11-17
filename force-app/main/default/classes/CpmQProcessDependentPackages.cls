@@ -1,8 +1,8 @@
-public class QueueProcessDependentPackages implements Queueable, Database.AllowsCallouts {
+public class CpmQProcessDependentPackages implements Queueable, Database.AllowsCallouts {
     /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
     Map<String,String> jobInfo = new Map<String,String>{
-        QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Processing Dependent Salesforce Packages', 
-        QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueProcessDependentPackages.class.getName()
+        CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Processing Dependent Salesforce Packages', 
+        CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmQProcessDependentPackages.class.getName()
     };
 
     public Map<String,String> GetJobInfo() {
@@ -18,7 +18,7 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
     }
 
     public void SetJobStage(String value) {
-        this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+        this.jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
     }   
 
     /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
@@ -27,19 +27,19 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
 
 
     /*************CONSTRUCTORS*************/
-    public QueueProcessDependentPackages(String parentDemoComponentId, List<String> dependentPackageVersionIds) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-        system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
+    public CpmQProcessDependentPackages(String parentDemoComponentId, List<String> dependentPackageVersionIds) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+        system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
     }
 
-    public QueueProcessDependentPackages(String parentJobId, String parentDemoComponentId, List<String> dependentPackageVersionIds) {
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-        this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-        this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
-        QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-        system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
+    public CpmQProcessDependentPackages(String parentJobId, String parentDemoComponentId, List<String> dependentPackageVersionIds) {
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+        this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+        this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+        CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+        system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
 
         this.parentDemoComponentId = parentDemoComponentId;
         this.dependentPackageVersionIds = dependentPackageVersionIds;
@@ -48,9 +48,9 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
     /*************EXECUTE METHOD*************/   
     public void execute(QueueableContext context) {
     /*************STANDARD EXECUTE STARTER*************/
-    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
+    this.SetJobStage(CpmAsyncEventHelper.STAGE_PROCESSING);
+    CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+    system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
 
     doLater(this.jobInfo, this.parentDemoComponentId, this.dependentPackageVersionIds);
     }
@@ -58,7 +58,7 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
     @future(callout=true)
     @TestVisible 
     private static void doLater(Map<String, String> jobInfo, String parentDemoComponentId, List<String> dependentPackageVersionIds) {
-        system.debug(jobInfo.get(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing doLater');  
+        system.debug(jobInfo.get(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing doLater');  
 
         List<MetadataInstalledPackageResponseRecord> metadataInstalledPackageResponseRecords = new List<MetadataInstalledPackageResponseRecord>();
         List<Cpm_Component_Package__c> parentDemoComponentLookup = [SELECT Id from Cpm_Component_Package__c WHERE Id = :parentDemoComponentId];
@@ -136,16 +136,16 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
 
                     insert demoComponent;
 
-                    jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-                    QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-                        QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-                        QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Created new Demo Component named , "' + demoComponent.Title__c +'" That is a dependency of another package',
-                        QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+                    jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+                    CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+                        CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+                        CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Created new Demo Component named , "' + demoComponent.Title__c +'" That is a dependency of another package',
+                        CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
                     });  
 
-                    QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
-                        QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
-                        QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+                    CpmComponentPackageUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+                        CpmComponentPackageUpdateEventHelper.FIELD_UPDATE_FLAG => CpmComponentPackageUpdateEventHelper.FLAG_TRUE,
+                        CpmComponentPackageUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
                     });
                 }else{
                     demoComponent = demoComponentLookup[0];
@@ -171,11 +171,11 @@ public class QueueProcessDependentPackages implements Queueable, Database.Allows
                 }
             }
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);   
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);   
         }else{
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_FAILED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);               
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_FAILED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo);               
         }
     }
 }

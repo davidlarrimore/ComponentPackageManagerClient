@@ -1,8 +1,8 @@
-public class QueueGetInstalledPackages implements Queueable, Database.AllowsCallouts {
+public class CpmQGetInstalledPackages implements Queueable, Database.AllowsCallouts {
   /*************STANDARD HELPER VARIABLES / FUNCTIONS*************/
   Map<String,String> jobInfo = new Map<String,String>{
-    QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Salesforce Packages', 
-    QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => QueueGetInstalledPackages.class.getName()
+    CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Salesforce Packages', 
+    CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmQGetInstalledPackages.class.getName()
 };
 
 public Map<String,String> GetJobInfo() {
@@ -18,7 +18,7 @@ public void SetJobInfo(String key, String value) {
 }
 
 public void SetJobStage(String value) {
-    this.jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
+    this.jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, value);  
 }   
 
   /*************QUEUEABLE SPECIFIC VARIABLES / FUNCTIONS*************/
@@ -26,27 +26,27 @@ public void SetJobStage(String value) {
 
 
   /*************CONSTRUCTORS*************/
-  public QueueGetInstalledPackages() {
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
+  public CpmQGetInstalledPackages() {
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+    this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+    CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+    system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
   }
 
-  public QueueGetInstalledPackages(String parentJobId) {
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_ID, QueuePlatformAsyncEventHelper.generateId()); 
-    this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_QUEUED); 
-    this.SetJobInfo(QueuePlatformAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
-    QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-    system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
+  public CpmQGetInstalledPackages(String parentJobId) {
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_ID, CpmAsyncEventHelper.generateId()); 
+    this.SetJobStage(CpmAsyncEventHelper.STAGE_QUEUED); 
+    this.SetJobInfo(CpmAsyncEventHelper.FIELD_JOB_PARENT_ID, parentJobId);  
+    CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+    system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' has been Queued');  
   }
 
 /*************EXECUTE METHOD*************/   
 public void execute(QueueableContext context) {
   /*************STANDARD EXECUTE STARTER*************/
-  this.SetJobStage(QueuePlatformAsyncEventHelper.STAGE_PROCESSING);
-  QueuePlatformAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
-  system.debug(this.GetJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
+  this.SetJobStage(CpmAsyncEventHelper.STAGE_PROCESSING);
+  CpmAsyncEventHelper.publishPlatformEvent(this.GetJobInfo());
+  system.debug(this.GetJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME)+' is now processing');  
 
   doLater(this.jobInfo);
 }
@@ -54,7 +54,7 @@ public void execute(QueueableContext context) {
 @future(callout=true)
 @TestVisible 
 private static void doLater(Map<String, String> jobInfo) {
-  System.debug('Running QueueGetInstalledPackages.doLater');
+  System.debug('Running CpmQGetInstalledPackages.doLater');
   
   List<String> recordsToProcess = new List<String>();
   List<Cpm_Component_Package__c> demoComponents = new List<Cpm_Component_Package__c>();
@@ -92,10 +92,10 @@ private static void doLater(Map<String, String> jobInfo) {
           if(!demoComponent.Installed__c){
             System.debug('Demo Component was not installed previously, marking as installed');
             /*
-             * QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-             * QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-             * QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
-             * QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS}); 
+             * CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+             * CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+             * CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
+             * CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS}); 
              */  
 
             demoComponent.Installed__c = true;
@@ -120,16 +120,16 @@ private static void doLater(Map<String, String> jobInfo) {
 
             demoComponents.add(demoComponent);
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Newly Installed Demo Component Found...',
+              CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
             });   
 
-            QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
-              QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
-              QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+            CpmComponentPackageUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+              CpmComponentPackageUpdateEventHelper.FIELD_UPDATE_FLAG => CpmComponentPackageUpdateEventHelper.FLAG_TRUE,
+              CpmComponentPackageUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
             });
 
             
@@ -147,17 +147,17 @@ private static void doLater(Map<String, String> jobInfo) {
             
             demoComponents.add(demoComponent);
 
-            jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-            QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component "' + demoComponent.Title__c +'" has been updated.',
-              QueuePlatformAsyncEventHelper.FIELD_EVENT_LEVEL => QueuePlatformAsyncEventHelper.EVENT_LEVEL_SUCCESS
+            jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+            CpmAsyncEventHelper.publishPlatformEvent(jobInfo,new Map<String,String>{
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_TITLE => 'Job Update Notification',
+              CpmAsyncEventHelper.FIELD_EVENT_STATUS_MESSAGE => 'Demo Component "' + demoComponent.Title__c +'" has been updated.',
+              CpmAsyncEventHelper.FIELD_EVENT_LEVEL => CpmAsyncEventHelper.EVENT_LEVEL_SUCCESS
             });   
 
 
-            QueueComponentUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
-              QueueComponentUpdateEventHelper.FIELD_UPDATE_FLAG => QueueComponentUpdateEventHelper.FLAG_TRUE,
-              QueueComponentUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
+            CpmComponentPackageUpdateEventHelper.publishPlatformEvent(new Map<String,String>{
+              CpmComponentPackageUpdateEventHelper.FIELD_UPDATE_FLAG => CpmComponentPackageUpdateEventHelper.FLAG_TRUE,
+              CpmComponentPackageUpdateEventHelper.FIELD_DEMO_COMPONENT_ID => demoComponent.Id
             });
           }else{
             System.debug('Everything matches up, we dont need to do anything');   
@@ -199,7 +199,7 @@ private static void doLater(Map<String, String> jobInfo) {
     System.debug('Final Upserting of ' + demoComponents.size() + ' demoComponents');
     upsert demoComponents;
   }
-  jobInfo.put(QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, QueuePlatformAsyncEventHelper.STAGE_COMPLETED);
-  QueuePlatformAsyncEventHelper.publishPlatformEvent(jobInfo);     
+  jobInfo.put(CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE, CpmAsyncEventHelper.STAGE_COMPLETED);
+  CpmAsyncEventHelper.publishPlatformEvent(jobInfo);     
 }
 }

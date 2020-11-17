@@ -24,8 +24,8 @@ public with sharing class CpmComponentInstallCheckerController {
             appSetting.Last_Library_Refresh_Date__c = datetime.now();
             update appSetting;
             
-            QueueGetInstalledPackages queueGetInstalledPackagesJob = new QueueGetInstalledPackages();
-            existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
+            CpmQGetInstalledPackages queueGetInstalledPackagesJob = new CpmQGetInstalledPackages();
+            existingJobs = [SELECT Id, ApexClass.Name, Status FROM AsyncApexJob WHERE Status IN ('Holding','Queued','Preparing','Processing') AND ApexClass.Name = :queueGetInstalledPackagesJob.getJobInfo(CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME) LIMIT 1];
             if (existingJobs.size() == 0){
                 System.debug('Running queueGetInstalledPackagesJob');
                 System.enqueueJob(queueGetInstalledPackagesJob);
@@ -39,6 +39,6 @@ public with sharing class CpmComponentInstallCheckerController {
     @AuraEnabled
     public static Cpm_Client_Settings__c getAppSettings(){ 
         System.debug('Running CPMInstallCheckerController.getAppSettings');
-        return CpmCustomSettingHelper.getAppSettings();
+        return CpmClientCustomSettingHelper.getAppSettings();
     }    
 }

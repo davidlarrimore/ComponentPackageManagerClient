@@ -60,7 +60,7 @@ public with sharing class CpmVersionHelperTest {
     static testmethod void testgetinstalledXTAGs() {
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock());
 
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
 
         Test.startTest();        
         CpmVersionHelper.getinstalledXTAGs(jobId);
@@ -75,12 +75,12 @@ public with sharing class CpmVersionHelperTest {
     static testmethod void testprocessXTagNewComponent() {
         Test.setMock(HttpCalloutMock.class, new CpmApiCalloutMock());
 
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
 
         List<StaticResource> staticResources = new List<StaticResource>();
@@ -116,12 +116,12 @@ public with sharing class CpmVersionHelperTest {
 
         insert demoComponents;
   
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
 
         List<StaticResource> staticResources = new List<StaticResource>();
@@ -164,12 +164,12 @@ public with sharing class CpmVersionHelperTest {
 
         insert demoComponents;
   
-        String jobId = QueuePlatformAsyncEventHelper.generateId();
+        String jobId = CpmAsyncEventHelper.generateId();
         Map<String,String> jobInfo = new Map<String,String>{
-            QueuePlatformAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
-            QueuePlatformAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
-            QueuePlatformAsyncEventHelper.FIELD_JOB_ID => jobId,
-            QueuePlatformAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => QueuePlatformAsyncEventHelper.STAGE_PROCESSING
+            CpmAsyncEventHelper.FIELD_JOB_NAME =>  'Checking for installed Source Packages', 
+            CpmAsyncEventHelper.FIELD_APEX_CLASS_NAME => CpmVersionHelper.class.getName(),
+            CpmAsyncEventHelper.FIELD_JOB_ID => jobId,
+            CpmAsyncEventHelper.FIELD_CURRENT_JOB_STAGE => CpmAsyncEventHelper.STAGE_PROCESSING
         };
 
         List<StaticResource> staticResources = new List<StaticResource>();
