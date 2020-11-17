@@ -1,9 +1,6 @@
 echo "*** Creating scratch org ..."
 sfdx force:org:create -f config/project-scratch-def.json --setdefaultusername --setalias ComponentPackageManagerClientScratch -d 30
 
-echo "*** Opening scratch org ..."
-#sfdx force:org:open
-
 echo "*** Pushing metadata to scratch org ..."
 sfdx force:source:push
 

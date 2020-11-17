@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <label><!-- Demo Component --></label>
-    <name>Demo_Component__c</name>
+    <name>Cpm_Component_Package__c</name>
     <relationshipLabel><!-- Component Dependencies --></relationshipLabel>
 </CustomFieldTranslation>
