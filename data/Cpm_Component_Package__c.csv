@@ -63,7 +63,7 @@ a02J000000TFmMkIAL,,This package contains the Salesforce Field Service Connected
 a02J000000TFmMlIAL,,,,true,,,,,1.18.0-1,Snap-ins Quick Setup,,,,04t360000016IuAAAU,,,,,Snap-ins Quick Setup,,,false,,false,true,03336000000gI8mAAE,Snap-ins Quick Setup,D-00084
 a02J000000TFmMmIAL,,,,true,,,,,1.31.0-1,Winter 2016,,,,04t37000000209gAAA,,,,,Knowledgeable Users Lightning Component,,,false,,false,true,033370000009ZWJAA2,Knowledgeable Users Lightning Component,D-00085
 a02J000000TFmMnIAL,,,,true,,,,,1.4.0-1,October 2019 v4,,,,04t3c000001AuNhAAK,,,,,SDO updates,,,false,,false,true,0333c000000BEpWAAW,SDO updates,D-00086
-a02J000000TFmMoIAL,,,https://github.com/davidlarrimore/gpbu-component-package-manager,true,,,,,0.5.0-1,Beta,,,,04t3h000004RbztAAC,,,,,Component Package Manager,,,true,,true,true,0333h000000AZMRAA4,Component Package Manager,D-00087
+a02J000000TFmMoIAL,,,https://github.com/davidlarrimore/ComponentPackageManagerClient,true,,,,,0.1.0-1,Beta,,,,04t3h000004RbztAAC,,,,,Component Package Manager Client,,,true,,true,true,0333h000000AZMRAA4,Component Package Manager Client,D-00087
 a02J000000TFmMpIAL,,,,true,,,,,1.4.0-1,July 20 2020,,,,04t3h000004NQWhAAO,,,,,Change Tab Label,,,false,,false,true,0333h000000QVqXAAW,Change Tab Label,D-00088
 a02J000000TFmMqIAL,,,,true,,,,,1.1.0-2,Spring 2020,,,,04t3h000002FiLSAA0,,,,,CMS Content Type Creator,,,false,,false,true,0333h000000TprpAAC,CMS Content Type Creator,D-00089
 a02J000000TFmNAIA1,,"This package contains Loyalty features, CMS Features, Bundle capabilities and Cross Sell Capabilities.

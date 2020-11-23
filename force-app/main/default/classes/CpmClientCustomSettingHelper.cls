@@ -29,10 +29,10 @@ public with sharing class CpmClientCustomSettingHelper {
         Organization organization = [SELECT IsSandbox FROM Organization LIMIT 1];
         if(organization.IsSandbox){
             appSetting.Sandbox_Flag__c = true; 
-            appSetting.App_Deployer_URL__c = 'http://localhost:8443/byoo';
+            appSetting.App_Deployer_URL__c = 'http://localhost:8443/quickDeploy';
         }else{
             appSetting.Sandbox_Flag__c = false;
-            appSetting.App_Deployer_URL__c = 'https://gpbu-deployer.herokuapp.com/byoo';           
+            appSetting.App_Deployer_URL__c = 'https://gpbu-deployer.herokuapp.com/quickDeploy';           
         }   
 
 

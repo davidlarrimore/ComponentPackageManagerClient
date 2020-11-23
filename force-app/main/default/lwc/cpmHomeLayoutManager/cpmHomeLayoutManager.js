@@ -1,7 +1,7 @@
 import { LightningElement, track, wire } from "lwc";
 import { subscribe, onError } from "lightning/empApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-
+import { refreshApex } from '@salesforce/apex';
 import APXAvailableDemoComponents from "@salesforce/apex/CpmComponentController.getAvailableComponents";
 import APXInstalledDemoComponents from "@salesforce/apex/CpmComponentController.getInstalledComponents";
 import appSettings from "@salesforce/apex/CpmComponentInstallCheckerController.getAppSettings";
@@ -117,23 +117,24 @@ export default class CmpHomeLayoutManager extends LightningElement {
 
 
   doDemoComponentRefresh() {
-    APXAvailableDemoComponents()
+    APXAvailableDemoComponents({ searchString: this.calvSearchstring })
       .then((data) => {
-        console.log("CmpHomeLayoutManager.APXAvailableDemoComponents SUCCESS");
+        console.log("CmpHomeLayoutManager.doDemoComponentRefresh.APXAvailableDemoComponents SUCCESS");
         console.log(`Found ${data.length} availableDemoComponents`);
-        let dataloop = data;
-
-        for (let i = 0; i < dataloop.length; i++) {
-          dataloop[i].Record_Url = '/'+dataloop[i].Id;
-          if(undefined !== dataloop[i].Description__c){ 
-            let newDescription = dataloop[i].Description__c;
+        let dataloop = [];
+        for (let i = 0; i < data.length; i++) {
+          let tempRecord = Object.assign({}, data[i]);
+          tempRecord.Record_Url = '/'+data[i].Id;
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
               if(newDescription.length > 60){ 
-                dataloop[i].Description_Short = newDescription.substring(0, 60) + '...';
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
               }else{
-                dataloop[i].Description_Short = newDescription;
+                tempRecord.Description_Short = newDescription;
               }
         
           }
+          dataloop.push(tempRecord);
         }
 
         this.availableDemoComponents = dataloop;
@@ -142,34 +143,41 @@ export default class CmpHomeLayoutManager extends LightningElement {
       .catch((error) => {
         this.error = error;
         console.log(
-          `CmpHomeLayoutManager APXAvailableDemoComponents ERROR: ${JSON.stringify(
-            error
-          )}`
+          `CmpHomeLayoutManager.doDemoComponentRefresh.APXAvailableDemoComponents ERROR: ${JSON.stringify(error)}`
         );
       });
 
-    APXInstalledDemoComponents({ searchString: null })
+    APXInstalledDemoComponents({ searchString: this.cinstSearchstring })
       .then((data) => {
-        console.log("CmpHomeLayoutManager.APXInstalledDemoComponents SUCCESS");
-        console.log(`Found ${data.length} availableDemoComponents`);
+        console.log("CmpHomeLayoutManager.doDemoComponentRefresh.APXInstalledDemoComponents SUCCESS");
+        console.log(`Found ${data.length} installedDemoComponents`);
+        let dataloop = [];
+        for (let i = 0; i < data.length; i++) {
+          let tempRecord = Object.assign({}, data[i]);
+          tempRecord.Record_Url = '/'+data[i].Id;
 
-        let dataloop = data;
-
-        for (let i = 0; i < dataloop.length; i++) {
-          dataloop[i].Record_Url = '/'+dataloop[i].Id;
-
-          if(dataloop[i].Installed__c && dataloop[i].Installation_Type__c === 'Package'){
-            dataloop[i].Is_Package_Installed_Type = true;
+          if(tempRecord.Installed__c && tempRecord.Installation_Type__c === 'Package'){
+            tempRecord.Is_Package_Installed_Type = true;
           }else{
-            dataloop[i].Is_Package_Installed_Type = false;
+            tempRecord.Is_Package_Installed_Type = false;
           }
 
-          if(dataloop[i].Installed__c && dataloop[i].Installation_Type__c === 'Source'){
-            dataloop[i].Is_Source_Installed_Type = true;
+          if(tempRecord.Installed__c && tempRecord.Installation_Type__c === 'Source'){
+            tempRecord.Is_Source_Installed_Type = true;
           }else{
-            dataloop[i].Is_Source_Installed_Type = false;
+            tempRecord.Is_Source_Installed_Type = false;
           }
 
+          if(undefined !== data[i].Description__c){ 
+            let newDescription = data[i].Description__c;
+              if(newDescription.length > 60){ 
+                tempRecord.Description_Short = newDescription.substring(0, 60) + '...';
+              }else{
+                tempRecord.Description_Short = newDescription;
+              }
+        
+          }
+          dataloop.push(tempRecord);
         }
 
         this.installedDemoComponents = dataloop;
@@ -177,11 +185,7 @@ export default class CmpHomeLayoutManager extends LightningElement {
       })
       .catch((error) => {
         this.error = error;
-        console.log(
-          `CmpHomeLayoutManager APXInstalledDemoComponents ERROR: ${JSON.stringify(
-            error
-          )}`
-        );
+        console.log(`CmpHomeLayoutManager.doDemoComponentRefresh.APXInstalledDemoComponents ERROR: ${JSON.stringify(error)}`);
       });
   }
 
@@ -195,6 +199,8 @@ export default class CmpHomeLayoutManager extends LightningElement {
     // Callback invoked whenever a new event message is received
     const messageCallback = (response) => {
       console.log("New Component Update message received: ", JSON.stringify(response.data.payload));
+      refreshApex(this.availableDemoComponents);
+      refreshApex(this.installedDemoComponents);
       this.doDemoComponentRefresh();
     }
 
@@ -229,7 +235,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
     console.log(`hanldeCalvSearchstring: ${this.calvSearchstring}`);
   }
 
-
   handleCinstSearchstring(event) {
     this.cinstSearchstring = event.detail;
     console.log(`hanldeCinstSearchstring: ${this.cinstSearchstring}`);
@@ -238,7 +243,6 @@ export default class CmpHomeLayoutManager extends LightningElement {
   handleComponentRefreshRequest(event){
     console.log(`handleComponentRefreshRequest: ${event.detail}`);
     this.doGetAppSettings();
-    this.doDemoComponentRefresh();
   }
 
 }

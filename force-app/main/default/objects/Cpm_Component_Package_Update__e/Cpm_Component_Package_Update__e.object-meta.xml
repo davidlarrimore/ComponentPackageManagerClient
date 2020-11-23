@@ -5,5 +5,5 @@
     <eventType>HighVolume</eventType>
     <label>Cpm Component Update</label>
     <pluralLabel>Cpm Component Updates</pluralLabel>
-    <publishBehavior>PublishImmediately</publishBehavior>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
 </CustomObject>

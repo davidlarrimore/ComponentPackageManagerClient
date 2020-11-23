@@ -56,7 +56,7 @@ public class CpmQUpdateFromPackageVersion implements Queueable, Database.AllowsC
   @future(callout=true)
   @TestVisible 
   private static void doLater(Map<String, String> jobInfo,Id demoComponentId, String subscriberPackageVersionId) {
-    List<Cpm_Component_Package__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, Installed__c, Latest_Package_Version__c, Package_Installed_Version_Number__c, Latest_Subscriber_Package_Version_Id__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];  
+    List<Cpm_Component_Package__c> demoComponentLookup = [SELECT Id, Github_Repository_URL__c, Installed__c, Latest_Package_Version__c, Package_Installed_Version_Number__c, Latest_Subscriber_Package_Version_Id__c, Installation_Type__c, Installed_Version_Tracking_Method__c, SFDX_Package_Enabled_Flag__c FROM Cpm_Component_Package__c WHERE Id = :demoComponentId LIMIT 1];  
     if (demoComponentLookup.size() > 0) {
       System.debug('Successfully found Demo Component');
       Boolean toolingAPISuccessFlag = false;
@@ -93,7 +93,7 @@ public class CpmQUpdateFromPackageVersion implements Queueable, Database.AllowsC
         demoComponent.Latest_Package_Version_Name__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.name;
         demoComponent.Latest_Package_Version_Deprecated_Flag__c = metadataInstalledPackageResponseRecord.subscriberPackageVersion.IsDeprecated;
 
-        if(demoComponent.Installed__c ){
+        if(demoComponent.Installed__c && demoComponent.Installation_Type__c == 'Package'){
           if(metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumber() > CpmVersionHelper.getVersionNumberFromText(demoComponent.Package_Installed_Version_Number__c)){
             System.debug('Package Can be Updated from version ' + demoComponent.Package_Installed_Version_Number__c + ' to version ' + metadataInstalledPackageResponseRecord.subscriberPackageVersion.getSubscriberPackageVersionNumberText() + '.....Setting Flag');
             demoComponent.Update_Available__c = true;
