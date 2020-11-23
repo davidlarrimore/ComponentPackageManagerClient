@@ -18,4 +18,5 @@ sfdx force:package:install --package $(sfdx force:package:version:list -p 'Compo
 echo "*** Post Install Tasks ..."
 sfdx force:apex:execute -f scripts/apex/resetAppSettings.apex -u PackageManagerTesting
 sfdx force:apex:execute -f scripts/apex/deleteAllDemoComponents.apex -u PackageManagerTesting
-sfdx force:data:tree:import -f ./data/export-demo-Cpm_Component_Package__c.json -u PackageManagerTesting
+sfdx sfdmu:run --sourceusername csvfile --targetusername PackageManagerTesting -p data
+
