@@ -21,10 +21,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ComponentConfigDotJSON</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CpmAddGithubComponentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -70,10 +66,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CpmGithubApiTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>GithubComponentConfigDotJSON</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

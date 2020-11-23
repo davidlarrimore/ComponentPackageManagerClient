@@ -12,5 +12,6 @@
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "48.0",
     "packageAliases": {
+        "Component Package Manager Client": "0Ho4W000000wkIjSAI"
     }
 }

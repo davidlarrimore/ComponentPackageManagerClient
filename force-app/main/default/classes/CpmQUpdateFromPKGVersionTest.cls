@@ -81,6 +81,7 @@ public with sharing class CpmQUpdateFromPKGVersionTest {
             SFDX_Package_Enabled_Flag__c=true,
             Source_Install_Type_Flag__c=true,
             Package_Install_Type_Flag__c=true,
+            Installation_Type__c = 'Package',
             Title__c = 'Visitor Management Demo Scenario',
             Package_Name__c = 'Visitor Management Demo Scenario',
             Subscriber_Package_Id__c = CpmApiCalloutMock.SUBSCRIBER_PACKAGE_ID,
