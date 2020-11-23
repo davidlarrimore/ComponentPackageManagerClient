@@ -5,13 +5,14 @@
             "package": "Component Package Manager Client",
             "versionName": "Beta",
             "versionDescription": "",
-            "versionNumber": "0.1.0.NEXT",
+            "versionNumber": "0.2.0.NEXT",
             "default": true
         }
     ],
     "sfdcLoginUrl": "https://login.salesforce.com",
     "sourceApiVersion": "48.0",
     "packageAliases": {
-        "Component Package Manager Client": "0Ho4W000000wkIjSAI"
+        "Component Package Manager Client": "0Ho4W000000wkIjSAI",
+        "Component Package Manager Client@0.1.0-1": "04t4W0000038RQ2QAM"
     }
 }

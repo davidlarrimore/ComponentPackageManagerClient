@@ -16,7 +16,7 @@ Ok, lets be real, this is nowhere near as incredible as [Steam](https://store.st
 
 ## Installation
 
-[CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3h000004Rc1LAAS) (v0.6.0-1) (Beta)
+[CLICK HERE TO INSTALL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t4W0000038RQ2QAM) (v0.1.0-1) (Beta)
 
 *NOTE: Make sure you select "Compile only the Apex in the package" under Advanced options*
 
